@@ -46,24 +46,14 @@ const INITIAL_DEMO: DemoLevel = {
   estimatedDaysRange: DEMO_DAYS_RANGE,
 };
 
-function greetingForHour(hour: number): string {
-  if (hour < 12) return "Good morning";
-  if (hour < 17) return "Good afternoon";
-  return "Good evening";
-}
-
 export function HomeHero() {
   const [demo, setDemo] = useState<DemoLevel>(INITIAL_DEMO);
-  const [greeting, setGreeting] = useState("Welcome back");
   const [calibratePop, setCalibratePop] = useState(false);
   const skipFirst = useRef(true);
   const profile = getMockProfile();
   const liveOrder = getMockOrders().find((order) => !isOrderDelivered(order));
   const firstName = profile.firstName?.trim() || "there";
-
-  useEffect(() => {
-    setGreeting(`${greetingForHour(new Date().getHours())}, ${firstName}`);
-  }, [firstName]);
+  const greeting = `Welcome back, ${firstName}`;
 
   useEffect(() => {
     if (skipFirst.current) {
@@ -101,7 +91,7 @@ export function HomeHero() {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <WideShell className="flex flex-1 flex-col pb-28 pt-5 md:pb-16 md:pt-8">
-        <section className="grid items-center gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+        <section className="grid items-start gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           <div className="min-w-0">
             <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
               {greeting}
@@ -129,7 +119,21 @@ export function HomeHero() {
               ) : null}
             </div>
 
-            <TrustRow className="mt-7 hidden md:grid" />
+            <SurfaceCard
+              className={cn(
+                "mt-8 hidden bg-surface shadow-gasgo-lg lg:block",
+                calibratePop && "gauge-calibrate-pop",
+              )}
+            >
+              <GasGauge
+                percent={demo.percent}
+                size="lg"
+                daysSinceLastOrder={demo.daysSinceLastOrder}
+                estimatedDaysRange={demo.estimatedDaysRange}
+                onCalibrate={handleCalibrate}
+                className="max-w-none"
+              />
+            </SurfaceCard>
           </div>
 
           <div className="relative">
@@ -139,7 +143,7 @@ export function HomeHero() {
               priority
               overlay="brand"
               objectPosition="50% 40%"
-              className="h-40 rounded-[28px] shadow-gasgo-lg md:h-56 lg:h-[28rem]"
+              className="h-40 rounded-[28px] shadow-gasgo-lg md:h-56 lg:h-[36rem]"
               sizes="(min-width: 1024px) 42vw, 100vw"
             />
             <p className="pointer-events-none absolute left-4 top-4 text-[12px] font-semibold uppercase tracking-[0.16em] text-white/90">
@@ -148,7 +152,7 @@ export function HomeHero() {
 
             <SurfaceCard
               className={cn(
-                "relative z-10 mx-auto -mt-14 max-w-md bg-surface/95 shadow-gasgo-lg backdrop-blur-md lg:absolute lg:inset-x-8 lg:bottom-8 lg:mt-0",
+                "relative z-10 mx-auto -mt-14 max-w-md bg-surface/95 shadow-gasgo-lg backdrop-blur-md lg:hidden",
                 calibratePop && "gauge-calibrate-pop",
               )}
             >
@@ -164,7 +168,7 @@ export function HomeHero() {
           </div>
         </section>
 
-        <TrustRow className="mt-8 md:hidden" />
+        <TrustRow className="mt-8" />
 
         <section className="mt-10 grid gap-4 md:mt-14 md:grid-cols-2 lg:grid-cols-[1.15fr_0.85fr]">
           <SizeStory />
@@ -350,7 +354,7 @@ function HowItArrives() {
           src="/images/cooking-gas-trolley.jpg"
           alt="Cylinder on a delivery trolley"
           caption="Last metre"
-          position="16% 50%"
+          position="8% 40%"
         />
       </div>
     </section>
