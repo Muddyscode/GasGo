@@ -39,9 +39,9 @@ export function GasGauge({
 }: GasGaugeProps) {
   const p = clampPercent(percent);
   const px = resolveGaugeSize(size);
-  const level = getGaugeLevel(p);
-  const state = getGaugeState(p);
   const animated = useSpringPercent(p);
+  const level = getGaugeLevel(animated);
+  const state = getGaugeState(animated);
   const display = Math.round(animated);
   const rounded = Math.round(p);
   const isCaution = level === "caution";
@@ -82,7 +82,12 @@ export function GasGauge({
           className={cn("rounded-full", halo)}
           style={{ width: px, height: px }}
         >
-          <GaugeRing percent={p} size={px} breathe={level === "critical"} />
+          <GaugeRing
+            percent={animated}
+            size={px}
+            breathe={level === "critical"}
+            spring={false}
+          />
         </div>
 
         <div
@@ -196,7 +201,7 @@ function CalibrateSecondary({
       onClick={onClick}
       className={cn(
         "inline-flex min-h-11 items-center justify-center rounded-full px-4",
-        "border border-[#E6EEE9] bg-white text-sm font-medium text-ink",
+        "border border-border bg-white text-sm font-medium text-ink",
         "shadow-gasgo-soft transition-colors",
         "hover:border-brand-green/40 hover:bg-surface-soft",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",

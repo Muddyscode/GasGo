@@ -8,12 +8,17 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
+type SpringOpts = {
+  stiffness?: number;
+  damping?: number;
+  enabled?: boolean;
+};
+
 /** Zero-dep critically-damped spring toward a 0–100 percent. */
-export function useSpringPercent(
-  target: number,
-  stiffness = motion.springs.gentle.stiffness,
-  damping = motion.springs.gentle.damping,
-): number {
+export function useSpringPercent(target: number, opts: SpringOpts = {}): number {
+  const stiffness = opts.stiffness ?? motion.springs.gentle.stiffness;
+  const damping = opts.damping ?? motion.springs.gentle.damping;
+  const enabled = opts.enabled ?? true;
   const dest = clampPercent(target);
   const [value, setValue] = useState(dest);
   const valueRef = useRef(dest);
@@ -22,12 +27,19 @@ export function useSpringPercent(
   const targetRef = useRef(dest);
 
   useEffect(() => {
-    targetRef.current = clampPercent(target);
+    if (!enabled) {
+      valueRef.current = dest;
+      velocityRef.current = 0;
+      setValue(dest);
+      return;
+    }
+
+    targetRef.current = dest;
 
     if (prefersReducedMotion()) {
-      valueRef.current = targetRef.current;
+      valueRef.current = dest;
       velocityRef.current = 0;
-      setValue(targetRef.current);
+      setValue(dest);
       return;
     }
 
@@ -68,7 +80,7 @@ export function useSpringPercent(
         frameRef.current = null;
       }
     };
-  }, [target, stiffness, damping]);
+  }, [dest, stiffness, damping, enabled]);
 
-  return value;
+  return enabled ? value : dest;
 }

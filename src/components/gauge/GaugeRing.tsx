@@ -17,6 +17,8 @@ export type GaugeRingProps = {
   strokeWidth?: number;
   className?: string;
   breathe?: boolean;
+  /** When false, stroke follows `percent` as-is (parent owns the spring). */
+  spring?: boolean;
 };
 
 export function GaugeRing({
@@ -25,12 +27,14 @@ export function GaugeRing({
   strokeWidth,
   className,
   breathe,
+  spring = true,
 }: GaugeRingProps) {
   const uid = useId();
   const gradientId = `gauge-grad-${uid}`;
   const filterId = `gauge-glow-${uid}`;
 
-  const animated = useSpringPercent(percent);
+  const sprung = useSpringPercent(percent, { enabled: spring });
+  const animated = spring ? sprung : percent;
   const level = getGaugeLevel(percent);
   const color = getGaugeColor(percent);
   const shouldBreathe = breathe ?? level === "critical";
