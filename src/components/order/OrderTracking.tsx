@@ -17,7 +17,7 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
     <div className="flex min-h-dvh flex-col bg-surface">
       <OrderHeader title="Track order" backHref="/" backLabel="Back home" />
 
-      <div className="flex flex-1 flex-col px-5 pt-6 pb-4">
+      <div className="flex flex-1 flex-col px-5 pt-6 pb-8">
         <section className="mb-6">
           <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
             Live delivery
@@ -37,7 +37,7 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
           </p>
         </section>
 
-        <section className="rounded-2xl border border-border bg-surface px-4 py-5 shadow-gasgo-soft">
+        <section className="mb-32 rounded-2xl border border-border bg-surface px-4 py-5 shadow-gasgo-soft">
           <h3 className="mb-4 text-sm font-semibold tracking-wide text-ink-muted">
             Delivery progress
           </h3>
