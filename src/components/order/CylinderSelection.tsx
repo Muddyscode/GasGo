@@ -31,7 +31,7 @@ export function CylinderSelection() {
     <PageFrame>
       <OrderHeader title="Select cylinder" backHref="/" backLabel="Go back" />
 
-      <PageBody>
+      <PageBody className="pb-8">
         <PageTitle
           eyebrow="Order gas"
           subtitle="We’ll fill it and deliver to your door. Pick the cylinder that matches how you cook."
