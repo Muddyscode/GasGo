@@ -3,7 +3,6 @@ import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PaystackPayButton } from "@/components/order/PaystackPayButton";
-import { PriceBreakdown } from "@/components/order/PriceBreakdown";
 import { getCylinderById } from "@/config/cylinders";
 import { getPresenceById, getWindowById } from "@/config/delivery";
 import { quoteOrder } from "@/config/pricing";
@@ -62,10 +61,6 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
           window={window}
           notes={query.notes}
         />
-
-        <div className="mt-3">
-          <PriceBreakdown quote={quote} />
-        </div>
       </div>
 
       <PaystackPayButton

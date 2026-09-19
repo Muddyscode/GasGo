@@ -6,6 +6,7 @@ import { Lock } from "lucide-react";
 import type { CylinderId } from "@/config/cylinders";
 import type { DeliveryAddress, DeliveryWindowId, PresenceId } from "@/config/delivery";
 import type { OrderQuote } from "@/config/pricing";
+import { PriceBreakdown } from "@/components/order/PriceBreakdown";
 import { formatNaira } from "@/lib/money";
 import { orderPath } from "@/lib/order-query";
 import { createOrderReference, initiatePaystackPayment } from "@/lib/paystack";
@@ -64,7 +65,8 @@ export function PaystackPayButton({
 
   return (
     <div className="sticky bottom-0 z-20 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md pb-[max(1rem,env(safe-area-inset-bottom))]">
-      <p className="mb-2.5 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
+      <PriceBreakdown quote={quote} />
+      <p className="mb-2.5 mt-3 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
         <Lock className="size-3.5" strokeWidth={2} />
         Secured by Paystack · Test mode
       </p>
