@@ -3,7 +3,9 @@ import {
   type DeliveryStageId,
 } from "@/config/delivery-stages";
 
-const IN_PROGRESS_STAGES = DELIVERY_STAGE_IDS.filter((id) => id !== "delivered");
+const IN_PROGRESS_STAGES = DELIVERY_STAGE_IDS.filter(
+  (id) => id !== "delivered" && id !== "attempt_failed",
+);
 
 /** Demo stage from orderId. Defaults to en_route when the hash is empty. */
 export function demoStageForOrderId(orderId: string): DeliveryStageId {

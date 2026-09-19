@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import {
-  DELIVERY_STAGES,
+  CUSTOMER_DELIVERY_STAGES,
   getDeliveryStageIndex,
   type DeliveryStageId,
 } from "@/config/delivery-stages";
@@ -15,10 +15,10 @@ export function TrackingTimeline({ currentStageId }: TrackingTimelineProps) {
 
   return (
     <ol className="relative flex flex-col">
-      {DELIVERY_STAGES.map((stage, index) => {
+      {CUSTOMER_DELIVERY_STAGES.map((stage, index) => {
         const done = index < currentIndex;
         const current = index === currentIndex;
-        const last = index === DELIVERY_STAGES.length - 1;
+        const last = index === CUSTOMER_DELIVERY_STAGES.length - 1;
 
         return (
           <li key={stage.id} className="relative flex gap-3.5">
