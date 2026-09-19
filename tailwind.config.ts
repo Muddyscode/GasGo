@@ -36,7 +36,6 @@ const config = {
         },
         gauge: {
           track: "#E8F5EE",
-          warn: "#F59E0B",
           safe: "#1CA350",
           caution: "#FFDF22",
           critical: "#DC2626",

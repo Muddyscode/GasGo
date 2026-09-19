@@ -1,5 +1,6 @@
 /**
- * GasGo design tokens — locked contract (Architect / Zaha).
+ * GasGo design tokens — single source of truth.
+ * Brand lock: Energy Green #1CA350, Sun Yellow #FFDF22, Critical Red #DC2626
  */
 
 export const brand = {
@@ -12,18 +13,21 @@ export const brand = {
 export const ink = "#0B1F14";
 export const inkMuted = "#4B6356";
 export const border = "#E6EEE9";
+
 export const surface = {
   DEFAULT: "#FFFFFF",
   muted: "#F7FAF8",
   soft: "#F0F7F3",
 } as const;
 
+/** Gauge levels: safe ≥40, caution 20–39, critical <20 */
 export const gauge = {
   track: "#E8F5EE",
-  warn: "#F59E0B",
   heroSize: 240,
-  lowBelow: 20,
-  warnBelow: 40,
+  /** percent ≥ this → safe */
+  safeAt: 40,
+  /** percent ≥ this and < safeAt → caution; below → critical */
+  cautionAt: 20,
   safe: brand.green,
   caution: brand.yellow,
   critical: brand.red,
@@ -41,11 +45,14 @@ export const gaugeStates = {
   },
 } as const;
 
-/** ≥40 green, 20–39 yellow, <20 red */
-export const gaugeThresholds = {
-  safe: gauge.warnBelow,
-  caution: gauge.lowBelow,
+export const gaugeSizes = {
+  sm: 120,
+  md: 180,
+  lg: 220,
+  hero: gauge.heroSize,
 } as const;
+
+export type GaugeSizeToken = keyof typeof gaugeSizes;
 
 export const typography = {
   fontFamily: {
@@ -64,23 +71,9 @@ export const typography = {
     "5xl": "3rem",
     hero: "3.5rem",
   },
-  fontWeight: {
-    normal: 400,
-    medium: 500,
-    semibold: 600,
-    bold: 700,
-  },
-  lineHeight: {
-    tight: 1.15,
-    snug: 1.375,
-    normal: 1.5,
-    relaxed: 1.625,
-  },
-  letterSpacing: {
-    tight: "-0.02em",
-    normal: "0",
-    wide: "0.025em",
-  },
+  fontWeight: { normal: 400, medium: 500, semibold: 600, bold: 700 },
+  lineHeight: { tight: 1.15, snug: 1.375, normal: 1.5, relaxed: 1.625 },
+  letterSpacing: { tight: "-0.02em", normal: "0", wide: "0.025em" },
 } as const;
 
 export const spacing = {
@@ -136,15 +129,6 @@ export const motion = {
   },
 } as const;
 
-export const gaugeSizes = {
-  sm: 120,
-  md: 180,
-  lg: 220,
-  hero: gauge.heroSize,
-} as const;
-
-export type GaugeSizeToken = keyof typeof gaugeSizes;
-
 export function clampPercent(percent: number): number {
   if (Number.isNaN(percent)) return 0;
   return Math.min(100, Math.max(0, percent));
@@ -152,8 +136,8 @@ export function clampPercent(percent: number): number {
 
 export function getGaugeLevel(percent: number): GaugeLevel {
   const p = clampPercent(percent);
-  if (p >= gauge.warnBelow) return "safe";
-  if (p >= gauge.lowBelow) return "caution";
+  if (p >= gauge.safeAt) return "safe";
+  if (p >= gauge.cautionAt) return "caution";
   return "critical";
 }
 
@@ -173,7 +157,6 @@ export const tokens = {
   surface,
   gauge,
   gaugeStates,
-  gaugeThresholds,
   typography,
   spacing,
   radii,
