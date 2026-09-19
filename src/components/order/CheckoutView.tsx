@@ -23,10 +23,10 @@ export function CheckoutView() {
   const totals = useOrderDraft((state) => state.totals);
 
   useEffect(() => {
-    let timeout = 0;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
     const reveal = (started: number) => {
       const hold = Math.max(0, 480 - (Date.now() - started));
-      timeout = window.setTimeout(() => setHydrated(true), hold);
+      timeout = globalThis.setTimeout(() => setHydrated(true), hold);
     };
 
     if (useOrderDraft.persist.hasHydrated()) {
@@ -38,7 +38,7 @@ export function CheckoutView() {
     const unsub = useOrderDraft.persist.onFinishHydration(() => reveal(started));
     return () => {
       unsub();
-      window.clearTimeout(timeout);
+      globalThis.clearTimeout(timeout);
     };
   }, []);
 
