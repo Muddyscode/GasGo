@@ -24,18 +24,14 @@ export function CheckoutView() {
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | undefined;
-    const reveal = (started: number) => {
+    const started = Date.now();
+    const reveal = () => {
       const hold = Math.max(0, 480 - (Date.now() - started));
       timeout = globalThis.setTimeout(() => setHydrated(true), hold);
     };
 
-    if (useOrderDraft.persist.hasHydrated()) {
-      setHydrated(true);
-      return undefined;
-    }
-
-    const started = Date.now();
-    const unsub = useOrderDraft.persist.onFinishHydration(() => reveal(started));
+    if (useOrderDraft.persist.hasHydrated()) reveal();
+    const unsub = useOrderDraft.persist.onFinishHydration(reveal);
     return () => {
       unsub();
       globalThis.clearTimeout(timeout);

@@ -158,8 +158,9 @@
   display: flex;
   flex-shrink: 0;
   align-items: flex-end;
-  padding-right: 8rem;
-  padding-right: clamp(5.5rem, 46cqi, 13rem);
+  /* One truck on screen at a time on a 390px handset. */
+  padding-right: 100vw;
+  padding-right: 100cqi;
 }
 
 .gasgo-truck__idle {

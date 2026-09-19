@@ -77,14 +77,14 @@ export function DeliveryTruck({
           <>
             <div
               className={cn(
-                "pointer-events-none absolute inset-y-0 left-0 z-[2] w-12 bg-gradient-to-r to-transparent",
+                "pointer-events-none absolute inset-y-0 left-0 z-[2] w-16 bg-gradient-to-r to-transparent",
                 fadeFrom,
               )}
               aria-hidden="true"
             />
             <div
               className={cn(
-                "pointer-events-none absolute inset-y-0 right-0 z-[2] w-12 bg-gradient-to-l to-transparent",
+                "pointer-events-none absolute inset-y-0 right-0 z-[2] w-16 bg-gradient-to-l to-transparent",
                 fadeFrom,
               )}
               aria-hidden="true"
@@ -113,7 +113,6 @@ function TruckSegment({ width, height }: { width: number; height: number }) {
 function TruckGraphic({ width, height }: { width: number; height: number }) {
   const cab = "#178A46";
   const cabDeep = "#147A3E";
-  const glass = ink;
   const rim = "#F7FAF8";
 
   return (
@@ -138,89 +137,65 @@ function TruckGraphic({ width, height }: { width: number; height: number }) {
 
       <g className="gasgo-truck__body">
         <path
-          d="M54 90.5h250c2.4 0 4.2 1.8 4.2 4v2.2c0 1.6-1.2 3-2.8 3.2l-8.4 1H62l-9.6-1c-1.6-.2-2.8-1.6-2.8-3.2v-2.2c0-2.2 1.8-4 4.4-4Z"
+          d="M62 91h228c3 0 5 2 5 4.4v2c0 1.6-1.2 3-2.8 3.2H60c-1.6-.2-2.8-1.6-2.8-3.2v-2c0-2.4 2-4.4 4.8-4.4Z"
           fill={ink}
-          opacity="0.14"
+          opacity="0.12"
         />
 
-        <rect
-          x="42"
-          y="36"
-          width="198"
-          height="58"
-          rx="11"
-          fill={brand.green}
-        />
+        <rect x="46" y="38" width="186" height="54" rx="8" fill={brand.green} />
+        <path d="M54 38h170c4.4 0 8 3.6 8 8v7H46v-7c0-4.4 3.6-8 8-8Z" fill="#2BB862" />
+        <rect x="46" y="64" width="186" height="4" fill={brand.yellow} />
         <path
-          d="M53 36h176c6 0 11 5 11 11v8H42v-8c0-6 5-11 11-11Z"
-          fill="#2BB862"
-        />
-        <rect x="42" y="63" width="198" height="4.5" fill={brand.yellow} />
-        <path
-          d="M58 44v42"
+          d="M62 46v38"
           stroke={brand.white}
-          strokeOpacity="0.22"
-          strokeWidth="1.6"
+          strokeOpacity="0.28"
+          strokeWidth="1.5"
         />
         <rect
-          x="184"
-          y="44"
-          width="36"
-          height="16"
-          rx="4"
+          x="176"
+          y="46"
+          width="38"
+          height="15"
+          rx="3.5"
           fill={brand.white}
-          fillOpacity="0.18"
+          fillOpacity="0.22"
         />
 
-        <g transform="translate(86 46)">
-          <rect
-            x="6"
-            y="6"
-            width="16"
-            height="24"
-            rx="5"
-            fill={brand.white}
-            fillOpacity="0.92"
-          />
-          <rect x="10" y="2" width="8" height="6" rx="2" fill={cab} />
-          <rect x="12.5" y="0" width="3" height="3" rx="1" fill={ink} />
+        <g transform="translate(88 47)">
+          <rect x="5" y="8" width="18" height="26" rx="6" fill={brand.white} />
+          <rect x="9" y="3" width="10" height="7" rx="2" fill={cab} />
+          <rect x="12" y="0.5" width="4" height="3.5" rx="1" fill={ink} />
+          <path d="M8 20h12" stroke={cab} strokeWidth="1.4" strokeLinecap="round" />
         </g>
 
-        <rect x="44" y="70" width="5" height="9" rx="1.5" fill={brand.red} />
+        <rect x="48" y="72" width="6" height="10" rx="1.5" fill={brand.red} />
 
-        <path
-          d="M230 90.5V42c0-4 3.2-7.2 7.2-7.2h34c22 0 42 16.2 46 35.4l1.2 6.2c.8 4-2.2 7.6-6.4 7.6H230Z"
-          fill={cab}
-        />
-        <path
-          d="M248 40.5h20c16.5 0 29.5 11 33 24.5H248V40.5Z"
-          fill={glass}
-          fillOpacity="0.42"
-        />
-        <path
-          d="M252 43.5h12c8 0 14 4.4 18 11H252v-11Z"
+        <rect x="224" y="38" width="72" height="54" rx="6" fill={cab} />
+        <path d="M288 38h10l16 22v32h-10c-4 0-7-3-8-7L288 38Z" fill={cabDeep} />
+        <path d="M224 38v54" stroke={cabDeep} strokeWidth="2" />
+        <rect
+          x="242"
+          y="44"
+          width="38"
+          height="22"
+          rx="3"
           fill={brand.white}
-          fillOpacity="0.16"
+          fillOpacity="0.34"
         />
-        <path d="M230 40.5v50" stroke={cabDeep} strokeWidth="2" />
-
-        <ellipse cx="310" cy="74" rx="5.2" ry="4.2" fill={brand.yellow} />
-        <ellipse
-          cx="308.6"
-          cy="73"
-          rx="1.6"
-          ry="1.3"
-          fill={brand.white}
-          fillOpacity="0.7"
-        />
-
         <path
-          d="M300 38.5c0-4.6 2.4-7.5 6.2-7.5 1.8 0 3.2 1 3.2 2.6v10.2h-4.6c-2.8 0-4.8-2.2-4.8-5.3Z"
+          d="M246 47h18l8 14H246V47Z"
+          fill={brand.white}
+          fillOpacity="0.22"
+        />
+
+        <rect x="306" y="70" width="8" height="7" rx="1.5" fill={brand.yellow} />
+        <path
+          d="M286 36c0-4.6 2.4-7.4 6.4-7.4 1.8 0 3.2 1.1 3.2 2.6V46h-5c-2.6 0-4.6-2.2-4.6-5V36Z"
           fill={cabDeep}
         />
 
-        <Wheel cx={96} cy={108} tire={ink} rim={rim} hub={brand.green} />
-        <Wheel cx={276} cy={108} tire={ink} rim={rim} hub={brand.green} />
+        <Wheel cx={98} cy={108} tire={ink} rim={rim} hub={brand.green} />
+        <Wheel cx={268} cy={108} tire={ink} rim={rim} hub={brand.green} />
       </g>
     </svg>
   );
