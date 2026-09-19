@@ -14,33 +14,54 @@ const DEMO_DAYS_SINCE_ORDER = 8;
 const DEMO_DAYS_RANGE: [number, number] = [12, 16];
 const CALIBRATE_STEP = 8;
 const FULL_DAYS_RANGE: [number, number] = [26, 32];
+const FULL_CYLINDER_DAYS = 28;
 
-function estimateDaysRange(percent: number): [number, number] {
-  const mid = Math.round((clampPercent(percent) / 100) * 28);
-  return [Math.max(0, mid - 2), Math.max(0, mid + 2)];
+function nudgeDaysRange(
+  range: [number, number],
+  deltaPercent: number,
+): [number, number] {
+  const daysDelta = Math.round((deltaPercent / 100) * FULL_CYLINDER_DAYS);
+  return [
+    Math.max(0, range[0] + daysDelta),
+    Math.max(0, range[1] + daysDelta),
+  ];
 }
 
+type DemoLevel = {
+  percent: number;
+  daysSinceLastOrder: number;
+  estimatedDaysRange: [number, number];
+};
+
+const INITIAL_DEMO: DemoLevel = {
+  percent: DEMO_PERCENT,
+  daysSinceLastOrder: DEMO_DAYS_SINCE_ORDER,
+  estimatedDaysRange: DEMO_DAYS_RANGE,
+};
+
 export function HomeHero() {
-  const [percent, setPercent] = useState(DEMO_PERCENT);
-  const [daysSinceLastOrder, setDaysSinceLastOrder] = useState(
-    DEMO_DAYS_SINCE_ORDER,
-  );
-  const [estimatedDaysRange, setEstimatedDaysRange] =
-    useState<[number, number]>(DEMO_DAYS_RANGE);
+  const [demo, setDemo] = useState<DemoLevel>(INITIAL_DEMO);
 
   const handleCalibrate = useCallback((action: CalibrateAction) => {
-    if (action === "refilled") {
-      setPercent(100);
-      setDaysSinceLastOrder(0);
-      setEstimatedDaysRange(FULL_DAYS_RANGE);
-      return;
-    }
+    setDemo((current) => {
+      if (action === "refilled") {
+        return {
+          percent: 100,
+          daysSinceLastOrder: 0,
+          estimatedDaysRange: FULL_DAYS_RANGE,
+        };
+      }
 
-    const delta = action === "too_high" ? -CALIBRATE_STEP : CALIBRATE_STEP;
-    setPercent((current) => {
-      const next = clampPercent(current + delta);
-      setEstimatedDaysRange(estimateDaysRange(next));
-      return next;
+      const delta = action === "too_high" ? -CALIBRATE_STEP : CALIBRATE_STEP;
+      const next = clampPercent(current.percent + delta);
+      return {
+        ...current,
+        percent: next,
+        estimatedDaysRange:
+          next === current.percent
+            ? current.estimatedDaysRange
+            : nudgeDaysRange(current.estimatedDaysRange, next - current.percent),
+      };
     });
   }, []);
 
@@ -48,10 +69,10 @@ export function HomeHero() {
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex flex-1 flex-col items-center justify-center px-5 py-6">
         <GasGauge
-          percent={percent}
+          percent={demo.percent}
           size="hero"
-          daysSinceLastOrder={daysSinceLastOrder}
-          estimatedDaysRange={estimatedDaysRange}
+          daysSinceLastOrder={demo.daysSinceLastOrder}
+          estimatedDaysRange={demo.estimatedDaysRange}
           onCalibrate={handleCalibrate}
         />
       </div>
