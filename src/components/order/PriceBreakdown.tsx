@@ -3,7 +3,7 @@ import { formatNaira } from "@/lib/money";
 
 export function PriceBreakdown({ quote }: { quote: OrderQuote }) {
   return (
-    <section className="rounded-2xl border border-border bg-surface-muted px-4 py-3.5">
+    <section className="rounded-2xl border border-border bg-surface-muted px-4 py-3.5 shadow-gasgo-soft">
       <p className="text-sm font-medium text-ink-muted">To pay</p>
       <dl className="mt-2.5 space-y-2">
         <div className="flex items-center justify-between gap-3 text-[15px]">

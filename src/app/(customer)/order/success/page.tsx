@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import { buttonClassName } from "@/components/ui/button";
+import { cardClassName } from "@/components/ui/card";
+import { PageBody, PageFrame } from "@/components/ui/page";
 import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
 import { getPresenceById, getWindowById } from "@/config/delivery";
 import { quoteOrder } from "@/config/pricing";
@@ -37,19 +41,19 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
   });
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <PageFrame>
       <OrderHeader
         title="Confirmed"
         backHref={checkoutHref}
         backLabel="Back to checkout"
       />
 
-      <main className="flex flex-1 flex-col px-5 pt-10 pb-[max(2rem,env(safe-area-inset-bottom))]">
+      <PageBody className="pb-[max(2rem,env(safe-area-inset-bottom))]">
         <span className="grid size-14 place-items-center rounded-full bg-brand-green text-white shadow-gasgo-md">
           <Check className="size-7" strokeWidth={2.5} />
         </span>
 
-        <h2 className="mt-5 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
+        <h2 className="mt-5 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[32px]">
           {isMock ? "Payment successful (test)" : "Payment successful"}
         </h2>
         <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-ink-muted">
@@ -58,8 +62,12 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
             : "We’ve got your payment. A rider will fill and deliver your cylinder."}
         </p>
 
+        <div className="mt-6">
+          <DeliveryTruck label="Dispatching your refill" />
+        </div>
+
         {cylinder && query.address && quote ? (
-          <section className="mt-8 rounded-2xl border border-border bg-surface-muted px-4 py-4 shadow-gasgo-soft">
+          <section className={`${cardClassName} mt-5 bg-surface-muted px-4 py-4`}>
             <p className="text-lg font-semibold tracking-tight text-ink">
               {formatCylinderSize(cylinder.sizeKg)} · {formatNaira(quote.totalNgn)}
             </p>
@@ -83,20 +91,17 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         ) : null}
 
         <div className="mt-auto flex flex-col gap-3 pt-10">
-          <Link
-            href="/"
-            className="flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2"
-          >
+          <Link href="/" className={buttonClassName({ variant: "primary", size: "lg" })}>
             Back home
           </Link>
           <Link
             href="/order/cylinder"
-            className="flex h-14 items-center justify-center rounded-2xl bg-surface-muted text-base font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+            className={buttonClassName({ variant: "secondary", size: "lg" })}
           >
             Order again
           </Link>
         </div>
-      </main>
-    </div>
+      </PageBody>
+    </PageFrame>
   );
 }

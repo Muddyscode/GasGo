@@ -1,6 +1,8 @@
+import Image from "next/image";
 import { Check } from "lucide-react";
 import type { CylinderOption } from "@/config/cylinders";
 import { formatCylinderSize } from "@/config/cylinders";
+import { interactiveCardClassName, selectedCardClassName } from "@/components/ui/card";
 import { formatNaira } from "@/lib/money";
 import { cn } from "@/lib/utils";
 
@@ -23,16 +25,13 @@ export function CylinderCard({ option, selected, onSelect }: CylinderCardProps) 
       }`}
       onClick={() => onSelect(option.id)}
       className={cn(
-        "group flex w-full items-center gap-3.5 rounded-2xl border px-4 py-4 text-left",
-        "min-h-[76px] outline-none transition-[border-color,background-color,box-shadow,transform] duration-150",
-        "ease-[cubic-bezier(0.16,1,0.3,1)]",
-        "active:scale-[0.985] focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-        selected
-          ? "border-brand-green bg-surface-soft shadow-gasgo-md"
-          : "border-border bg-surface shadow-gasgo-soft hover:border-ink-muted/25 hover:shadow-gasgo-md",
+        interactiveCardClassName,
+        "group flex w-full items-center gap-3.5 px-4 py-4 text-left",
+        "min-h-[76px] md:min-h-[96px]",
+        selected && selectedCardClassName,
       )}
     >
-      <CylinderGlyph sizeKg={option.sizeKg} selected={selected} />
+      <CylinderThumb sizeKg={option.sizeKg} selected={selected} />
 
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2">
@@ -81,42 +80,27 @@ function CylinderBadgeLabel({ badge }: { badge: NonNullable<CylinderOption["badg
   );
 }
 
-function CylinderGlyph({ sizeKg, selected }: { sizeKg: number; selected: boolean }) {
-  const height = 28 + Math.min(sizeKg, 50) * 0.36;
-
+function CylinderThumb({ sizeKg, selected }: { sizeKg: number; selected: boolean }) {
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "grid h-14 w-11 shrink-0 place-items-end justify-center rounded-xl transition-colors duration-150",
-        selected ? "bg-white" : "bg-surface-muted",
+        "relative h-14 w-14 shrink-0 overflow-hidden rounded-xl",
+        selected ? "ring-2 ring-brand-green/40" : "bg-surface-muted",
       )}
     >
-      <svg
-        width="22"
-        height={height}
-        viewBox="0 0 22 48"
-        preserveAspectRatio="xMidYMax meet"
+      <Image
+        src="/images/cooking-gas-cylinders.png"
+        alt=""
+        fill
+        sizes="56px"
         className={cn(
-          "mb-1.5 transition-colors duration-150",
-          selected ? "text-brand-green" : "text-ink-muted",
+          "object-cover transition-transform duration-300",
+          sizeKg <= 6 && "scale-125 object-[20%_60%]",
+          sizeKg > 6 && sizeKg < 20 && "object-[55%_70%]",
+          sizeKg >= 20 && "scale-110 object-[80%_40%]",
         )}
-      >
-        <rect x="8.5" y="1" width="5" height="5" rx="1.2" fill="currentColor" opacity="0.85" />
-        <rect x="7" y="5" width="8" height="3.5" rx="1" fill="currentColor" />
-        <rect x="3" y="9" width="16" height="37" rx="5" fill="currentColor" opacity="0.18" />
-        <rect
-          x="3"
-          y="9"
-          width="16"
-          height="37"
-          rx="5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-        />
-        <rect x="6.5" y="14" width="9" height="2.5" rx="1.25" fill="currentColor" opacity="0.35" />
-      </svg>
+      />
     </span>
   );
 }

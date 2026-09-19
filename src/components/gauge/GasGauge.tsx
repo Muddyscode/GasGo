@@ -24,6 +24,7 @@ export type GasGaugeProps = {
   lastUpdated?: Date | string;
   daysSinceLastOrder?: number;
   onCalibrate?: (action: CalibrateAction) => void;
+  flash?: boolean;
   className?: string;
 };
 
@@ -35,6 +36,7 @@ export function GasGauge({
   lastUpdated,
   daysSinceLastOrder,
   onCalibrate,
+  flash = false,
   className,
 }: GasGaugeProps) {
   const p = clampPercent(percent);
@@ -79,7 +81,7 @@ export function GasGauge({
     >
       <div className="relative flex items-center justify-center">
         <div
-          className={cn("rounded-full", halo)}
+          className={cn("rounded-full", halo, flash && "gauge-calibrate-flash")}
           style={{ width: px, height: px }}
         >
           <GaugeRing
@@ -162,10 +164,10 @@ export function GasGauge({
             type="button"
             onClick={() => onCalibrate("refilled")}
             className={cn(
-              "inline-flex h-12 w-full min-h-11 items-center justify-center rounded-full px-4",
-              "bg-brand-green text-sm font-semibold text-white shadow-gasgo-soft",
-              "transition-[transform,filter] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-              "hover:brightness-105",
+              "inline-flex h-11 w-full min-h-11 items-center justify-center rounded-full px-4",
+              "border border-brand-green/25 bg-surface-soft text-sm font-semibold text-brand-green",
+              "shadow-gasgo-soft transition-[transform,background-color,box-shadow] duration-200",
+              "ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:shadow-gasgo-md",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",
               "active:scale-[0.98]",
             )}

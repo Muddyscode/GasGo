@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
+import { cardClassName } from "@/components/ui/card";
 import type { DeliveryAddress } from "@/config/delivery";
 
 type ProfileAddressesProps = {
@@ -35,7 +36,7 @@ export function ProfileAddresses({ addresses }: ProfileAddressesProps) {
           {preview.map((address) => (
             <li
               key={address.id}
-              className="flex items-start gap-3 rounded-2xl border border-border bg-surface px-4 py-3.5 shadow-gasgo-soft"
+              className={`${cardClassName} flex items-start gap-3 px-4 py-3.5`}
             >
               <span
                 aria-hidden="true"

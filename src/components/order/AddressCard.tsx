@@ -1,5 +1,6 @@
 import { MapPin } from "lucide-react";
 import { RadioMark } from "@/components/order/RadioMark";
+import { interactiveCardClassName, selectedCardClassName } from "@/components/ui/card";
 import type { DeliveryAddress } from "@/config/delivery";
 import { cn } from "@/lib/utils";
 
@@ -18,13 +19,9 @@ export function AddressCard({ address, selected, onSelect }: AddressCardProps) {
       aria-label={`${address.label}, ${address.line}, ${address.area}`}
       onClick={() => onSelect(address.id)}
       className={cn(
-        "flex w-full items-start gap-3.5 rounded-2xl border px-4 py-4 text-left",
-        "min-h-14 outline-none transition-[border-color,background-color,box-shadow,transform] duration-150",
-        "ease-[cubic-bezier(0.16,1,0.3,1)]",
-        "active:scale-[0.985] focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-        selected
-          ? "border-brand-green bg-surface-soft shadow-gasgo-md"
-          : "border-border bg-surface shadow-gasgo-soft hover:border-ink-muted/25 hover:shadow-gasgo-md",
+        interactiveCardClassName,
+        "flex w-full items-start gap-3.5 px-4 py-4 text-left min-h-14",
+        selected && selectedCardClassName,
       )}
     >
       <span

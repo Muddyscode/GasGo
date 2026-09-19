@@ -9,6 +9,8 @@ import { ProfileGaugeCard } from "@/components/profile/ProfileGaugeCard";
 import { ProfileOrderHistory } from "@/components/profile/ProfileOrderHistory";
 import { ProfileSupport } from "@/components/profile/ProfileSupport";
 import { ProfileUserCard } from "@/components/profile/ProfileUserCard";
+import { buttonClassName } from "@/components/ui/button";
+import { PageBody, PageFrame } from "@/components/ui/page";
 import {
   getMockAddresses,
   getMockGauge,
@@ -56,10 +58,10 @@ export function ProfileView() {
 
   if (signedOut) {
     return (
-      <div className="flex min-h-dvh flex-col bg-surface">
+      <PageFrame>
         <OrderHeader title="Profile" backHref="/" backLabel="Back home" />
-        <main className="flex flex-1 flex-col px-5 pt-10">
-          <h2 className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
+        <PageBody className="pt-10">
+          <h2 className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[32px]">
             You’re signed out
           </h2>
           <p className="mt-2 max-w-[32ch] text-[15px] leading-relaxed text-ink-muted">
@@ -68,35 +70,41 @@ export function ProfileView() {
           <button
             type="button"
             onClick={() => setSignedOut(false)}
-            className="mt-8 flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+            className={buttonClassName({ variant: "primary", size: "lg" }, "mt-8")}
           >
             Continue as {profile.firstName || "guest"}
           </button>
-        </main>
-      </div>
+        </PageBody>
+      </PageFrame>
     );
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <PageFrame>
       <OrderHeader
         title={profileHeaderTitle(profile)}
         backHref="/"
         backLabel="Back home"
       />
 
-      <main className="flex flex-1 flex-col gap-6 px-5 pt-6 pb-[max(2rem,env(safe-area-inset-bottom))]">
-        <ProfileUserCard
-          name={profileDisplayName(profile) || "Your name"}
-          phone={profile.phone}
-          onEdit={openEdit}
-        />
-        <ProfileGaugeCard gauge={gauge} />
-        <ProfileOrderHistory orders={orders} />
-        <ProfileAddresses addresses={addresses} />
-        <ProfileAutoRefill enabled={autoRefill} onToggle={setAutoRefill} />
-        <ProfileSupport onLogout={() => setSignedOut(true)} />
-      </main>
+      <PageBody className="gap-6 pb-[max(2rem,env(safe-area-inset-bottom))] lg:gap-8">
+        <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-8">
+          <div className="flex flex-col gap-6 lg:col-span-5">
+            <ProfileUserCard
+              name={profileDisplayName(profile) || "Your name"}
+              phone={profile.phone}
+              onEdit={openEdit}
+            />
+            <ProfileGaugeCard gauge={gauge} />
+            <ProfileAutoRefill enabled={autoRefill} onToggle={setAutoRefill} />
+          </div>
+          <div className="mt-6 flex flex-col gap-6 lg:col-span-7 lg:mt-0">
+            <ProfileOrderHistory orders={orders} />
+            <ProfileAddresses addresses={addresses} />
+            <ProfileSupport onLogout={() => setSignedOut(true)} />
+          </div>
+        </div>
+      </PageBody>
 
       <EditProfileSheet
         open={editing}
@@ -107,6 +115,6 @@ export function ProfileView() {
         onClose={() => setEditing(false)}
         onSave={saveEdit}
       />
-    </div>
+    </PageFrame>
   );
 }

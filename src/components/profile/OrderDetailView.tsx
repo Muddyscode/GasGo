@@ -2,6 +2,10 @@ import Link from "next/link";
 import { formatInTimeZone } from "date-fns-tz";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
+import { buttonClassName } from "@/components/ui/button";
+import { cardClassName } from "@/components/ui/card";
+import { EmptyState } from "@/components/ui/empty-state";
+import { PageBody, PageFrame, StickyAction } from "@/components/ui/page";
 import {
   getProfileOrderById,
   orderAddress,
@@ -19,31 +23,33 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
 
   if (!order) {
     return (
-      <div className="flex min-h-dvh flex-col bg-surface">
+      <PageFrame>
         <OrderHeader title="Order" backHref="/profile" backLabel="Back to profile" />
-        <main className="flex flex-1 flex-col px-5 pt-10">
-          <h2 className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
-            Order not found
-          </h2>
-          <p className="mt-2 max-w-[32ch] text-[15px] leading-relaxed text-ink-muted">
-            That refill isn’t on this device. Check your history or start a new order.
-          </p>
-          <div className="mt-8 flex flex-col gap-3">
-            <Link
-              href="/profile"
-              className="flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-            >
-              Back to profile
-            </Link>
-            <Link
-              href="/order/cylinder"
-              className="flex h-12 items-center justify-center rounded-2xl bg-surface-muted text-[15px] font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-            >
-              Order gas
-            </Link>
-          </div>
-        </main>
-      </div>
+        <PageBody className="pt-6">
+          <EmptyState
+            image="/images/cooking-gas-station.png"
+            alt="Gas station with no matching order"
+            title="Order not found"
+            body="That refill isn’t on this device. Check your history or start a new order."
+            action={
+              <div className="flex flex-col gap-3">
+                <Link
+                  href="/profile"
+                  className={buttonClassName({ variant: "primary", size: "lg" })}
+                >
+                  Back to profile
+                </Link>
+                <Link
+                  href="/order/cylinder"
+                  className={buttonClassName({ variant: "secondary", size: "lg" })}
+                >
+                  Order gas
+                </Link>
+              </div>
+            }
+          />
+        </PageBody>
+      </PageFrame>
     );
   }
 
@@ -52,23 +58,23 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
   const placed = formatInTimeZone(order.placedAt, "Africa/Lagos", "d MMMM yyyy · h:mm a");
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <PageFrame>
       <OrderHeader
         title={order.orderNumber}
         backHref="/profile"
         backLabel="Back to profile"
       />
 
-      <main className="flex flex-1 flex-col px-5 pt-6 pb-8">
+      <PageBody className="pb-8">
         <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
           {stage?.title ?? "Order"}
         </p>
-        <h2 className="mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
+        <h2 className="mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[32px]">
           {orderCylinderLabel(order)}
         </h2>
         <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">{placed}</p>
 
-        <section className="mt-6 rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+        <section className={`${cardClassName} mt-6 px-4 py-4`}>
           <Row label="Order" value={order.orderNumber} mono />
           <Row label="Total" value={formatNaira(order.totalNgn)} />
           <Row
@@ -84,18 +90,18 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
         <p className="mt-4 text-sm leading-relaxed text-ink-muted">
           {stage?.detail ?? "This refill is complete."}
         </p>
-      </main>
+      </PageBody>
 
-      <div className="sticky bottom-0 z-20 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <StickyAction>
         <WhatsAppSupportButton orderId={order.id} />
         <Link
           href="/order/cylinder"
-          className="mt-3 flex h-12 w-full items-center justify-center rounded-2xl bg-surface-muted text-[15px] font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          className={buttonClassName({ variant: "secondary", size: "md" }, "mt-3 h-12 w-full")}
         >
           Order again
         </Link>
-      </div>
-    </div>
+      </StickyAction>
+    </PageFrame>
   );
 }
 

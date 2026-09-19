@@ -109,6 +109,15 @@ const config = {
           "0%, 100%": { opacity: "0.35" },
           "50%": { opacity: "0.6" },
         },
+        "page-enter": {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "none" },
+        },
+        "truck-drive": {
+          "0%": { transform: "translateX(-28%) translateY(0)" },
+          "45%": { transform: "translateX(38%) translateY(-3px)" },
+          "100%": { transform: "translateX(118%) translateY(0)" },
+        },
       },
       animation: {
         "gauge-breathe":
@@ -117,6 +126,10 @@ const config = {
           "gauge-fill 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "gauge-pulse":
           "gauge-pulse 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite",
+        "page-enter":
+          "page-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "truck-drive":
+          "truck-drive 4.8s cubic-bezier(0.45, 0, 0.2, 1) infinite",
       },
       borderRadius: {
         lg: "var(--radius)",

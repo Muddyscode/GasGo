@@ -1,3 +1,4 @@
+import { cardClassName } from "@/components/ui/card";
 import type { CylinderOption } from "@/config/cylinders";
 import { formatCylinderSize } from "@/config/cylinders";
 import type {
@@ -24,7 +25,7 @@ export function CheckoutSummary({
 }: CheckoutSummaryProps) {
   return (
     <div className="flex flex-col gap-3">
-      <section className="rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+      <section className={`${cardClassName} px-4 py-4`}>
         <p className="text-sm font-medium text-ink-muted">Cylinder</p>
         <div className="mt-1.5 flex items-baseline justify-between gap-3">
           <p className="text-lg font-semibold tracking-tight text-ink">
@@ -39,7 +40,7 @@ export function CheckoutSummary({
         </p>
       </section>
 
-      <section className="rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+      <section className={`${cardClassName} px-4 py-4`}>
         <p className="text-sm font-medium text-ink-muted">Delivery</p>
         <p className="mt-1.5 text-[17px] font-semibold tracking-tight text-ink">
           {address.label}

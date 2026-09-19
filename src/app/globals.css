@@ -51,13 +51,46 @@
     border-color: hsl(var(--border));
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    background-color: hsl(var(--background));
+    background-color: #f4f8f5;
+    background-image:
+      radial-gradient(1200px 520px at 12% -10%, rgba(28, 163, 80, 0.1), transparent 58%),
+      radial-gradient(900px 420px at 100% 0%, rgba(255, 223, 34, 0.14), transparent 52%),
+      linear-gradient(180deg, #ffffff 0%, #f7faf8 42%, #f3f8f5 100%);
     color: hsl(var(--foreground));
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
       "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .gasgo-shell {
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 18px 60px rgba(11, 31, 20, 0.05);
+  }
+
+  @media (min-width: 768px) {
+    .gasgo-shell {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      min-height: calc(100dvh - 2rem);
+      border: 1px solid rgba(230, 238, 233, 0.9);
+      border-radius: 1.75rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gasgo-shell {
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      min-height: calc(100dvh - 3rem);
+    }
   }
 }
 
@@ -96,6 +129,59 @@
   }
 }
 
+@keyframes gauge-calibrate-flash {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gauge-safe) 0%, transparent);
+  }
+  35% {
+    box-shadow: 0 0 0 12px color-mix(in srgb, var(--gauge-safe) 22%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gauge-safe) 0%, transparent);
+  }
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes truck-drive {
+  0% {
+    transform: translateX(-28%) translateY(0);
+  }
+  45% {
+    transform: translateX(38%) translateY(-3px);
+  }
+  100% {
+    transform: translateX(118%) translateY(0);
+  }
+}
+
+@keyframes road-scroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -72px 0;
+  }
+}
+
+@keyframes sky-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 80px 0;
+  }
+}
+
 .animate-gauge-breathe {
   animation: gauge-breathe 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
@@ -108,6 +194,40 @@
   animation: gauge-pulse 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
+.gauge-calibrate-flash {
+  animation: gauge-calibrate-flash 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.page-enter {
+  animation: page-enter 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.truck-sky {
+  background:
+    radial-gradient(circle at 18% 30%, rgba(255, 223, 34, 0.35), transparent 28%),
+    linear-gradient(180deg, #d9efe3 0%, #f7faf8 70%);
+  background-size: 160px 80px, 100% 100%;
+  animation: sky-drift 8s linear infinite;
+}
+
+.truck-road {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #0b1f14 0 18px,
+    transparent 18px 36px
+  );
+  background-color: #c5d4cb;
+  background-size: 72px 3px;
+  background-repeat: repeat-x;
+  background-position: 0 55%;
+  animation: road-scroll 1.1s linear infinite;
+}
+
+.truck-vehicle {
+  animation: truck-drive 4.8s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+
 /* Sun Yellow on white — ink hairline so the % stays one with the ring */
 .gauge-percent-caution {
   -webkit-text-stroke: 0.35px rgba(11, 31, 20, 0.22);
@@ -116,11 +236,24 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .animate-gauge-breathe,
   .animate-gauge-fill,
   .animate-gauge-pulse,
-  .gas-gauge-ring-progress {
+  .gas-gauge-ring-progress,
+  .gauge-calibrate-flash,
+  .page-enter,
+  .truck-vehicle,
+  .truck-road,
+  .truck-sky {
     animation: none !important;
     transition: none !important;
+  }
+
+  .truck-vehicle {
+    left: 36%;
   }
 }

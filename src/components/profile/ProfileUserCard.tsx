@@ -1,4 +1,5 @@
 import { Pencil, UserRound } from "lucide-react";
+import { cardClassName } from "@/components/ui/card";
 import { formatNgPhone } from "@/data/profile";
 
 type ProfileUserCardProps = {
@@ -16,7 +17,7 @@ export function ProfileUserCard({ name, phone, onEdit }: ProfileUserCardProps) {
     .join("");
 
   return (
-    <section className="rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+    <section className={`${cardClassName} px-4 py-4`}>
       <div className="flex items-center gap-3.5">
         <span
           aria-hidden="true"
