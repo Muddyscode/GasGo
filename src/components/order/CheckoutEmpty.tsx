@@ -1,23 +1,12 @@
 import Link from "next/link";
 import { OrderHeader } from "@/components/order/OrderHeader";
-import type { CylinderId } from "@/config/cylinders";
-import { orderPath } from "@/lib/order-query";
 
-type CheckoutEmptyProps = {
-  cylinderId?: CylinderId | null;
-};
-
-export function CheckoutEmpty({ cylinderId = null }: CheckoutEmptyProps) {
-  const addressHref = orderPath("/order/address", { cylinderId });
-  const cylinderHref = cylinderId
-    ? `/order/cylinder?cylinder=${encodeURIComponent(cylinderId)}`
-    : "/order/cylinder";
-
+export function CheckoutEmpty() {
   return (
     <div className="flex min-h-dvh flex-col bg-surface">
       <OrderHeader
         title="Checkout"
-        backHref={addressHref}
+        backHref="/order/address"
         backLabel="Back to delivery details"
       />
       <main className="flex flex-1 flex-col px-5 pt-10">
@@ -29,13 +18,13 @@ export function CheckoutEmpty({ cylinderId = null }: CheckoutEmptyProps) {
         </p>
         <div className="mt-8 flex flex-col gap-3">
           <Link
-            href={addressHref}
+            href="/order/address"
             className="flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2"
           >
             Delivery details
           </Link>
           <Link
-            href={cylinderHref}
+            href="/order/cylinder"
             className="flex h-14 items-center justify-center rounded-2xl bg-surface-muted text-base font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
           >
             Choose a cylinder

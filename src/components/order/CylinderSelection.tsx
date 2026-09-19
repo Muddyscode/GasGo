@@ -2,34 +2,27 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { CylinderCard } from "@/components/order/CylinderCard";
 import {
   CYLINDER_OPTIONS,
-  type CylinderId,
   formatCylinderSize,
   getCylinderById,
 } from "@/config/cylinders";
 import { formatNaira } from "@/lib/money";
 import { cn } from "@/lib/utils";
+import { useOrderDraft } from "@/stores/order-draft";
 
-type CylinderSelectionProps = {
-  initialSelectedId?: CylinderId | null;
-};
-
-export function CylinderSelection({
-  initialSelectedId = null,
-}: CylinderSelectionProps) {
+export function CylinderSelection() {
   const router = useRouter();
-  const [selectedId, setSelectedId] = useState<CylinderId | null>(
-    initialSelectedId,
-  );
+  const selectedId = useOrderDraft((state) => state.cylinderId);
+  const setCylinder = useOrderDraft((state) => state.setCylinder);
   const selected = getCylinderById(selectedId);
 
   function handleContinue() {
     if (!selected) return;
-    router.push(`/order/address?cylinder=${encodeURIComponent(selected.id)}`);
+    setCylinder(selected.id);
+    router.push("/order/address");
   }
 
   return (
@@ -69,7 +62,7 @@ export function CylinderSelection({
               key={option.id}
               option={option}
               selected={selectedId === option.id}
-              onSelect={setSelectedId}
+              onSelect={setCylinder}
             />
           ))}
         </div>

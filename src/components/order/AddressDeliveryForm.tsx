@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { AddAddressSheet } from "@/components/order/AddAddressSheet";
@@ -8,86 +8,62 @@ import { AddressCard } from "@/components/order/AddressCard";
 import { DeliveryWindowPicker } from "@/components/order/DeliveryWindowPicker";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PresenceOption } from "@/components/order/PresenceOption";
+import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
 import {
-  formatCylinderSize,
-  getCylinderById,
-  type CylinderId,
-} from "@/config/cylinders";
-import {
-  DEFAULT_DELIVERY_WINDOW,
   PRESENCE_OPTIONS,
   SAVED_ADDRESSES,
   type DeliveryAddress,
-  type DeliveryWindowId,
-  type PresenceId,
 } from "@/config/delivery";
 import { formatNaira } from "@/lib/money";
-import { buildOrderQuery } from "@/lib/order-query";
 import { cn } from "@/lib/utils";
+import { useOrderDraft } from "@/stores/order-draft";
 
-type AddressDeliveryFormProps = {
-  cylinderId?: CylinderId | null;
-  initialAddress?: DeliveryAddress | null;
-  initialPresenceId?: PresenceId | null;
-  initialWindowId?: DeliveryWindowId;
-  initialNotes?: string;
-};
-
-export function AddressDeliveryForm({
-  cylinderId = null,
-  initialAddress = null,
-  initialPresenceId = null,
-  initialWindowId = DEFAULT_DELIVERY_WINDOW,
-  initialNotes = "",
-}: AddressDeliveryFormProps) {
+export function AddressDeliveryForm() {
   const router = useRouter();
-  const cylinder = getCylinderById(cylinderId);
-  const extras = useMemo(() => {
-    if (!initialAddress) return [] as DeliveryAddress[];
-    if (SAVED_ADDRESSES.some((address) => address.id === initialAddress.id)) {
-      return [];
-    }
-    return [initialAddress];
-  }, [initialAddress]);
+  const cylinderId = useOrderDraft((state) => state.cylinderId);
+  const address = useOrderDraft((state) => state.address);
+  const presenceId = useOrderDraft((state) => state.presenceId);
+  const windowId = useOrderDraft((state) => state.windowId);
+  const notes = useOrderDraft((state) => state.notes);
+  const setAddress = useOrderDraft((state) => state.setAddress);
+  const setPresence = useOrderDraft((state) => state.setPresence);
+  const setWindow = useOrderDraft((state) => state.setWindow);
+  const setNotes = useOrderDraft((state) => state.setNotes);
 
-  const [customAddresses, setCustomAddresses] = useState<DeliveryAddress[]>(extras);
-  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
-    initialAddress?.id ?? null,
-  );
-  const [presenceId, setPresenceId] = useState<PresenceId | null>(initialPresenceId);
-  const [windowId, setWindowId] = useState<DeliveryWindowId>(initialWindowId);
-  const [notes, setNotes] = useState(initialNotes);
+  const cylinder = getCylinderById(cylinderId);
+  const [customAddresses, setCustomAddresses] = useState<DeliveryAddress[]>([]);
   const [sheetOpen, setSheetOpen] = useState(false);
+
+  useEffect(() => {
+    if (!address) return;
+    if (SAVED_ADDRESSES.some((saved) => saved.id === address.id)) return;
+    setCustomAddresses((current) =>
+      current.some((item) => item.id === address.id) ? current : [...current, address],
+    );
+  }, [address]);
 
   const addresses = useMemo(
     () => [...SAVED_ADDRESSES, ...customAddresses],
     [customAddresses],
   );
   const selectedAddress =
-    addresses.find((address) => address.id === selectedAddressId) ?? null;
+    addresses.find((item) => item.id === address?.id) ?? address;
   const selectedPresence = PRESENCE_OPTIONS.find((option) => option.id === presenceId);
   const canContinue = Boolean(selectedAddress && selectedPresence);
 
-  const backHref = cylinder
-    ? `/order/cylinder?cylinder=${encodeURIComponent(cylinder.id)}`
-    : "/order/cylinder";
-
-  function handleSaveAddress(address: DeliveryAddress) {
-    setCustomAddresses((current) => [...current, address]);
-    setSelectedAddressId(address.id);
+  function handleSaveAddress(next: DeliveryAddress) {
+    setCustomAddresses((current) => [...current, next]);
+    setAddress(next);
     setSheetOpen(false);
   }
 
   function handleContinue() {
     if (!selectedAddress || !selectedPresence) return;
-    const query = buildOrderQuery({
-      cylinderId: cylinder?.id ?? null,
-      address: selectedAddress,
-      presenceId: selectedPresence.id,
-      windowId,
-      notes,
-    });
-    router.push(`/order/checkout?${query}`);
+    setAddress(selectedAddress);
+    setPresence(selectedPresence.id);
+    setWindow(windowId);
+    setNotes(notes);
+    router.push("/order/checkout");
   }
 
   const helper = !canContinue
@@ -102,7 +78,7 @@ export function AddressDeliveryForm({
     <div className="flex min-h-dvh flex-col bg-surface">
       <OrderHeader
         title="Delivery details"
-        backHref={backHref}
+        backHref="/order/cylinder"
         backLabel="Back to cylinder selection"
       />
 
@@ -130,12 +106,15 @@ export function AddressDeliveryForm({
             aria-label="Delivery address"
             className="flex flex-col gap-3"
           >
-            {addresses.map((address) => (
+            {addresses.map((item) => (
               <AddressCard
-                key={address.id}
-                address={address}
-                selected={selectedAddressId === address.id}
-                onSelect={setSelectedAddressId}
+                key={item.id}
+                address={item}
+                selected={address?.id === item.id}
+                onSelect={(id) => {
+                  const next = addresses.find((entry) => entry.id === id);
+                  if (next) setAddress(next);
+                }}
               />
             ))}
           </div>
@@ -180,7 +159,7 @@ export function AddressDeliveryForm({
                 key={option.id}
                 option={option}
                 selected={presenceId === option.id}
-                onSelect={setPresenceId}
+                onSelect={setPresence}
               />
             ))}
           </div>
@@ -190,7 +169,7 @@ export function AddressDeliveryForm({
           <h2 className="mb-3 text-sm font-semibold tracking-wide text-ink-muted">
             Preferred window
           </h2>
-          <DeliveryWindowPicker selectedId={windowId} onSelect={setWindowId} />
+          <DeliveryWindowPicker selectedId={windowId} onSelect={setWindow} />
         </section>
 
         <section className="mb-6">
