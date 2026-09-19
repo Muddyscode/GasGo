@@ -84,11 +84,22 @@ const config = {
           "0 8px 40px rgba(28, 163, 80, 0.12), 0 2px 8px rgba(11, 31, 20, 0.04)",
         "gasgo-gauge-critical":
           "0 8px 40px rgba(220, 38, 38, 0.15), 0 2px 8px rgba(11, 31, 20, 0.04)",
+        "gasgo-gauge-caution":
+          "0 8px 40px rgba(255, 223, 34, 0.28), 0 2px 8px rgba(11, 31, 20, 0.04)",
       },
       keyframes: {
         "gauge-breathe": {
-          "0%, 100%": { opacity: "1", transform: "scale(1)" },
-          "50%": { opacity: "0.85", transform: "scale(1.015)" },
+          "0%, 100%": {
+            opacity: "1",
+            transform: "scale(1)",
+            filter: "drop-shadow(0 0 0 transparent)",
+          },
+          "50%": {
+            opacity: "0.92",
+            transform: "scale(1.018)",
+            filter:
+              "drop-shadow(0 0 10px color-mix(in srgb, var(--gauge-critical) 45%, transparent))",
+          },
         },
         "gauge-fill": {
           from: { strokeDashoffset: "var(--gauge-circumference)" },

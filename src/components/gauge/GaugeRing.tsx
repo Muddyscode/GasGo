@@ -3,13 +3,13 @@
 import { useId, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import {
-  clampPercent,
   getGaugeColor,
   getGaugeLevel,
   ringGeometry,
   strokeOffset,
 } from "./utils";
-import { gauge } from "@/config/tokens";
+import { useSpringPercent } from "./useSpringPercent";
+import { gauge, ink } from "@/config/tokens";
 
 export type GaugeRingProps = {
   percent: number;
@@ -17,6 +17,8 @@ export type GaugeRingProps = {
   strokeWidth?: number;
   className?: string;
   breathe?: boolean;
+  /** When false, stroke follows `percent` as-is (parent owns the spring). */
+  spring?: boolean;
 };
 
 export function GaugeRing({
@@ -25,22 +27,32 @@ export function GaugeRing({
   strokeWidth,
   className,
   breathe,
+  spring = true,
 }: GaugeRingProps) {
   const uid = useId();
   const gradientId = `gauge-grad-${uid}`;
   const filterId = `gauge-glow-${uid}`;
 
-  const p = clampPercent(percent);
-  const level = getGaugeLevel(p);
-  const color = getGaugeColor(p);
+  const sprung = useSpringPercent(percent, { enabled: spring });
+  const animated = spring ? sprung : percent;
+  const level = getGaugeLevel(percent);
+  const color = getGaugeColor(percent);
   const shouldBreathe = breathe ?? level === "critical";
+  const isCaution = level === "caution";
 
-  const { stroke, radius, circumference, center } = useMemo(
-    () => ringGeometry(size, strokeWidth),
-    [size, strokeWidth],
-  );
+  const { stroke, radius, circumference, center } = useMemo(() => {
+    const cautionWidth =
+      strokeWidth ??
+      (isCaution
+        ? Math.max(11, Math.round(size * 0.082))
+        : undefined);
+    return ringGeometry(size, cautionWidth);
+  }, [size, strokeWidth, isCaution]);
 
-  const offset = strokeOffset(p, circumference);
+  const offset = strokeOffset(animated, circumference);
+  const trackStroke = isCaution
+    ? `color-mix(in srgb, ${gauge.track} 70%, ${ink})`
+    : gauge.track;
 
   return (
     <div
@@ -66,17 +78,17 @@ export function GaugeRing({
           </linearGradient>
           <filter
             id={filterId}
-            x="-20%"
-            y="-20%"
-            width="140%"
-            height="140%"
+            x="-24%"
+            y="-24%"
+            width="148%"
+            height="148%"
           >
             <feDropShadow
               dx="0"
               dy="2"
-              stdDeviation="3"
-              floodColor={color}
-              floodOpacity="0.25"
+              stdDeviation={isCaution ? 2.2 : 3}
+              floodColor={isCaution ? ink : color}
+              floodOpacity={isCaution ? 0.18 : 0.25}
             />
           </filter>
         </defs>
@@ -86,10 +98,23 @@ export function GaugeRing({
           cy={center}
           r={radius}
           fill="none"
-          stroke={gauge.track}
+          stroke={trackStroke}
           strokeWidth={stroke}
           strokeLinecap="round"
         />
+
+        {isCaution && (
+          <circle
+            cx={center}
+            cy={center}
+            r={radius}
+            fill="none"
+            stroke={ink}
+            strokeWidth={stroke + 3}
+            strokeOpacity={0.14}
+            strokeLinecap="round"
+          />
+        )}
 
         {level === "critical" && (
           <circle
@@ -121,10 +146,7 @@ export function GaugeRing({
           style={{
             transform: "rotate(-90deg)",
             transformOrigin: "center",
-            transition:
-              "stroke-dashoffset 600ms cubic-bezier(0.16, 1, 0.3, 1), stroke 400ms ease",
-            ["--gauge-circumference" as string]: `${circumference}`,
-            ["--gauge-offset" as string]: `${offset}`,
+            willChange: "stroke-dashoffset",
           }}
         />
       </svg>

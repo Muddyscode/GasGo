@@ -67,7 +67,10 @@ export function HomeHero() {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex flex-1 flex-col items-center justify-center px-5 py-6">
+      <div className="flex flex-1 flex-col items-center justify-center px-5 pb-4 pt-3">
+        <p className="mb-5 max-w-[18rem] text-center text-[13px] leading-snug text-ink-muted">
+          Your cylinder, estimated from your last refill
+        </p>
         <GasGauge
           percent={demo.percent}
           size="hero"

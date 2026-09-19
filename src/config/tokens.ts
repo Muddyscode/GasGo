@@ -109,6 +109,8 @@ export const shadows = {
   gauge: "0 8px 40px rgba(28, 163, 80, 0.12), 0 2px 8px rgba(11, 31, 20, 0.04)",
   gaugeCritical:
     "0 8px 40px rgba(220, 38, 38, 0.15), 0 2px 8px rgba(11, 31, 20, 0.04)",
+  gaugeCaution:
+    "0 8px 40px rgba(255, 223, 34, 0.28), 0 2px 8px rgba(11, 31, 20, 0.04)",
 } as const;
 
 export const motion = {

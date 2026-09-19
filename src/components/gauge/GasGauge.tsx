@@ -1,7 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { ink } from "@/config/tokens";
 import { GaugeRing } from "./GaugeRing";
+import { useSpringPercent } from "./useSpringPercent";
 import {
   clampPercent,
   daysSince,
@@ -25,15 +27,6 @@ export type GasGaugeProps = {
   className?: string;
 };
 
-const CALIBRATE_ACTIONS: {
-  action: CalibrateAction;
-  label: string;
-}[] = [
-  { action: "refilled", label: "I just refilled" },
-  { action: "too_high", label: "Too high" },
-  { action: "too_low", label: "Too low" },
-];
-
 export function GasGauge({
   percent,
   size = "hero",
@@ -46,9 +39,12 @@ export function GasGauge({
 }: GasGaugeProps) {
   const p = clampPercent(percent);
   const px = resolveGaugeSize(size);
-  const level = getGaugeLevel(p);
-  const state = getGaugeState(p);
+  const animated = useSpringPercent(p);
+  const level = getGaugeLevel(animated);
+  const state = getGaugeState(animated);
+  const display = Math.round(animated);
   const rounded = Math.round(p);
+  const isCaution = level === "caution";
 
   const orderDays =
     typeof daysSinceLastOrder === "number"
@@ -70,22 +66,28 @@ export function GasGauge({
   const labelId = "gas-gauge-label";
   const descId = confidence ? "gas-gauge-desc" : undefined;
 
+  const halo =
+    level === "critical"
+      ? "shadow-gasgo-gauge-critical"
+      : level === "caution"
+        ? "shadow-gasgo-gauge-caution"
+        : "shadow-gasgo-gauge";
+
   return (
     <div
-      className={cn(
-        "flex w-full max-w-md flex-col items-center gap-5",
-        className,
-      )}
+      className={cn("flex w-full max-w-md flex-col items-center gap-4", className)}
     >
       <div className="relative flex items-center justify-center">
         <div
-          className={cn(
-            "rounded-full shadow-gasgo-gauge",
-            level === "critical" && "shadow-gasgo-gauge-critical",
-          )}
+          className={cn("rounded-full", halo)}
           style={{ width: px, height: px }}
         >
-          <GaugeRing percent={p} size={px} breathe={level === "critical"} />
+          <GaugeRing
+            percent={animated}
+            size={px}
+            breathe={level === "critical"}
+            spring={false}
+          />
         </div>
 
         <div
@@ -93,19 +95,31 @@ export function GasGauge({
           aria-hidden="true"
         >
           <span
-            className="font-bold tracking-tight text-ink tabular-nums"
+            className={cn(
+              "font-bold tabular-nums leading-none tracking-tight",
+              isCaution && "gauge-percent-caution",
+            )}
             style={{
-              fontSize: Math.max(28, Math.round(px * 0.22)),
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
+              color: state.color,
+              fontSize: Math.max(32, Math.round(px * 0.28)),
+              letterSpacing: "-0.04em",
             }}
           >
-            {rounded}%
+            {display}
+            <span
+              className="ml-[0.06em] text-[0.42em] font-semibold opacity-90"
+              aria-hidden="true"
+            >
+              %
+            </span>
           </span>
           {showLabel && (
             <span
-              className="mt-1 font-medium text-ink-muted"
-              style={{ fontSize: Math.max(11, Math.round(px * 0.055)) }}
+              className="mt-1.5 inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.06em]"
+              style={{
+                color: isCaution ? ink : state.color,
+                backgroundColor: `color-mix(in srgb, ${state.color} ${isCaution ? 28 : 16}%, transparent)`,
+              }}
             >
               {state.label}
             </span>
@@ -132,7 +146,7 @@ export function GasGauge({
       {confidence && (
         <p
           id={descId}
-          className="max-w-[20rem] text-center text-sm leading-relaxed text-ink-muted"
+          className="max-w-[20rem] px-3 text-center text-[13px] leading-relaxed text-ink-muted"
         >
           {confidence}
         </p>
@@ -140,30 +154,62 @@ export function GasGauge({
 
       {onCalibrate && (
         <div
-          className="flex w-full flex-wrap items-center justify-center gap-2"
+          className="flex w-full flex-col gap-2 px-0.5"
           role="group"
           aria-label="Calibrate gauge"
         >
-          {CALIBRATE_ACTIONS.map(({ action, label }) => (
-            <button
-              key={action}
-              type="button"
-              onClick={() => onCalibrate(action)}
-              className={cn(
-                "inline-flex min-h-11 min-w-[44px] items-center justify-center rounded-full px-4",
-                "border border-[#E6EEE9] bg-white text-sm font-medium text-ink",
-                "shadow-gasgo-soft transition-colors",
-                "hover:border-brand-green/40 hover:bg-surface-soft",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",
-                "active:scale-[0.98]",
-              )}
-            >
-              {label}
-            </button>
-          ))}
+          <button
+            type="button"
+            onClick={() => onCalibrate("refilled")}
+            className={cn(
+              "inline-flex h-12 w-full min-h-11 items-center justify-center rounded-full px-4",
+              "bg-brand-green text-sm font-semibold text-white shadow-gasgo-soft",
+              "transition-[transform,filter] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
+              "hover:brightness-105",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",
+              "active:scale-[0.98]",
+            )}
+          >
+            I just refilled
+          </button>
+          <div className="grid grid-cols-2 gap-2">
+            <CalibrateSecondary
+              label="Too high"
+              onClick={() => onCalibrate("too_high")}
+            />
+            <CalibrateSecondary
+              label="Too low"
+              onClick={() => onCalibrate("too_low")}
+            />
+          </div>
         </div>
       )}
     </div>
+  );
+}
+
+function CalibrateSecondary({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "inline-flex min-h-11 items-center justify-center rounded-full px-4",
+        "border border-border bg-white text-sm font-medium text-ink",
+        "shadow-gasgo-soft transition-colors",
+        "hover:border-brand-green/40 hover:bg-surface-soft",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",
+        "active:scale-[0.98]",
+      )}
+    >
+      {label}
+    </button>
   );
 }
 
