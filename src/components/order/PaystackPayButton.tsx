@@ -3,49 +3,32 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
-import type { CylinderId } from "@/config/cylinders";
-import type { DeliveryAddress, DeliveryWindowId, PresenceId } from "@/config/delivery";
-import type { OrderQuote } from "@/config/pricing";
 import { PriceBreakdown } from "@/components/order/PriceBreakdown";
+import type { OrderQuote } from "@/config/pricing";
+import { createLocalOrderId } from "@/lib/order-id";
 import { formatNaira } from "@/lib/money";
-import { orderPath } from "@/lib/order-query";
 import { createOrderReference, initiatePaystackPayment } from "@/lib/paystack";
 import { cn } from "@/lib/utils";
+import { useOrderDraft } from "@/stores/order-draft";
 
 type PaystackPayButtonProps = {
   quote: OrderQuote;
-  cylinderId: CylinderId;
-  address: DeliveryAddress;
-  presenceId: PresenceId;
-  windowId: DeliveryWindowId;
-  notes: string;
 };
 
-export function PaystackPayButton({
-  quote,
-  cylinderId,
-  address,
-  presenceId,
-  windowId,
-  notes,
-}: PaystackPayButtonProps) {
+export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
+  const cylinderId = useOrderDraft((state) => state.cylinderId);
+  const address = useOrderDraft((state) => state.address);
+  const presenceId = useOrderDraft((state) => state.presenceId);
+  const clear = useOrderDraft((state) => state.clear);
 
   async function handlePay() {
-    if (pending) return;
+    if (pending || !cylinderId || !address || !presenceId) return;
     setPending(true);
 
-    const successPath = orderPath("/order/success", {
-      cylinderId,
-      address,
-      presenceId,
-      windowId,
-      notes,
-    });
-
     try {
-      const result = await initiatePaystackPayment({
+      await initiatePaystackPayment({
         amountNgn: quote.totalNgn,
         reference: createOrderReference(cylinderId),
         metadata: {
@@ -54,10 +37,9 @@ export function PaystackPayButton({
           presence: presenceId,
         },
       });
-      const next = new URL(successPath, "https://gasgo.local");
-      next.searchParams.set("mode", result.kind);
-      next.searchParams.set("ref", result.reference);
-      router.push(`${next.pathname}?${next.searchParams.toString()}`);
+      const orderId = createLocalOrderId();
+      clear();
+      router.push(`/order/tracking/${encodeURIComponent(orderId)}`);
     } catch {
       setPending(false);
     }

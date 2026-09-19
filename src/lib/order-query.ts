@@ -1,3 +1,7 @@
+/**
+ * Optional deep-link helpers. Happy-path Cylinder → Address → Checkout
+ * reads and writes `useOrderDraft` and does not put draft fields in the URL.
+ */
 import { getCylinderById, type CylinderId } from "@/config/cylinders";
 import {
   DEFAULT_DELIVERY_WINDOW,
