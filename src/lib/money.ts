@@ -5,3 +5,7 @@ export function formatNaira(amount: number): string {
     minimumFractionDigits: 0,
   }).format(amount);
 }
+
+export function nairaToKobo(amountNgn: number): number {
+  return Math.round(amountNgn * 100);
+}
