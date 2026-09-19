@@ -52,6 +52,18 @@ export function parseOrderQuery(params: Record<string, SearchValue>): OrderQuery
   };
 }
 
+export function isOrderReady(query: OrderQuery): boolean {
+  return Boolean(query.cylinderId && query.address && query.presenceId);
+}
+
+export function orderPath(
+  path: "/order/address" | "/order/checkout" | "/order/success" | "/order/cylinder",
+  input: Parameters<typeof buildOrderQuery>[0],
+): string {
+  const query = buildOrderQuery(input);
+  return query ? `${path}?${query}` : path;
+}
+
 export function buildOrderQuery(input: {
   cylinderId?: string | null;
   address?: DeliveryAddress | null;
