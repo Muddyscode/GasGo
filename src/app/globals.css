@@ -115,6 +115,150 @@
   text-shadow: 0 1px 0 rgba(11, 31, 20, 0.12);
 }
 
+/* ─── Delivery truck motion (loading + tracking) ─── */
+.gasgo-truck__viewport {
+  container-type: inline-size;
+}
+
+.gasgo-truck__ground {
+  position: absolute;
+  right: 8%;
+  bottom: 16px;
+  left: 8%;
+  height: 2px;
+  border-radius: 999px;
+  background: #e6eee9;
+}
+
+.gasgo-truck__dashes {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 1600px;
+  height: 3px;
+  border-radius: 999px;
+  opacity: 0.55;
+  background-image: repeating-linear-gradient(
+    90deg,
+    color-mix(in srgb, #1ca350 58%, #ffdf22) 0 14px,
+    transparent 14px 32px
+  );
+  will-change: transform;
+}
+
+.gasgo-truck__lane {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  align-items: flex-end;
+  will-change: transform;
+}
+
+.gasgo-truck__seg {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-end;
+  padding-right: 8rem;
+  padding-right: clamp(5.5rem, 46cqi, 13rem);
+}
+
+.gasgo-truck__idle {
+  display: flex;
+  height: 100%;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.gasgo-truck__body,
+.gasgo-truck__wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.gasgo-truck__shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.gasgo-truck--loading .gasgo-truck__lane {
+  animation: gasgo-truck-drive 5.4s linear infinite;
+}
+
+.gasgo-truck--loading .gasgo-truck__body {
+  animation: gasgo-truck-bounce 0.42s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.gasgo-truck--loading .gasgo-truck__shadow {
+  animation: gasgo-truck-shadow 0.42s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.gasgo-truck--loading .gasgo-truck__wheel {
+  animation: gasgo-truck-spin 0.52s linear infinite;
+}
+
+.gasgo-truck--loading .gasgo-truck__dashes {
+  animation: gasgo-truck-road 0.72s linear infinite;
+}
+
+.gasgo-truck--tracking .gasgo-truck__body {
+  animation: gasgo-truck-bounce 0.78s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.gasgo-truck--tracking .gasgo-truck__shadow {
+  animation: gasgo-truck-shadow 0.78s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+.gasgo-truck--tracking .gasgo-truck__wheel {
+  animation: gasgo-truck-spin 0.92s linear infinite;
+}
+
+.gasgo-truck--tracking .gasgo-truck__dashes {
+  animation: gasgo-truck-road 1.35s linear infinite;
+}
+
+@keyframes gasgo-truck-drive {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes gasgo-truck-bounce {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -2.5px, 0);
+  }
+}
+
+@keyframes gasgo-truck-shadow {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.1;
+  }
+  50% {
+    transform: scaleX(0.92);
+    opacity: 0.07;
+  }
+}
+
+@keyframes gasgo-truck-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gasgo-truck-road {
+  to {
+    transform: translate3d(-800px, 0, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-gauge-breathe,
   .animate-gauge-fill,
@@ -122,5 +266,29 @@
   .gas-gauge-ring-progress {
     animation: none !important;
     transition: none !important;
+  }
+
+  .gasgo-truck__lane,
+  .gasgo-truck__body,
+  .gasgo-truck__wheel,
+  .gasgo-truck__dashes,
+  .gasgo-truck__shadow {
+    animation: none !important;
+  }
+
+  .gasgo-truck--loading .gasgo-truck__lane {
+    width: 100%;
+    justify-content: center;
+    transform: none;
+  }
+
+  .gasgo-truck--loading .gasgo-truck__seg {
+    width: 100%;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .gasgo-truck--loading .gasgo-truck__seg:last-child {
+    display: none;
   }
 }

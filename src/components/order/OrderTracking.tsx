@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DeliveryTruck } from "@/components/motion";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { TrackingTimeline } from "@/components/order/TrackingTimeline";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
@@ -28,6 +29,16 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
           <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-ink-muted">
             {current?.detail ?? "Your rider is en route to your address."}
           </p>
+        </section>
+
+        <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-surface-soft shadow-gasgo-soft">
+          <DeliveryTruck
+            variant="tracking"
+            size="lg"
+            label={`${current?.title ?? "On the way"} — ${current?.detail ?? "Your rider is en route to your address."}`}
+            showLabel={false}
+            className="px-1 pb-1 pt-4"
+          />
         </section>
 
         <section className="mb-6 rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
