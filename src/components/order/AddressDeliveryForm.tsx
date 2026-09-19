@@ -8,6 +8,8 @@ import { AddressCard } from "@/components/order/AddressCard";
 import { DeliveryWindowPicker } from "@/components/order/DeliveryWindowPicker";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PresenceOption } from "@/components/order/PresenceOption";
+import { OrderFlowShell } from "@/components/ui/PageShell";
+import { tactile, tactilePrimary } from "@/components/ui/tactile";
 import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
 import {
   PRESENCE_OPTIONS,
@@ -75,7 +77,11 @@ export function AddressDeliveryForm() {
     : `${selectedAddress?.label} · ${selectedPresence?.title}`;
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <OrderFlowShell
+      imageSrc="/images/cooking-gas-trolley.jpg"
+      imageAlt="Cooking gas cylinder on a delivery trolley"
+      imagePosition="16% 50%"
+    >
       <OrderHeader
         title="Delivery details"
         backHref="/order/cylinder"
@@ -123,9 +129,10 @@ export function AddressDeliveryForm() {
             onClick={() => setSheetOpen(true)}
             className={cn(
               "mt-3 flex min-h-14 w-full items-center gap-3.5 rounded-2xl border border-dashed border-ink-muted/25 bg-surface px-4 py-4 text-left",
-              "transition-[border-color,background-color,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-              "active:scale-[0.985] hover:border-brand-green/40 hover:bg-surface-soft",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
+              tactile.motion,
+              tactile.press,
+              tactile.focus,
+              "hover:border-brand-green/40 hover:bg-surface-soft",
             )}
           >
             <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-surface-muted text-brand-green">
@@ -207,14 +214,7 @@ export function AddressDeliveryForm() {
           type="button"
           disabled={!canContinue}
           onClick={handleContinue}
-          className={cn(
-            "flex h-14 w-full items-center justify-center rounded-2xl text-base font-semibold tracking-tight",
-            "transition-[background-color,color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-            canContinue
-              ? "bg-brand-green text-white shadow-gasgo-md active:scale-[0.985]"
-              : "cursor-not-allowed bg-surface-muted text-ink-muted",
-          )}
+          className={tactilePrimary()}
         >
           Continue to Checkout
         </button>
@@ -225,6 +225,6 @@ export function AddressDeliveryForm() {
         onClose={() => setSheetOpen(false)}
         onSave={handleSaveAddress}
       />
-    </div>
+    </OrderFlowShell>
   );
 }

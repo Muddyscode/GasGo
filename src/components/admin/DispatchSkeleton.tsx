@@ -1,6 +1,9 @@
+import { DeliveryTruckMotion } from "@/components/motion/DeliveryTruckMotion";
+
 export function DispatchSkeleton() {
   return (
     <div className="flex flex-col gap-2.5" aria-hidden="true">
+      <DeliveryTruckMotion compact label="Loading dispatch board" className="mb-1" />
       {Array.from({ length: 5 }, (_, index) => (
         <div
           key={index}

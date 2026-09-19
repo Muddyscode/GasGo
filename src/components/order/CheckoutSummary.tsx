@@ -1,3 +1,4 @@
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import type { CylinderOption } from "@/config/cylinders";
 import { formatCylinderSize } from "@/config/cylinders";
 import type {
@@ -24,7 +25,7 @@ export function CheckoutSummary({
 }: CheckoutSummaryProps) {
   return (
     <div className="flex flex-col gap-3">
-      <section className="rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+      <SurfaceCard>
         <p className="text-sm font-medium text-ink-muted">Cylinder</p>
         <div className="mt-1.5 flex items-baseline justify-between gap-3">
           <p className="text-lg font-semibold tracking-tight text-ink">
@@ -37,9 +38,9 @@ export function CheckoutSummary({
         <p className="mt-0.5 text-sm text-ink-muted">
           Best for {cylinder.bestFor.toLowerCase()}
         </p>
-      </section>
+      </SurfaceCard>
 
-      <section className="rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+      <SurfaceCard>
         <p className="text-sm font-medium text-ink-muted">Delivery</p>
         <p className="mt-1.5 text-[17px] font-semibold tracking-tight text-ink">
           {address.label}
@@ -55,7 +56,7 @@ export function CheckoutSummary({
           />
           {notes ? <SummaryLine label="Instructions" value={notes} /> : null}
         </dl>
-      </section>
+      </SurfaceCard>
     </div>
   );
 }

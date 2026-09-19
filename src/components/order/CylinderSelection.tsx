@@ -1,9 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 import { CylinderCard } from "@/components/order/CylinderCard";
+import { OrderHeader } from "@/components/order/OrderHeader";
+import { OrderFlowShell } from "@/components/ui/PageShell";
+import { tactilePrimary } from "@/components/ui/tactile";
 import {
   CYLINDER_OPTIONS,
   formatCylinderSize,
@@ -26,21 +27,12 @@ export function CylinderSelection() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
-      <header className="sticky top-0 z-20 border-b border-border/80 bg-surface/90 backdrop-blur-md">
-        <div className="relative flex h-14 items-center justify-center px-2">
-          <Link
-            href="/"
-            aria-label="Go back"
-            className="absolute left-2 inline-flex size-11 items-center justify-center rounded-full text-ink transition-colors duration-150 hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-          >
-            <ChevronLeft className="size-6" strokeWidth={2} />
-          </Link>
-          <h1 className="text-[15px] font-semibold tracking-tight text-ink">
-            Select cylinder
-          </h1>
-        </div>
-      </header>
+    <OrderFlowShell
+      imageSrc="/images/cooking-gas-cylinders.png"
+      imageAlt="Rows of cooking gas cylinders ready to fill"
+      imagePosition="50% 70%"
+    >
+      <OrderHeader title="Select cylinder" backHref="/" backLabel="Back home" />
 
       <div className="flex flex-1 flex-col px-5 pt-6">
         <section className="mb-6">
@@ -84,18 +76,11 @@ export function CylinderSelection() {
           type="button"
           disabled={!selected}
           onClick={handleContinue}
-          className={cn(
-            "flex h-14 w-full items-center justify-center rounded-2xl text-base font-semibold tracking-tight",
-            "transition-[background-color,color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-            selected
-              ? "bg-brand-green text-white shadow-gasgo-md active:scale-[0.985]"
-              : "cursor-not-allowed bg-surface-muted text-ink-muted",
-          )}
+          className={tactilePrimary()}
         >
           Continue
         </button>
       </div>
-    </div>
+    </OrderFlowShell>
   );
 }

@@ -1,5 +1,8 @@
 import { Pencil, UserRound } from "lucide-react";
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
+import { tactile } from "@/components/ui/tactile";
 import { formatNgPhone } from "@/data/profile";
+import { cn } from "@/lib/utils";
 
 type ProfileUserCardProps = {
   name: string;
@@ -16,7 +19,7 @@ export function ProfileUserCard({ name, phone, onEdit }: ProfileUserCardProps) {
     .join("");
 
   return (
-    <section className="rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+    <SurfaceCard>
       <div className="flex items-center gap-3.5">
         <span
           aria-hidden="true"
@@ -42,11 +45,17 @@ export function ProfileUserCard({ name, phone, onEdit }: ProfileUserCardProps) {
           type="button"
           onClick={onEdit}
           aria-label="Edit profile"
-          className="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-ink transition-colors duration-150 hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          className={cn(
+            "inline-flex size-11 shrink-0 items-center justify-center rounded-full text-ink",
+            tactile.motion,
+            tactile.press,
+            tactile.focus,
+            "hover:bg-surface-muted",
+          )}
         >
           <Pencil className="size-4" strokeWidth={2} />
         </button>
       </div>
-    </section>
+    </SurfaceCard>
   );
 }

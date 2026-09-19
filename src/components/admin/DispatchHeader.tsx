@@ -7,7 +7,7 @@ type DispatchHeaderProps = {
 
 export function DispatchHeader({ query, onQueryChange }: DispatchHeaderProps) {
   return (
-    <header className="sticky top-0 z-20 border-b border-border/80 bg-surface/90 px-4 pt-[env(safe-area-inset-top)] backdrop-blur-md">
+    <header className="sticky top-0 z-20 border-b border-border/70 bg-surface/80 px-4 pt-[env(safe-area-inset-top)] shadow-gasgo-soft backdrop-blur-xl">
       <div className="flex h-14 items-center">
         <h1 className="text-[17px] font-semibold tracking-tight text-ink">Dispatch</h1>
       </div>

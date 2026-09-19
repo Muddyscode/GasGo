@@ -1,6 +1,8 @@
-import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import { FocusShell } from "@/components/ui/PageShell";
+import { PressableLink } from "@/components/ui/Pressable";
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import type { DeliveryAddress } from "@/config/delivery";
 
 type AddressesManageViewProps = {
@@ -9,7 +11,7 @@ type AddressesManageViewProps = {
 
 export function AddressesManageView({ addresses }: AddressesManageViewProps) {
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <FocusShell width="readable">
       <OrderHeader
         title="Addresses"
         backHref="/profile"
@@ -32,19 +34,17 @@ export function AddressesManageView({ addresses }: AddressesManageViewProps) {
             <p className="mx-auto mt-1.5 max-w-[28ch] text-sm leading-relaxed text-ink-muted">
               Add a drop-off the next time you order.
             </p>
-            <Link
-              href="/order/address"
-              className="mt-5 inline-flex h-12 items-center justify-center rounded-2xl bg-brand-green px-5 text-[15px] font-semibold text-white shadow-gasgo-md"
-            >
+            <PressableLink href="/order/address" size="md" className="mt-5">
               Add during order
-            </Link>
+            </PressableLink>
           </div>
         ) : (
           <ul className="mt-6 flex flex-col gap-2.5">
             {addresses.map((address) => (
-              <li
+              <SurfaceCard
+                as="li"
                 key={address.id}
-                className="flex items-start gap-3.5 rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft"
+                className="flex items-start gap-3.5"
               >
                 <span
                   aria-hidden="true"
@@ -63,11 +63,11 @@ export function AddressesManageView({ addresses }: AddressesManageViewProps) {
                     {address.area}
                   </span>
                 </span>
-              </li>
+              </SurfaceCard>
             ))}
           </ul>
         )}
       </main>
-    </div>
+    </FocusShell>
   );
 }

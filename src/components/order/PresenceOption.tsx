@@ -1,6 +1,6 @@
 import { RadioMark } from "@/components/order/RadioMark";
+import { tactileSelect } from "@/components/ui/tactile";
 import type { PresenceOption as PresenceOptionType } from "@/config/delivery";
-import { cn } from "@/lib/utils";
 
 type PresenceOptionProps = {
   option: PresenceOptionType;
@@ -16,15 +16,7 @@ export function PresenceOption({ option, selected, onSelect }: PresenceOptionPro
       aria-checked={selected}
       aria-label={`${option.title}. ${option.detail}`}
       onClick={() => onSelect(option.id)}
-      className={cn(
-        "flex w-full items-center gap-3.5 rounded-2xl border px-4 py-3.5 text-left",
-        "min-h-14 outline-none transition-[border-color,background-color,box-shadow,transform] duration-150",
-        "ease-[cubic-bezier(0.16,1,0.3,1)]",
-        "active:scale-[0.985] focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-        selected
-          ? "border-brand-green bg-surface-soft shadow-gasgo-md"
-          : "border-border bg-surface shadow-gasgo-soft hover:border-ink-muted/25 hover:shadow-gasgo-md",
-      )}
+      className={tactileSelect(selected, "flex w-full items-center gap-3.5 py-3.5")}
     >
       <span className="min-w-0 flex-1">
         <span className="block text-[15px] font-semibold tracking-tight text-ink">

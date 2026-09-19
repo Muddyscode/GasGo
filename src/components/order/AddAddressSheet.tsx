@@ -3,7 +3,7 @@
 import { forwardRef, useEffect, useId, useRef, useState } from "react";
 import type { DeliveryAddress } from "@/config/delivery";
 import { createCustomAddress } from "@/config/delivery";
-import { cn } from "@/lib/utils";
+import { tactilePrimary, tactileSecondary } from "@/components/ui/tactile";
 
 type AddAddressSheetProps = {
   open: boolean;
@@ -99,20 +99,14 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
             <button
               type="button"
               onClick={onClose}
-              className="flex h-12 items-center justify-center rounded-2xl bg-surface-muted text-[15px] font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+              className={tactileSecondary("h-12 text-[15px]")}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!canSave}
-              className={cn(
-                "flex h-12 items-center justify-center rounded-2xl text-[15px] font-semibold transition-[background-color,color,transform] duration-150",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
-                canSave
-                  ? "bg-brand-green text-white shadow-gasgo-md active:scale-[0.985]"
-                  : "cursor-not-allowed bg-surface-muted text-ink-muted",
-              )}
+              className={tactilePrimary("h-12 text-[15px]")}
             >
               Save address
             </button>

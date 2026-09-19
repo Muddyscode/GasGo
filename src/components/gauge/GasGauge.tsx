@@ -1,5 +1,6 @@
 "use client";
 
+import { tactile, tactilePrimary } from "@/components/ui/tactile";
 import { cn } from "@/lib/utils";
 import { ink } from "@/config/tokens";
 import { GaugeRing } from "./GaugeRing";
@@ -161,14 +162,7 @@ export function GasGauge({
           <button
             type="button"
             onClick={() => onCalibrate("refilled")}
-            className={cn(
-              "inline-flex h-12 w-full min-h-11 items-center justify-center rounded-full px-4",
-              "bg-brand-green text-sm font-semibold text-white shadow-gasgo-soft",
-              "transition-[transform,filter] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-              "hover:brightness-105",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",
-              "active:scale-[0.98]",
-            )}
+            className={tactilePrimary("h-12 rounded-full text-sm shadow-gasgo-soft")}
           >
             I just refilled
           </button>
@@ -201,11 +195,11 @@ function CalibrateSecondary({
       onClick={onClick}
       className={cn(
         "inline-flex min-h-11 items-center justify-center rounded-full px-4",
-        "border border-border bg-white text-sm font-medium text-ink",
-        "shadow-gasgo-soft transition-colors",
+        "border border-border bg-white text-sm font-medium text-ink shadow-gasgo-soft",
+        tactile.motion,
+        tactile.press,
+        tactile.focus,
         "hover:border-brand-green/40 hover:bg-surface-soft",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",
-        "active:scale-[0.98]",
       )}
     >
       {label}

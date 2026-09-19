@@ -1,5 +1,6 @@
-import Link from "next/link";
 import { GasGauge, daysSince } from "@/components/gauge";
+import { PressableLink } from "@/components/ui/Pressable";
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import type { GaugeReading } from "@/data/profile";
 
 type ProfileGaugeCardProps = {
@@ -16,7 +17,7 @@ export function ProfileGaugeCard({ gauge }: ProfileGaugeCardProps) {
         : `Updated ${ago} days ago`;
 
   return (
-    <section className="rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+    <SurfaceCard>
       <div className="flex items-center gap-4">
         <GasGauge
           percent={gauge.percent}
@@ -29,14 +30,11 @@ export function ProfileGaugeCard({ gauge }: ProfileGaugeCardProps) {
             Gas gauge
           </p>
           <p className="mt-1 text-[15px] leading-snug text-ink-muted">{updated}</p>
-          <Link
-            href="/"
-            className="mt-3 inline-flex min-h-11 items-center justify-center rounded-full bg-brand-green px-4 text-sm font-semibold text-white shadow-gasgo-soft transition-[transform,filter] duration-150 hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2 active:scale-[0.98]"
-          >
+          <PressableLink href="/" size="md" className="mt-3 rounded-full text-sm">
             Update my gauge
-          </Link>
+          </PressableLink>
         </div>
       </div>
-    </section>
+    </SurfaceCard>
   );
 }

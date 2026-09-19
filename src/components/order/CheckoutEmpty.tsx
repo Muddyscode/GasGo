@@ -1,9 +1,14 @@
-import Link from "next/link";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import { PressableLink } from "@/components/ui/Pressable";
+import { OrderFlowShell } from "@/components/ui/PageShell";
 
 export function CheckoutEmpty() {
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <OrderFlowShell
+      imageSrc="/images/cooking-gas-cylinders.png"
+      imageAlt="Cooking gas cylinders"
+      imagePosition="50% 70%"
+    >
       <OrderHeader
         title="Checkout"
         backHref="/order/address"
@@ -17,20 +22,12 @@ export function CheckoutEmpty() {
           Choose a cylinder and where to deliver it before you pay. Nothing has been charged.
         </p>
         <div className="mt-8 flex flex-col gap-3">
-          <Link
-            href="/order/address"
-            className="flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2"
-          >
-            Delivery details
-          </Link>
-          <Link
-            href="/order/cylinder"
-            className="flex h-14 items-center justify-center rounded-2xl bg-surface-muted text-base font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-          >
+          <PressableLink href="/order/address">Delivery details</PressableLink>
+          <PressableLink href="/order/cylinder" variant="secondary">
             Choose a cylinder
-          </Link>
+          </PressableLink>
         </div>
       </main>
-    </div>
+    </OrderFlowShell>
   );
 }

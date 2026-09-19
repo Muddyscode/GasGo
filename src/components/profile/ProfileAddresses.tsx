@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import type { DeliveryAddress } from "@/config/delivery";
 
 type ProfileAddressesProps = {
@@ -33,9 +34,10 @@ export function ProfileAddresses({ addresses }: ProfileAddressesProps) {
       ) : (
         <ul className="flex flex-col gap-2">
           {preview.map((address) => (
-            <li
+            <SurfaceCard
+              as="li"
               key={address.id}
-              className="flex items-start gap-3 rounded-2xl border border-border bg-surface px-4 py-3.5 shadow-gasgo-soft"
+              className="flex items-start gap-3 py-3.5"
             >
               <span
                 aria-hidden="true"
@@ -51,7 +53,7 @@ export function ProfileAddresses({ addresses }: ProfileAddressesProps) {
                   {address.line}, {address.area}
                 </span>
               </span>
-            </li>
+            </SurfaceCard>
           ))}
         </ul>
       )}

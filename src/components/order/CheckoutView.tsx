@@ -5,6 +5,8 @@ import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PaystackPayButton } from "@/components/order/PaystackPayButton";
+import { DeliveryTruckMotion } from "@/components/motion/DeliveryTruckMotion";
+import { OrderFlowShell } from "@/components/ui/PageShell";
 import { getCylinderById } from "@/config/cylinders";
 import { getPresenceById, getWindowById } from "@/config/delivery";
 import { quoteOrder } from "@/config/pricing";
@@ -29,19 +31,24 @@ export function CheckoutView() {
 
   if (!hydrated) {
     return (
-      <div className="flex min-h-dvh flex-col bg-surface">
+      <OrderFlowShell
+        imageSrc="/images/cooking-gas-filling-point.png"
+        imageAlt="Cooking gas filling point"
+        imagePosition="70% 50%"
+      >
         <OrderHeader
           title="Checkout"
           backHref="/order/address"
           backLabel="Back to delivery details"
         />
         <div className="flex flex-1 flex-col px-5 pt-6">
+          <DeliveryTruckMotion label="Preparing checkout" className="mb-6" />
           <div className="h-8 w-48 animate-pulse rounded-lg bg-surface-muted" />
           <div className="mt-3 h-4 w-64 animate-pulse rounded-lg bg-surface-muted" />
           <div className="mt-8 h-28 animate-pulse rounded-2xl bg-surface-muted" />
           <div className="mt-3 h-40 animate-pulse rounded-2xl bg-surface-muted" />
         </div>
-      </div>
+      </OrderFlowShell>
     );
   }
 
@@ -57,7 +64,11 @@ export function CheckoutView() {
   const quote = quoteOrder(koboToNaira(draftTotals.subtotalKobo));
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <OrderFlowShell
+      imageSrc="/images/cooking-gas-filling-point.png"
+      imageAlt="Cooking gas filling point"
+      imagePosition="70% 50%"
+    >
       <OrderHeader
         title="Checkout"
         backHref="/order/address"
@@ -84,6 +95,6 @@ export function CheckoutView() {
       </div>
 
       <PaystackPayButton quote={quote} />
-    </div>
+    </OrderFlowShell>
   );
 }

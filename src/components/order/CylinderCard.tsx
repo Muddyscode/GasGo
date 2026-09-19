@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { tactileSelect } from "@/components/ui/tactile";
 import type { CylinderOption } from "@/config/cylinders";
 import { formatCylinderSize } from "@/config/cylinders";
 import { formatNaira } from "@/lib/money";
@@ -22,14 +23,9 @@ export function CylinderCard({ option, selected, onSelect }: CylinderCardProps) 
         option.badge ? `. ${option.badge}` : ""
       }`}
       onClick={() => onSelect(option.id)}
-      className={cn(
-        "group flex w-full items-center gap-3.5 rounded-2xl border px-4 py-4 text-left",
-        "min-h-[76px] outline-none transition-[border-color,background-color,box-shadow,transform] duration-150",
-        "ease-[cubic-bezier(0.16,1,0.3,1)]",
-        "active:scale-[0.985] focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-        selected
-          ? "border-brand-green bg-surface-soft shadow-gasgo-md"
-          : "border-border bg-surface shadow-gasgo-soft hover:border-ink-muted/25 hover:shadow-gasgo-md",
+      className={tactileSelect(
+        selected,
+        "group flex w-full items-center gap-3.5 min-h-[76px]",
       )}
     >
       <CylinderGlyph sizeKg={option.sizeKg} selected={selected} />

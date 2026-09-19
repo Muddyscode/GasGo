@@ -1,9 +1,10 @@
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import type { OrderQuote } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 
 export function PriceBreakdown({ quote }: { quote: OrderQuote }) {
   return (
-    <section className="rounded-2xl border border-border bg-surface-muted px-4 py-3.5">
+    <SurfaceCard className="bg-surface-muted py-3.5">
       <p className="text-sm font-medium text-ink-muted">To pay</p>
       <dl className="mt-2.5 space-y-2">
         <div className="flex items-center justify-between gap-3 text-[15px]">
@@ -25,6 +26,6 @@ export function PriceBreakdown({ quote }: { quote: OrderQuote }) {
           </dd>
         </div>
       </dl>
-    </section>
+    </SurfaceCard>
   );
 }

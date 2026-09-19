@@ -2,6 +2,10 @@ import Link from "next/link";
 import { formatInTimeZone } from "date-fns-tz";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
+import { FocusShell } from "@/components/ui/PageShell";
+import { PressableLink } from "@/components/ui/Pressable";
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
+import { tactileSecondary } from "@/components/ui/tactile";
 import {
   getProfileOrderById,
   orderAddress,
@@ -19,7 +23,7 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
 
   if (!order) {
     return (
-      <div className="flex min-h-dvh flex-col bg-surface">
+      <FocusShell>
         <OrderHeader title="Order" backHref="/profile" backLabel="Back to profile" />
         <main className="flex flex-1 flex-col px-5 pt-10">
           <h2 className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
@@ -29,21 +33,13 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
             That refill isn’t on this device. Check your history or start a new order.
           </p>
           <div className="mt-8 flex flex-col gap-3">
-            <Link
-              href="/profile"
-              className="flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-            >
-              Back to profile
-            </Link>
-            <Link
-              href="/order/cylinder"
-              className="flex h-12 items-center justify-center rounded-2xl bg-surface-muted text-[15px] font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-            >
+            <PressableLink href="/profile">Back to profile</PressableLink>
+            <PressableLink href="/order/cylinder" variant="secondary" size="md">
               Order gas
-            </Link>
+            </PressableLink>
           </div>
         </main>
-      </div>
+      </FocusShell>
     );
   }
 
@@ -52,7 +48,7 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
   const placed = formatInTimeZone(order.placedAt, "Africa/Lagos", "d MMMM yyyy · h:mm a");
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <FocusShell>
       <OrderHeader
         title={order.orderNumber}
         backHref="/profile"
@@ -68,7 +64,7 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
         </h2>
         <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">{placed}</p>
 
-        <section className="mt-6 rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+        <SurfaceCard className="mt-6">
           <Row label="Order" value={order.orderNumber} mono />
           <Row label="Total" value={formatNaira(order.totalNgn)} />
           <Row
@@ -79,7 +75,7 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
                 : "Saved address"
             }
           />
-        </section>
+        </SurfaceCard>
 
         <p className="mt-4 text-sm leading-relaxed text-ink-muted">
           {stage?.detail ?? "This refill is complete."}
@@ -88,14 +84,11 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
 
       <div className="sticky bottom-0 z-20 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md pb-[max(1rem,env(safe-area-inset-bottom))]">
         <WhatsAppSupportButton orderId={order.id} />
-        <Link
-          href="/order/cylinder"
-          className="mt-3 flex h-12 w-full items-center justify-center rounded-2xl bg-surface-muted text-[15px] font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-        >
+        <Link href="/order/cylinder" className={tactileSecondary("mt-3 h-12 text-[15px]")}>
           Order again
         </Link>
       </div>
-    </div>
+    </FocusShell>
   );
 }
 

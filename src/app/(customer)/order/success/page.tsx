@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Check } from "lucide-react";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import { OrderFlowShell } from "@/components/ui/PageShell";
+import { PressableLink } from "@/components/ui/Pressable";
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
 import { getPresenceById, getWindowById } from "@/config/delivery";
 import { quoteOrder } from "@/config/pricing";
@@ -37,7 +39,11 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
   });
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <OrderFlowShell
+      imageSrc="/images/lit-stove.png"
+      imageAlt="Lit gas stove after a successful refill"
+      imagePosition="50% 40%"
+    >
       <OrderHeader
         title="Confirmed"
         backHref={checkoutHref}
@@ -59,7 +65,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         </p>
 
         {cylinder && query.address && quote ? (
-          <section className="mt-8 rounded-2xl border border-border bg-surface-muted px-4 py-4 shadow-gasgo-soft">
+          <SurfaceCard className="mt-8 bg-surface-muted">
             <p className="text-lg font-semibold tracking-tight text-ink">
               {formatCylinderSize(cylinder.sizeKg)} · {formatNaira(quote.totalNgn)}
             </p>
@@ -79,24 +85,16 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
                 Ref {reference}
               </p>
             ) : null}
-          </section>
+          </SurfaceCard>
         ) : null}
 
         <div className="mt-auto flex flex-col gap-3 pt-10">
-          <Link
-            href="/"
-            className="flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2"
-          >
-            Back home
-          </Link>
-          <Link
-            href="/order/cylinder"
-            className="flex h-14 items-center justify-center rounded-2xl bg-surface-muted text-base font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-          >
+          <PressableLink href="/">Back home</PressableLink>
+          <PressableLink href="/order/cylinder" variant="secondary">
             Order again
-          </Link>
+          </PressableLink>
         </div>
       </main>
-    </div>
+    </OrderFlowShell>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
-import { cn } from "@/lib/utils";
+import { tactilePrimary, tactileSecondary } from "@/components/ui/tactile";
 
 type EditProfileSheetProps = {
   open: boolean;
@@ -98,20 +98,14 @@ export function EditProfileSheet({
             <button
               type="button"
               onClick={onClose}
-              className="flex h-12 items-center justify-center rounded-2xl bg-surface-muted text-[15px] font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+              className={tactileSecondary("h-12 text-[15px]")}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={!canSave}
-              className={cn(
-                "flex h-12 items-center justify-center rounded-2xl text-[15px] font-semibold transition-[background-color,color,transform] duration-150",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
-                canSave
-                  ? "bg-brand-green text-white shadow-gasgo-md active:scale-[0.985]"
-                  : "cursor-not-allowed bg-surface-muted text-ink-muted",
-              )}
+              className={tactilePrimary("h-12 text-[15px]")}
             >
               Save
             </button>

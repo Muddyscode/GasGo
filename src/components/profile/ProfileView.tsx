@@ -1,8 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { OrderHeader } from "@/components/order/OrderHeader";
+import { AppNavbar } from "@/components/nav/AppNavbar";
 import { EditProfileSheet } from "@/components/profile/EditProfileSheet";
+import { AppCanvas, WideShell } from "@/components/ui/PageShell";
+import { Pressable } from "@/components/ui/Pressable";
 import { ProfileAddresses } from "@/components/profile/ProfileAddresses";
 import { ProfileAutoRefill } from "@/components/profile/ProfileAutoRefill";
 import { ProfileGaugeCard } from "@/components/profile/ProfileGaugeCard";
@@ -56,47 +58,47 @@ export function ProfileView() {
 
   if (signedOut) {
     return (
-      <div className="flex min-h-dvh flex-col bg-surface">
-        <OrderHeader title="Profile" backHref="/" backLabel="Back home" />
-        <main className="flex flex-1 flex-col px-5 pt-10">
+      <AppCanvas>
+        <AppNavbar />
+        <WideShell className="max-w-md pt-10 md:max-w-lg">
           <h2 className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
             You’re signed out
           </h2>
           <p className="mt-2 max-w-[32ch] text-[15px] leading-relaxed text-ink-muted">
             Demo only — real accounts will land with Supabase auth.
           </p>
-          <button
-            type="button"
+          <Pressable
+            className="mt-8 w-full"
             onClick={() => setSignedOut(false)}
-            className="mt-8 flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
           >
             Continue as {profile.firstName || "guest"}
-          </button>
-        </main>
-      </div>
+          </Pressable>
+        </WideShell>
+      </AppCanvas>
     );
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
-      <OrderHeader
-        title={profileHeaderTitle(profile)}
-        backHref="/"
-        backLabel="Back home"
-      />
+    <AppCanvas>
+      <AppNavbar />
 
-      <main className="flex flex-1 flex-col gap-6 px-5 pt-6 pb-[max(2rem,env(safe-area-inset-bottom))]">
-        <ProfileUserCard
-          name={profileDisplayName(profile) || "Your name"}
-          phone={profile.phone}
-          onEdit={openEdit}
-        />
-        <ProfileGaugeCard gauge={gauge} />
+      <WideShell className="flex flex-1 flex-col gap-6 pt-6 pb-[max(2rem,env(safe-area-inset-bottom))] md:max-w-3xl lg:max-w-3xl">
+        <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
+          {profileHeaderTitle(profile)}
+        </p>
+        <div className="grid gap-6 md:grid-cols-2">
+          <ProfileUserCard
+            name={profileDisplayName(profile) || "Your name"}
+            phone={profile.phone}
+            onEdit={openEdit}
+          />
+          <ProfileGaugeCard gauge={gauge} />
+        </div>
         <ProfileOrderHistory orders={orders} />
         <ProfileAddresses addresses={addresses} />
         <ProfileAutoRefill enabled={autoRefill} onToggle={setAutoRefill} />
         <ProfileSupport onLogout={() => setSignedOut(true)} />
-      </main>
+      </WideShell>
 
       <EditProfileSheet
         open={editing}
@@ -107,6 +109,6 @@ export function ProfileView() {
         onClose={() => setEditing(false)}
         onSave={saveEdit}
       />
-    </div>
+    </AppCanvas>
   );
 }

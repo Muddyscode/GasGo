@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { StageBadge } from "@/components/admin/StageBadge";
+import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import { StageUpdater } from "@/components/admin/StageUpdater";
 import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
 import { getPresenceById } from "@/config/delivery";
@@ -19,7 +20,7 @@ export function OrderCard({ order, pending = false, onStageChange }: OrderCardPr
   const size = cylinder ? formatCylinderSize(cylinder.sizeKg) : `${order.cylinderId} kg`;
 
   return (
-    <article className="rounded-2xl border border-border bg-surface px-3.5 py-3 shadow-gasgo-soft">
+    <SurfaceCard as="article" interactive className="px-3.5 py-3">
       <div className="flex items-start justify-between gap-3">
         <Link
           href={`/admin/orders/${encodeURIComponent(order.id)}`}
@@ -58,6 +59,6 @@ export function OrderCard({ order, pending = false, onStageChange }: OrderCardPr
           onChange={(stage) => onStageChange(order.id, stage)}
         />
       </div>
-    </article>
+    </SurfaceCard>
   );
 }

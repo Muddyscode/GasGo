@@ -8,6 +8,7 @@ import type { OrderQuote } from "@/config/pricing";
 import { createLocalOrderId } from "@/lib/order-id";
 import { formatNaira } from "@/lib/money";
 import { createOrderReference, initiatePaystackPayment } from "@/lib/paystack";
+import { tactilePrimary } from "@/components/ui/tactile";
 import { cn } from "@/lib/utils";
 import { useOrderDraft } from "@/stores/order-draft";
 
@@ -56,14 +57,7 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
         type="button"
         disabled={pending}
         onClick={() => void handlePay()}
-        className={cn(
-          "flex h-14 w-full items-center justify-center rounded-2xl text-base font-semibold tracking-tight",
-          "transition-[background-color,color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-          pending
-            ? "cursor-wait bg-brand-green/80 text-white"
-            : "bg-brand-green text-white shadow-gasgo-md active:scale-[0.985]",
-        )}
+        className={cn(tactilePrimary(), pending && "cursor-wait opacity-80")}
       >
         {pending
           ? "Starting Paystack…"
