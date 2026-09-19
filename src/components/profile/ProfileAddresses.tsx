@@ -17,7 +17,7 @@ export function ProfileAddresses({ addresses }: ProfileAddressesProps) {
         </h2>
         <Link
           href="/profile/addresses"
-          className="text-sm font-semibold text-brand-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          className="inline-flex min-h-11 items-center text-sm font-semibold text-brand-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
         >
           Manage addresses
         </Link>

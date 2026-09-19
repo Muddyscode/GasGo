@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 type ProfileAutoRefillProps = {
   enabled: boolean;
   onToggle: (next: boolean) => void;
@@ -31,13 +33,19 @@ export function ProfileAutoRefill({ enabled, onToggle }: ProfileAutoRefillProps)
           aria-checked={enabled}
           aria-label="Never run out auto-refill"
           onClick={() => onToggle(!enabled)}
-          className="relative mt-0.5 h-7 w-12 shrink-0 rounded-full transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2"
-          style={{ backgroundColor: enabled ? "#1CA350" : "#E6EEE9" }}
+          className={cn(
+            "relative mt-0.5 h-7 w-12 shrink-0 rounded-full transition-colors duration-150",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
+            enabled ? "bg-brand-green" : "bg-border",
+          )}
         >
           <span
             aria-hidden="true"
-            className="absolute top-0.5 size-6 rounded-full bg-white shadow-gasgo-soft transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]"
-            style={{ transform: enabled ? "translateX(1.25rem)" : "translateX(0.125rem)" }}
+            className={cn(
+              "absolute top-0.5 size-6 rounded-full bg-white shadow-gasgo-soft",
+              "transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
+              enabled ? "translate-x-5" : "translate-x-0.5",
+            )}
           />
         </button>
       </div>
