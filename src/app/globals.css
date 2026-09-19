@@ -66,10 +66,14 @@
   100% {
     opacity: 1;
     transform: scale(1);
+    filter: drop-shadow(0 0 0 transparent);
   }
   50% {
-    opacity: 0.85;
-    transform: scale(1.015);
+    opacity: 0.92;
+    transform: scale(1.018);
+    filter: drop-shadow(
+      0 0 10px color-mix(in srgb, var(--gauge-critical) 45%, transparent)
+    );
   }
 }
 
@@ -102,6 +106,13 @@
 
 .animate-gauge-pulse {
   animation: gauge-pulse 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* Sun Yellow on white — ink hairline so the % stays one with the ring */
+.gauge-percent-caution {
+  -webkit-text-stroke: 0.35px rgba(11, 31, 20, 0.22);
+  paint-order: stroke fill;
+  text-shadow: 0 1px 0 rgba(11, 31, 20, 0.12);
 }
 
 @media (prefers-reduced-motion: reduce) {
