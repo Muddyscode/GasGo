@@ -22,7 +22,7 @@ const TRUST = [
 
 export function TrustRow() {
   return (
-    <section className="mt-12" aria-label="Why GasGo">
+    <section id="trust" className="mt-12" aria-label="Why GasGo">
       <div className="grid gap-3 md:grid-cols-3">
         {TRUST.map((item) => (
           <article key={item.title} className={cn(cardClassName, "px-4 py-4")}>

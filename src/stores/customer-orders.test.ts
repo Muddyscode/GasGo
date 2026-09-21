@@ -97,8 +97,9 @@ describe("paid checkout persists an active order", () => {
     );
   });
 
-  it("paid order replaces demo-only MOCK_ORDERS on the happy path and archives when delivered", () => {
-    expect(activeOrderForUser(MOCK_PROFILE.id)?.orderNumber).toBe("GG-1842");
+  it("fresh Tunde has no nav active order until a paid in-flight order exists", () => {
+    expect(activeOrderForUser(MOCK_PROFILE.id)).toBeUndefined();
+    expect(activeOrderForUser(MOCK_PROFILE.id, [])).toBeUndefined();
 
     seedReadyDraft();
     completePaidCheckout({
@@ -117,5 +118,21 @@ describe("paid checkout persists an active order", () => {
       true,
     );
     expect(archived[0]?.stage).toBe("delivered");
+  });
+
+  it("setStage only mutates the viewed order", () => {
+    seedReadyDraft();
+    completePaidCheckout({ user: chioma, orderId: "gg_viewed" });
+    useCustomerOrders.getState().place({
+      ...useCustomerOrders.getState().orders[0]!,
+      id: "gg_other",
+      orderNumber: "GG-OTHER",
+    });
+
+    useCustomerOrders.getState().setStage("gg_viewed", "en_route");
+
+    const orders = useCustomerOrders.getState().orders;
+    expect(orders.find((order) => order.id === "gg_viewed")?.stage).toBe("en_route");
+    expect(orders.find((order) => order.id === "gg_other")?.stage).toBe("queued");
   });
 });

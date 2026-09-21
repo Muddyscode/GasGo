@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   LIVE_RATE_NGN_PER_KG,
+  PAYMENT_VARIANCE_COPY,
   quoteFill,
   quoteOrder,
   resolveFillKg,
@@ -64,5 +65,10 @@ describe("PH live fill quote", () => {
     expect(quote.deliveryNgn).toBe(2000);
     expect(quote.totalNgn).toBe(19500);
     expect(quote.zoneName).toBe("Woji");
+  });
+
+  it("states under-fill refund later and never a second charge", () => {
+    expect(PAYMENT_VARIANCE_COPY).toMatch(/under-fill|underfill|refund/i);
+    expect(PAYMENT_VARIANCE_COPY).toMatch(/never charge more/i);
   });
 });

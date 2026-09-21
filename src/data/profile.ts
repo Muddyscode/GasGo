@@ -8,7 +8,6 @@
 
 import { formatCylinderSize, getCylinderById, type CylinderId } from "@/config/cylinders";
 import {
-  DEFAULT_DELIVERY_WINDOW,
   getSavedAddressById,
   SAVED_ADDRESSES,
   type DeliveryAddress,
@@ -19,7 +18,6 @@ import {
   type DeliveryStage,
   type DeliveryStageId,
 } from "@/config/delivery-stages";
-import { defaultOrderDates } from "@/config/fulfillment";
 import { quoteFill } from "@/config/pricing";
 import {
   activePlacedOrderForUser,
@@ -99,8 +97,6 @@ export const MOCK_GAUGE: GaugeReading = {
   estimatedDaysRange: [12, 16],
 };
 
-const activeLoopDates = defaultOrderDates();
-
 export const MOCK_ORDERS: readonly CustomerOrder[] = [
   {
     id: "gg_phgra9k2a",
@@ -108,12 +104,9 @@ export const MOCK_ORDERS: readonly CustomerOrder[] = [
     orderNumber: "GG-1842",
     cylinderId: "12.5",
     addressId: "home",
-    status: "en_route",
+    status: "delivered",
     totalNgn: orderTotal("12.5", "old-gra"),
-    placedAt: daysAgoIso(0, 9),
-    pickupDate: activeLoopDates.pickupDate,
-    returnDate: activeLoopDates.returnDate,
-    windowId: DEFAULT_DELIVERY_WINDOW,
+    placedAt: daysAgoIso(2, 9),
   },
   {
     id: "gg_phwork3m1c",
@@ -202,23 +195,16 @@ export function ordersForUser(
 }
 
 /**
- * Happy path: a paid local order wins over demo MOCK_ORDERS.
- * Once this user has any placed order, mocks no longer supply the active card
- * (delivered paid orders archive off the home card).
+ * Nav / home badge: only a real paid order from the customer-orders store.
+ * MOCK_ORDERS are history seeds and must never invent an in-flight refill.
  */
 export function activeOrderForUser(
   userId: string | null | undefined,
   placed: readonly PlacedOrder[] = [],
 ): CustomerOrder | undefined {
   if (!userId) return undefined;
-  const paid = placedOrdersForUser([...placed], userId);
-  if (paid.length > 0) {
-    const live = activePlacedOrderForUser(paid, userId);
-    return live ? toCustomerOrder(live) : undefined;
-  }
-  return MOCK_ORDERS.filter((order) => order.userId === userId).find(
-    (order) => !isOrderDelivered(order),
-  );
+  const live = activePlacedOrderForUser([...placed], userId);
+  return live ? toCustomerOrder(live) : undefined;
 }
 
 export function profileFromSession(user: SessionUser | null): CustomerProfile {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { KekeGlyph, PhPinGlyph } from "@/components/illustrations/gas-scenes";
 import { cardClassName } from "@/components/ui/card";
 import type { DeliveryAddress } from "@/config/delivery";
 
@@ -26,6 +26,10 @@ export function ProfileAddresses({ addresses }: ProfileAddressesProps) {
 
       {preview.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-border bg-surface-muted px-4 py-6 text-center">
+          <span className="mx-auto mb-2 flex w-fit items-center gap-1.5 text-brand-green">
+            <PhPinGlyph className="size-6" />
+            <KekeGlyph className="h-5 w-8" />
+          </span>
           <p className="text-[15px] font-semibold text-ink">No saved addresses</p>
           <p className="mt-1 text-sm text-ink-muted">
             Add one when you place your first order.
@@ -40,9 +44,9 @@ export function ProfileAddresses({ addresses }: ProfileAddressesProps) {
             >
               <span
                 aria-hidden="true"
-                className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-muted text-ink-muted"
+                className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-soft"
               >
-                <MapPin className="size-5" strokeWidth={1.75} />
+                <PhPinGlyph className="size-5" />
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[15px] font-semibold tracking-tight text-ink">

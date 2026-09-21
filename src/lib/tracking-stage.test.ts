@@ -13,7 +13,9 @@ import {
   customerTimelineIndex,
   demoStageForOrderId,
   isTrackingLate,
+  nextPlantLoopStage,
   overlayPlacedTrackingOrder,
+  resetPlantLoopStage,
   resolveTrackingOrder,
 } from "@/lib/tracking-stage";
 
@@ -123,18 +125,17 @@ describe("resolveTrackingOrder", () => {
     expect(view.timelineStageId).toBe("nearby");
   });
 
-  it("keeps pickup/return/window when the profile order has them", () => {
+  it("treats the GG-1842 mock as delivered history, not a live loop", () => {
     const view = resolveTrackingOrder("gg_phgra9k2a", BEFORE_CUTOFF);
-    expect(view.stageId).toBe("en_route");
-    expect(view.pickupDate).toBeTruthy();
-    expect(view.returnDate).toBeTruthy();
-    expect(view.windowId).toBeTruthy();
+    expect(view.stageId).toBe("delivered");
     expect(view.late).toBe(false);
   });
 
-  it("falls back to a demo stage and same-day dates for unknown checkout ids", () => {
+  it("falls back to queued (not a hashed en_route) for unknown checkout ids", () => {
     const view = resolveTrackingOrder("gg_brandnewpay", BEFORE_CUTOFF);
-    expect(view.stageId).toBe(demoStageForOrderId("gg_brandnewpay"));
+    expect(demoStageForOrderId("gg_brandnewpay")).toBe("queued");
+    expect(demoStageForOrderId("")).toBe("queued");
+    expect(view.stageId).toBe("queued");
     expect(view.pickupDate).toBe(TODAY);
     expect(view.returnDate).toBe(TODAY);
     expect(view.windowId).toBe("asap");
@@ -186,6 +187,22 @@ describe("resolveTrackingOrder", () => {
     );
     expect(view.late).toBe(true);
     expect(view.lateKind).toBe("behind_schedule");
+  });
+});
+
+describe("demo plant-loop stepper", () => {
+  it("walks empty pickup → plant → return → delivered, then stops", () => {
+    expect(resetPlantLoopStage()).toBe("queued");
+    expect(nextPlantLoopStage("queued")).toBe("rider_assigned");
+    expect(nextPlantLoopStage("rider_assigned")).toBe("picked_up");
+    expect(nextPlantLoopStage("picked_up")).toBe("en_route");
+    expect(nextPlantLoopStage("en_route")).toBe("nearby");
+    expect(nextPlantLoopStage("nearby")).toBe("delivered");
+    expect(nextPlantLoopStage("delivered")).toBeNull();
+  });
+
+  it("does not auto-advance a failed handover into delivered", () => {
+    expect(nextPlantLoopStage("attempt_failed")).toBeNull();
   });
 });
 

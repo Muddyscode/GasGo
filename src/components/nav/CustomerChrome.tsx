@@ -1,19 +1,46 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { AuthProvider } from "@/components/auth/AuthProvider";
 import { CustomerNavProvider } from "@/components/nav/customer-nav";
 import { TopNav } from "@/components/nav/TopNav";
+import { cn } from "@/lib/utils";
+import { useSession } from "@/stores/session";
 
 export function CustomerChrome({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
       <CustomerNavProvider>
-        <div className="gasgo-shell relative mx-auto flex h-dvh max-h-dvh w-full max-w-lg flex-col overflow-hidden md:max-w-2xl lg:max-w-5xl">
-          <TopNav />
-          <div className="page-enter flex min-h-0 flex-1 flex-col overflow-hidden">{children}</div>
-        </div>
+        <ChromeFrame>{children}</ChromeFrame>
       </CustomerNavProvider>
     </AuthProvider>
+  );
+}
+
+function ChromeFrame({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const user = useSession((state) => state.user);
+  const marketing = pathname === "/" && !user;
+
+  return (
+    <div
+      className={cn(
+        "relative mx-auto flex w-full flex-col",
+        marketing
+          ? "gasgo-marketing min-h-dvh max-w-none"
+          : "gasgo-shell h-dvh max-h-dvh max-w-lg overflow-hidden md:max-w-2xl lg:max-w-5xl",
+      )}
+    >
+      <TopNav marketing={marketing} />
+      <div
+        className={cn(
+          "page-enter flex min-h-0 flex-1 flex-col",
+          marketing ? "overflow-x-hidden" : "overflow-hidden",
+        )}
+      >
+        {children}
+      </div>
+    </div>
   );
 }

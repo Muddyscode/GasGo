@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { DeliveryTruck, FadeLift, fadeLiftDelayMs } from "@/components/motion";
+import { DemoStageStepper } from "@/components/order/DemoStageStepper";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { TrackingTimeline } from "@/components/order/TrackingTimeline";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
@@ -16,6 +17,7 @@ import {
   fulfillmentLabel,
   isSameDayLoop,
 } from "@/config/fulfillment";
+import { PAYMENT_VARIANCE_COPY } from "@/config/pricing";
 import {
   LATE_TRACKING_COPY,
   overlayPlacedTrackingOrder,
@@ -34,6 +36,7 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
   const placed = useCustomerOrders((state) =>
     state.orders.find((order) => order.id === orderId || order.orderNumber === orderId),
   );
+  const setStage = useCustomerOrders((state) => state.setStage);
   const resolved = resolveTrackingOrder(orderId);
   const order = placed ? overlayPlacedTrackingOrder(resolved, placed) : resolved;
   const stage = getDeliveryStage(order.stageId);
@@ -52,6 +55,17 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
       : false;
   const supportId = order.orderNumber || order.id;
   const paidSummary = hydrated && placed ? placed : null;
+
+  if (!hydrated) {
+    return (
+      <PageFrame className="overflow-hidden">
+        <OrderHeader title="Track order" backHref="/" backLabel="Back home" />
+        <PageBody className="pb-4">
+          <div className={`${cardClassName} h-40 animate-pulse bg-surface-muted`} />
+        </PageBody>
+      </PageFrame>
+    );
+  }
 
   return (
     <PageFrame className="overflow-hidden">
@@ -130,6 +144,7 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
               <div className="mt-3 space-y-1.5 text-sm text-ink-muted">
                 <p className="font-medium text-ink">{paidSummary.fillSummary}</p>
                 <p>{fulfillmentLabel(paidSummary.fulfillmentMode)}</p>
+                <p className="leading-relaxed">{PAYMENT_VARIANCE_COPY}</p>
               </div>
             ) : null}
           </section>
@@ -165,6 +180,16 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
             <TrackingTimeline currentStageId={order.stageId} late={order.late} />
           </section>
         </FadeLift>
+
+        {placed ? (
+          <FadeLift delayMs={fadeLiftDelayMs(order.late ? 7 : 6)} className="mt-5">
+            <DemoStageStepper
+              orderId={placed.id}
+              stageId={order.stageId}
+              onStage={(stageId) => setStage(placed.id, stageId)}
+            />
+          </FadeLift>
+        ) : null}
       </PageBody>
 
       <StickyAction

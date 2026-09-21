@@ -1,3 +1,7 @@
+import {
+  MotionDashesGlyph,
+  SealedValveGlyph,
+} from "@/components/illustrations/gas-scenes";
 import { cardClassName } from "@/components/ui/card";
 
 export function ProfileAutoRefill() {
@@ -17,9 +21,15 @@ export function ProfileAutoRefill() {
             hit empty. Not available yet — no background orders today.
           </p>
         </div>
-        <span className="mt-0.5 shrink-0 rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
-          Coming soon
-        </span>
+        <div className="flex shrink-0 flex-col items-end gap-2">
+          <span className="mt-0.5 rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+            Coming soon
+          </span>
+          <div className="flex items-end gap-1.5">
+            <MotionDashesGlyph className="h-3 w-5 text-brand-green" />
+            <SealedValveGlyph className="size-9" />
+          </div>
+        </div>
       </div>
     </section>
   );

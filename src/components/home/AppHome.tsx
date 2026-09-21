@@ -1,15 +1,22 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Flame, ShieldCheck } from "lucide-react";
 import {
   GasGauge,
   clampPercent,
   type CalibrateAction,
 } from "@/components/gauge";
+import {
+  CollectScene,
+  CylinderGlyph,
+  KekeGlyph,
+  MotionDashesGlyph,
+  PlantTankGlyph,
+  ReturnScene,
+  SealedValveGlyph,
+} from "@/components/illustrations/gas-scenes";
 import { buttonClassName } from "@/components/ui/button";
 import { cardClassName } from "@/components/ui/card";
 import { PageBody, PageFrame, StickyAction } from "@/components/ui/page";
@@ -121,9 +128,15 @@ export function AppHome() {
                 don’t place plant refills in the background.
               </p>
             </div>
-            <span className="shrink-0 rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
-              Coming soon
-            </span>
+            <div className="flex shrink-0 flex-col items-end gap-2">
+              <span className="rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+                Coming soon
+              </span>
+              <div className="flex items-end gap-1.5">
+                <MotionDashesGlyph className="h-3 w-5 text-brand-green" />
+                <SealedValveGlyph className="size-9" />
+              </div>
+            </div>
           </div>
         </section>
       </PageBody>
@@ -141,7 +154,7 @@ export function AppHome() {
             href="/order/cylinder"
             className={buttonClassName({ variant: "primary", size: "lg" })}
           >
-            <Flame className="size-4" strokeWidth={2.25} />
+            <CylinderGlyph className="size-4" />
             Order a refill
           </Link>
         )}
@@ -162,21 +175,18 @@ function ActiveOrderCard({ order }: { order: CustomerOrder }) {
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
       )}
     >
-      <div className="relative h-36">
-        <Image
-          src="/images/cooking-gas-trolley.jpg"
-          alt="Filled cylinder returning from the plant"
-          fill
-          sizes="(min-width: 1024px) 520px, 100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/75 via-ink/20 to-transparent" />
-        <div className="absolute inset-x-4 bottom-4 text-white">
+      <div className="relative h-36 overflow-hidden bg-[#E8F3EE]">
+        <ReturnScene />
+        <span className="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/40 px-2 py-1">
+          <PlantTankGlyph className="size-5" />
+          <MotionDashesGlyph className="h-2.5 w-4 text-white" />
+        </span>
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent px-4 pb-3 pt-10 text-white">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-white/80">
             Active order · {order.orderNumber}
           </p>
           <p className="mt-1 text-[18px] font-semibold tracking-tight">
-            {stage?.title ?? "On the way"}
+            {stage?.title ?? "Plant refill loop"}
           </p>
           <p className="mt-0.5 text-sm text-white/85">
             {stage?.detail ?? "Collect → plant refill → return"}
@@ -204,16 +214,13 @@ function OrderPromptCard() {
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
       )}
     >
-      <div className="relative h-40">
-        <Image
-          src="/images/cooking-gas-filling-point.png"
-          alt="Plant refill point for Port Harcourt cylinders"
-          fill
-          sizes="(min-width: 1024px) 520px, 100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/15 to-transparent" />
-        <div className="absolute inset-x-4 bottom-4 text-white">
+      <div className="relative h-40 overflow-hidden bg-[#F1F5D8]">
+        <CollectScene />
+        <span className="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/40 px-2 py-1">
+          <KekeGlyph className="h-4 w-7" />
+          <MotionDashesGlyph className="h-2.5 w-4 text-white" />
+        </span>
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent px-4 pb-3 pt-10 text-white">
           <p className="text-[18px] font-semibold tracking-tight">Order a plant refill</p>
           <p className="mt-0.5 text-sm text-white/85">
             Full, by kg, or by ₦ — live rate, zone fee on the next step.
@@ -262,7 +269,7 @@ function SecondaryGauge() {
           </p>
           <p className="text-sm text-ink-muted">Secondary — estimate only</p>
         </div>
-        <ShieldCheck className="size-4 text-brand-green" strokeWidth={2} />
+        <PlantTankGlyph className="size-5 opacity-70" />
       </div>
       <GasGauge
         percent={demo.percent}

@@ -30,6 +30,7 @@ export function ProfileGaugeCard({ gauge }: ProfileGaugeCardProps) {
           <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
             Gas gauge
           </p>
+          <p className="text-[12px] text-ink-muted">Secondary — estimate only</p>
           <p className="mt-1 text-[15px] leading-snug text-ink-muted">{updated}</p>
           <Link
             href="/"
