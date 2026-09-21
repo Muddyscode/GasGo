@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-labelledby="gasgoMarkTitle">
-  <title id="gasgoMarkTitle">GasGo  delivery truck, cylinder, on the way</title>
+  <title id="gasgoMarkTitle">GasGo: delivery truck, cylinder, on the way</title>
   <rect width="32" height="32" rx="8" fill="#1CA350"/>
   <!-- Motion dashes: dashing to the next drop -->
   <path d="M2.5 13.2h6.2M2.2 16.4h5.4M2.8 19.6h5.6" stroke="#FFFFFF" stroke-width="1.7" stroke-linecap="round"/>

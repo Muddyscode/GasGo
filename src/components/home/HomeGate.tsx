@@ -13,8 +13,15 @@ export function HomeGate() {
 
   useEffect(() => {
     const finish = () => setHydrated(true);
+    // Subscribe first — otherwise persist can finish between the hasHydrated()
+    // check and onFinishHydration(), leaving the marketing landing stuck.
+    const unsub = useSession.persist.onFinishHydration(finish);
     if (useSession.persist.hasHydrated()) finish();
-    return useSession.persist.onFinishHydration(finish);
+    const fallback = window.setTimeout(finish, 80);
+    return () => {
+      unsub();
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   if (!hydrated) {
