@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
+import { applyFulfillmentToQuote } from "./fulfillment";
 import {
   LIVE_RATE_NGN_PER_KG,
   PAYMENT_VARIANCE_COPY,
   quoteFill,
   quoteOrder,
   resolveFillKg,
+  visibleQuoteLines,
 } from "./pricing";
 
 describe("PH live fill quote", () => {
@@ -70,5 +72,25 @@ describe("PH live fill quote", () => {
   it("states under-fill refund later and never a second charge", () => {
     expect(PAYMENT_VARIANCE_COPY).toMatch(/under-fill|underfill|refund/i);
     expect(PAYMENT_VARIANCE_COPY).toMatch(/never charge more/i);
+  });
+
+  it("checkout shows gas + zone fee; hub and unset zone are gas only", () => {
+    const door = quoteFill({
+      fillMode: "full",
+      capacityKg: 12.5,
+      zoneId: "old-gra",
+    });
+    const doorLines = visibleQuoteLines(door);
+    expect(doorLines.map((line) => line.id)).toEqual(["gas", "delivery"]);
+    expect(doorLines[0]?.amountNgn).toBe(door.gasFillNgn);
+    expect(doorLines[1]?.amountNgn).toBe(1500);
+
+    const hub = applyFulfillmentToQuote(door, "hub");
+    expect(hub.deliveryNgn).toBe(0);
+    expect(hub.totalNgn).toBe(hub.gasFillNgn);
+    expect(visibleQuoteLines(hub).map((line) => line.id)).toEqual(["gas"]);
+
+    const fillStep = quoteFill({ fillMode: "full", capacityKg: 12.5 });
+    expect(visibleQuoteLines(fillStep).map((line) => line.id)).toEqual(["gas"]);
   });
 });

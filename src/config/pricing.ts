@@ -161,6 +161,24 @@ export function toOrderQuote(quote: FillQuote): OrderQuote {
   };
 }
 
+/**
+ * Checkout/UI lines: gas is always shown. Zone delivery only when it has a fee.
+ * Hub and the fill step (no zone yet) are gas-only.
+ */
+export function visibleQuoteLines(quote: OrderQuote | FillQuote): QuoteLine[] {
+  const lines = quote.lines ?? [
+    { id: "gas" as const, label: "Gas fill", amountNgn: quote.gasFillNgn },
+    {
+      id: "delivery" as const,
+      label: quote.zoneName
+        ? `${quote.zoneName} pickup & return`
+        : "Zone pickup & return",
+      amountNgn: quote.deliveryNgn,
+    },
+  ];
+  return lines.filter((line) => line.id !== "delivery" || line.amountNgn > 0);
+}
+
 export function formatKg(kg: number): string {
   return Number.isInteger(kg) ? String(kg) : kg.toFixed(1).replace(/\.0$/, "");
 }

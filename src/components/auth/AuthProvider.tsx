@@ -24,7 +24,6 @@ const AuthModalContext = createContext<AuthModalContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
-  const user = useSession((state) => state.user);
   const [open, setOpen] = useState(false);
   const [intent, setIntent] = useState<string | null>(null);
 
@@ -64,12 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       <AuthModal
         open={open}
         intent={intent}
-        onClose={() => {
-          closeAuth();
-          if (intent === "/order/checkout" && !user) {
-            router.push("/order/address");
-          }
-        }}
+        onClose={closeAuth}
         onSuccess={handleSuccess}
       />
     </AuthModalContext.Provider>

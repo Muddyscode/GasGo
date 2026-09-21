@@ -11,7 +11,7 @@ import {
   isSameDayLoop,
   type FulfillmentMode,
 } from "@/config/fulfillment";
-import { formatKg, type FillQuote } from "@/config/pricing";
+import { formatKg, visibleQuoteLines, type FillQuote } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 
 const FILL_MODE_LABEL = {
@@ -61,7 +61,7 @@ export function CheckoutSummary({
           · refilled offsite, never at your door
         </p>
         <dl className="mt-3 space-y-2 border-t border-border pt-3">
-          {quote.lines.map((line) => (
+          {visibleQuoteLines(quote).map((line) => (
             <div
               key={line.id}
               className="flex items-start justify-between gap-3 text-[15px]"

@@ -32,4 +32,10 @@ describe("Port Harcourt delivery seeds", () => {
   it("does not ship unused HomeHero leftover", () => {
     expect(existsSync(path.resolve(__dirname, "../components/home/HomeHero.tsx"))).toBe(false);
   });
+
+  it("does not ship unused CylinderCard SKU leftover", () => {
+    expect(
+      existsSync(path.resolve(__dirname, "../components/order/CylinderCard.tsx")),
+    ).toBe(false);
+  });
 });
