@@ -26,12 +26,15 @@ describe("Wednesday demo path contracts", () => {
     );
   });
 
-  it("does not ship the Lagos SKU CylinderCard leftover", () => {
+  it("does not ship Lagos SKU CylinderSelection / CylinderCard leftovers", () => {
     expect(
       existsSync(path.resolve(SRC, "components/order/CylinderCard.tsx")),
     ).toBe(false);
+    expect(
+      existsSync(path.resolve(SRC, "components/order/CylinderSelection.tsx")),
+    ).toBe(false);
     expect(readSrc("components/order/FillComposer.tsx")).not.toMatch(
-      /CylinderCard|priceNgn/,
+      /CylinderCard|CylinderSelection|priceNgn/,
     );
   });
 
