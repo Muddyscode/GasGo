@@ -13,11 +13,20 @@ export function AdminGate({ children }: { children: ReactNode }) {
   const isLogin = pathname === "/admin/login";
 
   useEffect(() => {
-    const done = () => {
-      if (useAdminSession.persist.hasHydrated()) setHydrated(true);
+    let alive = true;
+    const mark = () => {
+      if (alive) setHydrated(true);
     };
-    done();
-    return useAdminSession.persist.onFinishHydration(done);
+    void useAdminSession.persist.rehydrate();
+    if (useAdminSession.persist.hasHydrated()) mark();
+    const unsub = useAdminSession.persist.onFinishHydration(mark);
+    // Never hang if the persist event already fired before subscribe.
+    const timeout = window.setTimeout(mark, 400);
+    return () => {
+      alive = false;
+      unsub();
+      window.clearTimeout(timeout);
+    };
   }, []);
 
   useEffect(() => {
