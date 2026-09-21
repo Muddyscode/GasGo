@@ -28,14 +28,14 @@ const BENEFITS = [
 
 export function KeyBenefits() {
   return (
-    <section className="mt-12" aria-labelledby="key-benefits-heading">
+    <section id="why-gasgo" className="mt-16 scroll-mt-24" aria-labelledby="key-benefits-heading">
       <FadeLift>
         <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
           Key benefits
         </p>
         <h2
           id="key-benefits-heading"
-          className="mt-2 text-[24px] font-semibold tracking-tight text-ink md:text-[28px]"
+          className="mt-2 font-display text-[28px] font-extrabold tracking-tight text-ink md:text-[34px]"
         >
           Why people refill with GasGo
         </h2>

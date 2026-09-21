@@ -53,6 +53,12 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body:has(.gasgo-marketing) {
+    background: #f1f5d8;
+    background-image: none;
   }
 
   body {
@@ -70,6 +76,17 @@
 }
 
 @layer components {
+  .gasgo-marketing {
+    background: #f1f5d8;
+  }
+
+  .hero-wash {
+    background:
+      radial-gradient(900px 380px at 88% -8%, rgba(255, 223, 34, 0.42), transparent 58%),
+      radial-gradient(720px 320px at 8% 0%, rgba(28, 163, 80, 0.12), transparent 55%),
+      linear-gradient(180deg, #f7f8dc 0%, #eef4d4 42%, #e4edc4 100%);
+  }
+
   .gasgo-shell {
     background: rgba(255, 255, 255, 0.72);
     box-shadow: 0 18px 60px rgba(11, 31, 20, 0.05);
@@ -415,6 +432,52 @@
   }
 }
 
+@keyframes hero-cloud-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(22px, 0, 0);
+  }
+}
+
+@keyframes hero-van-nudge {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(14px, -2px, 0);
+  }
+}
+
+@keyframes hero-keke-nudge {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.hero-cloud {
+  animation: hero-cloud-drift 16s ease-in-out infinite alternate;
+}
+
+.hero-van {
+  animation: hero-van-nudge 4.6s ease-in-out infinite;
+}
+
+.hero-keke {
+  animation: hero-keke-nudge 5.4s ease-in-out infinite;
+}
+
+.zone-pin {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -457,5 +520,11 @@
 
   .gasgo-truck--loading .gasgo-truck__seg:last-child {
     display: none;
+  }
+
+  .hero-cloud,
+  .hero-van,
+  .hero-keke {
+    animation: none !important;
   }
 }

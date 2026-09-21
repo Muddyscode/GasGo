@@ -9,7 +9,13 @@ import { useCustomerNavState } from "@/components/nav/customer-nav";
 import { navForPathname } from "@/lib/customer-routes";
 import { cn } from "@/lib/utils";
 
-export function TopNav() {
+const MARKETING_LINKS = [
+  { href: "#how-it-works", label: "How it works" },
+  { href: "#zones", label: "Zones" },
+  { href: "#why-gasgo", label: "Why GasGo" },
+] as const;
+
+export function TopNav({ marketing = false }: { marketing?: boolean }) {
   const pathname = usePathname();
   const { config } = useCustomerNavState();
   const fallback = navForPathname(pathname);
@@ -18,6 +24,10 @@ export function TopNav() {
   const backLabel = config.backLabel ?? fallback?.backLabel;
   const isHome = pathname === "/";
   const showBack = Boolean(backHref) && !isHome;
+
+  if (marketing) {
+    return <MarketingIslandNav />;
+  }
 
   return (
     <header className="sticky top-0 z-30 border-b border-border/70 bg-white/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
@@ -50,6 +60,56 @@ export function TopNav() {
         </div>
 
         <NavActions />
+      </div>
+    </header>
+  );
+}
+
+function MarketingIslandNav() {
+  return (
+    <header className="sticky top-0 z-40 bg-transparent pt-[max(0.55rem,env(safe-area-inset-top))]">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2 md:px-6 lg:px-8">
+        <div className="flex items-center gap-2">
+          <BrandMark inverted />
+          <span
+            className="hidden items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[12px] font-semibold text-ink shadow-gasgo-soft ring-1 ring-black/5 sm:inline-flex"
+            title="Port Harcourt only"
+          >
+            <span className="size-2 rounded-full bg-brand-yellow ring-1 ring-ink/10" />
+            PH
+          </span>
+        </div>
+
+        <nav
+          aria-label="Marketing"
+          className="island-nav hidden items-center gap-1 rounded-full bg-white px-2 py-1.5 shadow-gasgo-md ring-1 ring-black/5 md:flex"
+        >
+          {MARKETING_LINKS.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="rounded-full px-3.5 py-1.5 text-[14px] font-semibold text-ink transition-colors hover:bg-surface-soft"
+            >
+              {link.label}
+            </a>
+          ))}
+          <Link
+            href="/order/cylinder"
+            className="rounded-full px-3.5 py-1.5 text-[14px] font-semibold text-brand-green transition-colors hover:bg-surface-soft"
+          >
+            Order
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <NavActions island />
+          <Link
+            href="/order/cylinder"
+            className="inline-flex h-10 items-center rounded-full bg-brand-green px-4 text-[13px] font-semibold text-white shadow-gasgo-md md:hidden"
+          >
+            Order
+          </Link>
+        </div>
       </div>
     </header>
   );

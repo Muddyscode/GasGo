@@ -16,7 +16,7 @@ import { useCustomerOrders } from "@/stores/customer-orders";
 import { useOrderDraft } from "@/stores/order-draft";
 import { useSession } from "@/stores/session";
 
-export function NavActions() {
+export function NavActions({ island = false }: { island?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const hydrated = usePersistHydrated();
@@ -44,7 +44,12 @@ export function NavActions() {
   }
 
   return (
-    <div className="flex items-center gap-1 sm:gap-1.5">
+    <div
+      className={cn(
+        "flex items-center gap-1 sm:gap-1.5",
+        island && "rounded-full bg-white py-0.5 pl-0.5 pr-1 shadow-gasgo-md ring-1 ring-black/5",
+      )}
+    >
       {activeOrder ? (
         <Link
           href={orderHref(activeOrder)}

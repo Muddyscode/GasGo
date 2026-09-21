@@ -1,4 +1,5 @@
-const LAGOS_TZ = "Africa/Lagos";
+/** IANA zone for Nigeria WAT (Port Harcourt). Name is Lagos; product is PH-only. */
+const GASGO_TZ = "Africa/Lagos";
 
 export function greetingForHour(hour: number): string {
   if (hour < 5) return "Good evening";
@@ -7,7 +8,7 @@ export function greetingForHour(hour: number): string {
   return "Good evening";
 }
 
-export function greetingNow(timeZone = LAGOS_TZ): string {
+export function greetingNow(timeZone = GASGO_TZ): string {
   const parts = new Intl.DateTimeFormat("en-GB", {
     hour: "2-digit",
     hour12: false,
