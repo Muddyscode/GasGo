@@ -1,3 +1,4 @@
+import { interactiveCardClassName, selectedCardClassName } from "@/components/ui/card";
 import type { DeliveryWindow, DeliveryWindowId } from "@/config/delivery";
 import { DELIVERY_WINDOWS } from "@/config/delivery";
 import { cn } from "@/lib/utils";
@@ -49,14 +50,10 @@ function WindowChip({
       aria-label={`${option.title}, ${option.detail}`}
       onClick={() => onSelect(option.id)}
       className={cn(
-        "min-h-14 rounded-2xl border px-3.5 py-3 text-left outline-none",
-        "transition-[border-color,background-color,box-shadow,transform] duration-150",
-        "ease-[cubic-bezier(0.16,1,0.3,1)]",
-        "active:scale-[0.985] focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
+        interactiveCardClassName,
+        "min-h-14 px-3.5 py-3 text-left",
         wide && "col-span-2",
-        selected
-          ? "border-brand-green bg-surface-soft shadow-gasgo-md"
-          : "border-border bg-surface shadow-gasgo-soft hover:border-ink-muted/25",
+        selected && selectedCardClassName,
       )}
     >
       <span className="block text-[15px] font-semibold tracking-tight text-ink">

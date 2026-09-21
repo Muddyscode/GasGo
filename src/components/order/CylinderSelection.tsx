@@ -1,9 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 import { CylinderCard } from "@/components/order/CylinderCard";
+import { OrderHeader } from "@/components/order/OrderHeader";
+import { buttonClassName } from "@/components/ui/button";
+import { PageBody, PageFrame, PageTitle, StickyAction } from "@/components/ui/page";
 import {
   CYLINDER_OPTIONS,
   formatCylinderSize,
@@ -26,36 +28,36 @@ export function CylinderSelection() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
-      <header className="sticky top-0 z-20 border-b border-border/80 bg-surface/90 backdrop-blur-md">
-        <div className="relative flex h-14 items-center justify-center px-2">
-          <Link
-            href="/"
-            aria-label="Go back"
-            className="absolute left-2 inline-flex size-11 items-center justify-center rounded-full text-ink transition-colors duration-150 hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-          >
-            <ChevronLeft className="size-6" strokeWidth={2} />
-          </Link>
-          <h1 className="text-[15px] font-semibold tracking-tight text-ink">
-            Select cylinder
-          </h1>
-        </div>
-      </header>
+    <PageFrame>
+      <OrderHeader title="Select cylinder" backHref="/" backLabel="Go back" />
 
-      <div className="flex flex-1 flex-col px-5 pt-6">
-        <section className="mb-6">
-          <p className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
-            What size do you need?
+      <PageBody className="pb-8">
+        <PageTitle
+          eyebrow="Order gas"
+          subtitle="We’ll fill it and deliver to your door. Pick the cylinder that matches how you cook."
+        >
+          What size do you need?
+        </PageTitle>
+
+        <div className="relative mb-5 overflow-hidden rounded-[1.25rem] border border-border shadow-gasgo-md">
+          <Image
+            src="/images/cooking-gas-cylinders.png"
+            alt="Cooking gas cylinders ready to be filled"
+            width={736}
+            height={375}
+            sizes="(max-width: 1024px) 100vw, 720px"
+            className="h-32 w-full object-cover sm:h-40 lg:h-48"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/45 via-transparent to-transparent" />
+          <p className="absolute bottom-3 left-4 text-sm font-semibold text-white">
+            Sealed fills, Lagos-wide
           </p>
-          <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-ink-muted">
-            We’ll fill it and deliver to your door. Pick the cylinder that matches how you cook.
-          </p>
-        </section>
+        </div>
 
         <div
           role="radiogroup"
           aria-label="Cylinder size"
-          className="flex flex-col gap-3 pb-4"
+          className="grid grid-cols-1 gap-3 pb-4 md:grid-cols-2 lg:grid-cols-3"
         >
           {CYLINDER_OPTIONS.map((option) => (
             <CylinderCard
@@ -66,9 +68,9 @@ export function CylinderSelection() {
             />
           ))}
         </div>
-      </div>
+      </PageBody>
 
-      <div className="sticky bottom-0 z-20 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <StickyAction>
         <p
           className={cn(
             "mb-2.5 min-h-5 text-center text-sm tabular-nums text-ink-muted transition-opacity duration-150",
@@ -84,18 +86,14 @@ export function CylinderSelection() {
           type="button"
           disabled={!selected}
           onClick={handleContinue}
-          className={cn(
-            "flex h-14 w-full items-center justify-center rounded-2xl text-base font-semibold tracking-tight",
-            "transition-[background-color,color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-            selected
-              ? "bg-brand-green text-white shadow-gasgo-md active:scale-[0.985]"
-              : "cursor-not-allowed bg-surface-muted text-ink-muted",
+          className={buttonClassName(
+            { variant: "primary", size: "lg" },
+            !selected && "cursor-not-allowed bg-surface-muted text-ink-muted shadow-none hover:shadow-none",
           )}
         >
           Continue
         </button>
-      </div>
-    </div>
+      </StickyAction>
+    </PageFrame>
   );
 }

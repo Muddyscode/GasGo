@@ -1,9 +1,6 @@
 import type { ReactNode } from "react";
+import { CustomerChrome } from "@/components/nav/CustomerChrome";
 
 export default function CustomerLayout({ children }: { children: ReactNode }) {
-  return (
-    <div className="mx-auto min-h-dvh w-full max-w-md bg-surface text-ink">
-      {children}
-    </div>
-  );
+  return <CustomerChrome>{children}</CustomerChrome>;
 }

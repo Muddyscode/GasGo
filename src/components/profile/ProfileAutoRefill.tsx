@@ -1,3 +1,4 @@
+import { cardClassName } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 type ProfileAutoRefillProps = {
@@ -7,7 +8,7 @@ type ProfileAutoRefillProps = {
 
 export function ProfileAutoRefill({ enabled, onToggle }: ProfileAutoRefillProps) {
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-border bg-surface-muted px-4 py-4 shadow-gasgo-soft">
+    <section className={`${cardClassName} relative overflow-hidden bg-surface-muted px-4 py-4`}>
       <span
         aria-hidden="true"
         className="absolute inset-y-3 left-0 w-1 rounded-full bg-brand-yellow"

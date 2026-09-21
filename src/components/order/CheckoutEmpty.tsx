@@ -1,36 +1,41 @@
 import Link from "next/link";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import { buttonClassName } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
+import { PageBody, PageFrame } from "@/components/ui/page";
 
 export function CheckoutEmpty() {
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <PageFrame>
       <OrderHeader
         title="Checkout"
         backHref="/order/address"
         backLabel="Back to delivery details"
       />
-      <main className="flex flex-1 flex-col px-5 pt-10">
-        <p className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
-          A few details first
-        </p>
-        <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-ink-muted">
-          Choose a cylinder and where to deliver it before you pay. Nothing has been charged.
-        </p>
-        <div className="mt-8 flex flex-col gap-3">
-          <Link
-            href="/order/address"
-            className="flex h-14 items-center justify-center rounded-2xl bg-brand-green text-base font-semibold text-white shadow-gasgo-md transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2"
-          >
-            Delivery details
-          </Link>
-          <Link
-            href="/order/cylinder"
-            className="flex h-14 items-center justify-center rounded-2xl bg-surface-muted text-base font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-          >
-            Choose a cylinder
-          </Link>
-        </div>
-      </main>
-    </div>
+      <PageBody className="pt-6">
+        <EmptyState
+          image="/images/cooking-gas-station.png"
+          alt="Cooking gas station waiting for an order"
+          title="A few details first"
+          body="Choose a cylinder and where to deliver it before you pay. Nothing has been charged."
+          action={
+            <div className="flex flex-col gap-3">
+              <Link
+                href="/order/address"
+                className={buttonClassName({ variant: "primary", size: "lg" })}
+              >
+                Delivery details
+              </Link>
+              <Link
+                href="/order/cylinder"
+                className={buttonClassName({ variant: "secondary", size: "lg" })}
+              >
+                Choose a cylinder
+              </Link>
+            </div>
+          }
+        />
+      </PageBody>
+    </PageFrame>
   );
 }

@@ -6,6 +6,8 @@ import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PaystackPayButton } from "@/components/order/PaystackPayButton";
+import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
+import { PageBody, PageFrame, PageTitle } from "@/components/ui/page";
 import { getCylinderById } from "@/config/cylinders";
 import { getPresenceById, getWindowById } from "@/config/delivery";
 import { quoteOrder } from "@/config/pricing";
@@ -40,7 +42,7 @@ export function CheckoutView() {
 
   if (!hydrated) {
     return (
-      <div className="flex min-h-dvh flex-col bg-surface">
+      <PageFrame>
         <OrderHeader
           title="Checkout"
           backHref="/order/address"
@@ -63,33 +65,38 @@ export function CheckoutView() {
   const quote = quoteOrder(koboToNaira(draftTotals.subtotalKobo));
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <PageFrame>
       <OrderHeader
         title="Checkout"
         backHref="/order/address"
         backLabel="Back to delivery details"
       />
 
-      <div className="flex flex-1 flex-col px-5 pt-6 pb-4">
-        <section className="mb-6">
-          <p className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
-            Review and pay
-          </p>
-          <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-ink-muted">
-            Confirm the cylinder and drop-off, then pay securely with Paystack.
-          </p>
-        </section>
+      <PageBody className="pb-4">
+        <PageTitle
+          eyebrow="Pay"
+          subtitle="Confirm the cylinder and drop-off, then pay securely with Paystack."
+        >
+          Review and pay
+        </PageTitle>
 
-        <CheckoutSummary
-          cylinder={cylinder}
-          address={address}
-          presence={presence}
-          window={window}
-          notes={notes}
-        />
-      </div>
+        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-7">
+            <CheckoutSummary
+              cylinder={cylinder}
+              address={address}
+              presence={presence}
+              window={window}
+              notes={notes}
+            />
+          </div>
+          <div className="mt-4 hidden lg:col-span-5 lg:mt-0 lg:block">
+            <DeliveryTruck label="Ready for dispatch after payment" />
+          </div>
+        </div>
+      </PageBody>
 
       <PaystackPayButton quote={quote} />
-    </div>
+    </PageFrame>
   );
 }

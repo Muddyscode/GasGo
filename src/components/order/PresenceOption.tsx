@@ -1,4 +1,5 @@
 import { RadioMark } from "@/components/order/RadioMark";
+import { interactiveCardClassName, selectedCardClassName } from "@/components/ui/card";
 import type { PresenceOption as PresenceOptionType } from "@/config/delivery";
 import { cn } from "@/lib/utils";
 
@@ -17,13 +18,9 @@ export function PresenceOption({ option, selected, onSelect }: PresenceOptionPro
       aria-label={`${option.title}. ${option.detail}`}
       onClick={() => onSelect(option.id)}
       className={cn(
-        "flex w-full items-center gap-3.5 rounded-2xl border px-4 py-3.5 text-left",
-        "min-h-14 outline-none transition-[border-color,background-color,box-shadow,transform] duration-150",
-        "ease-[cubic-bezier(0.16,1,0.3,1)]",
-        "active:scale-[0.985] focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-        selected
-          ? "border-brand-green bg-surface-soft shadow-gasgo-md"
-          : "border-border bg-surface shadow-gasgo-soft hover:border-ink-muted/25 hover:shadow-gasgo-md",
+        interactiveCardClassName,
+        "flex w-full items-center gap-3.5 px-4 py-3.5 text-left min-h-14",
+        selected && selectedCardClassName,
       )}
     >
       <span className="min-w-0 flex-1">

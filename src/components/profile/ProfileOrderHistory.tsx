@@ -2,6 +2,9 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
+import { buttonClassName } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
+import { interactiveCardClassName } from "@/components/ui/card";
 import {
   isOrderDelivered,
   orderCylinderLabel,
@@ -45,20 +48,20 @@ export function ProfileOrderHistory({ orders }: ProfileOrderHistoryProps) {
 
 function OrderHistoryEmpty() {
   return (
-    <div className="rounded-2xl border border-dashed border-border bg-surface-muted px-4 py-8 text-center">
-      <p className="text-[17px] font-semibold tracking-tight text-ink">
-        No orders yet
-      </p>
-      <p className="mx-auto mt-1.5 max-w-[28ch] text-sm leading-relaxed text-ink-muted">
-        Your first refill will show up here, from queue to door.
-      </p>
-      <Link
-        href="/order/cylinder"
-        className="mt-5 inline-flex h-12 min-w-40 items-center justify-center rounded-2xl bg-brand-green px-5 text-[15px] font-semibold text-white shadow-gasgo-md transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-      >
-        Order gas
-      </Link>
-    </div>
+    <EmptyState
+      image="/images/cooking-gas-field.png"
+      alt="Quiet gas plant field before the first refill"
+      title="No orders yet"
+      body="Your first refill will show up here, from queue to door."
+      action={
+        <Link
+          href="/order/cylinder"
+          className={buttonClassName({ variant: "primary", size: "md" }, "min-w-40")}
+        >
+          Order gas
+        </Link>
+      }
+    />
   );
 }
 
@@ -70,7 +73,7 @@ function OrderRow({ order }: { order: CustomerOrder }) {
   return (
     <Link
       href={orderHref(order)}
-      className="flex min-h-14 items-center gap-3 rounded-2xl border border-border bg-surface px-4 py-3.5 shadow-gasgo-soft transition-[border-color,box-shadow,transform] duration-150 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-ink-muted/25 hover:shadow-gasgo-md active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+      className={cn(interactiveCardClassName, "flex min-h-14 items-center gap-3 px-4 py-3.5")}
     >
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2">

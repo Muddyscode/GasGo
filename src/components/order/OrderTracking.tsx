@@ -1,8 +1,12 @@
+import Image from "next/image";
 import Link from "next/link";
 import { DeliveryTruck } from "@/components/motion";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { TrackingTimeline } from "@/components/order/TrackingTimeline";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
+import { buttonClassName } from "@/components/ui/button";
+import { cardClassName } from "@/components/ui/card";
+import { PageBody, PageFrame, PageTitle, StickyAction } from "@/components/ui/page";
 import { DELIVERY_STAGES, getDeliveryStageIndex } from "@/config/delivery-stages";
 import { demoStageForOrderId } from "@/lib/tracking-stage";
 
@@ -15,7 +19,7 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
   const current = DELIVERY_STAGES[getDeliveryStageIndex(currentStageId)];
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <PageFrame>
       <OrderHeader title="Track order" backHref="/" backLabel="Back home" />
 
       <div className="flex flex-1 flex-col px-5 pt-6 pb-8">
@@ -63,11 +67,11 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
         <WhatsAppSupportButton orderId={orderId} />
         <Link
           href="/order/cylinder"
-          className="mt-3 flex h-12 w-full items-center justify-center rounded-2xl bg-surface-muted text-[15px] font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          className={buttonClassName({ variant: "secondary", size: "md" }, "mt-3 h-12 w-full")}
         >
           Order again
         </Link>
-      </div>
-    </div>
+      </StickyAction>
+    </PageFrame>
   );
 }
