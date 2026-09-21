@@ -210,8 +210,9 @@ export function FillComposer() {
           ) : null}
 
           <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-            Live rate {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg. Zone pickup-and-return
-            is added on the next step — not a flat fee.
+            Live rate {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg · hub-configured
+            (stub). Zone pickup-and-return is added on the next step — not a
+            flat fee.
           </p>
         </section>
 

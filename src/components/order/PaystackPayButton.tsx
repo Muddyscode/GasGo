@@ -24,12 +24,18 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
   const [pending, setPending] = useState(false);
   const address = useOrderDraft((state) => state.address);
   const presenceId = useOrderDraft((state) => state.presenceId);
+  const fulfillmentMode = useOrderDraft((state) => state.fulfillmentMode);
+  const pickupDate = useOrderDraft((state) => state.pickupDate);
+  const returnDate = useOrderDraft((state) => state.returnDate);
+  const windowId = useOrderDraft((state) => state.windowId);
   const fillKg = useOrderDraft((state) => state.quote().fillKg);
   const clear = useOrderDraft((state) => state.clear);
   const user = useSession((state) => state.user);
+  const hub = fulfillmentMode === "hub";
 
   async function handlePay() {
-    if (pending || !user || !address || !presenceId || quote.totalNgn <= 0) return;
+    if (pending || !user || !address || quote.totalNgn <= 0) return;
+    if (!hub && !presenceId) return;
     setPending(true);
 
     try {
@@ -40,8 +46,12 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
         metadata: {
           fillKg: String(fillKg || quote.fillKg || ""),
           address: address.id,
-          presence: presenceId,
+          presence: presenceId ?? "",
           zone: address.zoneId,
+          fulfillment: fulfillmentMode,
+          pickupDate,
+          returnDate,
+          window: windowId,
         },
       });
       const orderId = createLocalOrderId();
@@ -62,7 +72,9 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
       <PriceBreakdown quote={quote} />
       <p className="mb-2.5 mt-3 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
         <Lock className="size-3.5" strokeWidth={2} />
-        Pay in full before empty pickup · Paystack test mode
+        {hub
+          ? "Pay in full to confirm this hub pre-order · Paystack test mode"
+          : "Pay in full before empty pickup · Paystack test mode"}
       </p>
       <button
         type="button"
@@ -79,7 +91,9 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
           ? "Starting Paystack…"
           : !user
             ? "Sign up to pay"
-            : `Pay ${formatNaira(quote.totalNgn)} before pickup`}
+            : hub
+              ? `Pay ${formatNaira(quote.totalNgn)} to confirm hub order`
+              : `Pay ${formatNaira(quote.totalNgn)} before pickup`}
       </button>
     </StickyAction>
   );

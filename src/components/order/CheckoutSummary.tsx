@@ -4,6 +4,13 @@ import type {
   DeliveryWindow,
   PresenceOption,
 } from "@/config/delivery";
+import {
+  SAME_DAY_CUSTOMER_REMINDER,
+  formatCalendarDate,
+  fulfillmentLabel,
+  isSameDayLoop,
+  type FulfillmentMode,
+} from "@/config/fulfillment";
 import { formatKg, type FillQuote } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 
@@ -16,9 +23,12 @@ const FILL_MODE_LABEL = {
 type CheckoutSummaryProps = {
   quote: FillQuote;
   address: DeliveryAddress;
-  presence: PresenceOption;
+  presence: PresenceOption | undefined;
   window: DeliveryWindow;
   notes: string;
+  fulfillmentMode: FulfillmentMode;
+  pickupDate: string;
+  returnDate: string;
 };
 
 export function CheckoutSummary({
@@ -27,7 +37,13 @@ export function CheckoutSummary({
   presence,
   window,
   notes,
+  fulfillmentMode,
+  pickupDate,
+  returnDate,
 }: CheckoutSummaryProps) {
+  const hub = fulfillmentMode === "hub";
+  const sameDay = isSameDayLoop(pickupDate, returnDate);
+
   return (
     <div className="flex flex-col gap-3">
       <section className={`${cardClassName} px-4 py-4`}>
@@ -47,7 +63,9 @@ export function CheckoutSummary({
       </section>
 
       <section className={`${cardClassName} px-4 py-4`}>
-        <p className="text-sm font-medium text-ink-muted">Pickup & return</p>
+        <p className="text-sm font-medium text-ink-muted">
+          {hub ? "Hub collection" : "Pickup & return"}
+        </p>
         <p className="mt-1.5 text-[17px] font-semibold tracking-tight text-ink">
           {address.label}
         </p>
@@ -59,13 +77,29 @@ export function CheckoutSummary({
         </p>
 
         <dl className="mt-4 space-y-3 border-t border-border pt-3">
-          <SummaryLine label="Handover" value={presence.title} />
+          <SummaryLine label="Fulfillment" value={fulfillmentLabel(fulfillmentMode)} />
+          <SummaryLine
+            label="Pickup date"
+            value={formatCalendarDate(pickupDate)}
+          />
+          <SummaryLine
+            label="Return date"
+            value={formatCalendarDate(returnDate)}
+          />
+          {presence && !hub ? (
+            <SummaryLine label="Handover" value={presence.title} />
+          ) : null}
           <SummaryLine
             label="Window"
             value={`${window.title} · ${window.detail}`}
           />
           {notes ? <SummaryLine label="Instructions" value={notes} /> : null}
         </dl>
+        {sameDay ? (
+          <p className="mt-3 rounded-xl bg-surface-soft px-3 py-2.5 text-sm leading-relaxed text-ink">
+            {SAME_DAY_CUSTOMER_REMINDER}
+          </p>
+        ) : null}
       </section>
     </div>
   );
