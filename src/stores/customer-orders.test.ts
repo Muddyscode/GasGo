@@ -97,8 +97,9 @@ describe("paid checkout persists an active order", () => {
     );
   });
 
-  it("paid order replaces demo-only MOCK_ORDERS on the happy path and archives when delivered", () => {
-    expect(activeOrderForUser(MOCK_PROFILE.id)?.orderNumber).toBe("GG-1842");
+  it("fresh Tunde has no nav active order until a paid in-flight order exists", () => {
+    expect(activeOrderForUser(MOCK_PROFILE.id)).toBeUndefined();
+    expect(activeOrderForUser(MOCK_PROFILE.id, [])).toBeUndefined();
 
     seedReadyDraft();
     completePaidCheckout({

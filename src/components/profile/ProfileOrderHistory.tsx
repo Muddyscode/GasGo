@@ -5,6 +5,7 @@ import { formatInTimeZone } from "date-fns-tz";
 import { buttonClassName } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { interactiveCardClassName } from "@/components/ui/card";
+import { GASGO_TZ } from "@/config/fulfillment";
 import {
   isOrderDelivered,
   orderCylinderLabel,
@@ -68,7 +69,7 @@ function OrderHistoryEmpty() {
 function OrderRow({ order }: { order: CustomerOrder }) {
   const stage = orderStage(order);
   const delivered = isOrderDelivered(order);
-  const dateLabel = formatLagosDate(order.placedAt);
+  const dateLabel = formatOrderDate(order.placedAt);
 
   return (
     <Link
@@ -124,9 +125,9 @@ function StatusChip({
   );
 }
 
-function formatLagosDate(iso: string): string {
+function formatOrderDate(iso: string): string {
   try {
-    return formatInTimeZone(iso, "Africa/Lagos", "d MMM");
+    return formatInTimeZone(iso, GASGO_TZ, "d MMM");
   } catch {
     return format(new Date(iso), "d MMM");
   }

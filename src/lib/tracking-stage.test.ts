@@ -123,12 +123,9 @@ describe("resolveTrackingOrder", () => {
     expect(view.timelineStageId).toBe("nearby");
   });
 
-  it("keeps pickup/return/window when the profile order has them", () => {
+  it("treats the GG-1842 mock as delivered history, not a live loop", () => {
     const view = resolveTrackingOrder("gg_phgra9k2a", BEFORE_CUTOFF);
-    expect(view.stageId).toBe("en_route");
-    expect(view.pickupDate).toBeTruthy();
-    expect(view.returnDate).toBeTruthy();
-    expect(view.windowId).toBeTruthy();
+    expect(view.stageId).toBe("delivered");
     expect(view.late).toBe(false);
   });
 
