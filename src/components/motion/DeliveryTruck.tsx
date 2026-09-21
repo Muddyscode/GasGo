@@ -12,6 +12,8 @@ export type DeliveryTruckVariant = "loading" | "tracking";
 
 export type DeliveryTruckProps = {
   size?: number | TruckSizeToken;
+  /** Compact alias for `size="sm"` — keep as a motion hook for loading rows. */
+  compact?: boolean;
   variant?: DeliveryTruckVariant;
   label?: string;
   showLabel?: boolean;
@@ -33,12 +35,13 @@ const VIEW_H = 150;
 
 export function DeliveryTruck({
   size = "md",
+  compact = false,
   variant = "loading",
   label,
   showLabel = Boolean(label),
   className,
 }: DeliveryTruckProps) {
-  const px = resolveTruckSize(size);
+  const px = resolveTruckSize(compact ? "sm" : size);
   const height = Math.round((px * VIEW_H) / VIEW_W);
   const fadeFrom =
     variant === "tracking" ? "from-surface-soft" : "from-surface";
