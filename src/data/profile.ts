@@ -18,6 +18,11 @@ import {
   type DeliveryStageId,
 } from "@/config/delivery-stages";
 import { quoteFill } from "@/config/pricing";
+import {
+  activePlacedOrderForUser,
+  placedOrdersForUser,
+  type PlacedOrder,
+} from "@/lib/placed-order";
 import type { SessionUser } from "@/stores/session";
 
 export type CustomerProfile = {
@@ -147,17 +152,59 @@ export function getMockAddresses(): DeliveryAddress[] {
   return [...SAVED_ADDRESSES];
 }
 
-export function getProfileOrderById(orderId: string): CustomerOrder | undefined {
+export function toCustomerOrder(order: PlacedOrder): CustomerOrder {
+  return {
+    id: order.id,
+    userId: order.userId,
+    orderNumber: order.orderNumber,
+    cylinderId: order.cylinderId,
+    addressId: order.addressId,
+    status: order.stage,
+    totalNgn: order.totalNgn,
+    placedAt: order.placedAt,
+  };
+}
+
+export function getProfileOrderById(
+  orderId: string,
+  placed: readonly PlacedOrder[] = [],
+): CustomerOrder | undefined {
+  const live = placed.find((order) => order.id === orderId);
+  if (live) return toCustomerOrder(live);
   return MOCK_ORDERS.find((order) => order.id === orderId);
 }
 
-export function ordersForUser(userId: string | null | undefined): CustomerOrder[] {
+export function ordersForUser(
+  userId: string | null | undefined,
+  placed: readonly PlacedOrder[] = [],
+): CustomerOrder[] {
   if (!userId) return [];
-  return MOCK_ORDERS.filter((order) => order.userId === userId);
+  const paid = placedOrdersForUser([...placed], userId).map(toCustomerOrder);
+  const mocks = MOCK_ORDERS.filter((order) => order.userId === userId);
+  const byId = new Map<string, CustomerOrder>();
+  for (const order of mocks) byId.set(order.id, order);
+  for (const order of paid) byId.set(order.id, order);
+  return [...byId.values()].sort((a, b) => b.placedAt.localeCompare(a.placedAt));
 }
 
-export function activeOrderForUser(userId: string | null | undefined): CustomerOrder | undefined {
-  return ordersForUser(userId).find((order) => !isOrderDelivered(order));
+/**
+ * Happy path: a paid local order wins over demo MOCK_ORDERS.
+ * Once this user has any placed order, mocks no longer supply the active card
+ * (delivered paid orders archive off the home card).
+ */
+export function activeOrderForUser(
+  userId: string | null | undefined,
+  placed: readonly PlacedOrder[] = [],
+): CustomerOrder | undefined {
+  if (!userId) return undefined;
+  const paid = placedOrdersForUser([...placed], userId);
+  if (paid.length > 0) {
+    const live = activePlacedOrderForUser(paid, userId);
+    return live ? toCustomerOrder(live) : undefined;
+  }
+  return MOCK_ORDERS.filter((order) => order.userId === userId).find(
+    (order) => !isOrderDelivered(order),
+  );
 }
 
 export function profileFromSession(user: SessionUser | null): CustomerProfile {

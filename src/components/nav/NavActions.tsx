@@ -12,6 +12,7 @@ import {
 } from "@/data/profile";
 import { cn } from "@/lib/utils";
 import { usePersistHydrated } from "@/lib/use-persist-hydrated";
+import { useCustomerOrders } from "@/stores/customer-orders";
 import { useOrderDraft } from "@/stores/order-draft";
 import { useSession } from "@/stores/session";
 
@@ -24,7 +25,8 @@ export function NavActions() {
   const quote = useOrderDraft((state) => state.quote);
   const isReadyForCheckout = useOrderDraft((state) => state.isReadyForCheckout);
   const live = quote();
-  const activeOrder = user ? activeOrderForUser(user.id) : undefined;
+  const placed = useCustomerOrders((state) => state.orders);
+  const activeOrder = user ? activeOrderForUser(user.id, placed) : undefined;
   const stage = activeOrder ? orderStage(activeOrder) : undefined;
   const onProfile = pathname.startsWith("/profile");
 

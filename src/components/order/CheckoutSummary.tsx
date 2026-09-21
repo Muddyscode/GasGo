@@ -60,6 +60,19 @@ export function CheckoutSummary({
           {FILL_MODE_LABEL[quote.fillMode]} · {formatNaira(quote.rateNgnPerKg)}/kg
           · refilled offsite, never at your door
         </p>
+        <dl className="mt-3 space-y-2 border-t border-border pt-3">
+          {quote.lines.map((line) => (
+            <div
+              key={line.id}
+              className="flex items-start justify-between gap-3 text-[15px]"
+            >
+              <dt className="text-ink-muted">{line.label}</dt>
+              <dd className="font-semibold tabular-nums text-ink">
+                {formatNaira(line.amountNgn)}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       <section className={`${cardClassName} px-4 py-4`}>

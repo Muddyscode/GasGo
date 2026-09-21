@@ -1,21 +1,34 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
 import { DeliveryTruck } from "@/components/motion";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { TrackingTimeline } from "@/components/order/TrackingTimeline";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
 import { buttonClassName } from "@/components/ui/button";
-import { cardClassName } from "@/components/ui/card";
-import { PageBody, PageFrame, PageTitle, StickyAction } from "@/components/ui/page";
-import { DELIVERY_STAGES, getDeliveryStageIndex } from "@/config/delivery-stages";
+import { PageFrame, StickyAction } from "@/components/ui/page";
+import {
+  DELIVERY_STAGES,
+  getDeliveryStageIndex,
+} from "@/config/delivery-stages";
+import {
+  formatCalendarDate,
+  fulfillmentLabel,
+} from "@/config/fulfillment";
 import { demoStageForOrderId } from "@/lib/tracking-stage";
+import { usePersistHydrated } from "@/lib/use-persist-hydrated";
+import { useCustomerOrders } from "@/stores/customer-orders";
 
 type OrderTrackingProps = {
   orderId: string;
 };
 
 export function OrderTracking({ orderId }: OrderTrackingProps) {
-  const currentStageId = demoStageForOrderId(orderId);
+  const hydrated = usePersistHydrated();
+  const placed = useCustomerOrders((state) =>
+    state.orders.find((order) => order.id === orderId),
+  );
+  const currentStageId = placed?.stage ?? demoStageForOrderId(orderId);
   const current = DELIVERY_STAGES[getDeliveryStageIndex(currentStageId)];
 
   return (
@@ -48,8 +61,18 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
         <section className="mb-6 rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
           <p className="text-sm font-medium text-ink-muted">Order</p>
           <p className="mt-1 font-mono text-[17px] font-semibold tracking-tight text-ink">
-            {orderId}
+            {placed?.orderNumber ?? orderId}
           </p>
+          {hydrated && placed ? (
+            <div className="mt-3 space-y-1.5 text-sm text-ink-muted">
+              <p className="font-medium text-ink">{placed.fillSummary}</p>
+              <p>{fulfillmentLabel(placed.fulfillmentMode)}</p>
+              <p>
+                Pickup {formatCalendarDate(placed.pickupDate)} · return{" "}
+                {formatCalendarDate(placed.returnDate)}
+              </p>
+            </div>
+          ) : null}
         </section>
 
         <section className="mb-32 rounded-2xl border border-border bg-surface px-4 py-5 shadow-gasgo-soft">
@@ -60,7 +83,7 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
         </section>
       </div>
 
-      <div className="sticky bottom-0 z-20 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md pb-[max(1rem,env(safe-area-inset-bottom))]">
+      <StickyAction>
         <p className="mb-2.5 text-center text-sm text-ink-muted">
           Rider running late? Talk to us on WhatsApp.
         </p>

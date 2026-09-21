@@ -21,7 +21,7 @@ export function HomeGate() {
     return (
       <PageFrame>
         <PageBody className="pt-10">
-          <DeliveryTruck compact label="Loading GasGo" />
+          <DeliveryTruck size="sm" label="Loading GasGo" />
         </PageBody>
       </PageFrame>
     );
