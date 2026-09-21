@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { DeliveryLoading } from "@/components/motion";
 import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
 import { OrderHeader } from "@/components/order/OrderHeader";
@@ -24,9 +25,19 @@ export function CheckoutView() {
   const totals = useOrderDraft((state) => state.totals);
 
   useEffect(() => {
-    const finish = () => setHydrated(true);
-    if (useOrderDraft.persist.hasHydrated()) finish();
-    return useOrderDraft.persist.onFinishHydration(finish);
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    const started = Date.now();
+    const reveal = () => {
+      const hold = Math.max(0, 480 - (Date.now() - started));
+      timeout = globalThis.setTimeout(() => setHydrated(true), hold);
+    };
+
+    if (useOrderDraft.persist.hasHydrated()) reveal();
+    const unsub = useOrderDraft.persist.onFinishHydration(reveal);
+    return () => {
+      unsub();
+      globalThis.clearTimeout(timeout);
+    };
   }, []);
 
   if (!hydrated) {
@@ -37,14 +48,8 @@ export function CheckoutView() {
           backHref="/order/address"
           backLabel="Back to delivery details"
         />
-        <PageBody className="pt-6">
-          <DeliveryTruck label="Preparing checkout" compact />
-          <div className="mt-6 h-8 w-48 animate-pulse rounded-lg bg-surface-muted" />
-          <div className="mt-3 h-4 w-64 animate-pulse rounded-lg bg-surface-muted" />
-          <div className="mt-8 h-28 animate-pulse rounded-2xl bg-surface-muted" />
-          <div className="mt-3 h-40 animate-pulse rounded-2xl bg-surface-muted" />
-        </PageBody>
-      </PageFrame>
+        <DeliveryLoading label="Preparing checkout…" />
+      </div>
     );
   }
 
