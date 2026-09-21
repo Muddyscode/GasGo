@@ -62,6 +62,88 @@ export function SealedValveGlyph({ className }: { className?: string }) {
   );
 }
 
+/** Three motion dashes — same beat as the brand mark. */
+export function MotionDashesGlyph({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 28 16"
+      className={cn("h-3.5 w-6", className)}
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M2 3.2h9.5M1.5 8h12.5M2.4 12.8h8.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M1.5 8h12.5"
+        stroke={brand.yellow}
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/** Plant tank — refill happens offsite, never on the street. */
+export function PlantTankGlyph({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 28 28"
+      className={cn("size-7", className)}
+      fill="none"
+      aria-hidden="true"
+    >
+      <rect x="4" y="14" width="20" height="11" rx="2" fill={brand.green} />
+      <rect x="4" y="14" width="20" height="3" fill={ink} fillOpacity="0.22" />
+      <rect x="4" y="22" width="20" height="2" fill={brand.yellow} />
+      <rect
+        x="8.5"
+        y="4"
+        width="11"
+        height="12"
+        rx="5.5"
+        fill={brand.white}
+        stroke={ink}
+        strokeWidth="1.4"
+      />
+      <rect x="12.2" y="1.6" width="3.6" height="3.6" rx="0.8" fill={ink} />
+    </svg>
+  );
+}
+
+/** Garden City keke — PH streets, never Lagos. */
+export function KekeGlyph({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 36 22"
+      className={cn("h-5 w-8", className)}
+      fill="none"
+      aria-hidden="true"
+    >
+      <rect x="10" y="3" width="18" height="10" rx="3" fill={brand.yellow} />
+      <rect x="2" y="7" width="10" height="7" rx="2.5" fill={brand.green} />
+      <rect
+        x="4.2"
+        y="8.6"
+        width="5.4"
+        height="3.4"
+        rx="0.8"
+        fill={brand.white}
+        fillOpacity="0.45"
+      />
+      <circle cx="8" cy="17.2" r="3.2" fill={ink} />
+      <circle cx="8" cy="17.2" r="1.2" fill={brand.yellow} />
+      <circle cx="18.5" cy="17.2" r="3.2" fill={ink} />
+      <circle cx="18.5" cy="17.2" r="1.2" fill={brand.yellow} />
+      <circle cx="27.5" cy="17.2" r="3.2" fill={ink} />
+      <circle cx="27.5" cy="17.2" r="1.2" fill={brand.yellow} />
+    </svg>
+  );
+}
+
 /** Port Harcourt pin — addresses, not a Google Maps pin clone. */
 export function PhPinGlyph({ className }: { className?: string }) {
   return (

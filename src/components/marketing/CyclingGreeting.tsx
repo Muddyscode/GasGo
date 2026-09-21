@@ -43,8 +43,8 @@ export function CyclingGreeting() {
           </span>
           <span
             className={cn(
-              "mt-3 block font-display text-[2.35rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink",
-              "sm:text-5xl md:text-6xl lg:text-[4.35rem]",
+              "mt-2 block font-display text-[2.05rem] font-extrabold leading-[1.06] tracking-[-0.035em] text-ink",
+              "sm:mt-3 sm:text-5xl md:text-6xl lg:text-[4.35rem]",
               "transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
               visible ? "opacity-100" : "opacity-0",
             )}

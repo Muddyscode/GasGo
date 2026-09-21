@@ -8,6 +8,7 @@ import { HowItWorks } from "@/components/marketing/HowItWorks";
 import { KeyBenefits } from "@/components/marketing/KeyBenefits";
 import { TrustRow } from "@/components/marketing/TrustRow";
 import { ZoneMap } from "@/components/marketing/ZoneMap";
+import { SealedValveGlyph } from "@/components/illustrations/gas-scenes";
 import { FadeLift } from "@/components/motion/FadeLift";
 import { buttonClassName } from "@/components/ui/button";
 import { cardClassName } from "@/components/ui/card";
@@ -19,19 +20,19 @@ import { cn } from "@/lib/utils";
 export function MarketingLanding() {
   return (
     <div className="flex flex-1 flex-col">
-      <section className="relative flex min-h-[calc(100dvh-4.5rem)] flex-col overflow-hidden">
+      <section className="relative flex min-h-[calc(100dvh-4.25rem)] flex-col overflow-hidden">
         <div className="pointer-events-none absolute inset-0 hero-wash" aria-hidden="true" />
-        <div className="relative z-[1] mx-auto flex w-full max-w-5xl flex-1 flex-col px-5 pt-6 md:px-8 lg:max-w-6xl lg:px-10 lg:pt-10">
+        <div className="relative z-[1] mx-auto flex w-full max-w-5xl shrink-0 flex-col px-5 pt-3 md:px-8 md:pt-6 lg:max-w-6xl lg:px-10 lg:pt-10">
           <FadeLift>
             <CyclingGreeting />
-            <p className="mx-auto mt-5 max-w-[38ch] text-center text-[16px] leading-relaxed text-ink-muted md:text-lg">
+            <p className="mx-auto mt-3 max-w-[36ch] text-center text-[15px] leading-snug text-ink-muted md:mt-5 md:max-w-[38ch] md:text-lg md:leading-relaxed">
               We collect your empty cylinder, fill it offsite at the plant, and bring it
               back full. Port Harcourt only. Pay in full before pickup.
             </p>
           </FadeLift>
 
-          <FadeLift delayMs={80} className="mx-auto mt-8 w-full max-w-xl">
-            <div className="flex flex-col gap-2 rounded-full bg-white p-2 shadow-gasgo-lg ring-1 ring-black/5 sm:flex-row sm:items-center">
+          <FadeLift delayMs={80} className="mx-auto mt-5 w-full max-w-xl md:mt-8">
+            <div className="flex flex-col gap-2 rounded-[1.75rem] bg-white p-2 shadow-gasgo-lg ring-1 ring-black/5 sm:flex-row sm:items-center sm:rounded-full">
               <div className="flex min-h-12 flex-1 items-center gap-2.5 px-4 text-ink">
                 <PinIcon />
                 <span className="truncate text-[15px] font-medium text-ink-muted">
@@ -41,21 +42,21 @@ export function MarketingLanding() {
               <Link
                 href="/order/cylinder"
                 className={buttonClassName(
-                  { variant: "primary", size: "md" },
-                  "h-12 w-full shrink-0 rounded-full sm:w-auto sm:min-w-[10.5rem] sm:px-7",
+                  { variant: "primary", size: "lg" },
+                  "h-12 w-full shrink-0 rounded-full sm:w-auto sm:min-w-[11.5rem] sm:px-8",
                 )}
               >
                 Order a refill
                 <ArrowRight className="size-4" strokeWidth={2.25} />
               </Link>
             </div>
-            <p className="mt-3 text-center text-sm text-ink-muted">
+            <p className="mt-2.5 text-center text-sm text-ink-muted">
               Live {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg · Full, by kg, or by ₦
             </p>
           </FadeLift>
         </div>
 
-        <HeroWorld className="relative z-[1] mt-auto w-full" />
+        <HeroWorld className="relative z-[1] mt-3 w-full min-h-[14.5rem] flex-1 sm:mt-5 sm:min-h-[18rem] lg:min-h-[22rem]" />
       </section>
 
       <div className="relative z-[1] bg-white">
@@ -86,9 +87,12 @@ export function MarketingLanding() {
                     yourself — guests included, account only at checkout.
                   </p>
                 </div>
-                <span className="shrink-0 rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
-                  Coming soon
-                </span>
+                <div className="flex shrink-0 flex-col items-end gap-2">
+                  <span className="rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+                    Coming soon
+                  </span>
+                  <SealedValveGlyph className="size-9" />
+                </div>
               </div>
             </section>
           </FadeLift>

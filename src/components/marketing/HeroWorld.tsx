@@ -1,15 +1,17 @@
+import { cn } from "@/lib/utils";
+
 /**
  * Original Port Harcourt “gas world” — Garden City streets, plant tanks,
  * GRA bungalow, creek mangroves. Not Lagos landmarks.
  */
 export function HeroWorld({ className }: { className?: string }) {
   return (
-    <div className={className} aria-hidden="true">
+    <div className={cn("overflow-hidden", className)} aria-hidden="true">
       <svg
         viewBox="0 0 1440 460"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="h-auto w-full"
+        className="h-full w-full"
         preserveAspectRatio="xMidYMax slice"
       >
         <Clouds />

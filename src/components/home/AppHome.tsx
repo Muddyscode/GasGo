@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { ShieldCheck } from "lucide-react";
 import {
   GasGauge,
   clampPercent,
@@ -12,6 +11,9 @@ import {
 import {
   CollectScene,
   CylinderGlyph,
+  KekeGlyph,
+  MotionDashesGlyph,
+  PlantTankGlyph,
   ReturnScene,
   SealedValveGlyph,
 } from "@/components/illustrations/gas-scenes";
@@ -130,7 +132,10 @@ export function AppHome() {
               <span className="rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
                 Coming soon
               </span>
-              <SealedValveGlyph className="size-9" />
+              <div className="flex items-end gap-1.5">
+                <MotionDashesGlyph className="h-3 w-5 text-brand-green" />
+                <SealedValveGlyph className="size-9" />
+              </div>
             </div>
           </div>
         </section>
@@ -172,6 +177,10 @@ function ActiveOrderCard({ order }: { order: CustomerOrder }) {
     >
       <div className="relative h-36 overflow-hidden bg-[#E8F3EE]">
         <ReturnScene />
+        <span className="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/40 px-2 py-1">
+          <PlantTankGlyph className="size-5" />
+          <MotionDashesGlyph className="h-2.5 w-4 text-white" />
+        </span>
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent px-4 pb-3 pt-10 text-white">
           <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-white/80">
             Active order · {order.orderNumber}
@@ -207,6 +216,10 @@ function OrderPromptCard() {
     >
       <div className="relative h-40 overflow-hidden bg-[#F1F5D8]">
         <CollectScene />
+        <span className="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/40 px-2 py-1">
+          <KekeGlyph className="h-4 w-7" />
+          <MotionDashesGlyph className="h-2.5 w-4 text-white" />
+        </span>
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent px-4 pb-3 pt-10 text-white">
           <p className="text-[18px] font-semibold tracking-tight">Order a plant refill</p>
           <p className="mt-0.5 text-sm text-white/85">
@@ -256,7 +269,7 @@ function SecondaryGauge() {
           </p>
           <p className="text-sm text-ink-muted">Secondary — estimate only</p>
         </div>
-        <ShieldCheck className="size-4 text-brand-green" strokeWidth={2} />
+        <PlantTankGlyph className="size-5 opacity-70" />
       </div>
       <GasGauge
         percent={demo.percent}

@@ -1,5 +1,8 @@
 import { Pencil } from "lucide-react";
-import { CylinderGlyph } from "@/components/illustrations/gas-scenes";
+import {
+  CylinderGlyph,
+  PlantTankGlyph,
+} from "@/components/illustrations/gas-scenes";
 import { cardClassName } from "@/components/ui/card";
 import { formatNgPhone } from "@/data/profile";
 
@@ -18,8 +21,9 @@ export function ProfileUserCard({ name, phone, onEdit }: ProfileUserCardProps) {
     .join("");
 
   return (
-    <section className={`${cardClassName} px-4 py-4`}>
-      <div className="flex items-center gap-3.5">
+    <section className={`${cardClassName} relative overflow-hidden px-4 py-4`}>
+      <PlantTankGlyph className="pointer-events-none absolute -right-1 -top-1 size-14 opacity-[0.12]" />
+      <div className="relative flex items-center gap-3.5">
         <span
           aria-hidden="true"
           className="grid size-14 shrink-0 place-items-center rounded-2xl bg-surface-soft text-brand-green"
