@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
-import { useAuthModal } from "@/components/auth/AuthProvider";
 import { AddAddressSheet } from "@/components/order/AddAddressSheet";
 import { AddressCard } from "@/components/order/AddressCard";
 import { DeliveryWindowPicker } from "@/components/order/DeliveryWindowPicker";
@@ -51,7 +50,6 @@ export function AddressDeliveryForm() {
   const setOrderDates = useOrderDraft((state) => state.setOrderDates);
   const quote = useOrderDraft((state) => state.quote);
   const isFillReady = useOrderDraft((state) => state.isFillReady);
-  const { requestAuth } = useAuthModal();
 
   const live = quote();
   const [customAddresses, setCustomAddresses] = useState<DeliveryAddress[]>([]);
@@ -102,7 +100,6 @@ export function AddressDeliveryForm() {
     if (selectedPresence) setPresence(selectedPresence.id);
     setWindow(windowId);
     setNotes(notes);
-    if (!requestAuth("/order/checkout")) return;
     router.push("/order/checkout");
   }
 

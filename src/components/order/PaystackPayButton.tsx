@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
+import { useAuthModal } from "@/components/auth/AuthProvider";
 import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
 import { PriceBreakdown } from "@/components/order/PriceBreakdown";
 import { buttonClassName } from "@/components/ui/button";
@@ -31,17 +32,21 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
   const windowId = useOrderDraft((state) => state.windowId);
   const fillKg = useOrderDraft((state) => state.quote().fillKg);
   const user = useSession((state) => state.user);
+  const { requestAuth } = useAuthModal();
   const hub = fulfillmentMode === "hub";
 
   async function handlePay() {
-    if (pending || !user || !address || quote.totalNgn <= 0) return;
+    if (pending || !address || quote.totalNgn <= 0) return;
     if (!hub && !presenceId) return;
+    if (!requestAuth("/order/checkout")) return;
+    const sessionUser = useSession.getState().user;
+    if (!sessionUser) return;
     setPending(true);
 
     try {
       await initiatePaystackPayment({
         amountNgn: quote.totalNgn,
-        email: user.email,
+        email: sessionUser.email,
         reference: createOrderReference(formatKg(fillKg || quote.fillKg || 0)),
         metadata: {
           fillKg: String(fillKg || quote.fillKg || ""),
@@ -55,7 +60,7 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
         },
       });
       const orderId = createLocalOrderId();
-      completePaidCheckout({ user, orderId });
+      completePaidCheckout({ user: sessionUser, orderId });
       router.push(`/order/tracking/${encodeURIComponent(orderId)}`);
     } catch {
       setPending(false);
@@ -78,13 +83,11 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
       </p>
       <button
         type="button"
-        disabled={pending || !user}
+        disabled={pending}
         onClick={() => void handlePay()}
         className={buttonClassName(
           { variant: "primary", size: "lg" },
-          pending
-            ? "cursor-wait bg-brand-green/80"
-            : !user && "cursor-not-allowed bg-surface-muted text-ink-muted shadow-none",
+          pending && "cursor-wait bg-brand-green/80",
         )}
       >
         {pending

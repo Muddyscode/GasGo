@@ -13,7 +13,7 @@ export function navForPathname(pathname: string): RouteNav | null {
     return {
       title: "Delivery details",
       backHref: "/order/cylinder",
-      backLabel: "Back to cylinder selection",
+      backLabel: "Back to your fill",
     };
   }
   if (pathname === "/order/checkout") {

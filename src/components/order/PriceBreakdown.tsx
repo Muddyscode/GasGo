@@ -1,18 +1,9 @@
 import type { OrderQuote } from "@/config/pricing";
-import { PAYMENT_VARIANCE_COPY } from "@/config/pricing";
+import { PAYMENT_VARIANCE_COPY, visibleQuoteLines } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 
 export function PriceBreakdown({ quote }: { quote: OrderQuote }) {
-  const lines = quote.lines ?? [
-    { id: "gas" as const, label: "Gas fill", amountNgn: quote.gasFillNgn },
-    {
-      id: "delivery" as const,
-      label: quote.zoneName
-        ? `${quote.zoneName} pickup & return`
-        : "Zone pickup & return",
-      amountNgn: quote.deliveryNgn,
-    },
-  ];
+  const lines = visibleQuoteLines(quote);
 
   return (
     <section className="rounded-2xl border border-border bg-surface-muted px-4 py-3.5 shadow-gasgo-soft">

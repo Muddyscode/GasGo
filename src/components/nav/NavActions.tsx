@@ -21,7 +21,7 @@ export function NavActions({ island = false }: { island?: boolean }) {
   const router = useRouter();
   const hydrated = usePersistHydrated();
   const user = useSession((state) => state.user);
-  const { openAuth, requestAuth } = useAuthModal();
+  const { openAuth } = useAuthModal();
   const quote = useOrderDraft((state) => state.quote);
   const isReadyForCheckout = useOrderDraft((state) => state.isReadyForCheckout);
   const live = quote();
@@ -32,7 +32,6 @@ export function NavActions({ island = false }: { island?: boolean }) {
 
   function continueDraft() {
     if (isReadyForCheckout()) {
-      if (!requestAuth("/order/checkout")) return;
       router.push("/order/checkout");
       return;
     }
