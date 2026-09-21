@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { FadeLift } from "@/components/motion/FadeLift";
 import { DEMO_SESSION_USER } from "@/data/profile";
 import { cn } from "@/lib/utils";
 import { useSession, type SessionUser } from "@/stores/session";
@@ -21,6 +22,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
 
   const canSubmit =
     firstName.trim().length > 1 && phone.replace(/\D/g, "").length >= 10;
+  const isCheckout = intent === "/order/checkout";
 
   useEffect(() => {
     if (!open) return;
@@ -33,10 +35,9 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
 
   if (!open) return null;
 
-  const heading =
-    intent === "/order/checkout"
-      ? "Create an account to checkout"
-      : "Create your GasGo account";
+  const heading = isCheckout
+    ? "Create an account to checkout"
+    : "Create your GasGo account";
 
   function complete(user: SessionUser) {
     signIn(user);
@@ -63,26 +64,38 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
       <button
         type="button"
         aria-label="Close sign up"
-        className="absolute inset-0 bg-ink/40"
+        className="auth-backdrop absolute inset-0 bg-ink/45"
         onClick={onClose}
       />
-      <div
+      <FadeLift
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative w-full max-w-md rounded-t-3xl bg-surface px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-gasgo-lg sm:rounded-3xl"
+        className={cn(
+          "relative w-full max-w-md border border-border bg-surface",
+          "max-h-[min(92dvh,44rem)] overflow-y-auto overscroll-contain",
+          "rounded-t-3xl px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4",
+          "shadow-gasgo-lg sm:mx-4 sm:rounded-3xl sm:px-6 sm:pt-6",
+        )}
       >
-        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border" />
-        <h2 id={titleId} className="text-lg font-semibold tracking-tight text-ink">
+        <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border sm:hidden" />
+        <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-brand-green">
+          {isCheckout ? "Checkout" : "GasGo account"}
+        </p>
+        <h2
+          id={titleId}
+          className="mt-1.5 text-[22px] font-semibold tracking-tight text-ink"
+        >
           {heading}
         </h2>
-        <p className="mt-1 text-sm leading-relaxed text-ink-muted">
-          Mock signup for now — your fill and address stay on this device. We never
-          fill at your door; payment is required before empty pickup.
+        <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+          {isCheckout
+            ? "Your fill and Port Harcourt address stay on this device. We’ll take you to checkout next."
+            : "Mock signup for now — your details stay on this device. Order a plant refill whenever you’re ready."}
         </p>
 
         <form
-          className="mt-5 flex flex-col gap-3"
+          className="mt-6 flex flex-col gap-3.5"
           onSubmit={(event) => {
             event.preventDefault();
             handleSubmit();
@@ -127,28 +140,35 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
             type="submit"
             disabled={!canSubmit}
             className={cn(
-              "mt-2 flex h-12 items-center justify-center rounded-2xl text-[15px] font-semibold",
-              "transition-[background-color,color,transform] duration-150",
+              "mt-2 flex min-h-12 h-14 items-center justify-center rounded-2xl text-[15px] font-semibold",
+              "transition-[background-color,color,transform,box-shadow] duration-150",
+              "ease-[cubic-bezier(0.16,1,0.3,1)]",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
               canSubmit
                 ? "bg-brand-green text-white shadow-gasgo-md active:scale-[0.985]"
                 : "cursor-not-allowed bg-surface-muted text-ink-muted",
             )}
           >
-            {intent === "/order/checkout" ? "Sign up and continue to checkout" : "Create account"}
+            {isCheckout ? "Sign up and continue to checkout" : "Create account"}
           </button>
           <button
             type="button"
             onClick={() => complete(DEMO_SESSION_USER)}
-            className="flex h-12 items-center justify-center rounded-2xl bg-surface-muted text-[15px] font-semibold text-ink transition-transform duration-150 active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+            className={cn(
+              "flex min-h-12 h-12 items-center justify-center rounded-2xl",
+              "border border-border bg-surface-muted text-[15px] font-semibold text-ink",
+              "transition-[transform,background-color] duration-150",
+              "ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985]",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
+            )}
           >
             Continue with demo account
           </button>
         </form>
-      </div>
+      </FadeLift>
     </div>
   );
 }
 
 const fieldClassName =
-  "h-12 w-full rounded-2xl border border-border bg-surface-muted px-4 text-[15px] text-ink outline-none transition-[border-color,background-color,box-shadow] duration-150 placeholder:text-ink-muted/70 focus:border-brand-green focus:bg-surface focus:ring-2 focus:ring-brand-green/20";
+  "h-12 min-h-12 w-full rounded-2xl border border-border bg-surface-muted px-4 text-[16px] text-ink outline-none transition-[border-color,background-color,box-shadow] duration-150 placeholder:text-ink-muted/70 focus:border-brand-green focus:bg-surface focus:ring-2 focus:ring-brand-green/20";
