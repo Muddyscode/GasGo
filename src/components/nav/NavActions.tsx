@@ -1,27 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ShoppingBag, UserRound } from "lucide-react";
-import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
+import { useAuthModal } from "@/components/auth/AuthProvider";
+import { formatKg } from "@/config/pricing";
 import {
-  isOrderDelivered,
-  MOCK_ORDERS,
+  activeOrderForUser,
   orderHref,
   orderStage,
 } from "@/data/profile";
 import { cn } from "@/lib/utils";
+import { usePersistHydrated } from "@/lib/use-persist-hydrated";
 import { useOrderDraft } from "@/stores/order-draft";
+import { useSession } from "@/stores/session";
 
 export function NavActions() {
   const pathname = usePathname();
-  const cylinderId = useOrderDraft((state) => state.cylinderId);
+  const router = useRouter();
+  const hydrated = usePersistHydrated();
+  const user = useSession((state) => state.user);
+  const { openAuth, requestAuth } = useAuthModal();
+  const quote = useOrderDraft((state) => state.quote);
   const isReadyForCheckout = useOrderDraft((state) => state.isReadyForCheckout);
-  const cylinder = getCylinderById(cylinderId);
-  const activeOrder = MOCK_ORDERS.find((order) => !isOrderDelivered(order));
+  const live = quote();
+  const activeOrder = user ? activeOrderForUser(user.id) : undefined;
   const stage = activeOrder ? orderStage(activeOrder) : undefined;
-  const draftHref = isReadyForCheckout() ? "/order/checkout" : "/order/address";
   const onProfile = pathname.startsWith("/profile");
+
+  function continueDraft() {
+    if (isReadyForCheckout()) {
+      if (!requestAuth("/order/checkout")) return;
+      router.push("/order/checkout");
+      return;
+    }
+    router.push(live.fillKg > 0 ? "/order/address" : "/order/cylinder");
+  }
+
+  if (!hydrated) {
+    return <div className="h-9 w-11" aria-hidden="true" />;
+  }
 
   return (
     <div className="flex items-center gap-1 sm:gap-1.5">
@@ -44,10 +62,11 @@ export function NavActions() {
         </Link>
       ) : null}
 
-      {cylinder ? (
-        <Link
-          href={draftHref}
-          aria-label={`Continue ${formatCylinderSize(cylinder.sizeKg)} order`}
+      {live.fillKg > 0 ? (
+        <button
+          type="button"
+          onClick={continueDraft}
+          aria-label={`Continue ${formatKg(live.fillKg)} kg order`}
           className={cn(
             "inline-flex h-9 items-center gap-1 rounded-full border border-border bg-white px-2.5",
             "text-[12px] font-semibold text-ink shadow-gasgo-soft",
@@ -57,26 +76,39 @@ export function NavActions() {
           )}
         >
           <ShoppingBag className="size-3.5" strokeWidth={2} />
-          <span className="hidden tabular-nums sm:inline">
-            {formatCylinderSize(cylinder.sizeKg)}
-          </span>
-        </Link>
+          <span className="hidden tabular-nums sm:inline">{formatKg(live.fillKg)} kg</span>
+        </button>
       ) : null}
 
-      <Link
-        href="/profile"
-        aria-label="Profile"
-        aria-current={onProfile ? "page" : undefined}
-        className={cn(
-          "inline-flex size-11 items-center justify-center rounded-full text-ink",
-          "transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
-          "hover:bg-surface-muted active:scale-[0.96]",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
-          onProfile && "bg-surface-soft text-brand-green",
-        )}
-      >
-        <UserRound className="size-5" strokeWidth={1.75} />
-      </Link>
+      {user ? (
+        <Link
+          href="/profile"
+          aria-label="Profile"
+          aria-current={onProfile ? "page" : undefined}
+          className={cn(
+            "inline-flex size-11 items-center justify-center rounded-full text-ink",
+            "transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "hover:bg-surface-muted active:scale-[0.96]",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
+            onProfile && "bg-surface-soft text-brand-green",
+          )}
+        >
+          <UserRound className="size-5" strokeWidth={1.75} />
+        </Link>
+      ) : (
+        <button
+          type="button"
+          onClick={() => openAuth(pathname === "/" ? "/" : pathname)}
+          className={cn(
+            "inline-flex h-9 items-center rounded-full px-3",
+            "text-[13px] font-semibold text-ink",
+            "hover:bg-surface-muted",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
+          )}
+        >
+          Sign in
+        </button>
+      )}
     </div>
   );
 }

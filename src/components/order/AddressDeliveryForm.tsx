@@ -3,27 +3,29 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
+import { useAuthModal } from "@/components/auth/AuthProvider";
 import { AddAddressSheet } from "@/components/order/AddAddressSheet";
 import { AddressCard } from "@/components/order/AddressCard";
 import { DeliveryWindowPicker } from "@/components/order/DeliveryWindowPicker";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PresenceOption } from "@/components/order/PresenceOption";
+import { PriceBreakdown } from "@/components/order/PriceBreakdown";
 import { buttonClassName } from "@/components/ui/button";
 import { interactiveCardClassName } from "@/components/ui/card";
 import { PageBody, PageFrame, PageTitle, StickyAction } from "@/components/ui/page";
-import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
 import {
   PRESENCE_OPTIONS,
   SAVED_ADDRESSES,
   type DeliveryAddress,
 } from "@/config/delivery";
+import { formatKg, toOrderQuote } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { useOrderDraft } from "@/stores/order-draft";
 
 export function AddressDeliveryForm() {
   const router = useRouter();
-  const cylinderId = useOrderDraft((state) => state.cylinderId);
+  const capacityKg = useOrderDraft((state) => state.capacityKg);
   const address = useOrderDraft((state) => state.address);
   const presenceId = useOrderDraft((state) => state.presenceId);
   const windowId = useOrderDraft((state) => state.windowId);
@@ -32,8 +34,11 @@ export function AddressDeliveryForm() {
   const setPresence = useOrderDraft((state) => state.setPresence);
   const setWindow = useOrderDraft((state) => state.setWindow);
   const setNotes = useOrderDraft((state) => state.setNotes);
+  const quote = useOrderDraft((state) => state.quote);
+  const isFillReady = useOrderDraft((state) => state.isFillReady);
+  const { requestAuth } = useAuthModal();
 
-  const cylinder = getCylinderById(cylinderId);
+  const live = quote();
   const [customAddresses, setCustomAddresses] = useState<DeliveryAddress[]>([]);
   const [sheetOpen, setSheetOpen] = useState(false);
 
@@ -52,7 +57,7 @@ export function AddressDeliveryForm() {
   const selectedAddress =
     addresses.find((item) => item.id === address?.id) ?? address;
   const selectedPresence = PRESENCE_OPTIONS.find((option) => option.id === presenceId);
-  const canContinue = Boolean(selectedAddress && selectedPresence);
+  const canContinue = Boolean(selectedAddress && selectedPresence && isFillReady());
 
   function handleSaveAddress(next: DeliveryAddress) {
     setCustomAddresses((current) => [...current, next]);
@@ -61,11 +66,12 @@ export function AddressDeliveryForm() {
   }
 
   function handleContinue() {
-    if (!selectedAddress || !selectedPresence) return;
+    if (!selectedAddress || !selectedPresence || !isFillReady()) return;
     setAddress(selectedAddress);
     setPresence(selectedPresence.id);
     setWindow(windowId);
     setNotes(notes);
+    if (!requestAuth("/order/checkout")) return;
     router.push("/order/checkout");
   }
 
@@ -82,19 +88,20 @@ export function AddressDeliveryForm() {
       <OrderHeader
         title="Delivery details"
         backHref="/order/cylinder"
-        backLabel="Back to cylinder selection"
+        backLabel="Back to your fill"
       />
 
       <PageBody>
         <PageTitle
-          eyebrow="Drop-off"
-          subtitle="Lagos addresses, a clear handover, and a window that works for you."
+          eyebrow="Pickup & return · Port Harcourt"
+          subtitle="We’ll collect the empty here, refill it at the plant, and bring the filled cylinder back."
         >
-          Where should we bring it?
+          Where should we collect it?
         </PageTitle>
-        {cylinder ? (
+        {live.fillKg > 0 ? (
           <p className="-mt-4 mb-6 text-sm font-medium tabular-nums text-ink-muted">
-            {formatCylinderSize(cylinder.sizeKg)} · {formatNaira(cylinder.priceNgn)}
+            {formatKg(live.fillKg)} kg of {formatKg(capacityKg ?? live.capacityKg)} kg ·{" "}
+            {formatNaira(live.gasFillNgn)} fill
           </p>
         ) : null}
 
@@ -194,6 +201,12 @@ export function AddressDeliveryForm() {
             </section>
           </div>
         </div>
+
+        {live.fillKg > 0 ? (
+          <div className="mb-6">
+            <PriceBreakdown quote={toOrderQuote(live)} />
+          </div>
+        ) : null}
       </PageBody>
 
       <StickyAction>

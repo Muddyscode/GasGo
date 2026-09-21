@@ -21,7 +21,7 @@ export function AddressesManageView({ addresses }: AddressesManageViewProps) {
       />
 
       <PageBody className="pb-[max(2rem,env(safe-area-inset-bottom))]">
-        <PageTitle subtitle="These are the Lagos addresses on this device. Editing lands with your account.">
+        <PageTitle subtitle="These are the Port Harcourt addresses on this device. Editing lands with your account.">
           Saved places
         </PageTitle>
 

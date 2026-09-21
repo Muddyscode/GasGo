@@ -1,28 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { DeliveryLoading } from "@/components/motion";
+import { useEffect, useRef, useState } from "react";
+import { useAuthModal } from "@/components/auth/AuthProvider";
 import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PaystackPayButton } from "@/components/order/PaystackPayButton";
 import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
 import { PageBody, PageFrame, PageTitle } from "@/components/ui/page";
-import { getCylinderById } from "@/config/cylinders";
 import { getPresenceById, getWindowById } from "@/config/delivery";
-import { quoteOrder } from "@/config/pricing";
-import { koboToNaira } from "@/lib/money";
+import { toOrderQuote } from "@/config/pricing";
 import { useOrderDraft } from "@/stores/order-draft";
+import { useSession } from "@/stores/session";
 
 export function CheckoutView() {
   const [hydrated, setHydrated] = useState(false);
-  const cylinderId = useOrderDraft((state) => state.cylinderId);
   const address = useOrderDraft((state) => state.address);
   const presenceId = useOrderDraft((state) => state.presenceId);
   const windowId = useOrderDraft((state) => state.windowId);
   const notes = useOrderDraft((state) => state.notes);
   const isReadyForCheckout = useOrderDraft((state) => state.isReadyForCheckout);
-  const totals = useOrderDraft((state) => state.totals);
+  const quote = useOrderDraft((state) => state.quote);
+  const user = useSession((state) => state.user);
+  const { requestAuth } = useAuthModal();
+  const askedForAuth = useRef(false);
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | undefined;
@@ -40,6 +41,14 @@ export function CheckoutView() {
     };
   }, []);
 
+  const ready = hydrated && isReadyForCheckout();
+
+  useEffect(() => {
+    if (!hydrated || !ready || user || askedForAuth.current) return;
+    askedForAuth.current = true;
+    requestAuth("/order/checkout");
+  }, [hydrated, ready, user, requestAuth]);
+
   if (!hydrated) {
     return (
       <PageFrame>
@@ -53,16 +62,13 @@ export function CheckoutView() {
     );
   }
 
-  const cylinder = getCylinderById(cylinderId);
+  const live = quote();
   const presence = getPresenceById(presenceId);
   const window = getWindowById(windowId);
-  const draftTotals = totals();
 
-  if (!isReadyForCheckout() || !cylinder || !address || !presence || !window) {
+  if (!ready || !address || !presence || !window || live.fillKg <= 0) {
     return <CheckoutEmpty />;
   }
-
-  const quote = quoteOrder(koboToNaira(draftTotals.subtotalKobo));
 
   return (
     <PageFrame>
@@ -74,8 +80,8 @@ export function CheckoutView() {
 
       <PageBody className="pb-4">
         <PageTitle
-          eyebrow="Pay"
-          subtitle="Confirm the cylinder and drop-off, then pay securely with Paystack."
+          eyebrow="Pay before pickup"
+          subtitle="Confirm the plant fill and Port Harcourt address, then pay in full before we collect the empty."
         >
           Review and pay
         </PageTitle>
@@ -83,7 +89,7 @@ export function CheckoutView() {
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <CheckoutSummary
-              cylinder={cylinder}
+              quote={live}
               address={address}
               presence={presence}
               window={window}
@@ -91,12 +97,12 @@ export function CheckoutView() {
             />
           </div>
           <div className="mt-4 hidden lg:col-span-5 lg:mt-0 lg:block">
-            <DeliveryTruck label="Ready for dispatch after payment" />
+            <DeliveryTruck label="Rider collects only after payment" />
           </div>
         </div>
       </PageBody>
 
-      <PaystackPayButton quote={quote} />
+      <PaystackPayButton quote={toOrderQuote(live)} />
     </PageFrame>
   );
 }

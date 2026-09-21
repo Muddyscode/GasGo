@@ -5,7 +5,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "GasGo",
-  description: "Know your gas. Order with confidence.",
+  description:
+    "Port Harcourt cooking gas. Collect → plant refill → return. Pay before pickup.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

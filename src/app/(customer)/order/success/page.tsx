@@ -8,7 +8,7 @@ import { cardClassName } from "@/components/ui/card";
 import { PageBody, PageFrame } from "@/components/ui/page";
 import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
 import { getPresenceById, getWindowById } from "@/config/delivery";
-import { quoteOrder } from "@/config/pricing";
+import { quoteFill } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 import { firstParam, orderPath, parseOrderQuery } from "@/lib/order-query";
 
@@ -27,7 +27,13 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
   const cylinder = getCylinderById(query.cylinderId);
   const presence = getPresenceById(query.presenceId);
   const window = getWindowById(query.windowId);
-  const quote = cylinder ? quoteOrder(cylinder.priceNgn) : null;
+  const quote = cylinder
+    ? quoteFill({
+        fillMode: "full",
+        capacityKg: cylinder.sizeKg,
+        zoneId: query.address?.zoneId,
+      })
+    : null;
   const mode = firstParam(params.mode);
   const reference = firstParam(params.ref);
   const isMock = mode !== "paystack";
@@ -59,7 +65,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-ink-muted">
           {isMock
             ? "Test checkout — no card was charged. Your rider can be dispatched from here."
-            : "We’ve got your payment. A rider will fill and deliver your cylinder."}
+            : "We’ve got your payment. A rider will collect the empty, refill it at the plant, and return it filled."}
         </p>
 
         <div className="mt-6">

@@ -118,6 +118,8 @@ export const motion = {
     fast: "150ms",
     normal: "300ms",
     slow: "500ms",
+    /** Fade + Lift enter — opacity 0→1, translateY 12→0 */
+    lift: "450ms",
     breathe: "2.4s",
   },
   easing: {
@@ -128,6 +130,12 @@ export const motion = {
   springs: {
     gentle: { stiffness: 120, damping: 20 },
     snappy: { stiffness: 260, damping: 24 },
+  },
+  lift: {
+    durationMs: 450,
+    fromY: 12,
+    /** Stagger between sibling beats / cards (60–80ms). */
+    staggerMs: 70,
   },
 } as const;
 

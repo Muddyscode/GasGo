@@ -1,11 +1,2 @@
-export {
-  DeliveryTruck,
-  resolveTruckSize,
-  truckSizes,
-} from "./DeliveryTruck";
-export type {
-  DeliveryTruckProps,
-  DeliveryTruckVariant,
-  TruckSizeToken,
-} from "./DeliveryTruck";
-export { DeliveryLoading } from "./DeliveryLoading";
+export { DeliveryTruck } from "./DeliveryTruck";
+export { FadeLift, fadeLiftDelayMs } from "./FadeLift";

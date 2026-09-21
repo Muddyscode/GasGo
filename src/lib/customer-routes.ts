@@ -5,9 +5,9 @@ export type RouteNav = {
 };
 
 export function navForPathname(pathname: string): RouteNav | null {
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname === "/app") return null;
   if (pathname === "/order/cylinder") {
-    return { title: "Select cylinder", backHref: "/", backLabel: "Go back" };
+    return { title: "Your fill", backHref: "/", backLabel: "Go back" };
   }
   if (pathname === "/order/address") {
     return {

@@ -8,10 +8,12 @@ import { PriceBreakdown } from "@/components/order/PriceBreakdown";
 import { buttonClassName } from "@/components/ui/button";
 import { StickyAction } from "@/components/ui/page";
 import type { OrderQuote } from "@/config/pricing";
+import { formatKg } from "@/config/pricing";
 import { createLocalOrderId } from "@/lib/order-id";
 import { formatNaira } from "@/lib/money";
 import { createOrderReference, initiatePaystackPayment } from "@/lib/paystack";
 import { useOrderDraft } from "@/stores/order-draft";
+import { useSession } from "@/stores/session";
 
 type PaystackPayButtonProps = {
   quote: OrderQuote;
@@ -20,23 +22,26 @@ type PaystackPayButtonProps = {
 export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
-  const cylinderId = useOrderDraft((state) => state.cylinderId);
   const address = useOrderDraft((state) => state.address);
   const presenceId = useOrderDraft((state) => state.presenceId);
+  const fillKg = useOrderDraft((state) => state.quote().fillKg);
   const clear = useOrderDraft((state) => state.clear);
+  const user = useSession((state) => state.user);
 
   async function handlePay() {
-    if (pending || !cylinderId || !address || !presenceId) return;
+    if (pending || !user || !address || !presenceId || quote.totalNgn <= 0) return;
     setPending(true);
 
     try {
       await initiatePaystackPayment({
         amountNgn: quote.totalNgn,
-        reference: createOrderReference(cylinderId),
+        email: user.email,
+        reference: createOrderReference(formatKg(fillKg || quote.fillKg || 0)),
         metadata: {
-          cylinder: cylinderId,
+          fillKg: String(fillKg || quote.fillKg || ""),
           address: address.id,
           presence: presenceId,
+          zone: address.zoneId,
         },
       });
       const orderId = createLocalOrderId();
@@ -57,20 +62,24 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
       <PriceBreakdown quote={quote} />
       <p className="mb-2.5 mt-3 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
         <Lock className="size-3.5" strokeWidth={2} />
-        Secured by Paystack · Test mode
+        Pay in full before empty pickup · Paystack test mode
       </p>
       <button
         type="button"
-        disabled={pending}
+        disabled={pending || !user}
         onClick={() => void handlePay()}
         className={buttonClassName(
           { variant: "primary", size: "lg" },
-          pending && "cursor-wait bg-brand-green/80",
+          pending
+            ? "cursor-wait bg-brand-green/80"
+            : !user && "cursor-not-allowed bg-surface-muted text-ink-muted shadow-none",
         )}
       >
         {pending
           ? "Starting Paystack…"
-          : `Pay ${formatNaira(quote.totalNgn)} with Paystack`}
+          : !user
+            ? "Sign up to pay"
+            : `Pay ${formatNaira(quote.totalNgn)} before pickup`}
       </button>
     </StickyAction>
   );
