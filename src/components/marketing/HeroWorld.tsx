@@ -6,12 +6,12 @@ import { cn } from "@/lib/utils";
  */
 export function HeroWorld({ className }: { className?: string }) {
   return (
-    <div className={cn("overflow-hidden", className)} aria-hidden="true">
+    <div className={cn("relative min-h-[14.5rem] overflow-hidden", className)} aria-hidden="true">
       <svg
         viewBox="0 0 1440 460"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="h-full w-full"
+        className="absolute inset-0 h-full w-full"
         preserveAspectRatio="xMidYMax slice"
       >
         <Clouds />
