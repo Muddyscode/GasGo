@@ -1,10 +1,15 @@
 import Link from "next/link";
 import { StageBadge } from "@/components/admin/StageBadge";
 import { StageUpdater } from "@/components/admin/StageUpdater";
-import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
-import { getPresenceById } from "@/config/delivery";
+import { getWindowById } from "@/config/delivery";
+import {
+  SAME_DAY_OPS_REMINDER,
+  formatCalendarDate,
+  fulfillmentLabel,
+  isSameDayLoop,
+} from "@/config/fulfillment";
 import type { DeliveryStageId } from "@/config/delivery-stages";
-import type { AdminOrder } from "@/lib/admin/orders";
+import { formatFillSummary, type AdminOrder } from "@/lib/admin/orders";
 import { formatPhone, formatPlacedAt } from "@/lib/admin/time";
 
 type OrderCardProps = {
@@ -14,9 +19,8 @@ type OrderCardProps = {
 };
 
 export function OrderCard({ order, pending = false, onStageChange }: OrderCardProps) {
-  const cylinder = getCylinderById(order.cylinderId);
-  const presence = getPresenceById(order.presenceId);
-  const size = cylinder ? formatCylinderSize(cylinder.sizeKg) : `${order.cylinderId} kg`;
+  const window = getWindowById(order.windowId);
+  const sameDay = isSameDayLoop(order.pickupDate, order.returnDate);
 
   return (
     <article className="rounded-2xl border border-border bg-surface px-3.5 py-3 shadow-gasgo-soft">
@@ -39,16 +43,28 @@ export function OrderCard({ order, pending = false, onStageChange }: OrderCardPr
       </p>
 
       <p className="mt-1 text-sm text-ink-muted">
-        {size}
+        {formatFillSummary(order)}
         {order.quantity > 1 ? ` × ${order.quantity}` : ""}
         {" · "}
         {order.area}
       </p>
       <p className="mt-0.5 text-sm text-ink-muted">
-        {presence?.title ?? order.presenceId}
+        {fulfillmentLabel(order.fulfillmentMode)}
+        {" · "}
+        {formatCalendarDate(order.pickupDate)}
+        {" → "}
+        {formatCalendarDate(order.returnDate)}
+      </p>
+      <p className="mt-0.5 text-sm text-ink-muted">
+        {window?.title ?? order.windowId}
         {" · "}
         <time dateTime={order.placedAt}>{formatPlacedAt(order.placedAt)}</time>
       </p>
+      {sameDay ? (
+        <p className="mt-1.5 text-xs font-medium leading-relaxed text-brand-green">
+          {SAME_DAY_OPS_REMINDER}
+        </p>
+      ) : null}
 
       <div className="mt-3">
         <StageUpdater

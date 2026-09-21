@@ -10,6 +10,15 @@ import {
   type PresenceId,
 } from "@/config/delivery";
 import {
+  applyFulfillmentToQuote,
+  DEFAULT_FULFILLMENT_MODE,
+  defaultOrderDates,
+  isFulfillmentMode,
+  isValidIsoDate,
+  normalizeOrderDates,
+  type FulfillmentMode,
+} from "@/config/fulfillment";
+import {
   DEFAULT_FILL_MODE,
   LIVE_RATE_NGN_PER_KG,
   quoteFill,
@@ -31,6 +40,9 @@ export type OrderDraft = {
   presenceId: PresenceId | null;
   windowId: DeliveryWindowId;
   notes: string;
+  fulfillmentMode: FulfillmentMode;
+  pickupDate: string;
+  returnDate: string;
 };
 
 type OrderDraftStore = OrderDraft & {
@@ -43,6 +55,10 @@ type OrderDraftStore = OrderDraft & {
   setPresence: (id: PresenceId) => void;
   setWindow: (windowId: DeliveryWindowId) => void;
   setNotes: (notes: string) => void;
+  setFulfillmentMode: (mode: FulfillmentMode) => void;
+  setPickupDate: (pickupDate: string) => void;
+  setReturnDate: (returnDate: string) => void;
+  setOrderDates: (pickupDate: string, returnDate: string) => void;
   clear: () => void;
   isFillReady: () => boolean;
   isReadyForCheckout: () => boolean;
@@ -53,6 +69,8 @@ type OrderDraftStore = OrderDraft & {
     totalKobo: number;
   };
 };
+
+const initialDates = defaultOrderDates();
 
 const initial: OrderDraft = {
   cylinderId: null,
@@ -66,6 +84,9 @@ const initial: OrderDraft = {
   presenceId: null,
   windowId: DEFAULT_DELIVERY_WINDOW,
   notes: "",
+  fulfillmentMode: DEFAULT_FULFILLMENT_MODE,
+  pickupDate: initialDates.pickupDate,
+  returnDate: initialDates.returnDate,
 };
 
 function cylinderIdForCapacity(capacityKg: number): CylinderId | null {
@@ -73,6 +94,14 @@ function cylinderIdForCapacity(capacityKg: number): CylinderId | null {
     capacityKg === 12.5 ? "12.5" : String(capacityKg),
   );
   return match?.id ?? null;
+}
+
+function applyDates(
+  pickupDate: string | null | undefined,
+  returnDate: string | null | undefined,
+) {
+  const next = normalizeOrderDates(pickupDate, returnDate);
+  return { pickupDate: next.pickupDate, returnDate: next.returnDate };
 }
 
 /**
@@ -128,20 +157,40 @@ export const useOrderDraft = create<OrderDraftStore>()(
 
       setNotes: (notes) => set({ notes }),
 
-      clear: () => set({ ...initial }),
+      setFulfillmentMode: (mode) => set({ fulfillmentMode: mode }),
+
+      setPickupDate: (pickupDate) => {
+        set(applyDates(pickupDate, get().returnDate));
+      },
+
+      setReturnDate: (returnDate) => {
+        set(applyDates(get().pickupDate, returnDate));
+      },
+
+      setOrderDates: (pickupDate, returnDate) => {
+        set(applyDates(pickupDate, returnDate));
+      },
+
+      clear: () => set({ ...initial, ...defaultOrderDates() }),
 
       isFillReady: () => get().quote().fillKg > 0,
 
       isReadyForCheckout: () => {
         const s = get();
+        const dates = normalizeOrderDates(s.pickupDate, s.returnDate);
+        const presenceOk = s.fulfillmentMode === "hub" || Boolean(s.presenceId);
         return Boolean(
-          s.quote().fillKg > 0 && s.address && s.presenceId && s.windowId,
+          s.quote().fillKg > 0 &&
+            s.address &&
+            presenceOk &&
+            s.windowId &&
+            dates.ok,
         );
       },
 
       quote: () => {
         const s = get();
-        return quoteFill({
+        const raw = quoteFill({
           fillMode: s.fillMode,
           capacityKg: s.capacityKg ?? 0,
           fillKg: s.fillKg,
@@ -149,6 +198,7 @@ export const useOrderDraft = create<OrderDraftStore>()(
           zoneId: s.address?.zoneId,
           rateNgnPerKg: s.rateNgnPerKg || LIVE_RATE_NGN_PER_KG,
         });
+        return applyFulfillmentToQuote(raw, s.fulfillmentMode);
       },
 
       totals: () => {
@@ -162,11 +212,15 @@ export const useOrderDraft = create<OrderDraftStore>()(
     }),
     {
       name: ORDER_DRAFT_STORAGE_KEY,
-      version: 2,
+      version: 3,
       migrate: (persisted) => {
         const p = (persisted ?? {}) as Partial<OrderDraft>;
         const capacityKg =
           p.capacityKg ?? getCylinderById(p.cylinderId ?? null)?.sizeKg ?? null;
+        const dates = applyDates(
+          isValidIsoDate(p.pickupDate) ? p.pickupDate : null,
+          isValidIsoDate(p.returnDate) ? p.returnDate : null,
+        );
         return {
           ...initial,
           ...p,
@@ -175,6 +229,11 @@ export const useOrderDraft = create<OrderDraftStore>()(
           fillKg: p.fillKg ?? (p.fillMode === "full" || !p.fillMode ? capacityKg : p.fillKg),
           spendNaira: p.spendNaira ?? null,
           rateNgnPerKg: p.rateNgnPerKg ?? LIVE_RATE_NGN_PER_KG,
+          fulfillmentMode: isFulfillmentMode(p.fulfillmentMode)
+            ? p.fulfillmentMode
+            : DEFAULT_FULFILLMENT_MODE,
+          pickupDate: dates.pickupDate,
+          returnDate: dates.returnDate,
         };
       },
       partialize: (state) => ({
@@ -189,6 +248,9 @@ export const useOrderDraft = create<OrderDraftStore>()(
         presenceId: state.presenceId,
         windowId: state.windowId,
         notes: state.notes,
+        fulfillmentMode: state.fulfillmentMode,
+        pickupDate: state.pickupDate,
+        returnDate: state.returnDate,
       }),
     },
   ),

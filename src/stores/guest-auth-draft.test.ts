@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { SAVED_ADDRESSES } from "@/config/delivery";
+import { defaultOrderDates } from "@/config/fulfillment";
 import { LIVE_RATE_NGN_PER_KG } from "@/config/pricing";
 import { ORDER_DRAFT_STORAGE_KEY, useOrderDraft } from "@/stores/order-draft";
 import { useSession } from "@/stores/session";
@@ -7,19 +8,7 @@ import { useSession } from "@/stores/session";
 describe("guest draft survives mock signup", () => {
   beforeEach(() => {
     localStorage.clear();
-    useOrderDraft.setState({
-      cylinderId: null,
-      quantity: 1,
-      capacityKg: null,
-      fillMode: "full",
-      fillKg: null,
-      spendNaira: null,
-      rateNgnPerKg: LIVE_RATE_NGN_PER_KG,
-      address: null,
-      presenceId: null,
-      windowId: "asap",
-      notes: "",
-    });
+    useOrderDraft.getState().clear();
     useSession.setState({ user: null });
   });
 
@@ -77,5 +66,45 @@ describe("guest draft survives mock signup", () => {
     expect(parsed.state?.fillMode).toBe("kg");
     expect(parsed.state?.fillKg).toBe(4);
     expect(parsed.state?.rateNgnPerKg).toBe(LIVE_RATE_NGN_PER_KG);
+  });
+
+  it("persists fulfillmentMode + pickupDate + returnDate and zeros hub delivery", () => {
+    const home = SAVED_ADDRESSES[0];
+    const dates = defaultOrderDates();
+    useOrderDraft.getState().setCapacityKg(12.5);
+    useOrderDraft.getState().setFillMode("full");
+    useOrderDraft.getState().setAddress(home);
+    useOrderDraft.getState().setFulfillmentMode("hub");
+    useOrderDraft.getState().setPickupDate(dates.pickupDate);
+    useOrderDraft.getState().setReturnDate(dates.returnDate);
+
+    expect(useOrderDraft.getState().fulfillmentMode).toBe("hub");
+    expect(useOrderDraft.getState().quote().deliveryNgn).toBe(0);
+    expect(useOrderDraft.getState().quote().totalNgn).toBe(
+      Math.round(12.5 * LIVE_RATE_NGN_PER_KG),
+    );
+    expect(useOrderDraft.getState().isReadyForCheckout()).toBe(true);
+
+    const raw = localStorage.getItem(ORDER_DRAFT_STORAGE_KEY);
+    const parsed = JSON.parse(raw ?? "{}") as {
+      state?: {
+        fulfillmentMode?: string;
+        pickupDate?: string;
+        returnDate?: string;
+      };
+    };
+    expect(parsed.state?.fulfillmentMode).toBe("hub");
+    expect(parsed.state?.pickupDate).toBe(dates.pickupDate);
+    expect(parsed.state?.returnDate).toBe(dates.returnDate);
+
+    useSession.getState().signIn({
+      id: "usr_hub",
+      firstName: "Hub",
+      lastName: "Guest",
+      phone: "+2348011111111",
+      email: "hub@guest.gasgo.app",
+    });
+    expect(useOrderDraft.getState().fulfillmentMode).toBe("hub");
+    expect(useOrderDraft.getState().pickupDate).toBe(dates.pickupDate);
   });
 });

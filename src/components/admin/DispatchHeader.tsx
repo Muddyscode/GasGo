@@ -1,4 +1,8 @@
+"use client";
+
 import { Search } from "lucide-react";
+import { HUB_CONFIGURED_STUB_LABEL } from "@/config/fulfillment";
+import { useAdminSession } from "@/stores/admin-session";
 
 type DispatchHeaderProps = {
   query: string;
@@ -6,11 +10,23 @@ type DispatchHeaderProps = {
 };
 
 export function DispatchHeader({ query, onQueryChange }: DispatchHeaderProps) {
+  const lock = useAdminSession((state) => state.lock);
+
   return (
     <header className="sticky top-0 z-20 border-b border-border/80 bg-surface/90 px-4 pt-[env(safe-area-inset-top)] backdrop-blur-md">
-      <div className="flex h-14 items-center">
+      <div className="flex h-14 items-center justify-between gap-3">
         <h1 className="text-[17px] font-semibold tracking-tight text-ink">Dispatch</h1>
+        <button
+          type="button"
+          onClick={lock}
+          className="text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+        >
+          Lock
+        </button>
       </div>
+      <p className="mb-2 text-xs leading-relaxed text-ink-muted">
+        Live ₦/kg and PH zones are {HUB_CONFIGURED_STUB_LABEL}.
+      </p>
       <label className="relative mb-3 block">
         <Search
           aria-hidden="true"

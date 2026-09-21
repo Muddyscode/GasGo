@@ -112,6 +112,9 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
                 </option>
               ))}
             </select>
+            <span className="mt-1.5 block text-xs text-ink-muted">
+              Zones are hub-configured (stub).
+            </span>
           </label>
 
           <div className="mt-2 grid grid-cols-2 gap-2.5">

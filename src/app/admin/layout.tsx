@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { AdminGate } from "@/components/admin/AdminGate";
 import { BrandMark } from "@/components/brand/BrandMark";
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -7,7 +8,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <div className="flex items-center px-3 pt-[max(0.35rem,env(safe-area-inset-top))] md:px-4">
         <BrandMark href="/admin" />
       </div>
-      {children}
+      <AdminGate>{children}</AdminGate>
     </div>
   );
 }
