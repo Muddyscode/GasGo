@@ -9,6 +9,12 @@ export function whatsappSupportUrl(orderId: string): string {
   return whatsappHref(`Hi GasGo, I need help with order ${orderId}`);
 }
 
+export function whatsappLateUrl(orderId: string): string {
+  return whatsappHref(
+    `Hi GasGo, order ${orderId} is running late. What's the status on the collect → plant → return loop?`,
+  );
+}
+
 export function whatsappAccountUrl(): string {
   return whatsappHref("Hi GasGo, I need help with my account");
 }

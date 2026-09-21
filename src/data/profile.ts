@@ -8,15 +8,18 @@
 
 import { formatCylinderSize, getCylinderById, type CylinderId } from "@/config/cylinders";
 import {
+  DEFAULT_DELIVERY_WINDOW,
   getSavedAddressById,
   SAVED_ADDRESSES,
   type DeliveryAddress,
+  type DeliveryWindowId,
 } from "@/config/delivery";
 import {
   DELIVERY_STAGES,
   type DeliveryStage,
   type DeliveryStageId,
 } from "@/config/delivery-stages";
+import { defaultOrderDates } from "@/config/fulfillment";
 import { quoteFill } from "@/config/pricing";
 import {
   activePlacedOrderForUser,
@@ -49,6 +52,9 @@ export type CustomerOrder = {
   status: DeliveryStageId;
   totalNgn: number;
   placedAt: string;
+  pickupDate?: string;
+  returnDate?: string;
+  windowId?: DeliveryWindowId;
 };
 
 function daysAgoIso(days: number, hours = 10): string {
@@ -93,6 +99,8 @@ export const MOCK_GAUGE: GaugeReading = {
   estimatedDaysRange: [12, 16],
 };
 
+const activeLoopDates = defaultOrderDates();
+
 export const MOCK_ORDERS: readonly CustomerOrder[] = [
   {
     id: "gg_phgra9k2a",
@@ -103,6 +111,9 @@ export const MOCK_ORDERS: readonly CustomerOrder[] = [
     status: "en_route",
     totalNgn: orderTotal("12.5", "old-gra"),
     placedAt: daysAgoIso(0, 9),
+    pickupDate: activeLoopDates.pickupDate,
+    returnDate: activeLoopDates.returnDate,
+    windowId: DEFAULT_DELIVERY_WINDOW,
   },
   {
     id: "gg_phwork3m1c",
@@ -162,6 +173,9 @@ export function toCustomerOrder(order: PlacedOrder): CustomerOrder {
     status: order.stage,
     totalNgn: order.totalNgn,
     placedAt: order.placedAt,
+    pickupDate: order.pickupDate,
+    returnDate: order.returnDate,
+    windowId: order.windowId,
   };
 }
 

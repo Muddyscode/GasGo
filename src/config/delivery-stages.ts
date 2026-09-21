@@ -1,7 +1,7 @@
 /**
  * GasGo delivery stages — Architect contract.
- * Order: queued → rider_assigned → picked_up → en_route → nearby → delivered → attempt_failed
- * `attempt_failed` is admin-facing; customer Tracking uses the success path through `delivered`.
+ * Plant refill loop: queued → rider_assigned → picked_up → en_route → nearby → delivered
+ * `attempt_failed` is a late/failed handover; customer Tracking maps it onto the return step.
  */
 export const DELIVERY_STAGE_IDS = [
   "queued",
@@ -19,47 +19,63 @@ export type DeliveryStage = {
   id: DeliveryStageId;
   title: string;
   detail: string;
+  now: string;
+  next: string;
 };
 
 export const DELIVERY_STAGES: readonly DeliveryStage[] = [
   {
     id: "queued",
-    title: "Order queued",
-    detail: "We’ve got your order and we’re assigning a rider.",
+    title: "Order received",
+    detail: "We’ve got your order. Next we assign a rider to collect the empty.",
+    now: "We’ve got your order",
+    next: "A rider will collect your empty cylinder",
   },
   {
     id: "rider_assigned",
-    title: "Rider assigned",
+    title: "Collecting the empty",
     detail: "Your rider is heading out to collect your empty cylinder.",
+    now: "Rider is collecting your empty cylinder",
+    next: "Empty goes to the plant for refill",
   },
   {
     id: "picked_up",
-    title: "Cylinder picked up",
-    detail: "Empty collected — off to the plant for an offsite refill.",
+    title: "At the plant",
+    detail: "Empty collected — filling offsite at the plant, never at your door.",
+    now: "Empty is at the plant for refill",
+    next: "Filled cylinder comes back to you",
   },
   {
     id: "en_route",
-    title: "On the way",
+    title: "Returning your fill",
     detail: "Your filled cylinder is on the way back from the plant.",
+    now: "Filled cylinder is on the way back",
+    next: "Rider arrives at your address",
   },
   {
     id: "nearby",
-    title: "Nearby",
+    title: "Almost there",
     detail: "Rider is close with your filled cylinder — get ready to receive.",
+    now: "Rider is close with your filled cylinder",
+    next: "Receive the filled cylinder",
   },
   {
     id: "delivered",
-    title: "Delivered",
+    title: "Cylinder returned",
     detail: "Filled cylinder is back. Enjoy your cook.",
+    now: "Filled cylinder is back with you",
+    next: "Enjoy your cook",
   },
   {
     id: "attempt_failed",
-    title: "Attempt failed",
-    detail: "Rider could not complete handover. Retry or call the customer.",
+    title: "Handover didn’t complete",
+    detail: "Rider could not complete the return. WhatsApp us and we’ll retry.",
+    now: "Handover didn’t complete",
+    next: "WhatsApp us to sort the retry",
   },
 ] as const;
 
-/** Success path shown on customer Tracking. `attempt_failed` stays on the admin board. */
+/** Success path shown on customer Tracking. `attempt_failed` overlays the return step. */
 export const CUSTOMER_DELIVERY_STAGE_IDS = DELIVERY_STAGE_IDS.filter(
   (id): id is Exclude<DeliveryStageId, "attempt_failed"> => id !== "attempt_failed",
 );
