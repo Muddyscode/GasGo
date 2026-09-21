@@ -14,7 +14,7 @@
   <rect x="8.2" y="18.4" width="13.4" height="1.35" fill="#FFDF22"/>
   <!-- Cab -->
   <path d="M21.2 12.4h5.6c.9 0 1.6.7 1.6 1.6v8.2h-8.4v-8.6c0-.7.5-1.2 1.2-1.2Z" fill="#FFFFFF"/>
-  <path d="M22.4 13.8h4.1l.9 4.2H22.4V13.8Z" fill="#147A3E"/>
+  <path d="M22.4 13.8h4.1l.9 4.2H22.4V13.8Z" fill="#0B1F14"/>
   <rect x="27.2" y="19.2" width="1.5" height="1.5" rx="0.3" fill="#FFDF22"/>
   <!-- Wheels -->
   <circle cx="12.4" cy="24.6" r="2.35" fill="#0B1F14"/>

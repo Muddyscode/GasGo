@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin } from "lucide-react";
+import { PhPinGlyph } from "@/components/illustrations/gas-scenes";
 import { cardClassName } from "@/components/ui/card";
 import type { DeliveryAddress } from "@/config/delivery";
 
@@ -40,9 +40,9 @@ export function ProfileAddresses({ addresses }: ProfileAddressesProps) {
             >
               <span
                 aria-hidden="true"
-                className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-muted text-ink-muted"
+                className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-soft"
               >
-                <MapPin className="size-5" strokeWidth={1.75} />
+                <PhPinGlyph className="size-5" />
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-[15px] font-semibold tracking-tight text-ink">

@@ -1,4 +1,5 @@
-import { Pencil, UserRound } from "lucide-react";
+import { Pencil } from "lucide-react";
+import { CylinderGlyph } from "@/components/illustrations/gas-scenes";
 import { cardClassName } from "@/components/ui/card";
 import { formatNgPhone } from "@/data/profile";
 
@@ -26,7 +27,7 @@ export function ProfileUserCard({ name, phone, onEdit }: ProfileUserCardProps) {
           {initials ? (
             <span className="text-lg font-semibold tracking-tight">{initials}</span>
           ) : (
-            <UserRound className="size-6" strokeWidth={1.75} />
+            <CylinderGlyph className="size-6" />
           )}
         </span>
 

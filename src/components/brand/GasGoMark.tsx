@@ -47,7 +47,7 @@ export function GasGoMark({ className, title }: GasGoMarkProps) {
         d="M22.2 11.6h6.2c1 0 1.8.8 1.8 1.8v9.2H21.2v-9.6c0-.8.6-1.4 1.4-1.4Z"
         fill="currentColor"
       />
-      <path d="M23.5 13.2h4.6l1 4.6H23.5V13.2Z" fill="#147A3E" />
+      <path d="M23.5 13.2h4.6l1 4.6H23.5V13.2Z" fill="#0B1F14" />
       <rect x="28.4" y="19.1" width="1.7" height="1.7" rx="0.35" fill="#FFDF22" />
       <circle cx="13.1" cy="25.2" r="2.55" fill="#0B1F14" />
       <circle cx="13.1" cy="25.2" r="1.1" fill="#FFDF22" />

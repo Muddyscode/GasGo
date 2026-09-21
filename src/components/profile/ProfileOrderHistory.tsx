@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { CylinderGlyph } from "@/components/illustrations/gas-scenes";
 import { format } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
 import { buttonClassName } from "@/components/ui/button";
@@ -76,6 +77,12 @@ function OrderRow({ order }: { order: CustomerOrder }) {
       href={orderHref(order)}
       className={cn(interactiveCardClassName, "flex min-h-14 items-center gap-3 px-4 py-3.5")}
     >
+      <span
+        aria-hidden="true"
+        className="grid size-10 shrink-0 place-items-center rounded-xl bg-surface-soft"
+      >
+        <CylinderGlyph className="size-5" />
+      </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2">
           <span className="font-mono text-[13px] font-semibold tracking-tight text-ink">
