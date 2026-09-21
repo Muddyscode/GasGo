@@ -53,8 +53,9 @@ export function CheckoutSummary({
         </p>
         <p className="mt-0.5 text-sm leading-snug text-ink">{address.line}</p>
         <p className="mt-0.5 text-sm text-ink-muted">
-          {address.area}
-          {quote.zoneName ? ` · ${quote.zoneName}` : ""}
+          {quote.zoneName && quote.zoneName !== address.area
+            ? `${address.area} · ${quote.zoneName}`
+            : address.area}
         </p>
 
         <dl className="mt-4 space-y-3 border-t border-border pt-3">

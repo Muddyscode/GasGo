@@ -11,12 +11,14 @@ import {
   orderStage,
 } from "@/data/profile";
 import { cn } from "@/lib/utils";
+import { usePersistHydrated } from "@/lib/use-persist-hydrated";
 import { useOrderDraft } from "@/stores/order-draft";
 import { useSession } from "@/stores/session";
 
 export function NavActions() {
   const pathname = usePathname();
   const router = useRouter();
+  const hydrated = usePersistHydrated();
   const user = useSession((state) => state.user);
   const { openAuth, requestAuth } = useAuthModal();
   const quote = useOrderDraft((state) => state.quote);
@@ -33,6 +35,10 @@ export function NavActions() {
       return;
     }
     router.push(live.fillKg > 0 ? "/order/address" : "/order/cylinder");
+  }
+
+  if (!hydrated) {
+    return <div className="h-9 w-11" aria-hidden="true" />;
   }
 
   return (

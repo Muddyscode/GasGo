@@ -21,10 +21,12 @@ import {
   profileFromSession,
   profileHeaderTitle,
 } from "@/data/profile";
+import { usePersistHydrated } from "@/lib/use-persist-hydrated";
 import { useSession } from "@/stores/session";
 
 export function ProfileView() {
   const router = useRouter();
+  const hydrated = usePersistHydrated();
   const user = useSession((state) => state.user);
   const signIn = useSession((state) => state.signIn);
   const signOut = useSession((state) => state.signOut);
@@ -37,6 +39,18 @@ export function ProfileView() {
   const gauge = useMemo(() => getMockGauge(), []);
   const orders = useMemo(() => ordersForUser(user?.id), [user?.id]);
   const addresses = useMemo(() => getMockAddresses(), []);
+
+  if (!hydrated) {
+    return (
+      <PageFrame>
+        <OrderHeader title="Profile" backHref="/" backLabel="Back home" />
+        <PageBody className="pt-10">
+          <div className="h-8 w-40 animate-pulse rounded-lg bg-surface-muted" />
+          <div className="mt-3 h-4 w-56 animate-pulse rounded-lg bg-surface-muted" />
+        </PageBody>
+      </PageFrame>
+    );
+  }
 
   function openEdit() {
     setDraftName(profileDisplayName(profile));
