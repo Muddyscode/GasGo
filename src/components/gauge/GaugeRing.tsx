@@ -40,6 +40,7 @@ export function GaugeRing({
   const shouldBreathe = breathe ?? level === "critical";
   const isCaution = level === "caution";
 
+  const isSafe = level === "safe";
   const { stroke, radius, circumference, center } = useMemo(() => {
     const cautionWidth =
       strokeWidth ??
@@ -85,10 +86,10 @@ export function GaugeRing({
           >
             <feDropShadow
               dx="0"
-              dy="2"
-              stdDeviation={isCaution ? 2.2 : 3}
+              dy={isSafe ? 1 : 2}
+              stdDeviation={isCaution ? 2.2 : isSafe ? 1.2 : 3}
               floodColor={isCaution ? ink : color}
-              floodOpacity={isCaution ? 0.18 : 0.25}
+              floodOpacity={isCaution ? 0.18 : isSafe ? 0.1 : 0.25}
             />
           </filter>
         </defs>

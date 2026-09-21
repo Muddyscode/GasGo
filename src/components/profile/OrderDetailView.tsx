@@ -8,6 +8,7 @@ import { buttonClassName } from "@/components/ui/button";
 import { cardClassName } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageBody, PageFrame, StickyAction } from "@/components/ui/page";
+import { GASGO_TZ } from "@/config/fulfillment";
 import {
   getProfileOrderById,
   orderAddress,
@@ -74,7 +75,7 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
 
   const stage = orderStage(order);
   const address = orderAddress(order);
-  const placedAt = formatInTimeZone(order.placedAt, "Africa/Lagos", "d MMMM yyyy · h:mm a");
+  const placedAt = formatInTimeZone(order.placedAt, GASGO_TZ, "d MMMM yyyy · h:mm a");
   const deliveredTo = live
     ? [live.addressLabel, live.addressLine].filter(Boolean).join(" · ")
     : address

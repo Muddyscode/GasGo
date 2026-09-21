@@ -60,7 +60,7 @@ export function NavActions() {
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-brand-green/50" />
             <span className="relative inline-flex size-1.5 rounded-full bg-brand-green" />
           </span>
-          <span className="truncate">{stage?.title ?? "On the way"}</span>
+          <span className="truncate">{stage?.title ?? "Plant refill loop"}</span>
         </Link>
       ) : null}
 

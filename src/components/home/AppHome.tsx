@@ -176,7 +176,7 @@ function ActiveOrderCard({ order }: { order: CustomerOrder }) {
             Active order · {order.orderNumber}
           </p>
           <p className="mt-1 text-[18px] font-semibold tracking-tight">
-            {stage?.title ?? "On the way"}
+            {stage?.title ?? "Plant refill loop"}
           </p>
           <p className="mt-0.5 text-sm text-white/85">
             {stage?.detail ?? "Collect → plant refill → return"}

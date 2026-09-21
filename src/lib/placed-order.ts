@@ -113,7 +113,7 @@ export function buildPlacedOrder(input: {
 }
 
 export function isActivePlacedStage(stage: DeliveryStageId): boolean {
-  return stage !== "delivered";
+  return stage !== "delivered" && stage !== "attempt_failed";
 }
 
 export function placedOrdersForUser(

@@ -4,7 +4,6 @@ import {
 } from "@/config/delivery";
 import {
   CUSTOMER_DELIVERY_STAGE_IDS,
-  DELIVERY_STAGE_IDS,
   type DeliveryStageId,
 } from "@/config/delivery-stages";
 import {
@@ -15,10 +14,6 @@ import {
 import { getProfileOrderById } from "@/data/profile";
 import { getOrdersSnapshot } from "@/lib/admin/orders";
 import type { PlacedOrder } from "@/lib/placed-order";
-
-const IN_PROGRESS_STAGES = DELIVERY_STAGE_IDS.filter(
-  (id) => id !== "delivered" && id !== "attempt_failed",
-);
 
 export type LateKind = "handover_failed" | "behind_schedule";
 
@@ -51,16 +46,24 @@ export const LATE_TRACKING_COPY = {
   },
 } as const;
 
-/** Demo stage from orderId. Defaults to en_route when the hash is empty. */
-export function demoStageForOrderId(orderId: string): DeliveryStageId {
-  if (!orderId) return "en_route";
+/**
+ * Unknown checkout ids start at queued — never a hashed `en_route`.
+ * Paid overlay / admin / profile seeds still win when they exist.
+ */
+export function demoStageForOrderId(_orderId: string): DeliveryStageId {
+  return "queued";
+}
 
-  let hash = 0;
-  for (let i = 0; i < orderId.length; i += 1) {
-    hash = (hash * 31 + orderId.charCodeAt(i)) >>> 0;
-  }
+/** Happy-path plant loop for the demo stepper. Failed handover does not skip to delivered. */
+export function nextPlantLoopStage(stage: DeliveryStageId): DeliveryStageId | null {
+  if (stage === "attempt_failed" || stage === "delivered") return null;
+  const index = CUSTOMER_DELIVERY_STAGE_IDS.indexOf(stage);
+  if (index < 0 || index >= CUSTOMER_DELIVERY_STAGE_IDS.length - 1) return null;
+  return CUSTOMER_DELIVERY_STAGE_IDS[index + 1] ?? null;
+}
 
-  return IN_PROGRESS_STAGES[hash % IN_PROGRESS_STAGES.length] ?? "en_route";
+export function resetPlantLoopStage(): DeliveryStageId {
+  return "queued";
 }
 
 export function timelineStageId(

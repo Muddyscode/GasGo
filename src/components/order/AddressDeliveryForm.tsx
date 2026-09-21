@@ -159,7 +159,7 @@ export function AddressDeliveryForm() {
             Pickup and return dates
           </h3>
           <p className="mb-3 text-sm leading-relaxed text-ink-muted">
-            Africa/Lagos calendar days. Preferred window below is a time-of-day
+            Port Harcourt calendar days (WAT). The window below is a time-of-day
             preference, not a hard slot.
           </p>
           <OrderDatePicker

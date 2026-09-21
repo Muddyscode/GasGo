@@ -165,6 +165,10 @@ export function formatKg(kg: number): string {
   return Number.isInteger(kg) ? String(kg) : kg.toFixed(1).replace(/\.0$/, "");
 }
 
+/** Paid-at-checkout honesty: under-fill refunds later; never a second charge. */
+export const PAYMENT_VARIANCE_COPY =
+  "If we under-fill, we refund the difference later. We never charge more after you pay.";
+
 function sanitizeKg(value: number): number {
   if (!Number.isFinite(value) || value < 0) return 0;
   return value;
