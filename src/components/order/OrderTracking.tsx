@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
+import { DeliveryTruck } from "@/components/motion";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { TrackingTimeline } from "@/components/order/TrackingTimeline";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
@@ -22,70 +22,45 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
     <PageFrame>
       <OrderHeader title="Track order" backHref="/" backLabel="Back home" />
 
-      <PageBody className="pb-8">
-        <PageTitle
-          eyebrow="Live delivery"
-          subtitle={current?.detail ?? "Your rider is en route to your address."}
-        >
-          {current?.title ?? "On the way"}
-        </PageTitle>
+      <div className="flex flex-1 flex-col px-5 pt-6 pb-8">
+        <section className="mb-6">
+          <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
+            Live delivery
+          </p>
+          <h2 className="mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink">
+            {current?.title ?? "On the way"}
+          </h2>
+          <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-ink-muted">
+            {current?.detail ?? "Your rider is en route to your address."}
+          </p>
+        </section>
 
-        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-7">
-            <DeliveryTruck label="Your cylinder is moving" />
+        <section className="mb-6 overflow-hidden rounded-2xl border border-border bg-surface-soft shadow-gasgo-soft">
+          <DeliveryTruck
+            variant="tracking"
+            size="lg"
+            label={`${current?.title ?? "On the way"} — ${current?.detail ?? "Your rider is en route to your address."}`}
+            showLabel={false}
+            className="px-1 pb-1 pt-4"
+          />
+        </section>
 
-            <section className={`${cardClassName} mt-4 overflow-hidden`}>
-              <div className="relative h-28">
-                <Image
-                  src="/images/cooking-gas-trolley.jpg"
-                  alt="Cooking gas cylinder on a delivery trolley"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 560px"
-                  className="object-cover object-left"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/80 to-transparent" />
-                <div className="absolute inset-y-0 left-4 flex flex-col justify-center">
-                  <p className="text-sm font-medium text-ink-muted">Order</p>
-                  <p className="mt-1 font-mono text-[17px] font-semibold tracking-tight text-ink">
-                    {orderId}
-                  </p>
-                </div>
-              </div>
-            </section>
+        <section className="mb-6 rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+          <p className="text-sm font-medium text-ink-muted">Order</p>
+          <p className="mt-1 font-mono text-[17px] font-semibold tracking-tight text-ink">
+            {orderId}
+          </p>
+        </section>
 
-            <section className={`${cardClassName} mt-4 px-4 py-5`}>
-              <h3 className="mb-4 text-sm font-semibold tracking-wide text-ink-muted">
-                Delivery progress
-              </h3>
-              <TrackingTimeline currentStageId={currentStageId} />
-            </section>
-          </div>
+        <section className="mb-32 rounded-2xl border border-border bg-surface px-4 py-5 shadow-gasgo-soft">
+          <h3 className="mb-4 text-sm font-semibold tracking-wide text-ink-muted">
+            Delivery progress
+          </h3>
+          <TrackingTimeline currentStageId={currentStageId} />
+        </section>
+      </div>
 
-          <aside className="mt-4 hidden lg:col-span-5 lg:mt-0 lg:block">
-            <div className={`${cardClassName} overflow-hidden`}>
-              <div className="relative h-52">
-                <Image
-                  src="/images/cooking-gas-filling-point.png"
-                  alt="Gas filling point preparing a cylinder"
-                  fill
-                  sizes="420px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="px-4 py-4">
-                <p className="text-[15px] font-semibold tracking-tight text-ink">
-                  Filled at the plant, then rolled to your gate
-                </p>
-                <p className="mt-1 text-sm leading-relaxed text-ink-muted">
-                  You’ll see each hop — queued, filling, en route, nearby, delivered.
-                </p>
-              </div>
-            </div>
-          </aside>
-        </div>
-      </PageBody>
-
-      <StickyAction>
+      <div className="sticky bottom-0 z-20 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md pb-[max(1rem,env(safe-area-inset-bottom))]">
         <p className="mb-2.5 text-center text-sm text-ink-muted">
           Rider running late? Talk to us on WhatsApp.
         </p>
