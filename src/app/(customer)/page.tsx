@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { HomeHero } from "@/components/home/HomeHero";
-import { getMockProfile } from "@/data/profile";
+import { HomeGate } from "@/components/home/HomeGate";
 
 export const metadata: Metadata = {
   title: "GasGo",
-  description: "Know your gas. Refill before you run out.",
+  description:
+    "Port Harcourt cooking gas: we collect your empty cylinder, refill it at the plant, and return it filled. Pay before pickup.",
 };
 
 export default function HomePage() {
-  const profile = getMockProfile();
-
-  return <HomeHero firstName={profile.firstName} />;
+  return <HomeGate />;
 }

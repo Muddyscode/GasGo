@@ -3,7 +3,7 @@ import { AddressDeliveryForm } from "@/components/order/AddressDeliveryForm";
 
 export const metadata: Metadata = {
   title: "Delivery details · GasGo",
-  description: "Choose a Lagos address, handover, and delivery window.",
+  description: "Choose a Port Harcourt address, handover, and return window.",
 };
 
 export default function AddressPage() {

@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthModal } from "@/components/auth/AuthProvider";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { EditProfileSheet } from "@/components/profile/EditProfileSheet";
 import { ProfileAddresses } from "@/components/profile/ProfileAddresses";
@@ -14,32 +16,26 @@ import { PageBody, PageFrame } from "@/components/ui/page";
 import {
   getMockAddresses,
   getMockGauge,
-  getMockOrders,
-  getMockProfile,
+  ordersForUser,
   profileDisplayName,
+  profileFromSession,
   profileHeaderTitle,
-  type CustomerProfile,
 } from "@/data/profile";
-
-function applyDisplayName(profile: CustomerProfile, name: string): CustomerProfile {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  return {
-    ...profile,
-    firstName: parts[0] ?? null,
-    lastName: parts.slice(1).join(" ") || null,
-  };
-}
+import { useSession } from "@/stores/session";
 
 export function ProfileView() {
-  const [profile, setProfile] = useState(getMockProfile);
-  const [autoRefill, setAutoRefill] = useState(profile.autoRefillEnabled);
+  const router = useRouter();
+  const user = useSession((state) => state.user);
+  const signIn = useSession((state) => state.signIn);
+  const signOut = useSession((state) => state.signOut);
+  const { openAuth } = useAuthModal();
+  const profile = profileFromSession(user);
   const [editing, setEditing] = useState(false);
   const [draftName, setDraftName] = useState(profileDisplayName(profile));
   const [draftPhone, setDraftPhone] = useState(profile.phone);
-  const [signedOut, setSignedOut] = useState(false);
 
   const gauge = useMemo(() => getMockGauge(), []);
-  const orders = useMemo(() => getMockOrders(), []);
+  const orders = useMemo(() => ordersForUser(user?.id), [user?.id]);
   const addresses = useMemo(() => getMockAddresses(), []);
 
   function openEdit() {
@@ -49,14 +45,23 @@ export function ProfileView() {
   }
 
   function saveEdit() {
-    setProfile((current) => ({
-      ...applyDisplayName(current, draftName),
+    if (!user) return;
+    const parts = draftName.trim().split(/\s+/).filter(Boolean);
+    signIn({
+      ...user,
+      firstName: parts[0] ?? user.firstName,
+      lastName: parts.slice(1).join(" "),
       phone: draftPhone.trim(),
-    }));
+    });
     setEditing(false);
   }
 
-  if (signedOut) {
+  function handleLogout() {
+    signOut();
+    router.push("/");
+  }
+
+  if (!user) {
     return (
       <PageFrame>
         <OrderHeader title="Profile" backHref="/" backLabel="Back home" />
@@ -64,15 +69,16 @@ export function ProfileView() {
           <h2 className="text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[32px]">
             You’re signed out
           </h2>
-          <p className="mt-2 max-w-[32ch] text-[15px] leading-relaxed text-ink-muted">
-            Demo only — real accounts will land with Supabase auth.
+          <p className="mt-2 max-w-[36ch] text-[15px] leading-relaxed text-ink-muted">
+            Mock accounts only for now. Signing in never clears a fill you already
+            drafted.
           </p>
           <button
             type="button"
-            onClick={() => setSignedOut(false)}
+            onClick={() => openAuth("/profile")}
             className={buttonClassName({ variant: "primary", size: "lg" }, "mt-8")}
           >
-            Continue as {profile.firstName || "guest"}
+            Sign in
           </button>
         </PageBody>
       </PageFrame>
@@ -96,12 +102,12 @@ export function ProfileView() {
               onEdit={openEdit}
             />
             <ProfileGaugeCard gauge={gauge} />
-            <ProfileAutoRefill enabled={autoRefill} onToggle={setAutoRefill} />
+            <ProfileAutoRefill />
           </div>
           <div className="mt-6 flex flex-col gap-6 lg:col-span-7 lg:mt-0">
             <ProfileOrderHistory orders={orders} />
             <ProfileAddresses addresses={addresses} />
-            <ProfileSupport onLogout={() => setSignedOut(true)} />
+            <ProfileSupport onLogout={handleLogout} />
           </div>
         </div>
       </PageBody>

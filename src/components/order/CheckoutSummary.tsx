@@ -1,15 +1,20 @@
 import { cardClassName } from "@/components/ui/card";
-import type { CylinderOption } from "@/config/cylinders";
-import { formatCylinderSize } from "@/config/cylinders";
 import type {
   DeliveryAddress,
   DeliveryWindow,
   PresenceOption,
 } from "@/config/delivery";
+import { formatKg, type FillQuote } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 
+const FILL_MODE_LABEL = {
+  full: "Full fill",
+  kg: "Fill by kg",
+  naira: "Fill by ₦",
+} as const;
+
 type CheckoutSummaryProps = {
-  cylinder: CylinderOption;
+  quote: FillQuote;
   address: DeliveryAddress;
   presence: PresenceOption;
   window: DeliveryWindow;
@@ -17,7 +22,7 @@ type CheckoutSummaryProps = {
 };
 
 export function CheckoutSummary({
-  cylinder,
+  quote,
   address,
   presence,
   window,
@@ -26,27 +31,31 @@ export function CheckoutSummary({
   return (
     <div className="flex flex-col gap-3">
       <section className={`${cardClassName} px-4 py-4`}>
-        <p className="text-sm font-medium text-ink-muted">Cylinder</p>
+        <p className="text-sm font-medium text-ink-muted">Plant refill</p>
         <div className="mt-1.5 flex items-baseline justify-between gap-3">
           <p className="text-lg font-semibold tracking-tight text-ink">
-            {formatCylinderSize(cylinder.sizeKg)}
+            {formatKg(quote.fillKg)} kg of {formatKg(quote.capacityKg)} kg
           </p>
           <p className="text-lg font-semibold tabular-nums tracking-tight text-ink">
-            {formatNaira(cylinder.priceNgn)}
+            {formatNaira(quote.gasFillNgn)}
           </p>
         </div>
         <p className="mt-0.5 text-sm text-ink-muted">
-          Best for {cylinder.bestFor.toLowerCase()}
+          {FILL_MODE_LABEL[quote.fillMode]} · {formatNaira(quote.rateNgnPerKg)}/kg
+          · refilled offsite, never at your door
         </p>
       </section>
 
       <section className={`${cardClassName} px-4 py-4`}>
-        <p className="text-sm font-medium text-ink-muted">Delivery</p>
+        <p className="text-sm font-medium text-ink-muted">Pickup & return</p>
         <p className="mt-1.5 text-[17px] font-semibold tracking-tight text-ink">
           {address.label}
         </p>
         <p className="mt-0.5 text-sm leading-snug text-ink">{address.line}</p>
-        <p className="mt-0.5 text-sm text-ink-muted">{address.area}</p>
+        <p className="mt-0.5 text-sm text-ink-muted">
+          {address.area}
+          {quote.zoneName ? ` · ${quote.zoneName}` : ""}
+        </p>
 
         <dl className="mt-4 space-y-3 border-t border-border pt-3">
           <SummaryLine label="Handover" value={presence.title} />

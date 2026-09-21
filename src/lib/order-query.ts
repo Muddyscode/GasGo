@@ -14,6 +14,7 @@ import {
   isDeliveryWindowId,
   isPresenceId,
 } from "@/config/delivery";
+import { isZoneId } from "@/config/pricing";
 
 export type SearchValue = string | string[] | undefined;
 
@@ -38,9 +39,16 @@ export function parseOrderQuery(params: Record<string, SearchValue>): OrderQuery
   const label = firstParam(params.label)?.trim();
   const line = firstParam(params.line)?.trim();
   const area = firstParam(params.area)?.trim();
+  const zoneRaw = firstParam(params.zone);
   const custom =
     !saved && addressId && label && line && area
-      ? { id: addressId, label, line, area }
+      ? {
+          id: addressId,
+          label,
+          line,
+          area,
+          zoneId: isZoneId(zoneRaw) ? zoneRaw : "old-gra",
+        }
       : null;
 
   const presenceRaw = firstParam(params.presence);
@@ -82,6 +90,7 @@ export function buildOrderQuery(input: {
     params.set("label", input.address.label);
     params.set("line", input.address.line);
     params.set("area", input.address.area);
+    params.set("zone", input.address.zoneId);
   }
   if (input.presenceId && getPresenceById(input.presenceId)) {
     params.set("presence", input.presenceId);

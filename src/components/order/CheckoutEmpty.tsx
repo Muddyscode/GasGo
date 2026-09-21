@@ -17,7 +17,7 @@ export function CheckoutEmpty() {
           image="/images/cooking-gas-station.png"
           alt="Cooking gas station waiting for an order"
           title="A few details first"
-          body="Choose a cylinder and where to deliver it before you pay. Nothing has been charged."
+          body="Choose a fill and a Port Harcourt address before you pay. We collect the empty only after payment."
           action={
             <div className="flex flex-col gap-3">
               <Link
@@ -30,7 +30,7 @@ export function CheckoutEmpty() {
                 href="/order/cylinder"
                 className={buttonClassName({ variant: "secondary", size: "lg" })}
               >
-                Choose a cylinder
+                Choose a fill
               </Link>
             </div>
           }

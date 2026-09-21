@@ -1,12 +1,6 @@
 import { cardClassName } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 
-type ProfileAutoRefillProps = {
-  enabled: boolean;
-  onToggle: (next: boolean) => void;
-};
-
-export function ProfileAutoRefill({ enabled, onToggle }: ProfileAutoRefillProps) {
+export function ProfileAutoRefill() {
   return (
     <section className={`${cardClassName} relative overflow-hidden bg-surface-muted px-4 py-4`}>
       <span
@@ -19,36 +13,13 @@ export function ProfileAutoRefill({ enabled, onToggle }: ProfileAutoRefillProps)
             Never run out
           </h2>
           <p className="mt-1 text-sm leading-relaxed text-ink-muted">
-            {enabled
-              ? "Auto-refill is on. We’ll deliver before your gauge hits empty."
-              : "Auto-refill watches your gauge and delivers before you hit empty."}
-          </p>
-          <p className="mt-2 text-[11px] font-semibold uppercase tracking-wide text-ink-muted">
-            {enabled ? "On · demo only" : "Off · demo only"}
+            Auto-refill will watch your gauge and book a plant refill before you
+            hit empty. Not available yet — no background orders today.
           </p>
         </div>
-
-        <button
-          type="button"
-          role="switch"
-          aria-checked={enabled}
-          aria-label="Never run out auto-refill"
-          onClick={() => onToggle(!enabled)}
-          className={cn(
-            "relative mt-0.5 h-7 w-12 shrink-0 rounded-full transition-colors duration-150",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 focus-visible:ring-offset-2",
-            enabled ? "bg-brand-green" : "bg-border",
-          )}
-        >
-          <span
-            aria-hidden="true"
-            className={cn(
-              "absolute top-0.5 size-6 rounded-full bg-white shadow-gasgo-soft",
-              "transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]",
-              enabled ? "translate-x-5" : "translate-x-0.5",
-            )}
-          />
-        </button>
+        <span className="mt-0.5 shrink-0 rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+          Coming soon
+        </span>
       </div>
     </section>
   );

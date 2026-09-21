@@ -30,27 +30,27 @@ export const DELIVERY_STAGES: readonly DeliveryStage[] = [
   {
     id: "rider_assigned",
     title: "Rider assigned",
-    detail: "Your rider is heading to the filling point.",
+    detail: "Your rider is heading out to collect your empty cylinder.",
   },
   {
     id: "picked_up",
     title: "Cylinder picked up",
-    detail: "Your gas is on the bike and ready to roll.",
+    detail: "Empty collected — off to the plant for an offsite refill.",
   },
   {
     id: "en_route",
     title: "On the way",
-    detail: "Your rider is en route to your address.",
+    detail: "Your filled cylinder is on the way back from the plant.",
   },
   {
     id: "nearby",
     title: "Nearby",
-    detail: "Your rider is close — get ready to receive.",
+    detail: "Rider is close with your filled cylinder — get ready to receive.",
   },
   {
     id: "delivered",
     title: "Delivered",
-    detail: "Cylinder delivered. Enjoy your gas.",
+    detail: "Filled cylinder is back. Enjoy your cook.",
   },
   {
     id: "attempt_failed",

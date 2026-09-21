@@ -95,7 +95,7 @@ export function HomeHero({ firstName }: HomeHeroProps) {
         <div className="lg:grid lg:grid-cols-12 lg:items-start lg:gap-10">
           <section className="lg:col-span-6">
             <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
-              Lagos LPG, on demand
+              Port Harcourt LPG, plant refill
             </p>
             <h2 className="mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[34px] lg:text-[40px]">
               {name ? `${greeting}, ${name}` : greeting}
@@ -155,8 +155,8 @@ export function HomeHero({ firstName }: HomeHeroProps) {
               <NeverRunOutTease />
               <StoryCard
                 icon={<Clock3 className="size-4" strokeWidth={2} />}
-                title="Same-day Lagos"
-                body="Fill, dispatch, and drop at your gate — usually today."
+                title="Same-day Port Harcourt"
+                body="Collect the empty, refill at the plant, return it filled — usually today."
               />
             </div>
 
@@ -183,7 +183,7 @@ export function HomeHero({ firstName }: HomeHeroProps) {
                     Choose your cylinder
                   </p>
                   <p className="mt-0.5 text-sm text-white/80">
-                    6kg, 12.5kg, or 25kg — filled and brought to your door.
+                    Full, by kg, or by ₦ — refilled at the plant, never at your door.
                   </p>
                 </div>
               </div>
@@ -191,7 +191,7 @@ export function HomeHero({ firstName }: HomeHeroProps) {
 
             <div className="hidden items-center gap-2 text-sm text-ink-muted lg:flex">
               <ShieldCheck className="size-4 text-brand-green" strokeWidth={2} />
-              Sealed fill. Live tracking. WhatsApp if the rider runs late.
+              Pay before pickup. Plant refill. WhatsApp if the rider runs late.
             </div>
           </aside>
         </div>

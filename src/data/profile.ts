@@ -17,7 +17,8 @@ import {
   type DeliveryStage,
   type DeliveryStageId,
 } from "@/config/delivery-stages";
-import { quoteOrder } from "@/config/pricing";
+import { quoteFill } from "@/config/pricing";
+import type { SessionUser } from "@/stores/session";
 
 export type CustomerProfile = {
   id: string;
@@ -52,12 +53,16 @@ function daysAgoIso(days: number, hours = 10): string {
   return date.toISOString();
 }
 
-function orderTotal(cylinderId: CylinderId): number {
+function orderTotal(cylinderId: CylinderId, zoneId: DeliveryAddress["zoneId"]): number {
   const cylinder = getCylinderById(cylinderId);
   if (!cylinder) {
     throw new Error(`Unknown cylinder ${cylinderId}`);
   }
-  return quoteOrder(cylinder.priceNgn).totalNgn;
+  return quoteFill({
+    fillMode: "full",
+    capacityKg: cylinder.sizeKg,
+    zoneId,
+  }).totalNgn;
 }
 
 export const MOCK_PROFILE: CustomerProfile = {
@@ -66,6 +71,14 @@ export const MOCK_PROFILE: CustomerProfile = {
   lastName: "Adebayo",
   phone: "+2348034412291",
   autoRefillEnabled: false,
+};
+
+export const DEMO_SESSION_USER: SessionUser = {
+  id: MOCK_PROFILE.id,
+  firstName: MOCK_PROFILE.firstName ?? "Tunde",
+  lastName: MOCK_PROFILE.lastName ?? "Adebayo",
+  phone: MOCK_PROFILE.phone,
+  email: "tunde@demo.gasgo.app",
 };
 
 export const MOCK_GAUGE: GaugeReading = {
@@ -77,43 +90,43 @@ export const MOCK_GAUGE: GaugeReading = {
 
 export const MOCK_ORDERS: readonly CustomerOrder[] = [
   {
-    id: "gg_lekki9k2a",
+    id: "gg_phgra9k2a",
     userId: MOCK_PROFILE.id,
     orderNumber: "GG-1842",
     cylinderId: "12.5",
     addressId: "home",
     status: "en_route",
-    totalNgn: orderTotal("12.5"),
+    totalNgn: orderTotal("12.5", "old-gra"),
     placedAt: daysAgoIso(0, 9),
   },
   {
-    id: "gg_ikeja3m1c",
+    id: "gg_phwork3m1c",
     userId: MOCK_PROFILE.id,
     orderNumber: "GG-1770",
     cylinderId: "12.5",
     addressId: "work",
     status: "delivered",
-    totalNgn: orderTotal("12.5"),
+    totalNgn: orderTotal("12.5", "trans-amadi"),
     placedAt: daysAgoIso(11, 16),
   },
   {
-    id: "gg_yaba7p4d",
+    id: "gg_phmum7p4d",
     userId: MOCK_PROFILE.id,
     orderNumber: "GG-1694",
     cylinderId: "6",
     addressId: "mum",
     status: "delivered",
-    totalNgn: orderTotal("6"),
+    totalNgn: orderTotal("6", "ada-george"),
     placedAt: daysAgoIso(28, 14),
   },
   {
-    id: "gg_suru2n8e",
+    id: "gg_phwoji2n8e",
     userId: MOCK_PROFILE.id,
     orderNumber: "GG-1608",
     cylinderId: "25",
     addressId: "bisi",
     status: "delivered",
-    totalNgn: orderTotal("25"),
+    totalNgn: orderTotal("25", "woji"),
     placedAt: daysAgoIso(46, 11),
   },
 ];
@@ -136,6 +149,26 @@ export function getMockAddresses(): DeliveryAddress[] {
 
 export function getProfileOrderById(orderId: string): CustomerOrder | undefined {
   return MOCK_ORDERS.find((order) => order.id === orderId);
+}
+
+export function ordersForUser(userId: string | null | undefined): CustomerOrder[] {
+  if (!userId) return [];
+  return MOCK_ORDERS.filter((order) => order.userId === userId);
+}
+
+export function activeOrderForUser(userId: string | null | undefined): CustomerOrder | undefined {
+  return ordersForUser(userId).find((order) => !isOrderDelivered(order));
+}
+
+export function profileFromSession(user: SessionUser | null): CustomerProfile {
+  if (!user) return { ...MOCK_PROFILE, firstName: null, lastName: null, phone: "" };
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    phone: user.phone,
+    autoRefillEnabled: false,
+  };
 }
 
 export function profileDisplayName(profile: CustomerProfile): string {

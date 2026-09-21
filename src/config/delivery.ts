@@ -1,34 +1,41 @@
+import { isZoneId, type ZoneId } from "@/config/pricing";
+
 export type DeliveryAddress = {
   id: string;
   label: string;
   line: string;
   area: string;
+  zoneId: ZoneId;
 };
 
 export const SAVED_ADDRESSES: readonly DeliveryAddress[] = [
   {
     id: "home",
     label: "Home",
-    line: "14 Admiralty Way, Lekki Phase 1",
-    area: "Lekki",
+    line: "12 Forces Avenue, Old GRA",
+    area: "Old GRA",
+    zoneId: "old-gra",
   },
   {
     id: "work",
     label: "Work",
-    line: "8A Isaac John Street, GRA",
-    area: "Ikeja",
+    line: "Plot 14 Trans-Amadi Industrial Layout",
+    area: "Trans-Amadi",
+    zoneId: "trans-amadi",
   },
   {
     id: "mum",
     label: "Mum’s place",
-    line: "27 Hughes Avenue, Alagomeji",
-    area: "Yaba",
+    line: "18 Ada George Road",
+    area: "Ada George",
+    zoneId: "ada-george",
   },
   {
     id: "bisi",
     label: "Aunty Bisi",
-    line: "45 Bode Thomas Street",
-    area: "Surulere",
+    line: "7 Woji Road, GRA Phase 2",
+    area: "Woji",
+    zoneId: "woji",
   },
 ] as const;
 
@@ -51,22 +58,22 @@ export const PRESENCE_OPTIONS: readonly PresenceOption[] = [
   {
     id: "someone-home",
     title: "Someone will be home",
-    detail: "We’ll hand the cylinder to you at the door.",
+    detail: "We’ll collect the empty cylinder and return it filled.",
   },
   {
     id: "call-on-arrival",
     title: "Call me on arrival",
-    detail: "The rider will call before coming up.",
+    detail: "The rider will call before pickup and again on return.",
   },
   {
     id: "leave-at-gate",
     title: "Leave at the gate / with security",
-    detail: "No need to come downstairs.",
+    detail: "Empty at the gate for pickup; filled cylinder dropped the same way.",
   },
   {
     id: "security",
     title: "Security will receive it",
-    detail: "Estate or office security can sign for it.",
+    detail: "Estate or office security can hand over the empty and take the filled return.",
   },
 ] as const;
 
@@ -86,22 +93,22 @@ export const DELIVERY_WINDOWS: readonly DeliveryWindow[] = [
   {
     id: "asap",
     title: "As soon as possible",
-    detail: "Usually under 90 minutes",
+    detail: "Same-day collect → plant refill → return",
   },
   {
     id: "morning",
     title: "Morning",
-    detail: "8am – 12pm",
+    detail: "8am – 12pm preference",
   },
   {
     id: "afternoon",
     title: "Afternoon",
-    detail: "12pm – 4pm",
+    detail: "12pm – 4pm preference",
   },
   {
     id: "evening",
     title: "Evening",
-    detail: "4pm – 7pm",
+    detail: "4pm – 7pm preference",
   },
 ] as const;
 
@@ -144,10 +151,12 @@ export function createCustomAddress(
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "")
     .slice(0, 24);
+  const zoneId = isZoneId(input.zoneId) ? input.zoneId : "old-gra";
   return {
     id: `custom-${slug || "address"}-${Date.now().toString(36)}`,
     label: input.label.trim(),
     line: input.line.trim(),
     area: input.area.trim(),
+    zoneId,
   };
 }

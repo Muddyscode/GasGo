@@ -3,7 +3,7 @@ import { OrderTracking } from "@/components/order/OrderTracking";
 
 export const metadata: Metadata = {
   title: "Track order · GasGo",
-  description: "Follow your GasGo cylinder from queue to door.",
+  description: "Follow your GasGo cylinder from collect to plant refill to return.",
 };
 
 type TrackingPageProps = {

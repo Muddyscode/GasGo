@@ -3,6 +3,7 @@
 import { forwardRef, useEffect, useId, useRef, useState } from "react";
 import type { DeliveryAddress } from "@/config/delivery";
 import { createCustomAddress } from "@/config/delivery";
+import { PH_ZONES, isZoneId, type ZoneId } from "@/config/pricing";
 import { cn } from "@/lib/utils";
 
 type AddAddressSheetProps = {
@@ -17,6 +18,7 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
   const [label, setLabel] = useState("");
   const [line, setLine] = useState("");
   const [area, setArea] = useState("");
+  const [zoneId, setZoneId] = useState<ZoneId>("old-gra");
 
   const canSave = label.trim().length > 1 && line.trim().length > 4 && area.trim().length > 1;
 
@@ -37,10 +39,11 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
 
   function handleSave() {
     if (!canSave) return;
-    onSave(createCustomAddress({ label, line, area }));
+    onSave(createCustomAddress({ label, line, area, zoneId }));
     setLabel("");
     setLine("");
     setArea("");
+    setZoneId("old-gra");
   }
 
   return (
@@ -82,18 +85,34 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
           />
           <Field
             label="Street address"
-            placeholder="12 Adeola Odeku Street"
+            placeholder="12 Forces Avenue"
             value={line}
             onChange={setLine}
             autoComplete="street-address"
           />
           <Field
             label="Area"
-            placeholder="Victoria Island"
+            placeholder="Old GRA"
             value={area}
             onChange={setArea}
             autoComplete="address-level2"
           />
+          <label className="block">
+            <span className="mb-1.5 block text-sm font-medium text-ink">Zone</span>
+            <select
+              value={zoneId}
+              onChange={(event) => {
+                if (isZoneId(event.target.value)) setZoneId(event.target.value);
+              }}
+              className="h-12 w-full rounded-2xl border border-border bg-surface-muted px-4 text-[15px] text-ink outline-none transition-[border-color,background-color,box-shadow] duration-150 focus:border-brand-green focus:bg-surface focus:ring-2 focus:ring-brand-green/20"
+            >
+              {PH_ZONES.map((zone) => (
+                <option key={zone.id} value={zone.id}>
+                  {zone.name} · ₦{zone.feeNgn.toLocaleString("en-NG")} pickup & return
+                </option>
+              ))}
+            </select>
+          </label>
 
           <div className="mt-2 grid grid-cols-2 gap-2.5">
             <button
