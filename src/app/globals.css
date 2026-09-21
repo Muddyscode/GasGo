@@ -73,13 +73,18 @@
   .gasgo-shell {
     background: rgba(255, 255, 255, 0.72);
     box-shadow: 0 18px 60px rgba(11, 31, 20, 0.05);
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
   }
 
   @media (min-width: 768px) {
     .gasgo-shell {
       margin-top: 1rem;
       margin-bottom: 1rem;
-      min-height: calc(100dvh - 2rem);
+      height: calc(100dvh - 2rem);
+      max-height: calc(100dvh - 2rem);
+      min-height: 0;
       border: 1px solid rgba(230, 238, 233, 0.9);
       border-radius: 1.75rem;
     }
@@ -89,7 +94,8 @@
     .gasgo-shell {
       margin-top: 1.5rem;
       margin-bottom: 1.5rem;
-      min-height: calc(100dvh - 3rem);
+      height: calc(100dvh - 3rem);
+      max-height: calc(100dvh - 3rem);
     }
   }
 }

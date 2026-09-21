@@ -9,7 +9,9 @@ export function PageFrame({
   className?: string;
 }) {
   return (
-    <div className={cn("flex min-h-0 flex-1 flex-col bg-transparent", className)}>
+    <div
+      className={cn("flex min-h-0 flex-1 flex-col bg-transparent", className)}
+    >
       {children}
     </div>
   );
@@ -25,7 +27,7 @@ export function PageBody({
   return (
     <div
       className={cn(
-        "mx-auto flex w-full max-w-lg flex-1 flex-col px-5 pt-5",
+        "mx-auto flex w-full max-w-lg min-h-0 flex-1 flex-col overflow-y-auto px-5 pt-5",
         "md:max-w-2xl md:px-8 md:pt-7",
         "lg:max-w-5xl lg:px-10 lg:pt-8",
         className,
@@ -82,7 +84,7 @@ export function StickyAction({
   return (
     <div
       className={cn(
-        "sticky bottom-0 z-20 border-t border-border/80 bg-surface/90 px-5 pt-3 backdrop-blur-md",
+        "sticky bottom-0 z-20 shrink-0 border-t border-border/80 bg-surface/90 px-5 pt-3 backdrop-blur-md",
         "pb-[max(1rem,env(safe-area-inset-bottom))]",
         "md:px-8 md:rounded-b-[1.75rem] lg:px-10",
         className,

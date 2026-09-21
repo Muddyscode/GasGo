@@ -54,10 +54,10 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
   const paidSummary = hydrated && placed ? placed : null;
 
   return (
-    <PageFrame className="min-h-0 overflow-hidden">
+    <PageFrame className="overflow-hidden">
       <OrderHeader title="Track order" backHref="/" backLabel="Back home" />
 
-      <PageBody className="min-h-0 overflow-y-auto pb-4">
+      <PageBody className="pb-4">
         <FadeLift>
           <section className="mb-5">
             <p
@@ -168,10 +168,7 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
       </PageBody>
 
       <StickyAction
-        className={cn(
-          "shrink-0",
-          order.late && "border-brand-red/30 bg-surface",
-        )}
+        className={cn(order.late && "border-brand-red/30 bg-surface")}
       >
         <p
           className={cn(
