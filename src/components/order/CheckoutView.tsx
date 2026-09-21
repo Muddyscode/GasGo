@@ -19,6 +19,9 @@ export function CheckoutView() {
   const presenceId = useOrderDraft((state) => state.presenceId);
   const windowId = useOrderDraft((state) => state.windowId);
   const notes = useOrderDraft((state) => state.notes);
+  const fulfillmentMode = useOrderDraft((state) => state.fulfillmentMode);
+  const pickupDate = useOrderDraft((state) => state.pickupDate);
+  const returnDate = useOrderDraft((state) => state.returnDate);
   const isReadyForCheckout = useOrderDraft((state) => state.isReadyForCheckout);
   const quote = useOrderDraft((state) => state.quote);
   const user = useSession((state) => state.user);
@@ -62,7 +65,13 @@ export function CheckoutView() {
   const presence = getPresenceById(presenceId);
   const window = getWindowById(windowId);
 
-  if (!ready || !address || !presence || !window || live.fillKg <= 0) {
+  if (
+    !ready ||
+    !address ||
+    !window ||
+    live.fillKg <= 0 ||
+    (fulfillmentMode !== "hub" && !presence)
+  ) {
     return <CheckoutEmpty />;
   }
 
@@ -76,8 +85,12 @@ export function CheckoutView() {
 
       <PageBody className="pb-4">
         <PageTitle
-          eyebrow="Pay before pickup"
-          subtitle="Confirm the plant fill and Port Harcourt address, then pay in full before we collect the empty."
+          eyebrow={fulfillmentMode === "hub" ? "Pay to confirm hub order" : "Pay before pickup"}
+          subtitle={
+            fulfillmentMode === "hub"
+              ? "Confirm the plant fill and hub collection dates, then pay in full. No walk-ins — this pre-order holds your yard slot."
+              : "Confirm the plant fill and Port Harcourt address, then pay in full before we collect the empty."
+          }
         >
           Review and pay
         </PageTitle>
@@ -90,6 +103,9 @@ export function CheckoutView() {
               presence={presence}
               window={window}
               notes={notes}
+              fulfillmentMode={fulfillmentMode}
+              pickupDate={pickupDate}
+              returnDate={returnDate}
             />
           </div>
           <div className="mt-4 hidden lg:col-span-5 lg:mt-0 lg:block">

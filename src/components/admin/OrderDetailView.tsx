@@ -5,9 +5,17 @@ import { OrderHeader } from "@/components/order/OrderHeader";
 import { StageBadge } from "@/components/admin/StageBadge";
 import { StageUpdater } from "@/components/admin/StageUpdater";
 import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
-import { getPresenceById } from "@/config/delivery";
+import { getPresenceById, getWindowById } from "@/config/delivery";
 import { getDeliveryStage, type DeliveryStageId } from "@/config/delivery-stages";
 import {
+  HUB_CONFIGURED_STUB_LABEL,
+  SAME_DAY_OPS_REMINDER,
+  formatCalendarDate,
+  fulfillmentLabel,
+  isSameDayLoop,
+} from "@/config/fulfillment";
+import {
+  formatFillSummary,
   getOrder,
   getOrdersSnapshot,
   subscribeOrders,
@@ -95,8 +103,11 @@ function DetailBody({
 }) {
   const cylinder = getCylinderById(order.cylinderId);
   const presence = getPresenceById(order.presenceId);
+  const window = getWindowById(order.windowId);
   const stage = getDeliveryStage(order.stage);
   const size = cylinder ? formatCylinderSize(cylinder.sizeKg) : `${order.cylinderId} kg`;
+  const sameDay = isSameDayLoop(order.pickupDate, order.returnDate);
+  const hub = order.fulfillmentMode === "hub";
 
   return (
     <>
@@ -113,12 +124,33 @@ function DetailBody({
 
       <section className="mt-5 rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
         <DetailLine label="Cylinder" value={`${size}${order.quantity > 1 ? ` × ${order.quantity}` : ""}`} />
+        <DetailLine label="Fill" value={formatFillSummary(order)} />
+        <DetailLine label="Fulfillment" value={fulfillmentLabel(order.fulfillmentMode)} />
+        <DetailLine label="Pickup date" value={formatCalendarDate(order.pickupDate)} />
+        <DetailLine label="Return date" value={formatCalendarDate(order.returnDate)} />
+        <DetailLine label="Window" value={window ? `${window.title} · ${window.detail}` : order.windowId} />
         <DetailLine label="Area" value={order.area} />
         <DetailLine label="Address" value={order.addressLine} />
-        <DetailLine label="Presence" value={presence?.title ?? order.presenceId} />
+        {hub ? null : (
+          <DetailLine label="Presence" value={presence?.title ?? order.presenceId} />
+        )}
         <DetailLine label="Placed" value={formatPlacedAtExact(order.placedAt)} />
         <DetailLine label="Stage" value={stage?.detail ?? order.stage} last />
       </section>
+
+      {sameDay ? (
+        <p
+          className="mt-3 rounded-2xl border border-brand-green/25 bg-surface-soft px-3.5 py-3 text-sm leading-relaxed text-ink"
+          role="status"
+        >
+          {SAME_DAY_OPS_REMINDER}
+        </p>
+      ) : null}
+
+      <p className="mt-3 text-xs leading-relaxed text-ink-muted">
+        Live ₦/kg and PH zones are {HUB_CONFIGURED_STUB_LABEL}. No admin CRUD in this
+        demo.
+      </p>
 
       <div className="mt-5">
         <p className="mb-2 text-sm font-semibold tracking-wide text-ink-muted">

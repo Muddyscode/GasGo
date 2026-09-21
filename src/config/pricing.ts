@@ -1,8 +1,10 @@
 /**
  * Port Harcourt live fill quote — Architect lock.
  * Gas is ₦/kg × kg. Zone delivery is a separate line. No Lagos flat fee.
+ * LIVE_RATE_NGN_PER_KG and PH_ZONES are hub-configured (stub) — no admin CRUD.
  */
 
+/** Hub-configured (stub). Live ₦/kg until plant ops CRUD exists. */
 export const LIVE_RATE_NGN_PER_KG = 1400;
 
 export const FILL_MODES = ["full", "kg", "naira"] as const;
@@ -10,6 +12,7 @@ export type FillMode = (typeof FILL_MODES)[number];
 
 export const DEFAULT_FILL_MODE: FillMode = "full";
 
+/** Hub-configured (stub). Port Harcourt zone fees until plant ops CRUD exists. */
 export const PH_ZONES = [
   { id: "old-gra", name: "Old GRA", feeNgn: 1500 },
   { id: "trans-amadi", name: "Trans-Amadi", feeNgn: 1800 },
