@@ -21,7 +21,9 @@ import {
 } from "@/data/profile";
 import { greetingNow } from "@/lib/greeting";
 import { formatNaira } from "@/lib/money";
+import { usePersistHydrated } from "@/lib/use-persist-hydrated";
 import { cn } from "@/lib/utils";
+import { useCustomerOrders } from "@/stores/customer-orders";
 import { useSession } from "@/stores/session";
 
 const DEMO_PERCENT = 62;
@@ -64,7 +66,10 @@ export function AppHome() {
   const user = useSession((state) => state.user);
   const greeting = useMemo(() => greetingNow(), []);
   const name = user?.firstName?.trim();
-  const activeOrder = user ? activeOrderForUser(user.id) : undefined;
+  const hydrated = usePersistHydrated();
+  const placed = useCustomerOrders((state) => state.orders);
+  const activeOrder =
+    user && hydrated ? activeOrderForUser(user.id, placed) : undefined;
 
   return (
     <PageFrame>
@@ -83,7 +88,9 @@ export function AppHome() {
 
         <div className="mt-5 grid gap-3 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            {activeOrder ? (
+            {!hydrated ? (
+              <div className={`${cardClassName} h-36 animate-pulse bg-surface-muted`} />
+            ) : activeOrder ? (
               <ActiveOrderCard order={activeOrder} />
             ) : (
               <OrderPromptCard />
@@ -122,7 +129,7 @@ export function AppHome() {
       </PageBody>
 
       <StickyAction>
-        {activeOrder ? (
+        {hydrated && activeOrder ? (
           <Link
             href={orderHref(activeOrder)}
             className={buttonClassName({ variant: "primary", size: "lg" })}

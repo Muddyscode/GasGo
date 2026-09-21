@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { quoteFill } from "./pricing";
 import {
   CUTOFF_EXPLANATION,
+  HUB_CONFIGURED_STUB_LABEL,
   SAME_DAY_CUTOFF_HOUR_WAT,
   SAME_DAY_CUSTOMER_REMINDER,
   applyFulfillmentToQuote,
@@ -92,5 +93,9 @@ describe("8:00pm WAT cutoff + calendar dates", () => {
 
     const door = applyFulfillmentToQuote(engine, "door_to_door");
     expect(door.deliveryNgn).toBe(1500);
+  });
+
+  it("documents hub-configured (stub) labels for live rate and PH zones", () => {
+    expect(HUB_CONFIGURED_STUB_LABEL).toBe("hub-configured (stub)");
   });
 });

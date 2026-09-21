@@ -6,7 +6,7 @@ import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PaystackPayButton } from "@/components/order/PaystackPayButton";
-import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
+import { DeliveryLoading, DeliveryTruck } from "@/components/motion";
 import { PageBody, PageFrame, PageTitle } from "@/components/ui/page";
 import { getPresenceById, getWindowById } from "@/config/delivery";
 import { toOrderQuote } from "@/config/pricing";
@@ -61,7 +61,7 @@ export function CheckoutView() {
           backLabel="Back to delivery details"
         />
         <DeliveryLoading label="Preparing checkout…" />
-      </div>
+      </PageFrame>
     );
   }
 

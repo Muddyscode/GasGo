@@ -12,6 +12,7 @@ import { formatKg } from "@/config/pricing";
 import { createLocalOrderId } from "@/lib/order-id";
 import { formatNaira } from "@/lib/money";
 import { createOrderReference, initiatePaystackPayment } from "@/lib/paystack";
+import { completePaidCheckout } from "@/stores/customer-orders";
 import { useOrderDraft } from "@/stores/order-draft";
 import { useSession } from "@/stores/session";
 
@@ -29,7 +30,6 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
   const returnDate = useOrderDraft((state) => state.returnDate);
   const windowId = useOrderDraft((state) => state.windowId);
   const fillKg = useOrderDraft((state) => state.quote().fillKg);
-  const clear = useOrderDraft((state) => state.clear);
   const user = useSession((state) => state.user);
   const hub = fulfillmentMode === "hub";
 
@@ -55,7 +55,7 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
         },
       });
       const orderId = createLocalOrderId();
-      clear();
+      completePaidCheckout({ user, orderId });
       router.push(`/order/tracking/${encodeURIComponent(orderId)}`);
     } catch {
       setPending(false);
@@ -66,7 +66,7 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
     <StickyAction>
       {pending ? (
         <div className="mb-3">
-          <DeliveryTruck compact label="Starting payment" />
+          <DeliveryTruck size="sm" label="Starting payment" />
         </div>
       ) : null}
       <PriceBreakdown quote={quote} />

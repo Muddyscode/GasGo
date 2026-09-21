@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { formatInTimeZone } from "date-fns-tz";
 import { OrderHeader } from "@/components/order/OrderHeader";
@@ -13,13 +15,30 @@ import {
   orderStage,
 } from "@/data/profile";
 import { formatNaira } from "@/lib/money";
+import { usePersistHydrated } from "@/lib/use-persist-hydrated";
+import { useCustomerOrders } from "@/stores/customer-orders";
 
 type OrderDetailViewProps = {
   orderId: string;
 };
 
 export function OrderDetailView({ orderId }: OrderDetailViewProps) {
-  const order = getProfileOrderById(orderId);
+  const hydrated = usePersistHydrated();
+  const placedOrders = useCustomerOrders((state) => state.orders);
+  const live = placedOrders.find((item) => item.id === orderId);
+  const order = getProfileOrderById(orderId, placedOrders);
+
+  if (!hydrated) {
+    return (
+      <PageFrame>
+        <OrderHeader title="Order" backHref="/profile" backLabel="Back to profile" />
+        <PageBody className="pt-10">
+          <div className="h-8 w-40 animate-pulse rounded-lg bg-surface-muted" />
+          <div className="mt-3 h-4 w-56 animate-pulse rounded-lg bg-surface-muted" />
+        </PageBody>
+      </PageFrame>
+    );
+  }
 
   if (!order) {
     return (
@@ -55,7 +74,12 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
 
   const stage = orderStage(order);
   const address = orderAddress(order);
-  const placed = formatInTimeZone(order.placedAt, "Africa/Lagos", "d MMMM yyyy · h:mm a");
+  const placedAt = formatInTimeZone(order.placedAt, "Africa/Lagos", "d MMMM yyyy · h:mm a");
+  const deliveredTo = live
+    ? [live.addressLabel, live.addressLine].filter(Boolean).join(" · ")
+    : address
+      ? `${address.label} · ${address.line}, ${address.area}`
+      : "Saved address";
 
   return (
     <PageFrame>
@@ -72,19 +96,12 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
         <h2 className="mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[32px]">
           {orderCylinderLabel(order)}
         </h2>
-        <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">{placed}</p>
+        <p className="mt-2 text-[15px] leading-relaxed text-ink-muted">{placedAt}</p>
 
         <section className={`${cardClassName} mt-6 px-4 py-4`}>
           <Row label="Order" value={order.orderNumber} mono />
           <Row label="Total" value={formatNaira(order.totalNgn)} />
-          <Row
-            label="Delivered to"
-            value={
-              address
-                ? `${address.label} · ${address.line}, ${address.area}`
-                : "Saved address"
-            }
-          />
+          <Row label="Delivered to" value={deliveredTo} />
         </section>
 
         <p className="mt-4 text-sm leading-relaxed text-ink-muted">

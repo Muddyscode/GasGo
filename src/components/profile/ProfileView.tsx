@@ -22,6 +22,7 @@ import {
   profileHeaderTitle,
 } from "@/data/profile";
 import { usePersistHydrated } from "@/lib/use-persist-hydrated";
+import { useCustomerOrders } from "@/stores/customer-orders";
 import { useSession } from "@/stores/session";
 
 export function ProfileView() {
@@ -37,7 +38,11 @@ export function ProfileView() {
   const [draftPhone, setDraftPhone] = useState(profile.phone);
 
   const gauge = useMemo(() => getMockGauge(), []);
-  const orders = useMemo(() => ordersForUser(user?.id), [user?.id]);
+  const placed = useCustomerOrders((state) => state.orders);
+  const orders = useMemo(
+    () => ordersForUser(user?.id, placed),
+    [user?.id, placed],
+  );
   const addresses = useMemo(() => getMockAddresses(), []);
 
   if (!hydrated) {

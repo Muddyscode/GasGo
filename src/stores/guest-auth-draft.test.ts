@@ -107,4 +107,39 @@ describe("guest draft survives mock signup", () => {
     expect(useOrderDraft.getState().fulfillmentMode).toBe("hub");
     expect(useOrderDraft.getState().pickupDate).toBe(dates.pickupDate);
   });
+
+  it("checkout review payload has fill mode, kg, live ₦/kg, gas, delivery/hub, dates, window, fulfillment", () => {
+    const home = SAVED_ADDRESSES[0];
+    const dates = defaultOrderDates();
+    useOrderDraft.getState().setCapacityKg(12.5);
+    useOrderDraft.getState().setFillMode("full");
+    useOrderDraft.getState().setAddress(home);
+    useOrderDraft.getState().setPresence("someone-home");
+    useOrderDraft.getState().setWindow("morning");
+    useOrderDraft.getState().setFulfillmentMode("door_to_door");
+    useOrderDraft.getState().setOrderDates(dates.pickupDate, dates.returnDate);
+
+    const door = useOrderDraft.getState();
+    const doorQuote = door.quote();
+    expect(doorQuote.fillMode).toBe("full");
+    expect(doorQuote.fillKg).toBe(12.5);
+    expect(doorQuote.rateNgnPerKg).toBe(LIVE_RATE_NGN_PER_KG);
+    expect(doorQuote.lines[0]).toMatchObject({
+      id: "gas",
+      amountNgn: Math.round(12.5 * LIVE_RATE_NGN_PER_KG),
+    });
+    expect(doorQuote.lines[0]?.label).toMatch(/gas fill/i);
+    expect(doorQuote.lines[1]?.id).toBe("delivery");
+    expect(doorQuote.lines[1]?.amountNgn).toBe(1500);
+    expect(door.pickupDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(door.returnDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(door.windowId).toBe("morning");
+    expect(door.fulfillmentMode).toBe("door_to_door");
+
+    useOrderDraft.getState().setFulfillmentMode("hub");
+    const hubQuote = useOrderDraft.getState().quote();
+    expect(hubQuote.lines[1]?.amountNgn).toBe(0);
+    expect(hubQuote.lines[1]?.label).toMatch(/hub self-serve/i);
+    expect(useOrderDraft.getState().fulfillmentMode).toBe("hub");
+  });
 });
