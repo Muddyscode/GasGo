@@ -45,7 +45,7 @@ export function HowItWorks() {
               <div className={cn(cardClassName, "overflow-hidden p-0 shadow-gasgo-md")}>
                 <div className="relative h-40 bg-[#F1F5D8]">
                   <beat.Scene />
-                  <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-semibold tracking-wide text-ink shadow-gasgo-soft">
+                  <span className="absolute left-3 top-3 rounded-full bg-surface/90 px-2 py-0.5 text-[11px] font-semibold tracking-wide text-ink shadow-gasgo-soft">
                     {beat.step}
                   </span>
                 </div>

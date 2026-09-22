@@ -28,7 +28,7 @@ export function AddressCard({ address, selected, onSelect }: AddressCardProps) {
         aria-hidden="true"
         className={cn(
           "grid size-11 shrink-0 place-items-center rounded-xl transition-colors duration-150",
-          selected ? "bg-white text-brand-green" : "bg-surface-muted text-ink-muted",
+          selected ? "bg-surface text-brand-green" : "bg-surface-muted text-ink-muted",
         )}
       >
         <MapPin className="size-5" strokeWidth={1.75} />

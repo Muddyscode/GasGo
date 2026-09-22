@@ -38,7 +38,7 @@ export function ZoneMap() {
         <div className="relative min-h-[22rem] bg-[#F4EFC4] lg:col-span-7">
           <ArtisticMap />
         </div>
-        <div className="border-t border-border bg-white lg:col-span-5 lg:border-l lg:border-t-0">
+        <div className="border-t border-border bg-surface lg:col-span-5 lg:border-l lg:border-t-0">
           <div className="flex items-center justify-between border-b border-border bg-[#E3F5EA] px-4 py-3">
             <p className="text-[15px] font-semibold tracking-tight text-ink">Zones we refill</p>
             <span className="text-xs font-semibold text-ink-muted">{PH_ZONES.length} areas</span>

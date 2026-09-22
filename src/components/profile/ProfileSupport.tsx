@@ -1,4 +1,5 @@
 import { LogOut, MessageCircle } from "lucide-react";
+import { ThemePreferenceRow } from "@/components/theme/ThemePreferenceRow";
 import { buttonClassName } from "@/components/ui/button";
 import { whatsappAccountUrl } from "@/config/whatsapp";
 
@@ -9,6 +10,7 @@ type ProfileSupportProps = {
 export function ProfileSupport({ onLogout }: ProfileSupportProps) {
   return (
     <section className="flex flex-col gap-2.5">
+      <ThemePreferenceRow />
       <a
         href={whatsappAccountUrl()}
         target="_blank"

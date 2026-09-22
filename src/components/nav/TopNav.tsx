@@ -30,7 +30,7 @@ export function TopNav({ marketing = false }: { marketing?: boolean }) {
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/70 bg-white/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
+    <header className="sticky top-0 z-30 border-b border-border/70 bg-surface/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
       <div className="mx-auto flex h-14 w-full max-w-lg items-center justify-between gap-2 px-2 md:max-w-2xl md:px-4 lg:h-16 lg:max-w-5xl lg:px-6">
         <div className="flex min-w-0 items-center gap-0.5">
           {showBack ? (
@@ -72,7 +72,7 @@ function MarketingIslandNav() {
         <div className="flex items-center gap-2">
           <BrandMark inverted />
           <span
-            className="hidden items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-[12px] font-semibold text-ink shadow-gasgo-soft ring-1 ring-black/5 sm:inline-flex"
+            className="hidden items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-[12px] font-semibold text-ink shadow-gasgo-soft ring-1 ring-black/5 sm:inline-flex"
             title="Port Harcourt only"
           >
             <span className="size-2 rounded-full bg-brand-yellow ring-1 ring-ink/10" />
@@ -82,7 +82,7 @@ function MarketingIslandNav() {
 
         <nav
           aria-label="Marketing"
-          className="island-nav hidden items-center gap-1 rounded-full bg-white px-2 py-1.5 shadow-gasgo-md ring-1 ring-black/5 md:flex"
+          className="island-nav hidden items-center gap-1 rounded-full bg-surface px-2 py-1.5 shadow-gasgo-md ring-1 ring-black/5 md:flex"
         >
           {MARKETING_LINKS.map((link) => (
             <Link

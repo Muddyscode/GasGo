@@ -20,6 +20,19 @@ export const surface = {
   soft: "#F0F7F3",
 } as const;
 
+/**
+ * Dark remap of the same token tree (ink ↔ surface). Not a second palette.
+ * Brand green / yellow / red / white stay locked in both schemes.
+ */
+export const inkOnDark = surface.muted;
+export const inkMutedOnDark = "#9BB0A6";
+export const borderOnDark = "#1E3A2C";
+export const surfaceOnDark = {
+  DEFAULT: ink,
+  muted: "#12261C",
+  soft: "#173024",
+} as const;
+
 /** Gauge levels: safe ≥40, caution 20–39, critical <20 */
 export const gauge = {
   track: "#E8F5EE",
@@ -165,6 +178,10 @@ export const tokens = {
   inkMuted,
   border,
   surface,
+  inkOnDark,
+  inkMutedOnDark,
+  borderOnDark,
+  surfaceOnDark,
   gauge,
   gaugeStates,
   typography,

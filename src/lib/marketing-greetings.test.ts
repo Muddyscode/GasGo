@@ -5,10 +5,21 @@ import {
 } from "@/lib/marketing-greetings";
 
 describe("marketing greetings", () => {
-  it("cycles Pidgin, Yoruba, Igbo, Hausa, and English kitchen/gas lines", () => {
+  it("cycles about ten kitchen/gas check-ins across English, Pidgin, and a mix", () => {
     const langs = MARKETING_GREETINGS.map((g) => g.lang);
-    expect(langs).toEqual(["Pidgin", "Yoruba", "Igbo", "Hausa", "English"]);
-    expect(MARKETING_GREETINGS.map((g) => g.text).join(" ")).toMatch(/gas|kitchen/i);
+    const english = langs.filter((lang) => lang === "English");
+    const pidgin = langs.filter((lang) => lang === "Pidgin");
+    const mix = langs.filter((lang) => lang !== "English" && lang !== "Pidgin");
+
+    expect(MARKETING_GREETINGS).toHaveLength(10);
+    expect(english).toHaveLength(5);
+    expect(pidgin.length).toBeGreaterThanOrEqual(1);
+    expect(pidgin.length).toBeLessThanOrEqual(2);
+    expect(mix.length).toBeGreaterThanOrEqual(3);
+    expect(new Set(mix)).toEqual(new Set(["Yoruba", "Igbo", "Hausa"]));
+    expect(MARKETING_GREETINGS.map((g) => g.text).join(" ")).toMatch(
+      /gas|kitchen|cylinder|cook|pot/i,
+    );
   });
 
   it("never mentions Lagos — GasGo is Port Harcourt only", () => {

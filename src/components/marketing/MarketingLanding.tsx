@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { CyclingGreeting } from "@/components/marketing/CyclingGreeting";
-import { HeroWorld } from "@/components/marketing/HeroWorld";
+import { HeroRun } from "@/components/marketing/HeroRun";
 import { HowItWorks } from "@/components/marketing/HowItWorks";
 import { KeyBenefits } from "@/components/marketing/KeyBenefits";
 import { LegacyMarketingHashRedirect } from "@/components/marketing/LegacyMarketingHashRedirect";
@@ -34,7 +34,7 @@ export function MarketingLanding() {
           </FadeLift>
 
           <FadeLift delayMs={80} className="mx-auto mt-5 w-full max-w-xl md:mt-8">
-            <div className="flex flex-col gap-2 rounded-[1.75rem] bg-white p-2 shadow-gasgo-lg ring-1 ring-black/5 sm:flex-row sm:items-center sm:rounded-full">
+            <div className="flex flex-col gap-2 rounded-[1.75rem] bg-surface p-2 shadow-gasgo-lg ring-1 ring-black/5 sm:flex-row sm:items-center sm:rounded-full">
               <div className="flex min-h-12 flex-1 items-center gap-2.5 px-4 text-ink">
                 <PinIcon />
                 <span className="truncate text-[15px] font-medium text-ink-muted">
@@ -58,10 +58,10 @@ export function MarketingLanding() {
           </FadeLift>
         </div>
 
-        <HeroWorld className="relative z-[1] mt-3 w-full flex-1 sm:mt-4" />
+        <HeroRun className="relative z-[1] mt-3 w-full flex-1 sm:mt-4" />
       </section>
 
-      <div className="relative z-[1] bg-white">
+      <div className="relative z-[1] bg-surface">
         <div className="mx-auto w-full max-w-5xl px-5 pb-20 pt-4 md:px-8 lg:max-w-6xl lg:px-10">
           <HowItWorks />
           <ZoneMap />
@@ -90,7 +90,7 @@ export function MarketingLanding() {
                   </p>
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-2">
-                  <span className="rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+                  <span className="rounded-full border border-border bg-surface px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
                     Coming soon
                   </span>
                   <SealedValveGlyph className="size-9" />

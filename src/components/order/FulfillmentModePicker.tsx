@@ -50,7 +50,7 @@ export function FulfillmentModePicker({
               aria-hidden="true"
               className={cn(
                 "grid size-11 shrink-0 place-items-center rounded-xl transition-colors duration-150",
-                isSelected ? "bg-white text-brand-green" : "bg-surface-muted text-ink-muted",
+                isSelected ? "bg-surface text-brand-green" : "bg-surface-muted text-ink-muted",
               )}
             >
               <Icon className="size-5" strokeWidth={1.75} />

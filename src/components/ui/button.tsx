@@ -19,7 +19,7 @@ export const buttonVariants = cva(
         secondary:
           "bg-surface-muted text-ink shadow-gasgo-soft hover:bg-surface-soft hover:shadow-gasgo-md",
         outline:
-          "border border-border bg-white text-ink shadow-gasgo-soft hover:border-brand-green/40 hover:bg-surface-soft",
+          "border border-border bg-surface text-ink shadow-gasgo-soft hover:border-brand-green/40 hover:bg-surface-soft",
         ghost: "bg-transparent text-ink hover:bg-surface-muted",
         yellow:
           "bg-brand-yellow text-ink shadow-gasgo-soft hover:brightness-105 hover:shadow-gasgo-md",
