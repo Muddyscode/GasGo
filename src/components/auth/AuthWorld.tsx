@@ -24,7 +24,7 @@ export function AuthWorld({
           compact ? "scale-[1.15] origin-bottom" : "scale-110 origin-center",
         )}
       />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/55 via-ink/10 to-transparent px-5 pb-4 pt-16">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/60 via-ink/15 to-transparent px-5 pb-6 pt-16 lg:pb-8">
         <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-yellow">
           Port Harcourt only
         </p>

@@ -58,7 +58,7 @@ export function MarketingLanding() {
           </FadeLift>
         </div>
 
-        <HeroRun className="relative z-[1] mt-3 w-full flex-1 sm:mt-4" />
+        <HeroRun className="relative z-[1] mt-2 h-[16.5rem] w-full sm:mt-3 sm:h-[18rem] md:h-[22rem] lg:h-[26rem]" />
       </section>
 
       <div className="relative z-[1] bg-surface">

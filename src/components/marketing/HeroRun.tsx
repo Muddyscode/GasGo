@@ -155,7 +155,7 @@ function GraHouse() {
 /** Stylized PH Tower — twin-peak / V crown from the Garden City landmark photo. */
 function PhTower({ clipId }: { clipId: string }) {
   return (
-    <g transform="translate(980 42)" className="hero-run__tower">
+    <g transform="translate(780 42)" className="hero-run__tower">
       <defs>
         <clipPath id={clipId}>
           <path d="M36 56 L64 10 L80 28 L96 10 L124 56 V246 H36 Z" />
@@ -196,7 +196,7 @@ function PhTower({ clipId }: { clipId: string }) {
 
 function ShopBlock() {
   return (
-    <g transform="translate(720 168)">
+    <g transform="translate(920 168)">
       <rect x="0" y="70" width="72" height="120" rx="4" fill="#2BB862" />
       <rect x="10" y="84" width="22" height="18" rx="2" fill="#FFF8C8" />
       <rect x="40" y="84" width="22" height="18" rx="2" fill="#FFF8C8" />
