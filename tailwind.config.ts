@@ -1,8 +1,8 @@
 import type { Config } from "tailwindcss";
+import { brand, gauge } from "./src/config/tokens";
 
 /**
- * GasGo Tailwind theme — merge `theme.extend` into your project config,
- * or use this as a drop-in when scaffolding a greenfield app.
+ * GasGo Tailwind theme — colors come from `src/config/tokens.ts`.
  */
 const config = {
   darkMode: ["class"],
@@ -23,12 +23,12 @@ const config = {
       },
       colors: {
         brand: {
-          green: "#1CA350",
-          yellow: "#FFDF22",
-          red: "#DC2626",
-          white: "#FFFFFF",
-          DEFAULT: "#1CA350",
-          foreground: "#FFFFFF",
+          green: brand.green,
+          yellow: brand.yellow,
+          red: brand.red,
+          white: brand.white,
+          DEFAULT: brand.green,
+          foreground: brand.white,
         },
         ink: {
           DEFAULT: "var(--gasgo-ink)",
@@ -43,10 +43,10 @@ const config = {
           DEFAULT: "var(--gasgo-border)",
         },
         gauge: {
-          track: "#E8F5EE",
-          safe: "#1CA350",
-          caution: "#FFDF22",
-          critical: "#DC2626",
+          track: gauge.track,
+          safe: gauge.safe,
+          caution: gauge.caution,
+          critical: gauge.critical,
         },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

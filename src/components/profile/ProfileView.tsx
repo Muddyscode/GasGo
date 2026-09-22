@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { EditProfileSheet } from "@/components/profile/EditProfileSheet";
+import { ComingSoonTeaser } from "@/components/marketing/ComingSoonTeaser";
 import { ProfileAddresses } from "@/components/profile/ProfileAddresses";
-import { ProfileAutoRefill } from "@/components/profile/ProfileAutoRefill";
 import { ProfileGaugeCard } from "@/components/profile/ProfileGaugeCard";
 import { ProfileOrderHistory } from "@/components/profile/ProfileOrderHistory";
 import { ProfileSupport } from "@/components/profile/ProfileSupport";
@@ -119,7 +119,11 @@ export function ProfileView() {
               onEdit={openEdit}
             />
             <ProfileGaugeCard gauge={gauge} />
-            <ProfileAutoRefill />
+            <ComingSoonTeaser
+              compact
+              title="Never run out"
+              body="Auto-refill will watch your gauge and book a plant refill before you hit empty. Not available yet — no background orders today."
+            />
           </div>
           <div className="mt-6 flex flex-col gap-6 lg:col-span-7 lg:mt-0">
             <ProfileOrderHistory orders={orders} />

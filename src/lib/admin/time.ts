@@ -1,7 +1,6 @@
 import { formatDistanceToNow } from "date-fns";
 import { formatInTimeZone } from "date-fns-tz";
-
-const LAGOS = "Africa/Lagos";
+import { GASGO_TZ } from "@/config/fulfillment";
 
 export function formatPlacedAt(iso: string): string {
   const date = new Date(iso);
@@ -9,11 +8,11 @@ export function formatPlacedAt(iso: string): string {
   if (Number.isFinite(ageMs) && ageMs >= 0 && ageMs < 24 * 60 * 60 * 1000) {
     return formatDistanceToNow(date, { addSuffix: true });
   }
-  return formatInTimeZone(date, LAGOS, "d MMM, h:mma");
+  return formatInTimeZone(date, GASGO_TZ, "d MMM, h:mma");
 }
 
 export function formatPlacedAtExact(iso: string): string {
-  return formatInTimeZone(new Date(iso), LAGOS, "d MMM yyyy, h:mm a");
+  return formatInTimeZone(new Date(iso), GASGO_TZ, "d MMM yyyy, h:mm a");
 }
 
 export function formatPhone(phone: string): string {

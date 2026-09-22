@@ -494,36 +494,8 @@
   }
 }
 
-@keyframes hero-van-nudge {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(14px, -2px, 0);
-  }
-}
-
-@keyframes hero-keke-nudge {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(10px, 0, 0);
-  }
-}
-
 .hero-cloud {
   animation: hero-cloud-drift 16s ease-in-out infinite alternate;
-}
-
-.hero-van {
-  animation: hero-van-nudge 4.6s ease-in-out infinite;
-}
-
-.hero-keke {
-  animation: hero-keke-nudge 5.4s ease-in-out infinite;
 }
 
 /* ─── HeroRun: go-slow jam ↔ clear sprint, truck soul ─── */
@@ -716,8 +688,6 @@
   }
 
   .hero-cloud,
-  .hero-van,
-  .hero-keke,
   .hero-run__dash,
   .hero-run__truck,
   .hero-run__keke,

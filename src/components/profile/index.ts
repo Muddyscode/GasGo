@@ -2,7 +2,6 @@ export { AddressesManageView } from "./AddressesManageView";
 export { EditProfileSheet } from "./EditProfileSheet";
 export { OrderDetailView } from "./OrderDetailView";
 export { ProfileAddresses } from "./ProfileAddresses";
-export { ProfileAutoRefill } from "./ProfileAutoRefill";
 export { ProfileGaugeCard } from "./ProfileGaugeCard";
 export { ProfileOrderHistory } from "./ProfileOrderHistory";
 export { ProfileSupport } from "./ProfileSupport";
