@@ -13,8 +13,13 @@ export function LegacyMarketingHashRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    const next = LEGACY_HASHES[window.location.hash];
-    if (next) router.replace(next);
+    function redirectLegacyHash() {
+      const next = LEGACY_HASHES[window.location.hash];
+      if (next) router.replace(next);
+    }
+    redirectLegacyHash();
+    window.addEventListener("hashchange", redirectLegacyHash);
+    return () => window.removeEventListener("hashchange", redirectLegacyHash);
   }, [router]);
 
   return null;
