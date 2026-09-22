@@ -1,30 +1,16 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { BrandMark } from "@/components/brand/BrandMark";
-import { PH_ZONES, ZONE_FEE_MAX_NGN } from "@/config/pricing";
+import { ZONE_FEE_MAX_NGN } from "@/config/pricing";
 import { whatsappHref } from "@/config/whatsapp";
 import { formatNaira } from "@/lib/money";
 
-const RIDE_LINKS = [
+const PRODUCT_LINKS = [
   { href: "/how-it-works", label: "How it works" },
   { href: "/zones", label: "Zones" },
   { href: "/why", label: "Why GasGo" },
   { href: "/order/cylinder", label: "Order a refill" },
 ] as const;
-
-const LOOP_LINKS = [
-  { href: "/how-it-works", label: "Collect empty" },
-  { href: "/how-it-works", label: "Plant refill" },
-  { href: "/how-it-works", label: "Return full" },
-  { href: "/how-it-works", label: "Pay before pickup" },
-] as const;
-
-const ACCOUNT_LINKS = [
-  { href: "/login", label: "Sign in" },
-  { href: "/signup", label: "Sign up" },
-] as const;
-
-const COMING_SOON = ["Auto-refill", "Never run out"] as const;
 
 export function MarketingFooter() {
   return (
@@ -37,56 +23,28 @@ export function MarketingFooter() {
               <BrandMark inverted />
               <p className="mt-4 text-sm leading-relaxed text-white/70">
                 Port Harcourt cooking gas. Collect empty, plant refill, return
-                full. Pay before pickup. Auto-refill is Coming soon.
+                full. Pay before pickup. Auto-refill · Coming soon.
               </p>
             </div>
             <nav
               aria-label="Footer"
-              className="grid flex-1 grid-cols-2 gap-x-8 gap-y-8 sm:grid-cols-3 xl:grid-cols-5"
+              className="grid flex-1 grid-cols-2 gap-x-8 gap-y-8 lg:max-w-sm"
             >
-              <FooterCol title="Ride">
-                {RIDE_LINKS.map((link) => (
+              <FooterCol title="Product">
+                {PRODUCT_LINKS.map((link) => (
                   <FooterLink key={link.label} href={link.href}>
                     {link.label}
-                  </FooterLink>
-                ))}
-              </FooterCol>
-              <FooterCol title="Plant loop">
-                {LOOP_LINKS.map((link) => (
-                  <FooterLink key={link.label} href={link.href}>
-                    {link.label}
-                  </FooterLink>
-                ))}
-              </FooterCol>
-              <FooterCol title="Garden City">
-                {PH_ZONES.map((zone) => (
-                  <FooterLink key={zone.id} href="/zones">
-                    {zone.name}
                   </FooterLink>
                 ))}
               </FooterCol>
               <FooterCol title="Account">
-                {ACCOUNT_LINKS.map((link) => (
-                  <FooterLink key={link.href} href={link.href}>
-                    {link.label}
-                  </FooterLink>
-                ))}
+                <FooterLink href="/login">Sign in</FooterLink>
                 <a
                   href={whatsappHref("Hi GasGo, I have a question before I order.")}
                   className="transition-colors hover:text-[#FFDF22]"
                 >
                   WhatsApp
                 </a>
-              </FooterCol>
-              <FooterCol title="Coming soon">
-                {COMING_SOON.map((label) => (
-                  <span key={label} className="flex items-center gap-2 text-white/70">
-                    {label}
-                    <span className="rounded-full bg-[#FFDF22] px-1.5 py-px text-[9px] font-bold uppercase tracking-wide text-[#0B1F14]">
-                      Soon
-                    </span>
-                  </span>
-                ))}
               </FooterCol>
             </nav>
           </div>
