@@ -37,6 +37,7 @@ export function HeroRun({ className }: { className?: string }) {
         <Keke />
         <GasGoRun />
         <ForegroundCylinders />
+        <JamHaze />
       </svg>
     </div>
   );
@@ -250,10 +251,32 @@ function Road() {
         className="hero-run__dash"
         d="M-40 424h1520"
         stroke="#FFDF22"
-        strokeWidth="6"
+        strokeWidth="7"
+        strokeLinecap="round"
+      />
+      <path
+        className="hero-run__dash hero-run__dash--edge"
+        d="M-40 404h1520"
+        stroke="#FFFFFF"
+        strokeOpacity="0.18"
+        strokeWidth="2"
         strokeLinecap="round"
       />
     </g>
+  );
+}
+
+function JamHaze() {
+  return (
+    <rect
+      className="hero-run__haze"
+      x="0"
+      y="368"
+      width="1440"
+      height="92"
+      fill="#FFDF22"
+      opacity="0.16"
+    />
   );
 }
 
@@ -266,12 +289,9 @@ function Keke() {
         <rect x="28" y="8" width="72" height="8" rx="8" fill="#FFE86A" />
         <rect x="8" y="18" width="28" height="20" rx="6" fill="#1CA350" />
         <rect x="14" y="22" width="14" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-        <circle className="hero-run__wheel" cx="22" cy="44" r="9" fill="#0B1F14" />
-        <circle cx="22" cy="44" r="3.5" fill="#FFDF22" />
-        <circle className="hero-run__wheel" cx="58" cy="44" r="9" fill="#0B1F14" />
-        <circle className="hero-run__wheel" cx="90" cy="44" r="9" fill="#0B1F14" />
-        <circle cx="58" cy="44" r="3.5" fill="#FFDF22" />
-        <circle cx="90" cy="44" r="3.5" fill="#FFDF22" />
+        <SpokeWheel className="hero-run__wheel" cx={22} cy={44} r={9} />
+        <SpokeWheel className="hero-run__wheel" cx={58} cy={44} r={9} />
+        <SpokeWheel className="hero-run__wheel" cx={90} cy={44} r={9} />
       </g>
     </g>
   );
@@ -283,9 +303,10 @@ function GasGoRun() {
     <g className="hero-run__truck">
       <g transform="translate(40 328)">
         <g className="hero-run__soul" strokeLinecap="round">
-          <path d="M-8 28h28" stroke="#1CA350" strokeWidth="4" />
-          <path d="M-14 40h24" stroke="#FFDF22" strokeWidth="4" />
-          <path d="M-6 52h22" stroke="#1CA350" strokeWidth="4" />
+          <path d="M-22 22h42" stroke="#1CA350" strokeWidth="5" />
+          <path d="M-34 36h48" stroke="#FFDF22" strokeWidth="6" />
+          <path d="M-18 50h36" stroke="#1CA350" strokeWidth="5" />
+          <path d="M-28 43h22" stroke="#FFFFFF" strokeOpacity="0.55" strokeWidth="3" />
         </g>
         <ellipse cx="118" cy="66" rx="90" ry="8" fill="#0B1F14" opacity="0.18" />
         <rect x="24" y="16" width="148" height="42" rx="8" fill="#1CA350" />
@@ -297,10 +318,8 @@ function GasGoRun() {
         <rect x="46" y="22" width="18" height="22" rx="6" fill="#FFFFFF" />
         <rect x="50" y="18" width="10" height="6" rx="1.5" fill="#147A3E" />
         <path d="M49 34h12" stroke="#1CA350" strokeWidth="1.6" strokeLinecap="round" />
-        <circle className="hero-run__wheel" cx="64" cy="60" r="12" fill="#0B1F14" />
-        <circle cx="64" cy="60" r="5.5" fill="#FFDF22" />
-        <circle className="hero-run__wheel" cx="186" cy="60" r="12" fill="#0B1F14" />
-        <circle cx="186" cy="60" r="5.5" fill="#FFDF22" />
+        <SpokeWheel className="hero-run__wheel" cx={64} cy={60} r={12} />
+        <SpokeWheel className="hero-run__wheel" cx={186} cy={60} r={12} />
       </g>
     </g>
   );
@@ -323,6 +342,34 @@ function MiniCyl({ x }: { x: number }) {
       <rect x="6" y="0" width="7" height="7" rx="1.4" fill="#0B1F14" />
       <rect x="0" y="7" width="19" height="32" rx="8" fill="#FFFFFF" stroke="#0B1F14" strokeWidth="1.5" />
       <path d="M4 20h11" stroke="#1CA350" strokeWidth="1.6" strokeLinecap="round" />
+    </g>
+  );
+}
+
+function SpokeWheel({
+  cx,
+  cy,
+  r,
+  className,
+}: {
+  cx: number;
+  cy: number;
+  r: number;
+  className?: string;
+}) {
+  const spoke = r * 0.62;
+  return (
+    <g transform={`translate(${cx} ${cy})`}>
+      <g className={className}>
+        <circle r={r} fill="#0B1F14" />
+        <path
+          d={`M0 ${-spoke}v${spoke * 2}M${-spoke} 0h${spoke * 2}`}
+          stroke="#FFDF22"
+          strokeWidth={r > 10 ? 2.2 : 1.6}
+          strokeLinecap="round"
+        />
+        <circle r={r * 0.38} fill="#FFDF22" />
+      </g>
     </g>
   );
 }

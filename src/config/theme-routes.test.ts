@@ -39,6 +39,30 @@ describe("HeroRun + auth split + theme contracts", () => {
     expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/Coming soon/);
   });
 
+  it("landing CTA is a dominant Order button, not a search-like address pill", () => {
+    const landing = readSrc("components/marketing/MarketingLanding.tsx");
+    expect(landing).toMatch(/Order a refill/);
+    expect(landing).not.toMatch(/Port Harcourt · plant refill/);
+    expect(landing).not.toMatch(/PinIcon/);
+  });
+
+  it("footer is an illustrated band plus multi-column links", () => {
+    const footer = readSrc("components/marketing/MarketingFooter.tsx");
+    expect(footer).toMatch(/marketing-footer__band|FooterBand/);
+    expect(footer).toMatch(/Garden City/);
+    expect(footer).toMatch(/Auto-refill/);
+    expect(footer).toMatch(/Never run out/);
+    expect(footer).not.toMatch(/Lagos|Lekki|Ikeja/);
+  });
+
+  it("HeroRun living road honors reduced motion", () => {
+    const css = readSrc("app/globals.css");
+    expect(css).toMatch(/hero-run-truck/);
+    expect(css).toMatch(/hero-run-soul/);
+    expect(css).toMatch(/prefers-reduced-motion/);
+    expect(css).toMatch(/hero-run__haze/);
+  });
+
   it("theme toggle lives in nav and settings, persisted via tokens", () => {
     expect(readSrc("components/nav/NavActions.tsx")).toMatch(/ThemeToggle/);
     expect(readSrc("components/profile/ProfileSupport.tsx")).toMatch(/ThemePreference/);

@@ -33,25 +33,17 @@ export function MarketingLanding() {
             </p>
           </FadeLift>
 
-          <FadeLift delayMs={80} className="mx-auto mt-5 w-full max-w-xl md:mt-8">
-            <div className="flex flex-col gap-2 rounded-[1.75rem] bg-surface p-2 shadow-gasgo-lg ring-1 ring-black/5 sm:flex-row sm:items-center sm:rounded-full">
-              <div className="flex min-h-12 flex-1 items-center gap-2.5 px-4 text-ink">
-                <PinIcon />
-                <span className="truncate text-[15px] font-medium text-ink-muted">
-                  Port Harcourt · plant refill
-                </span>
-              </div>
-              <Link
-                href="/order/cylinder"
-                className={buttonClassName(
-                  { variant: "primary", size: "lg" },
-                  "h-12 w-full shrink-0 rounded-full sm:w-auto sm:min-w-[11.5rem] sm:px-8",
-                )}
-              >
-                Order a refill
-                <ArrowRight className="size-4" strokeWidth={2.25} />
-              </Link>
-            </div>
+          <FadeLift delayMs={80} className="mx-auto mt-5 flex w-full max-w-md flex-col items-center md:mt-8">
+            <Link
+              href="/order/cylinder"
+              className={buttonClassName(
+                { variant: "primary", size: "lg" },
+                "h-14 w-full max-w-sm rounded-full px-10 text-lg shadow-gasgo-lg sm:h-16 sm:w-auto sm:min-w-[18rem] sm:px-12",
+              )}
+            >
+              Order a refill
+              <ArrowRight className="size-5" strokeWidth={2.25} />
+            </Link>
             <p className="mt-2.5 text-center text-sm text-ink-muted">
               Live {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg · Full, by kg, or by ₦
             </p>
@@ -97,19 +89,5 @@ export function MarketingLanding() {
         <MarketingFooter />
       </div>
     </div>
-  );
-}
-
-function PinIcon() {
-  return (
-    <svg viewBox="0 0 20 20" className="size-5 shrink-0 text-brand-green" fill="none" aria-hidden="true">
-      <path
-        d="M10 17.5s5.5-5.1 5.5-9.2A5.5 5.5 0 0 0 4.5 8.3C4.5 12.4 10 17.5 10 17.5Z"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinejoin="round"
-      />
-      <circle cx="10" cy="8.2" r="1.8" fill="currentColor" />
-    </svg>
   );
 }

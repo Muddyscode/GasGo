@@ -526,105 +526,144 @@
   animation: hero-keke-nudge 5.4s ease-in-out infinite;
 }
 
-/* ─── HeroRun: go-slow ↔ clear living road ─── */
+/* ─── HeroRun: go-slow jam ↔ clear sprint, truck soul ─── */
 @keyframes hero-run-dash {
   0% {
+    stroke-dasharray: 16 44;
     stroke-dashoffset: 0;
   }
   40% {
-    stroke-dashoffset: -36;
+    stroke-dasharray: 16 44;
+    stroke-dashoffset: -22;
+  }
+  48% {
+    stroke-dasharray: 56 16;
+    stroke-dashoffset: -90;
   }
   100% {
-    stroke-dashoffset: -220;
+    stroke-dasharray: 56 16;
+    stroke-dashoffset: -460;
   }
 }
 
 @keyframes hero-run-truck {
   0% {
-    transform: translate3d(-6%, 0, 0);
+    transform: translate3d(-10%, 3px, 0) rotate(-1.6deg);
   }
-  38% {
-    transform: translate3d(14%, 0, 0);
+  36% {
+    transform: translate3d(8%, 4px, 0) rotate(-1deg);
   }
-  46% {
-    transform: translate3d(22%, -3px, 0);
+  42% {
+    transform: translate3d(14%, 1px, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(28%, -10px, 0) rotate(2.8deg);
+  }
+  64% {
+    transform: translate3d(52%, -2px, 0) rotate(1.1deg);
   }
   88% {
-    transform: translate3d(72%, 0, 0);
+    transform: translate3d(88%, 0, 0) rotate(0.3deg);
   }
   100% {
-    transform: translate3d(108%, 0, 0);
+    transform: translate3d(122%, 2px, 0) rotate(0deg);
   }
 }
 
 @keyframes hero-run-keke {
   0% {
-    transform: translate3d(8%, 0, 0);
+    transform: translate3d(16%, 2px, 0);
   }
-  38% {
-    transform: translate3d(22%, 0, 0);
+  40% {
+    transform: translate3d(22%, 2px, 0);
   }
-  50% {
-    transform: translate3d(38%, 0, 0);
+  52% {
+    transform: translate3d(56%, -6px, 0);
   }
   100% {
-    transform: translate3d(118%, 0, 0);
+    transform: translate3d(132%, 0, 0);
   }
 }
 
 @keyframes hero-run-soul {
   0%,
   38% {
-    opacity: 0.35;
-    transform: translate3d(0, 0, 0);
+    opacity: 0.12;
+    transform: translate3d(8px, 0, 0) scaleX(0.35);
   }
-  50%,
+  46% {
+    opacity: 1;
+    transform: translate3d(-6px, 0, 0) scaleX(1);
+  }
+  58%,
   86% {
-    opacity: 0.9;
-    transform: translate3d(-10px, 0, 0);
+    opacity: 0.95;
+    transform: translate3d(-28px, 0, 0) scaleX(1.45);
   }
   100% {
     opacity: 0.2;
-    transform: translate3d(-18px, 0, 0);
+    transform: translate3d(-42px, 0, 0) scaleX(1.05);
   }
 }
 
 @keyframes hero-run-wheel {
-  to {
-    transform: rotate(360deg);
+  0% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(200deg);
+  }
+  52% {
+    transform: rotate(620deg);
+  }
+  100% {
+    transform: rotate(2340deg);
+  }
+}
+
+@keyframes hero-run-haze {
+  0%,
+  38% {
+    opacity: 0.22;
+  }
+  50%,
+  100% {
+    opacity: 0;
   }
 }
 
 .hero-run__dash {
-  stroke-dasharray: 48 24;
-  animation: hero-run-dash 12s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  animation: hero-run-dash 14s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+}
+
+.hero-run__dash--edge {
+  animation-duration: 14s;
 }
 
 .hero-run__truck {
-  animation: hero-run-truck 12s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  animation: hero-run-truck 14s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+  will-change: transform;
 }
 
 .hero-run__keke {
-  animation: hero-run-keke 12s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+  animation: hero-run-keke 14s cubic-bezier(0.42, 0, 0.18, 1) infinite;
 }
 
 .hero-run__soul {
-  animation: hero-run-soul 12s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: right center;
+  animation: hero-run-soul 14s ease-in-out infinite;
 }
 
 .hero-run__wheel {
   transform-box: fill-box;
   transform-origin: center;
-  animation: hero-run-wheel 0.7s linear infinite;
+  animation: hero-run-wheel 14s cubic-bezier(0.42, 0, 0.18, 1) infinite;
 }
 
-.hero-run__truck .hero-run__wheel {
-  animation-duration: 0.92s;
-}
-
-.hero-run--clear .hero-run__wheel,
-.hero-run__truck {
-  will-change: transform;
+.hero-run__haze {
+  animation: hero-run-haze 14s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .zone-pin {
@@ -683,7 +722,8 @@
   .hero-run__truck,
   .hero-run__keke,
   .hero-run__soul,
-  .hero-run__wheel {
+  .hero-run__wheel,
+  .hero-run__haze {
     animation: none !important;
   }
 }
