@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { SAVED_ADDRESSES } from "@/config/delivery";
 import { defaultOrderDates } from "@/config/fulfillment";
-import { LIVE_RATE_NGN_PER_KG } from "@/config/pricing";
+import { LIVE_RATE_NGN_PER_KG, getZone } from "@/config/pricing";
 import { MOCK_PROFILE, activeOrderForUser, ordersForUser } from "@/data/profile";
 import {
   CUSTOMER_ORDERS_STORAGE_KEY,
@@ -65,7 +65,7 @@ describe("paid checkout persists an active order", () => {
     expect(order.returnDate).toBe(dates.returnDate);
     expect(order.fulfillmentMode).toBe("door_to_door");
     expect(order.gasFillNgn).toBe(Math.round(12.5 * LIVE_RATE_NGN_PER_KG));
-    expect(order.deliveryNgn).toBe(1500);
+    expect(order.deliveryNgn).toBe(getZone("old-gra")?.feeNgn);
     expect(order.totalNgn).toBe(quote.totalNgn);
 
     expect(useOrderDraft.getState().capacityKg).toBeNull();

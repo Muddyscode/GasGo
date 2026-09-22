@@ -25,7 +25,8 @@ export function DispatchHeader({ query, onQueryChange }: DispatchHeaderProps) {
         </button>
       </div>
       <p className="mb-2 text-xs leading-relaxed text-ink-muted">
-        Live ₦/kg and PH zones are {HUB_CONFIGURED_STUB_LABEL}.
+        Live ₦/kg and PH zones are {HUB_CONFIGURED_STUB_LABEL}. Admin fee UI
+        later.
       </p>
       <label className="relative mb-3 block">
         <Search

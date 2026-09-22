@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuthModal } from "@/components/auth/AuthProvider";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { EditProfileSheet } from "@/components/profile/EditProfileSheet";
 import { ProfileAddresses } from "@/components/profile/ProfileAddresses";
@@ -31,7 +31,6 @@ export function ProfileView() {
   const user = useSession((state) => state.user);
   const signIn = useSession((state) => state.signIn);
   const signOut = useSession((state) => state.signOut);
-  const { openAuth } = useAuthModal();
   const profile = profileFromSession(user);
   const [editing, setEditing] = useState(false);
   const [draftName, setDraftName] = useState(profileDisplayName(profile));
@@ -92,13 +91,12 @@ export function ProfileView() {
             Mock accounts only for now. Signing in never clears a fill you already
             drafted.
           </p>
-          <button
-            type="button"
-            onClick={() => openAuth("/profile")}
+          <Link
+            href="/login"
             className={buttonClassName({ variant: "primary", size: "lg" }, "mt-8")}
           >
             Sign in
-          </button>
+          </Link>
         </PageBody>
       </PageFrame>
     );

@@ -148,8 +148,8 @@ function DetailBody({
       ) : null}
 
       <p className="mt-3 text-xs leading-relaxed text-ink-muted">
-        Live ₦/kg and PH zones are {HUB_CONFIGURED_STUB_LABEL}. No admin CRUD in this
-        demo.
+        Live ₦/kg and PH zones are {HUB_CONFIGURED_STUB_LABEL}. Admin fee UI
+        later — no admin CRUD in this demo.
       </p>
 
       <div className="mt-5">

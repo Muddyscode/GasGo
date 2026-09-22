@@ -10,9 +10,9 @@ import { navForPathname } from "@/lib/customer-routes";
 import { cn } from "@/lib/utils";
 
 const MARKETING_LINKS = [
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#zones", label: "Zones" },
-  { href: "#why-gasgo", label: "Why GasGo" },
+  { href: "/how-it-works", label: "How it works" },
+  { href: "/zones", label: "Zones" },
+  { href: "/why", label: "Why GasGo" },
 ] as const;
 
 export function TopNav({ marketing = false }: { marketing?: boolean }) {
@@ -85,13 +85,13 @@ function MarketingIslandNav() {
           className="island-nav hidden items-center gap-1 rounded-full bg-white px-2 py-1.5 shadow-gasgo-md ring-1 ring-black/5 md:flex"
         >
           {MARKETING_LINKS.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="rounded-full px-3.5 py-1.5 text-[14px] font-semibold text-ink transition-colors hover:bg-surface-soft"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           <Link
             href="/order/cylinder"

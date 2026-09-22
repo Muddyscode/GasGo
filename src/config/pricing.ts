@@ -12,16 +12,23 @@ export type FillMode = (typeof FILL_MODES)[number];
 
 export const DEFAULT_FILL_MODE: FillMode = "full";
 
-/** Hub-configured (stub). Port Harcourt zone fees until plant ops CRUD exists. */
+/**
+ * Hub-configured (stub). Port Harcourt pickup-and-return fees until plant ops
+ * CRUD exists. Admin fee UI later — edit this table only. FeeCeiling: every
+ * zone is ₦600–₦1,200.
+ */
+export const ZONE_FEE_MIN_NGN = 600;
+export const ZONE_FEE_MAX_NGN = 1200;
+
 export const PH_ZONES = [
-  { id: "old-gra", name: "Old GRA", feeNgn: 1500 },
-  { id: "trans-amadi", name: "Trans-Amadi", feeNgn: 1800 },
-  { id: "woji", name: "Woji", feeNgn: 2000 },
-  { id: "rumuokoro", name: "Rumuokoro", feeNgn: 2200 },
-  { id: "eliozu", name: "Eliozu", feeNgn: 2500 },
-  { id: "ada-george", name: "Ada George", feeNgn: 2000 },
-  { id: "diobu", name: "Diobu / Township", feeNgn: 1500 },
-  { id: "rumuola", name: "Rumuola", feeNgn: 1800 },
+  { id: "diobu", name: "Diobu / Township", feeNgn: 600 },
+  { id: "old-gra", name: "Old GRA", feeNgn: 700 },
+  { id: "trans-amadi", name: "Trans-Amadi", feeNgn: 800 },
+  { id: "rumuola", name: "Rumuola", feeNgn: 850 },
+  { id: "ada-george", name: "Ada George", feeNgn: 950 },
+  { id: "woji", name: "Woji", feeNgn: 1000 },
+  { id: "rumuokoro", name: "Rumuokoro", feeNgn: 1100 },
+  { id: "eliozu", name: "Eliozu", feeNgn: 1200 },
 ] as const;
 
 export type ZoneId = (typeof PH_ZONES)[number]["id"];

@@ -21,7 +21,12 @@ export function CustomerChrome({ children }: { children: ReactNode }) {
 function ChromeFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const user = useSession((state) => state.user);
-  const marketing = pathname === "/" && !user;
+  const marketing =
+    !user &&
+    (pathname === "/" ||
+      pathname === "/how-it-works" ||
+      pathname === "/zones" ||
+      pathname === "/why");
 
   return (
     <div
