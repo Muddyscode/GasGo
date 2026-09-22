@@ -31,7 +31,6 @@ export type CustomerProfile = {
   firstName: string | null;
   lastName: string | null;
   phone: string;
-  autoRefillEnabled: boolean;
 };
 
 export type GaugeReading = {
@@ -79,7 +78,6 @@ export const MOCK_PROFILE: CustomerProfile = {
   firstName: "Tunde",
   lastName: "Adebayo",
   phone: "+2348034412291",
-  autoRefillEnabled: false,
 };
 
 export const DEMO_SESSION_USER: SessionUser = {
@@ -214,7 +212,6 @@ export function profileFromSession(user: SessionUser | null): CustomerProfile {
     firstName: user.firstName,
     lastName: user.lastName,
     phone: user.phone,
-    autoRefillEnabled: false,
   };
 }
 

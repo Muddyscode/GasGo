@@ -1,5 +1,4 @@
-/** IANA zone for Nigeria WAT (Port Harcourt). Name is Lagos; product is PH-only. */
-const GASGO_TZ = "Africa/Lagos";
+import { GASGO_TZ } from "@/config/fulfillment";
 
 export function greetingForHour(hour: number): string {
   if (hour < 5) return "Good evening";

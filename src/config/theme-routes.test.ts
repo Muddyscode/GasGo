@@ -83,5 +83,6 @@ describe("HeroRun + auth split + theme contracts", () => {
     expect(readSrc("app/layout.tsx")).toMatch(/ThemeProvider/);
     expect(readSrc("config/tokens.ts")).toMatch(/surfaceOnDark|inkOnDark/);
     expect(readRoot("tailwind.config.ts")).toMatch(/--gasgo-ink|--gasgo-surface/);
+    expect(readRoot("tailwind.config.ts")).toMatch(/from ["']\.\/src\/config\/tokens["']/);
   });
 });
