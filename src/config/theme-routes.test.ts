@@ -51,7 +51,21 @@ describe("HeroRun + auth split + theme contracts", () => {
     expect(footer).toMatch(/marketing-footer__band|FooterBand/);
     expect(footer).toMatch(/Garden City/);
     expect(footer).toMatch(/Auto-refill/);
-    expect(footer).toMatch(/Never run out/);
+    expect(footer).toMatch(/Coming soon/);
+    expect(footer).toMatch(/\/how-it-works/);
+    expect(footer).toMatch(/\/zones/);
+    expect(footer).toMatch(/\/why/);
+    expect(footer).toMatch(/\/order\/cylinder/);
+    expect(footer).toMatch(/\/login/);
+    expect(footer).toMatch(/WhatsApp/);
+    expect(footer).toMatch(/ZONE_FEE_MAX_NGN/);
+    expect(footer).toMatch(/title="Product"/);
+    expect(footer).toMatch(/title="Account"/);
+    expect(footer).not.toMatch(/xl:grid-cols-5|sm:grid-cols-3/);
+    expect(footer).not.toMatch(/href=["']\/signup["']/);
+    expect(footer).not.toMatch(/title="Plant loop"|LOOP_LINKS|PH_ZONES\.map|title="Coming soon"|COMING_SOON/);
+    expect(footer).not.toMatch(/Never run out/);
+    expect(footer).not.toMatch(/Diobu|Trans-Amadi|Rumuola|Eliozu/);
     expect(footer).not.toMatch(/Lagos|Lekki|Ikeja/);
   });
 
