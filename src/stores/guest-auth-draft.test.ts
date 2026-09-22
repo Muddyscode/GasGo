@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { SAVED_ADDRESSES } from "@/config/delivery";
 import { defaultOrderDates } from "@/config/fulfillment";
-import { LIVE_RATE_NGN_PER_KG } from "@/config/pricing";
+import { LIVE_RATE_NGN_PER_KG, getZone } from "@/config/pricing";
 import { ORDER_DRAFT_STORAGE_KEY, useOrderDraft } from "@/stores/order-draft";
 import { useSession } from "@/stores/session";
 
@@ -22,7 +22,7 @@ describe("guest draft survives mock signup", () => {
     const before = useOrderDraft.getState().quote();
     expect(useOrderDraft.getState().capacityKg).toBe(12.5);
     expect(before.gasFillNgn).toBe(Math.round(12.5 * LIVE_RATE_NGN_PER_KG));
-    expect(before.deliveryNgn).toBe(1500);
+    expect(before.deliveryNgn).toBe(getZone("old-gra")?.feeNgn);
     expect(useOrderDraft.getState().isReadyForCheckout()).toBe(true);
 
     useSession.getState().signIn({
@@ -130,7 +130,7 @@ describe("guest draft survives mock signup", () => {
     });
     expect(doorQuote.lines[0]?.label).toMatch(/gas fill/i);
     expect(doorQuote.lines[1]?.id).toBe("delivery");
-    expect(doorQuote.lines[1]?.amountNgn).toBe(1500);
+    expect(doorQuote.lines[1]?.amountNgn).toBe(getZone("old-gra")?.feeNgn);
     expect(door.pickupDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(door.returnDate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(door.windowId).toBe("morning");

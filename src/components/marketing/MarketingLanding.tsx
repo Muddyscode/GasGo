@@ -6,6 +6,7 @@ import { CyclingGreeting } from "@/components/marketing/CyclingGreeting";
 import { HeroWorld } from "@/components/marketing/HeroWorld";
 import { HowItWorks } from "@/components/marketing/HowItWorks";
 import { KeyBenefits } from "@/components/marketing/KeyBenefits";
+import { LegacyMarketingHashRedirect } from "@/components/marketing/LegacyMarketingHashRedirect";
 import { TrustRow } from "@/components/marketing/TrustRow";
 import { ZoneMap } from "@/components/marketing/ZoneMap";
 import { SealedValveGlyph } from "@/components/illustrations/gas-scenes";
@@ -20,6 +21,7 @@ import { cn } from "@/lib/utils";
 export function MarketingLanding() {
   return (
     <div className="flex flex-1 flex-col">
+      <LegacyMarketingHashRedirect />
       <section className="relative flex min-h-[calc(100dvh-4.25rem)] flex-col overflow-hidden">
         <div className="pointer-events-none absolute inset-0 hero-wash" aria-hidden="true" />
         <div className="relative z-[1] mx-auto flex w-full max-w-5xl shrink-0 flex-col px-5 pt-3 md:px-8 md:pt-6 lg:max-w-6xl lg:px-10 lg:pt-10">

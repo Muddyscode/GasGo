@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingBag, UserRound } from "lucide-react";
-import { useAuthModal } from "@/components/auth/AuthProvider";
 import { formatKg } from "@/config/pricing";
 import {
   activeOrderForUser,
@@ -21,7 +20,6 @@ export function NavActions({ island = false }: { island?: boolean }) {
   const router = useRouter();
   const hydrated = usePersistHydrated();
   const user = useSession((state) => state.user);
-  const { openAuth } = useAuthModal();
   const quote = useOrderDraft((state) => state.quote);
   const isReadyForCheckout = useOrderDraft((state) => state.isReadyForCheckout);
   const live = quote();
@@ -68,7 +66,7 @@ export function NavActions({ island = false }: { island?: boolean }) {
         </Link>
       ) : null}
 
-      {live.fillKg > 0 ? (
+      {live.fillKg > 0 && !island ? (
         <button
           type="button"
           onClick={continueDraft}
@@ -102,9 +100,8 @@ export function NavActions({ island = false }: { island?: boolean }) {
           <UserRound className="size-5" strokeWidth={1.75} />
         </Link>
       ) : (
-        <button
-          type="button"
-          onClick={() => openAuth(pathname === "/" ? "/" : pathname)}
+        <Link
+          href="/login"
           className={cn(
             "inline-flex h-9 items-center rounded-full px-3",
             "text-[13px] font-semibold text-ink",
@@ -113,7 +110,7 @@ export function NavActions({ island = false }: { island?: boolean }) {
           )}
         >
           Sign in
-        </button>
+        </Link>
       )}
     </div>
   );

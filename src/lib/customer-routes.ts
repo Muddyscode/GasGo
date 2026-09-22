@@ -6,6 +6,21 @@ export type RouteNav = {
 
 export function navForPathname(pathname: string): RouteNav | null {
   if (pathname === "/" || pathname === "/app") return null;
+  if (pathname === "/how-it-works") {
+    return { title: "How it works", backHref: "/", backLabel: "Back home" };
+  }
+  if (pathname === "/zones") {
+    return { title: "Zones", backHref: "/", backLabel: "Back home" };
+  }
+  if (pathname === "/why") {
+    return { title: "Why GasGo", backHref: "/", backLabel: "Back home" };
+  }
+  if (pathname === "/login") {
+    return { title: "Sign in", backHref: "/", backLabel: "Back home" };
+  }
+  if (pathname === "/signup") {
+    return { title: "Sign up", backHref: "/", backLabel: "Back home" };
+  }
   if (pathname === "/order/cylinder") {
     return { title: "Your fill", backHref: "/", backLabel: "Go back" };
   }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { quoteFill } from "./pricing";
+import { getZone, quoteFill } from "./pricing";
 import {
   CUTOFF_EXPLANATION,
   HUB_CONFIGURED_STUB_LABEL,
@@ -83,16 +83,16 @@ describe("8:00pm WAT cutoff + calendar dates", () => {
       capacityKg: 12.5,
       zoneId: "old-gra",
     });
-    expect(engine.deliveryNgn).toBe(1500);
+    expect(engine.deliveryNgn).toBe(getZone("old-gra")?.feeNgn);
 
     const hub = applyFulfillmentToQuote(engine, "hub");
     expect(hub.deliveryNgn).toBe(0);
     expect(hub.totalNgn).toBe(engine.gasFillNgn);
     expect(hub.lines[1]?.label).toMatch(/hub self-serve/i);
-    expect(engine.deliveryNgn).toBe(1500);
+    expect(engine.deliveryNgn).toBe(getZone("old-gra")?.feeNgn);
 
     const door = applyFulfillmentToQuote(engine, "door_to_door");
-    expect(door.deliveryNgn).toBe(1500);
+    expect(door.deliveryNgn).toBe(getZone("old-gra")?.feeNgn);
   });
 
   it("documents hub-configured (stub) labels for live rate and PH zones", () => {
