@@ -9,14 +9,14 @@ import { KeyBenefits } from "@/components/marketing/KeyBenefits";
 import { LegacyMarketingHashRedirect } from "@/components/marketing/LegacyMarketingHashRedirect";
 import { TrustRow } from "@/components/marketing/TrustRow";
 import { ZoneMap } from "@/components/marketing/ZoneMap";
-import { SealedValveGlyph } from "@/components/illustrations/gas-scenes";
+import { ComingSoonTeaser } from "@/components/marketing/ComingSoonTeaser";
+import { MarketingFaq } from "@/components/marketing/MarketingFaq";
+import { MarketingFooter } from "@/components/marketing/MarketingFooter";
 import { FadeLift } from "@/components/motion/FadeLift";
 import { buttonClassName } from "@/components/ui/button";
-import { cardClassName } from "@/components/ui/card";
 import { LIVE_RATE_NGN_PER_KG } from "@/config/pricing";
 import { whatsappHref } from "@/config/whatsapp";
 import { formatNaira } from "@/lib/money";
-import { cn } from "@/lib/utils";
 
 export function MarketingLanding() {
   return (
@@ -62,42 +62,17 @@ export function MarketingLanding() {
       </section>
 
       <div className="relative z-[1] bg-surface">
-        <div className="mx-auto w-full max-w-5xl px-5 pb-20 pt-4 md:px-8 lg:max-w-6xl lg:px-10">
+        <div className="mx-auto w-full max-w-5xl px-5 pb-8 pt-4 md:px-8 lg:max-w-6xl lg:px-10">
           <HowItWorks />
           <ZoneMap />
           <KeyBenefits />
           <TrustRow />
 
           <FadeLift className="mt-12">
-            <section
-              className={cn(
-                cardClassName,
-                "relative overflow-hidden bg-surface-muted px-5 py-5 shadow-gasgo-soft",
-              )}
-            >
-              <span
-                aria-hidden="true"
-                className="absolute inset-y-3 left-0 w-1 rounded-full bg-brand-yellow"
-              />
-              <div className="flex items-start justify-between gap-3 pl-2">
-                <div>
-                  <h2 className="text-[17px] font-semibold tracking-tight text-ink">
-                    Auto-refill
-                  </h2>
-                  <p className="mt-1 max-w-[40ch] text-sm leading-relaxed text-ink-muted">
-                    A gauge that orders for you is on the way. Today, you build the fill
-                    yourself — guests included, account only at checkout.
-                  </p>
-                </div>
-                <div className="flex shrink-0 flex-col items-end gap-2">
-                  <span className="rounded-full border border-border bg-surface px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
-                    Coming soon
-                  </span>
-                  <SealedValveGlyph className="size-9" />
-                </div>
-              </div>
-            </section>
+            <ComingSoonTeaser />
           </FadeLift>
+
+          <MarketingFaq />
 
           <FadeLift className="mt-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
             <Link
@@ -119,6 +94,7 @@ export function MarketingLanding() {
             </a>
           </FadeLift>
         </div>
+        <MarketingFooter />
       </div>
     </div>
   );

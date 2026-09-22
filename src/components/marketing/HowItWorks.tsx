@@ -23,9 +23,12 @@ const BEATS = [
   },
 ] as const;
 
-export function HowItWorks() {
+export function HowItWorks({ flush = false }: { flush?: boolean }) {
   return (
-    <section id="how-it-works" className="mt-16 scroll-mt-24 lg:mt-20">
+    <section
+      id="how-it-works"
+      className={flush ? "scroll-mt-24" : "mt-16 scroll-mt-24 lg:mt-20"}
+    >
       <FadeLift>
         <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
           How it works

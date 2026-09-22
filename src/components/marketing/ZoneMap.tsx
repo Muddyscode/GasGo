@@ -13,9 +13,9 @@ const TONE: Record<"green" | "yellow" | "ink", { fill: string; text: string }> =
   ink: { fill: "#0B1F14", text: "#FFFFFF" },
 };
 
-export function ZoneMap() {
+export function ZoneMap({ flush = false }: { flush?: boolean }) {
   return (
-    <section id="zones" className="mt-16 scroll-mt-24 lg:mt-20">
+    <section id="zones" className={flush ? "scroll-mt-24" : "mt-16 scroll-mt-24 lg:mt-20"}>
       <FadeLift>
         <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
           Garden City coverage

@@ -66,6 +66,8 @@ export function TopNav({ marketing = false }: { marketing?: boolean }) {
 }
 
 function MarketingIslandNav() {
+  const pathname = usePathname();
+
   return (
     <header className="sticky top-0 z-40 bg-transparent pt-[max(0.55rem,env(safe-area-inset-top))]">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2 md:px-6 lg:px-8">
@@ -88,7 +90,11 @@ function MarketingIslandNav() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-3.5 py-1.5 text-[14px] font-semibold text-ink transition-colors hover:bg-surface-soft"
+              aria-current={pathname === link.href ? "page" : undefined}
+              className={cn(
+                "rounded-full px-3.5 py-1.5 text-[14px] font-semibold transition-colors hover:bg-surface-soft",
+                pathname === link.href ? "bg-surface-soft text-brand-green" : "text-ink",
+              )}
             >
               {link.label}
             </Link>

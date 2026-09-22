@@ -31,6 +31,14 @@ describe("HeroRun + auth split + theme contracts", () => {
     expect(auth).not.toMatch(/Lagos|Lekki|Ikeja/);
   });
 
+  it("ships FAQ + footer on the marketing site", () => {
+    expect(existsSync(path.resolve(SRC, "lib/marketing-faq.ts"))).toBe(true);
+    expect(readSrc("lib/marketing-faq.ts")).toMatch(/Coming soon/);
+    expect(readSrc("components/marketing/MarketingFaq.tsx")).toMatch(/id="faq"/);
+    expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/Port Harcourt/);
+    expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/Coming soon/);
+  });
+
   it("theme toggle lives in nav and settings, persisted via tokens", () => {
     expect(readSrc("components/nav/NavActions.tsx")).toMatch(/ThemeToggle/);
     expect(readSrc("components/profile/ProfileSupport.tsx")).toMatch(/ThemePreference/);

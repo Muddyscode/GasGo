@@ -31,11 +31,23 @@ describe("marketing nav route contracts", () => {
     expect(nav).not.toMatch(/#how-it-works|#zones|#why-gasgo/);
   });
 
-  it("ships thin page shells for marketing and auth entry routes", () => {
+  it("fills marketing routes with page craft, not empty shells", () => {
     for (const route of MARKETING_PAGES) {
       expect(pageExists(route.page), route.href).toBe(true);
     }
     expect(pageExists("app/(customer)/order/cylinder/page.tsx")).toBe(true);
+    expect(readSrc("app/(customer)/how-it-works/page.tsx")).toMatch(/HowItWorksPageView/);
+    expect(readSrc("app/(customer)/zones/page.tsx")).toMatch(/ZonesPageView/);
+    expect(readSrc("app/(customer)/why/page.tsx")).toMatch(/WhyPageView/);
+    expect(readSrc("components/marketing/HowItWorksPageView.tsx")).toMatch(/MarketingFaq|MarketingFooter/);
+    expect(readSrc("components/marketing/ZonesPageView.tsx")).toMatch(/ZONE_FEE_MAX_NGN/);
+    expect(readSrc("components/marketing/WhyPageView.tsx")).toMatch(/Coming soon|ComingSoonTeaser/);
+    expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/MarketingFaq/);
+    expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/MarketingFooter/);
+    expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/\/how-it-works/);
+    expect(readSrc("components/marketing/MarketingFooter.tsx")).not.toMatch(
+      /Lekki|Yaba|Ikeja|Surulere|Gbagada/,
+    );
   });
 
   it("prefers /login and /signup over AuthModal for Sign in / Sign up CTAs", () => {
