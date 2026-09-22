@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingBag, UserRound } from "lucide-react";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { formatKg } from "@/config/pricing";
 import {
   activeOrderForUser,
@@ -44,7 +45,7 @@ export function NavActions({ island = false }: { island?: boolean }) {
     <div
       className={cn(
         "flex items-center gap-1 sm:gap-1.5",
-        island && "rounded-full bg-white py-0.5 pl-0.5 pr-1 shadow-gasgo-md ring-1 ring-black/5",
+        island && "rounded-full bg-surface py-0.5 pl-0.5 pr-1 shadow-gasgo-md ring-1 ring-black/5",
       )}
     >
       {activeOrder ? (
@@ -72,7 +73,7 @@ export function NavActions({ island = false }: { island?: boolean }) {
           onClick={continueDraft}
           aria-label={`Continue ${formatKg(live.fillKg)} kg order`}
           className={cn(
-            "inline-flex h-9 items-center gap-1 rounded-full border border-border bg-white px-2.5",
+            "inline-flex h-9 items-center gap-1 rounded-full border border-border bg-surface px-2.5",
             "text-[12px] font-semibold text-ink shadow-gasgo-soft",
             "transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
             "hover:shadow-gasgo-md active:scale-[0.97]",
@@ -83,6 +84,8 @@ export function NavActions({ island = false }: { island?: boolean }) {
           <span className="hidden tabular-nums sm:inline">{formatKg(live.fillKg)} kg</span>
         </button>
       ) : null}
+
+      <ThemeToggle island={island} />
 
       {user ? (
         <Link

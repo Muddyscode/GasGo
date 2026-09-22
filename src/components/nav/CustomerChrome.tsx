@@ -21,12 +21,20 @@ export function CustomerChrome({ children }: { children: ReactNode }) {
 function ChromeFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const user = useSession((state) => state.user);
+  const isAuth = pathname === "/login" || pathname === "/signup";
   const marketing =
     !user &&
+    !isAuth &&
     (pathname === "/" ||
       pathname === "/how-it-works" ||
       pathname === "/zones" ||
       pathname === "/why");
+
+  if (isAuth) {
+    return (
+      <div className="relative min-h-dvh w-full max-w-none bg-surface">{children}</div>
+    );
+  }
 
   return (
     <div

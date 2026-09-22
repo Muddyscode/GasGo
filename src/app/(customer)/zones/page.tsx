@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ZoneMap } from "@/components/marketing";
+import { ZonesPageView } from "@/components/marketing/ZonesPageView";
 
 export const metadata: Metadata = {
   title: "Zones · GasGo",
@@ -8,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function ZonesPage() {
-  return (
-    <div className="mx-auto w-full max-w-5xl px-5 pb-20 pt-4 md:px-8 lg:max-w-6xl lg:px-10">
-      <ZoneMap />
-    </div>
-  );
+  return <ZonesPageView />;
 }

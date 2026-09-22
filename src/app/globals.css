@@ -4,6 +4,13 @@
 
 /* ─── shadcn CSS variables — white-dominant light theme ─── */
 :root {
+  --gasgo-ink: #0b1f14;
+  --gasgo-ink-muted: #4b6356;
+  --gasgo-border: #e6eee9;
+  --gasgo-surface: #ffffff;
+  --gasgo-surface-muted: #f7faf8;
+  --gasgo-surface-soft: #f0f7f3;
+
   --background: 0 0% 100%;
   --foreground: 150 48% 8%; /* ink #0B1F14 */
 
@@ -46,6 +53,37 @@
   --gauge-muted: #4b6356;
 }
 
+.dark {
+  --gasgo-ink: #f7faf8;
+  --gasgo-ink-muted: #9bb0a6;
+  --gasgo-border: #1e3a2c;
+  --gasgo-surface: #0b1f14;
+  --gasgo-surface-muted: #12261c;
+  --gasgo-surface-soft: #173024;
+
+  --background: 150 48% 8%;
+  --foreground: 150 20% 96%;
+
+  --card: 150 36% 9%;
+  --card-foreground: 150 20% 96%;
+
+  --popover: 150 36% 9%;
+  --popover-foreground: 150 20% 96%;
+
+  --secondary: 150 28% 12%;
+  --secondary-foreground: 150 20% 96%;
+
+  --muted: 150 28% 12%;
+  --muted-foreground: 150 16% 72%;
+
+  --border: 150 28% 18%;
+  --input: 150 28% 18%;
+
+  --gauge-track: #173024;
+  --gauge-label: #f7faf8;
+  --gauge-muted: #9bb0a6;
+}
+
 @layer base {
   * {
     border-color: hsl(var(--border));
@@ -61,12 +99,16 @@
     background-image: none;
   }
 
+  .dark body:has(.gasgo-marketing) {
+    background: #15261c;
+  }
+
   body {
-    background-color: #f4f8f5;
+    background-color: var(--gasgo-surface-muted);
     background-image:
       radial-gradient(1200px 520px at 12% -10%, rgba(28, 163, 80, 0.1), transparent 58%),
       radial-gradient(900px 420px at 100% 0%, rgba(255, 223, 34, 0.14), transparent 52%),
-      linear-gradient(180deg, #ffffff 0%, #f7faf8 42%, #f3f8f5 100%);
+      linear-gradient(180deg, var(--gasgo-surface) 0%, var(--gasgo-surface-muted) 42%, var(--gasgo-surface-soft) 100%);
     color: hsl(var(--foreground));
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
       "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -80,6 +122,10 @@
     background: #f1f5d8;
   }
 
+  .dark .gasgo-marketing {
+    background: #15261c;
+  }
+
   .hero-wash {
     background:
       radial-gradient(900px 380px at 88% -8%, rgba(255, 223, 34, 0.42), transparent 58%),
@@ -87,8 +133,15 @@
       linear-gradient(180deg, #f7f8dc 0%, #eef4d4 42%, #e4edc4 100%);
   }
 
+  .dark .hero-wash {
+    background:
+      radial-gradient(900px 380px at 88% -8%, rgba(255, 223, 34, 0.18), transparent 58%),
+      radial-gradient(720px 320px at 8% 0%, rgba(28, 163, 80, 0.16), transparent 55%),
+      linear-gradient(180deg, #1a3324 0%, #15261c 48%, #101c16 100%);
+  }
+
   .gasgo-shell {
-    background: rgba(255, 255, 255, 0.72);
+    background: color-mix(in srgb, var(--gasgo-surface) 72%, transparent);
     box-shadow: 0 18px 60px rgba(11, 31, 20, 0.05);
     height: 100dvh;
     max-height: 100dvh;
@@ -102,7 +155,7 @@
       height: calc(100dvh - 2rem);
       max-height: calc(100dvh - 2rem);
       min-height: 0;
-      border: 1px solid rgba(230, 238, 233, 0.9);
+      border: 1px solid color-mix(in srgb, var(--gasgo-border) 90%, transparent);
       border-radius: 1.75rem;
     }
   }
@@ -473,6 +526,146 @@
   animation: hero-keke-nudge 5.4s ease-in-out infinite;
 }
 
+/* ─── HeroRun: go-slow jam ↔ clear sprint, truck soul ─── */
+@keyframes hero-run-dash {
+  0% {
+    stroke-dasharray: 16 44;
+    stroke-dashoffset: 0;
+  }
+  40% {
+    stroke-dasharray: 16 44;
+    stroke-dashoffset: -22;
+  }
+  48% {
+    stroke-dasharray: 56 16;
+    stroke-dashoffset: -90;
+  }
+  100% {
+    stroke-dasharray: 56 16;
+    stroke-dashoffset: -460;
+  }
+}
+
+@keyframes hero-run-truck {
+  0% {
+    transform: translate3d(-10%, 3px, 0) rotate(-1.6deg);
+  }
+  36% {
+    transform: translate3d(8%, 4px, 0) rotate(-1deg);
+  }
+  42% {
+    transform: translate3d(14%, 1px, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(28%, -10px, 0) rotate(2.8deg);
+  }
+  64% {
+    transform: translate3d(52%, -2px, 0) rotate(1.1deg);
+  }
+  88% {
+    transform: translate3d(88%, 0, 0) rotate(0.3deg);
+  }
+  100% {
+    transform: translate3d(122%, 2px, 0) rotate(0deg);
+  }
+}
+
+@keyframes hero-run-keke {
+  0% {
+    transform: translate3d(16%, 2px, 0);
+  }
+  40% {
+    transform: translate3d(22%, 2px, 0);
+  }
+  52% {
+    transform: translate3d(56%, -6px, 0);
+  }
+  100% {
+    transform: translate3d(132%, 0, 0);
+  }
+}
+
+@keyframes hero-run-soul {
+  0%,
+  38% {
+    opacity: 0.12;
+    transform: translate3d(8px, 0, 0) scaleX(0.35);
+  }
+  46% {
+    opacity: 1;
+    transform: translate3d(-6px, 0, 0) scaleX(1);
+  }
+  58%,
+  86% {
+    opacity: 0.95;
+    transform: translate3d(-28px, 0, 0) scaleX(1.45);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translate3d(-42px, 0, 0) scaleX(1.05);
+  }
+}
+
+@keyframes hero-run-wheel {
+  0% {
+    transform: rotate(0deg);
+  }
+  40% {
+    transform: rotate(200deg);
+  }
+  52% {
+    transform: rotate(620deg);
+  }
+  100% {
+    transform: rotate(2340deg);
+  }
+}
+
+@keyframes hero-run-haze {
+  0%,
+  38% {
+    opacity: 0.22;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.hero-run__dash {
+  animation: hero-run-dash 14s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+}
+
+.hero-run__dash--edge {
+  animation-duration: 14s;
+}
+
+.hero-run__truck {
+  animation: hero-run-truck 14s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+  will-change: transform;
+}
+
+.hero-run__keke {
+  animation: hero-run-keke 14s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+}
+
+.hero-run__soul {
+  transform-box: fill-box;
+  transform-origin: right center;
+  animation: hero-run-soul 14s ease-in-out infinite;
+}
+
+.hero-run__wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-run-wheel 14s cubic-bezier(0.42, 0, 0.18, 1) infinite;
+}
+
+.hero-run__haze {
+  animation: hero-run-haze 14s ease-in-out infinite;
+  pointer-events: none;
+}
+
 .zone-pin {
   transform-box: fill-box;
   transform-origin: center;
@@ -524,7 +717,13 @@
 
   .hero-cloud,
   .hero-van,
-  .hero-keke {
+  .hero-keke,
+  .hero-run__dash,
+  .hero-run__truck,
+  .hero-run__keke,
+  .hero-run__soul,
+  .hero-run__wheel,
+  .hero-run__haze {
     animation: none !important;
   }
 }

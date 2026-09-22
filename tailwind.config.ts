@@ -31,16 +31,16 @@ const config = {
           foreground: "#FFFFFF",
         },
         ink: {
-          DEFAULT: "#0B1F14",
-          muted: "#4B6356",
+          DEFAULT: "var(--gasgo-ink)",
+          muted: "var(--gasgo-ink-muted)",
         },
         surface: {
-          DEFAULT: "#FFFFFF",
-          muted: "#F7FAF8",
-          soft: "#F0F7F3",
+          DEFAULT: "var(--gasgo-surface)",
+          muted: "var(--gasgo-surface-muted)",
+          soft: "var(--gasgo-surface-soft)",
         },
         border: {
-          DEFAULT: "#E6EEE9",
+          DEFAULT: "var(--gasgo-border)",
         },
         gauge: {
           track: "#E8F5EE",

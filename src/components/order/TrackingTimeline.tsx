@@ -35,10 +35,10 @@ export function TrackingTimeline({
                   done && "border-brand-green bg-brand-green text-white",
                   current &&
                     currentTone === "safe" &&
-                    "border-brand-green bg-white text-brand-green shadow-[0_0_0_4px_rgba(28,163,80,0.16)]",
+                    "border-brand-green bg-surface text-brand-green shadow-[0_0_0_4px_rgba(28,163,80,0.16)]",
                   current &&
                     currentTone === "critical" &&
-                    "border-brand-red bg-white text-brand-red shadow-[0_0_0_4px_rgba(220,38,38,0.16)]",
+                    "border-brand-red bg-surface text-brand-red shadow-[0_0_0_4px_rgba(220,38,38,0.16)]",
                   !done && !current && "border-border bg-surface text-transparent",
                 )}
               >

@@ -3,20 +3,20 @@
 import Link from "next/link";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { CyclingGreeting } from "@/components/marketing/CyclingGreeting";
-import { HeroWorld } from "@/components/marketing/HeroWorld";
+import { HeroRun } from "@/components/marketing/HeroRun";
 import { HowItWorks } from "@/components/marketing/HowItWorks";
 import { KeyBenefits } from "@/components/marketing/KeyBenefits";
 import { LegacyMarketingHashRedirect } from "@/components/marketing/LegacyMarketingHashRedirect";
 import { TrustRow } from "@/components/marketing/TrustRow";
 import { ZoneMap } from "@/components/marketing/ZoneMap";
-import { SealedValveGlyph } from "@/components/illustrations/gas-scenes";
+import { ComingSoonTeaser } from "@/components/marketing/ComingSoonTeaser";
+import { MarketingFaq } from "@/components/marketing/MarketingFaq";
+import { MarketingFooter } from "@/components/marketing/MarketingFooter";
 import { FadeLift } from "@/components/motion/FadeLift";
 import { buttonClassName } from "@/components/ui/button";
-import { cardClassName } from "@/components/ui/card";
 import { LIVE_RATE_NGN_PER_KG } from "@/config/pricing";
 import { whatsappHref } from "@/config/whatsapp";
 import { formatNaira } from "@/lib/money";
-import { cn } from "@/lib/utils";
 
 export function MarketingLanding() {
   return (
@@ -33,71 +33,38 @@ export function MarketingLanding() {
             </p>
           </FadeLift>
 
-          <FadeLift delayMs={80} className="mx-auto mt-5 w-full max-w-xl md:mt-8">
-            <div className="flex flex-col gap-2 rounded-[1.75rem] bg-white p-2 shadow-gasgo-lg ring-1 ring-black/5 sm:flex-row sm:items-center sm:rounded-full">
-              <div className="flex min-h-12 flex-1 items-center gap-2.5 px-4 text-ink">
-                <PinIcon />
-                <span className="truncate text-[15px] font-medium text-ink-muted">
-                  Port Harcourt · plant refill
-                </span>
-              </div>
-              <Link
-                href="/order/cylinder"
-                className={buttonClassName(
-                  { variant: "primary", size: "lg" },
-                  "h-12 w-full shrink-0 rounded-full sm:w-auto sm:min-w-[11.5rem] sm:px-8",
-                )}
-              >
-                Order a refill
-                <ArrowRight className="size-4" strokeWidth={2.25} />
-              </Link>
-            </div>
+          <FadeLift delayMs={80} className="mx-auto mt-5 flex w-full max-w-md flex-col items-center md:mt-8">
+            <Link
+              href="/order/cylinder"
+              className={buttonClassName(
+                { variant: "primary", size: "lg" },
+                "h-14 w-full max-w-sm rounded-full px-10 text-lg shadow-gasgo-lg sm:h-16 sm:w-auto sm:min-w-[18rem] sm:px-12",
+              )}
+            >
+              Order a refill
+              <ArrowRight className="size-5" strokeWidth={2.25} />
+            </Link>
             <p className="mt-2.5 text-center text-sm text-ink-muted">
               Live {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg · Full, by kg, or by ₦
             </p>
           </FadeLift>
         </div>
 
-        <HeroWorld className="relative z-[1] mt-3 w-full flex-1 sm:mt-4" />
+        <HeroRun className="relative z-[1] mt-2 h-[16.5rem] w-full sm:mt-3 sm:h-[18rem] md:h-[22rem] lg:h-[26rem]" />
       </section>
 
-      <div className="relative z-[1] bg-white">
-        <div className="mx-auto w-full max-w-5xl px-5 pb-20 pt-4 md:px-8 lg:max-w-6xl lg:px-10">
+      <div className="relative z-[1] bg-surface">
+        <div className="mx-auto w-full max-w-5xl px-5 pb-8 pt-4 md:px-8 lg:max-w-6xl lg:px-10">
           <HowItWorks />
           <ZoneMap />
           <KeyBenefits />
           <TrustRow />
 
           <FadeLift className="mt-12">
-            <section
-              className={cn(
-                cardClassName,
-                "relative overflow-hidden bg-surface-muted px-5 py-5 shadow-gasgo-soft",
-              )}
-            >
-              <span
-                aria-hidden="true"
-                className="absolute inset-y-3 left-0 w-1 rounded-full bg-brand-yellow"
-              />
-              <div className="flex items-start justify-between gap-3 pl-2">
-                <div>
-                  <h2 className="text-[17px] font-semibold tracking-tight text-ink">
-                    Auto-refill
-                  </h2>
-                  <p className="mt-1 max-w-[40ch] text-sm leading-relaxed text-ink-muted">
-                    A gauge that orders for you is on the way. Today, you build the fill
-                    yourself — guests included, account only at checkout.
-                  </p>
-                </div>
-                <div className="flex shrink-0 flex-col items-end gap-2">
-                  <span className="rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
-                    Coming soon
-                  </span>
-                  <SealedValveGlyph className="size-9" />
-                </div>
-              </div>
-            </section>
+            <ComingSoonTeaser />
           </FadeLift>
+
+          <MarketingFaq />
 
           <FadeLift className="mt-12 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
             <Link
@@ -119,21 +86,8 @@ export function MarketingLanding() {
             </a>
           </FadeLift>
         </div>
+        <MarketingFooter />
       </div>
     </div>
-  );
-}
-
-function PinIcon() {
-  return (
-    <svg viewBox="0 0 20 20" className="size-5 shrink-0 text-brand-green" fill="none" aria-hidden="true">
-      <path
-        d="M10 17.5s5.5-5.1 5.5-9.2A5.5 5.5 0 0 0 4.5 8.3C4.5 12.4 10 17.5 10 17.5Z"
-        stroke="currentColor"
-        strokeWidth="1.7"
-        strokeLinejoin="round"
-      />
-      <circle cx="10" cy="8.2" r="1.8" fill="currentColor" />
-    </svg>
   );
 }

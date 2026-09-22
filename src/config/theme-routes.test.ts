@@ -1,0 +1,73 @@
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+
+const ROOT = path.resolve(__dirname, "../..");
+const SRC = path.resolve(__dirname, "..");
+
+function readSrc(rel: string) {
+  return readFileSync(path.resolve(SRC, rel), "utf8");
+}
+
+function readRoot(rel: string) {
+  return readFileSync(path.resolve(ROOT, rel), "utf8");
+}
+
+describe("HeroRun + auth split + theme contracts", () => {
+  it("commits the Port Harcourt Tower landmark under public/brand", () => {
+    expect(existsSync(path.resolve(ROOT, "public/brand/ph-tower.webp"))).toBe(true);
+    expect(readSrc("components/marketing/HeroRun.tsx")).toMatch(/\/brand\/ph-tower\.webp/);
+    expect(readSrc("components/marketing/HeroRun.tsx")).toMatch(/hero-run|HeroRun/);
+    expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/HeroRun/);
+  });
+
+  it("auth pages are visual-left / form-right and keep demo sign-in", () => {
+    const auth = readSrc("components/auth/AuthEntryView.tsx");
+    expect(auth).toMatch(/BrandMark/);
+    expect(auth).toMatch(/auth-visual|AuthWorld/);
+    expect(auth).toMatch(/lg:grid-cols-2|md:grid-cols-2/);
+    expect(auth).toMatch(/Continue with demo account/);
+    expect(auth).not.toMatch(/clear\(/);
+    expect(auth).not.toMatch(/Lagos|Lekki|Ikeja/);
+  });
+
+  it("ships FAQ + footer on the marketing site", () => {
+    expect(existsSync(path.resolve(SRC, "lib/marketing-faq.ts"))).toBe(true);
+    expect(readSrc("lib/marketing-faq.ts")).toMatch(/Coming soon/);
+    expect(readSrc("components/marketing/MarketingFaq.tsx")).toMatch(/id="faq"/);
+    expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/Port Harcourt/);
+    expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/Coming soon/);
+  });
+
+  it("landing CTA is a dominant Order button, not a search-like address pill", () => {
+    const landing = readSrc("components/marketing/MarketingLanding.tsx");
+    expect(landing).toMatch(/Order a refill/);
+    expect(landing).not.toMatch(/Port Harcourt · plant refill/);
+    expect(landing).not.toMatch(/PinIcon/);
+  });
+
+  it("footer is an illustrated band plus multi-column links", () => {
+    const footer = readSrc("components/marketing/MarketingFooter.tsx");
+    expect(footer).toMatch(/marketing-footer__band|FooterBand/);
+    expect(footer).toMatch(/Garden City/);
+    expect(footer).toMatch(/Auto-refill/);
+    expect(footer).toMatch(/Never run out/);
+    expect(footer).not.toMatch(/Lagos|Lekki|Ikeja/);
+  });
+
+  it("HeroRun living road honors reduced motion", () => {
+    const css = readSrc("app/globals.css");
+    expect(css).toMatch(/hero-run-truck/);
+    expect(css).toMatch(/hero-run-soul/);
+    expect(css).toMatch(/prefers-reduced-motion/);
+    expect(css).toMatch(/hero-run__haze/);
+  });
+
+  it("theme toggle lives in nav and settings, persisted via tokens", () => {
+    expect(readSrc("components/nav/NavActions.tsx")).toMatch(/ThemeToggle/);
+    expect(readSrc("components/profile/ProfileSupport.tsx")).toMatch(/ThemePreference/);
+    expect(readSrc("app/layout.tsx")).toMatch(/ThemeProvider/);
+    expect(readSrc("config/tokens.ts")).toMatch(/surfaceOnDark|inkOnDark/);
+    expect(readRoot("tailwind.config.ts")).toMatch(/--gasgo-ink|--gasgo-surface/);
+  });
+});

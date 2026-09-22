@@ -9,7 +9,7 @@ export function AppToaster() {
       offset={72}
       toastOptions={{
         className:
-          "!border-border !bg-white !text-ink !shadow-[0_8px_32px_rgba(11,31,20,0.08)]",
+          "!border-border !bg-surface !text-ink !shadow-[0_8px_32px_rgba(11,31,20,0.08)]",
       }}
     />
   );

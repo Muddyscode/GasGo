@@ -26,9 +26,13 @@ const BENEFITS = [
   },
 ] as const;
 
-export function KeyBenefits() {
+export function KeyBenefits({ flush = false }: { flush?: boolean }) {
   return (
-    <section id="why-gasgo" className="mt-16 scroll-mt-24" aria-labelledby="key-benefits-heading">
+    <section
+      id="why-gasgo"
+      className={flush ? "scroll-mt-24" : "mt-16 scroll-mt-24"}
+      aria-labelledby="key-benefits-heading"
+    >
       <FadeLift>
         <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
           Key benefits

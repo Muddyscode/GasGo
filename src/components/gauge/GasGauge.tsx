@@ -167,7 +167,7 @@ export function GasGauge({
               "inline-flex h-11 w-full min-h-11 items-center justify-center rounded-full px-4",
               "border border-brand-green/25 bg-surface-soft text-sm font-semibold text-brand-green",
               "shadow-gasgo-soft transition-[transform,background-color,box-shadow] duration-200",
-              "ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-white hover:shadow-gasgo-md",
+              "ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-surface hover:shadow-gasgo-md",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",
               "active:scale-[0.98]",
             )}
@@ -203,7 +203,7 @@ function CalibrateSecondary({
       onClick={onClick}
       className={cn(
         "inline-flex min-h-11 items-center justify-center rounded-full px-4",
-        "border border-border bg-white text-sm font-medium text-ink",
+        "border border-border bg-surface text-sm font-medium text-ink",
         "shadow-gasgo-soft transition-colors",
         "hover:border-brand-green/40 hover:bg-surface-soft",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2",

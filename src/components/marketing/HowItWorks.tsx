@@ -23,9 +23,12 @@ const BEATS = [
   },
 ] as const;
 
-export function HowItWorks() {
+export function HowItWorks({ flush = false }: { flush?: boolean }) {
   return (
-    <section id="how-it-works" className="mt-16 scroll-mt-24 lg:mt-20">
+    <section
+      id="how-it-works"
+      className={flush ? "scroll-mt-24" : "mt-16 scroll-mt-24 lg:mt-20"}
+    >
       <FadeLift>
         <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
           How it works
@@ -45,7 +48,7 @@ export function HowItWorks() {
               <div className={cn(cardClassName, "overflow-hidden p-0 shadow-gasgo-md")}>
                 <div className="relative h-40 bg-[#F1F5D8]">
                   <beat.Scene />
-                  <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2 py-0.5 text-[11px] font-semibold tracking-wide text-ink shadow-gasgo-soft">
+                  <span className="absolute left-3 top-3 rounded-full bg-surface/90 px-2 py-0.5 text-[11px] font-semibold tracking-wide text-ink shadow-gasgo-soft">
                     {beat.step}
                   </span>
                 </div>

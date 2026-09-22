@@ -22,7 +22,7 @@ export function ProfileAutoRefill() {
           </p>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-2">
-          <span className="mt-0.5 rounded-full border border-border bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+          <span className="mt-0.5 rounded-full border border-border bg-surface px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
             Coming soon
           </span>
           <div className="flex items-end gap-1.5">
