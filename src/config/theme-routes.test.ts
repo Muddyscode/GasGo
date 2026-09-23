@@ -37,7 +37,8 @@ describe("kitchen hero + auth split + theme contracts", () => {
   it("auth visual panel is calm and light-first, not the cartoon HeroRun road", () => {
     const world = readSrc("components/auth/AuthWorld.tsx");
     expect(world).toMatch(/auth-visual/);
-    expect(world).toMatch(/ph-tower\.webp|cooking-gas-filling-point/);
+    expect(world).toMatch(/cooking-gas-filling-point/);
+    expect(world).not.toMatch(/ph-tower/);
     expect(world).not.toMatch(/from ["']@\/components\/marketing\/HeroRun["']/);
     expect(world).not.toMatch(/<HeroRun|hero-run__/);
   });
@@ -60,9 +61,10 @@ describe("kitchen hero + auth split + theme contracts", () => {
     expect(landing).not.toMatch(/PinIcon|ArrowRight/);
   });
 
-  it("footer is an ink band plus Product and Account links", () => {
+  it("footer is a solid surface band plus Product and Account links", () => {
     const footer = readSrc("components/marketing/MarketingFooter.tsx");
-    expect(footer).toMatch(/bg-ink/);
+    expect(footer).toMatch(/bg-surface-muted/);
+    expect(footer).not.toMatch(/bg-ink/);
     expect(footer).toMatch(/Garden City/);
     expect(footer).toMatch(/COMING_SOON_LINE/);
     expect(footer).toMatch(/\/how-it-works/);

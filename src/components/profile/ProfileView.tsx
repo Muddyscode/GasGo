@@ -88,8 +88,7 @@ export function ProfileView() {
             You’re signed out
           </h2>
           <p className="mt-2 max-w-[36ch] text-[15px] leading-relaxed text-ink-muted">
-            Mock accounts only for now. Signing in never clears a fill you already
-            drafted.
+            Signing in keeps any fill you already drafted.
           </p>
           <Link
             href="/login"

@@ -39,17 +39,17 @@ function ChromeFrame({ children }: { children: ReactNode }) {
   return (
     <div
       className={cn(
-        "relative mx-auto flex w-full flex-col",
+        "relative mx-auto flex h-dvh max-h-dvh w-full flex-col overflow-hidden",
         marketing
-          ? "gasgo-marketing min-h-dvh max-w-none"
-          : "gasgo-shell min-h-dvh w-full max-w-none bg-surface",
+          ? "gasgo-marketing max-w-none"
+          : "gasgo-shell w-full max-w-none bg-surface",
       )}
     >
       <TopNav marketing={marketing} />
       <div
         className={cn(
-          "page-enter flex min-h-0 flex-1 flex-col",
-          marketing ? "overflow-x-hidden" : "overflow-y-auto",
+          "page-enter gasgo-chrome-scroll flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain",
+          marketing && "overflow-x-hidden",
         )}
       >
         {children}

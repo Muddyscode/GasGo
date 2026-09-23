@@ -7,7 +7,7 @@ export function MarketingFaq({ className }: { className?: string }) {
   return (
     <section
       id="faq"
-      className={cn("mt-16 scroll-mt-24 lg:mt-20", className)}
+      className={cn("mt-16 scroll-mt-6 lg:mt-20", className)}
       aria-labelledby="faq-heading"
     >
       <p className="text-[15px] font-medium text-brand-green">Questions</p>
