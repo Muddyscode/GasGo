@@ -72,19 +72,19 @@ function ArtisticMap() {
       <rect width="100" height="76" fill="#FAF8F3" />
       <path
         d="M10 18C18 12 28 14 36 12C48 9 54 16 66 14C78 12 86 18 94 22V68C86 62 74 66 62 64C50 62 42 56 30 60C20 63 12 58 6 62V28C6 24 8 20 10 18Z"
-        fill="#E6F4EC"
+        fill="#E8F5EE"
         stroke={brand.green}
         strokeWidth="0.6"
       />
       <path
         d="M22 30C30 26 40 34 50 30C60 26 70 32 80 28"
-        stroke="#E7E2D6"
+        stroke="#E6E2D8"
         strokeWidth="1.4"
         fill="none"
       />
       <path
         d="M18 48C28 42 38 50 48 46C60 41 70 50 84 44"
-        stroke="#E7E2D6"
+        stroke="#E6E2D8"
         strokeWidth="1.2"
         fill="none"
       />

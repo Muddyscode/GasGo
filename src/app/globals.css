@@ -5,41 +5,41 @@
 /* ─── shadcn CSS variables — white-dominant light theme ─── */
 :root {
   --gasgo-ink: #16231c;
-  --gasgo-ink-muted: #4a5c54;
-  --gasgo-border: #e7e2d6;
+  --gasgo-ink-muted: #4e5f56;
+  --gasgo-border: #e6e2d8;
   --gasgo-surface: #ffffff;
   --gasgo-surface-muted: #faf8f3;
-  --gasgo-surface-soft: #f3efe6;
+  --gasgo-surface-soft: #f3f0e8;
 
   --background: 0 0% 100%;
-  --foreground: 152 23% 11%; /* ink #16231C */
+  --foreground: 148 23% 11%; /* ink #16231C */
 
   --card: 0 0% 100%;
-  --card-foreground: 152 23% 11%;
+  --card-foreground: 148 23% 11%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 152 23% 11%;
+  --popover-foreground: 148 23% 11%;
 
   /* Energy Green #1F9D55 → hsl(146 67% 37%) */
   --primary: 146 67% 37%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 43 41% 97%;
-  --secondary-foreground: 152 23% 11%;
+  --secondary: 40 41% 97%;
+  --secondary-foreground: 148 23% 11%;
 
-  --muted: 43 41% 97%;
-  --muted-foreground: 152 11% 33%;
+  --muted: 40 41% 97%;
+  --muted-foreground: 148 10% 34%;
 
   /* Sun Yellow #FFC53D → hsl(42 100% 62%) as accent */
   --accent: 42 100% 62%;
-  --accent-foreground: 152 23% 11%;
+  --accent-foreground: 148 23% 11%;
 
-  /* Flame Red #E1432D → hsl(7 75% 53%) */
-  --destructive: 7 75% 53%;
+  /* Flame Red #E1432D → hsl(8 75% 53%) */
+  --destructive: 8 75% 53%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 40 22% 87%; /* #E7E2D6 */
-  --input: 40 22% 87%;
+  --border: 40 18% 88%; /* #E6E2D8 */
+  --input: 40 18% 88%;
   --ring: 146 67% 37%;
 
   --radius: 0.75rem;
@@ -48,38 +48,38 @@
   --gauge-safe: #1f9d55;
   --gauge-caution: #ffc53d;
   --gauge-critical: #e1432d;
-  --gauge-track: #e6f4ec;
+  --gauge-track: #e8f5ee;
   --gauge-label: #16231c;
-  --gauge-muted: #4a5c54;
+  --gauge-muted: #4e5f56;
 }
 
 .dark {
   --gasgo-ink: #faf8f3;
   --gasgo-ink-muted: #9bb0a6;
-  --gasgo-border: #24362c;
+  --gasgo-border: #2a3a32;
   --gasgo-surface: #16231c;
-  --gasgo-surface-muted: #1b2c24;
-  --gasgo-surface-soft: #21352b;
+  --gasgo-surface-muted: #1c2c24;
+  --gasgo-surface-soft: #22352b;
 
-  --background: 152 23% 11%;
-  --foreground: 43 41% 97%;
+  --background: 148 23% 11%;
+  --foreground: 40 41% 97%;
 
-  --card: 152 24% 12%;
-  --card-foreground: 43 41% 97%;
+  --card: 150 36% 9%;
+  --card-foreground: 150 20% 96%;
 
-  --popover: 152 24% 12%;
-  --popover-foreground: 43 41% 97%;
+  --popover: 150 36% 9%;
+  --popover-foreground: 150 20% 96%;
 
-  --secondary: 152 22% 14%;
-  --secondary-foreground: 43 41% 97%;
+  --secondary: 150 28% 12%;
+  --secondary-foreground: 150 20% 96%;
 
-  --muted: 152 22% 14%;
-  --muted-foreground: 152 12% 72%;
+  --muted: 150 28% 12%;
+  --muted-foreground: 150 16% 72%;
 
-  --border: 152 20% 18%;
-  --input: 152 20% 18%;
+  --border: 150 28% 18%;
+  --input: 150 28% 18%;
 
-  --gauge-track: #21352b;
+  --gauge-track: #22352b;
   --gauge-label: #faf8f3;
   --gauge-muted: #9bb0a6;
 }

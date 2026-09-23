@@ -1,6 +1,7 @@
 /**
  * GasGo design tokens — single source of truth.
- * Visual Identity v1: Energy Green #1F9D55, Sun Yellow #FFC53D, Flame Red #E1432D
+ * Brand lock: Energy Green #1F9D55, Sun Yellow #FFC53D, Flame Red #E1432D
+ * Surfaces: #FFFFFF / #FAF8F3. Ink: #16231C.
  */
 
 export const brand = {
@@ -11,13 +12,13 @@ export const brand = {
 } as const;
 
 export const ink = "#16231C";
-export const inkMuted = "#4A5C54";
-export const border = "#E7E2D6";
+export const inkMuted = "#4E5F56";
+export const border = "#E6E2D8";
 
 export const surface = {
   DEFAULT: "#FFFFFF",
   muted: "#FAF8F3",
-  soft: "#F3EFE6",
+  soft: "#F3F0E8",
 } as const;
 
 /**
@@ -26,16 +27,16 @@ export const surface = {
  */
 export const inkOnDark = surface.muted;
 export const inkMutedOnDark = "#9BB0A6";
-export const borderOnDark = "#24362C";
+export const borderOnDark = "#2A3A32";
 export const surfaceOnDark = {
   DEFAULT: ink,
-  muted: "#1B2C24",
-  soft: "#21352B",
+  muted: "#1C2C24",
+  soft: "#22352B",
 } as const;
 
 /** Gauge levels: safe ≥40, caution 20–39, critical <20 */
 export const gauge = {
-  track: "#E6F4EC",
+  track: "#E8F5EE",
   heroSize: 240,
   /** percent ≥ this → safe */
   safeAt: 40,
