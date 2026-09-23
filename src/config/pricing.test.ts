@@ -154,11 +154,13 @@ describe("PH live fill quote", () => {
       "../components/order/CheckoutView.tsx",
       "../components/order/FillComposer.tsx",
       "../components/order/AddressDeliveryForm.tsx",
+      "../lib/placed-order.ts",
+      "../lib/admin/orders.ts",
       "./pricing.ts",
     ];
     for (const rel of orderSources) {
       const text = readFileSync(path.resolve(__dirname, rel), "utf8");
-      expect(text, rel).not.toMatch(/Gas fill ·|Transport ·|pickup ·|kg · ₦/);
+      expect(text, rel).not.toMatch(/Gas fill ·|Transport ·|pickup ·|kg ·/);
     }
   });
 });

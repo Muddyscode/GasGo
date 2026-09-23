@@ -63,7 +63,7 @@ export function formatPlacedFillSummary(input: {
   fillMode: FillMode;
   fillKg: number;
 }): string {
-  return `${formatKg(input.capacityKg)} kg · ${FILL_MODE_LABEL[input.fillMode]} · ${formatKg(input.fillKg)} kg fill`;
+  return `${formatKg(input.capacityKg)} kg — ${FILL_MODE_LABEL[input.fillMode]} — ${formatKg(input.fillKg)} kg fill`;
 }
 
 export function orderNumberFromId(orderId: string): string {
