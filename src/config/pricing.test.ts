@@ -133,6 +133,34 @@ describe("PH live fill quote", () => {
     expect(assumed[1]?.label).toMatch(/transport/i);
     expect(assumed[1]?.label).toMatch(/assum/i);
   });
+
+  it("gas and transport quote labels never use a middle-dot separator", () => {
+    const door = quoteFill({
+      fillMode: "full",
+      capacityKg: 25,
+      zoneId: "old-gra",
+    });
+    for (const line of [
+      ...prepayQuoteLines(door, "door_to_door"),
+      ...prepayQuoteLines(door, "hub"),
+      ...visibleQuoteLines(door),
+    ]) {
+      expect(line.label, line.id).not.toMatch(/·/);
+    }
+
+    const orderSources = [
+      "../components/order/CheckoutSummary.tsx",
+      "../components/order/PriceBreakdown.tsx",
+      "../components/order/CheckoutView.tsx",
+      "../components/order/FillComposer.tsx",
+      "../components/order/AddressDeliveryForm.tsx",
+      "./pricing.ts",
+    ];
+    for (const rel of orderSources) {
+      const text = readFileSync(path.resolve(__dirname, rel), "utf8");
+      expect(text, rel).not.toMatch(/Gas fill ·|Transport ·|pickup ·|kg · ₦/);
+    }
+  });
 });
 
 describe("FeeCeiling", () => {
