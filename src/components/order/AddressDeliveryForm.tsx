@@ -112,8 +112,8 @@ export function AddressDeliveryForm() {
         ? "Choose an address"
         : "Select an address and who receives it"
     : hub
-      ? `Hub · ${selectedAddress?.label} · ${formatCalendarDate(dates.pickupDate)}`
-      : `${selectedAddress?.label} · ${selectedPresence?.title}`;
+      ? `Hub self-collect at ${selectedAddress?.label}, ${formatCalendarDate(dates.pickupDate)}`
+      : `${selectedAddress?.label}, ${selectedPresence?.title}`;
 
   return (
     <PageFrame>
@@ -125,10 +125,10 @@ export function AddressDeliveryForm() {
 
       <PageBody>
         <PageTitle
-          eyebrow={hub ? "Hub self-serve · Port Harcourt" : "Pickup & return · Port Harcourt"}
+          eyebrow={hub ? "Hub self-collect" : "Door-to-door"}
           subtitle={
             hub
-              ? "Bring the empty and collect the filled cylinder at the plant yard. Gas fee only — app pre-order required, no walk-ins, limited yard space."
+              ? "Bring the empty cylinder and collect it filled at the plant yard. Gas only — pre-order required, no walk-ins."
               : "We’ll collect the empty here, refill it at the plant, and bring the filled cylinder back."
           }
         >
@@ -136,8 +136,8 @@ export function AddressDeliveryForm() {
         </PageTitle>
         {live.fillKg > 0 ? (
           <p className="-mt-4 mb-6 text-sm font-medium tabular-nums text-ink-muted">
-            {formatKg(live.fillKg)} kg of {formatKg(capacityKg ?? live.capacityKg)} kg ·{" "}
-            {formatNaira(live.gasFillNgn)} fill
+            {formatKg(live.fillKg)} kg of {formatKg(capacityKg ?? live.capacityKg)} kg
+            — {formatNaira(live.gasFillNgn)} fill
           </p>
         ) : null}
 
@@ -248,7 +248,7 @@ export function AddressDeliveryForm() {
 
             <section className="mb-8">
               <h3 className="mb-3 text-sm font-semibold tracking-wide text-ink-muted">
-                {hub ? "Preferred collection window · optional" : "Preferred window"}
+                {hub ? "Preferred collection window (optional)" : "Preferred window"}
               </h3>
               <DeliveryWindowPicker selectedId={windowId} onSelect={setWindow} />
             </section>
@@ -258,7 +258,7 @@ export function AddressDeliveryForm() {
                 <span className="mb-1 block text-sm font-semibold tracking-wide text-ink-muted">
                   {hub ? "Collection notes" : "Delivery instructions"}
                   <span className="ml-1 font-medium normal-case tracking-normal">
-                    · optional
+                    (optional)
                   </span>
                 </span>
                 <textarea
@@ -281,7 +281,7 @@ export function AddressDeliveryForm() {
 
         {live.fillKg > 0 ? (
           <div className="mb-6">
-            <PriceBreakdown quote={toOrderQuote(live)} />
+            <PriceBreakdown quote={toOrderQuote(live)} fulfillmentMode={fulfillmentMode} />
           </div>
         ) : null}
       </PageBody>
@@ -306,7 +306,7 @@ export function AddressDeliveryForm() {
               "cursor-not-allowed bg-surface-muted text-ink-muted shadow-none hover:shadow-none",
           )}
         >
-          Continue to Checkout
+          Continue
         </button>
       </StickyAction>
 

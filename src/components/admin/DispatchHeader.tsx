@@ -13,7 +13,7 @@ export function DispatchHeader({ query, onQueryChange }: DispatchHeaderProps) {
   const lock = useAdminSession((state) => state.lock);
 
   return (
-    <header className="sticky top-0 z-20 border-b border-border/80 bg-surface/90 px-4 pt-[env(safe-area-inset-top)] backdrop-blur-md">
+    <header className="sticky top-0 z-20 border-b border-border/80 bg-surface/95 px-4 pt-[env(safe-area-inset-top)] backdrop-blur-md md:px-6">
       <div className="flex h-14 items-center justify-between gap-3">
         <h1 className="text-[17px] font-semibold tracking-tight text-ink">Dispatch</h1>
         <button

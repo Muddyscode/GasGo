@@ -139,7 +139,7 @@ describe("guest draft survives mock signup", () => {
     useOrderDraft.getState().setFulfillmentMode("hub");
     const hubQuote = useOrderDraft.getState().quote();
     expect(hubQuote.lines[1]?.amountNgn).toBe(0);
-    expect(hubQuote.lines[1]?.label).toMatch(/hub self-serve/i);
+    expect(hubQuote.lines[1]?.label).toMatch(/hub self-collect/i);
     expect(useOrderDraft.getState().fulfillmentMode).toBe("hub");
   });
 });

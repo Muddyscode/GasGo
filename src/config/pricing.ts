@@ -186,6 +186,39 @@ export function visibleQuoteLines(quote: OrderQuote | FillQuote): QuoteLine[] {
   return lines.filter((line) => line.id !== "delivery" || line.amountNgn > 0);
 }
 
+export function transportAssumptionLabel(quote: OrderQuote | FillQuote): string {
+  if (quote.zoneName) {
+    return `Transport (assumed ${quote.zoneName} zone fee)`;
+  }
+  return "Transport (assumed zone fee, confirmed with address)";
+}
+
+/**
+ * Checkout / pre-pay breakdown. Door-to-door always shows gas + transport
+ * (assumption label + amount). Hub self-collect is gas only.
+ */
+export function prepayQuoteLines(
+  quote: OrderQuote | FillQuote,
+  fulfillmentMode: "door_to_door" | "hub",
+): QuoteLine[] {
+  const gasLabel =
+    quote.lines?.find((line) => line.id === "gas")?.label ?? "Gas fill";
+  const gas: QuoteLine = {
+    id: "gas",
+    label: gasLabel,
+    amountNgn: quote.gasFillNgn,
+  };
+  if (fulfillmentMode === "hub") return [gas];
+  return [
+    gas,
+    {
+      id: "delivery",
+      label: transportAssumptionLabel(quote),
+      amountNgn: quote.deliveryNgn,
+    },
+  ];
+}
+
 export function formatKg(kg: number): string {
   return Number.isInteger(kg) ? String(kg) : kg.toFixed(1).replace(/\.0$/, "");
 }

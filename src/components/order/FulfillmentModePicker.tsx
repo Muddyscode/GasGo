@@ -63,12 +63,12 @@ export function FulfillmentModePicker({
                 {copy.detail}
               </span>
               {mode === "hub" ? (
-                <span className="mt-1.5 block text-xs font-semibold uppercase tracking-[0.12em] text-brand-green">
-                  Gas only · pre-order · no walk-ins
+                <span className="mt-1.5 block text-xs font-medium text-brand-green">
+                  Gas only. Pre-order. No walk-ins.
                 </span>
               ) : (
-                <span className="mt-1.5 block text-xs font-semibold uppercase tracking-[0.12em] text-ink-muted">
-                  Default
+                <span className="mt-1.5 block text-xs font-medium text-ink-muted">
+                  Includes transport
                 </span>
               )}
             </span>

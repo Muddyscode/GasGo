@@ -38,11 +38,11 @@ export const LATE_TRACKING_COPY = {
   eyebrow: "We’re late",
   handoverFailed: {
     title: "Handover didn’t complete",
-    body: "We’re late — the rider couldn’t finish this return. The empty was in the collect → plant → return loop, but the filled cylinder didn’t make it back. WhatsApp is the fastest way to sort a retry.",
+    body: "We’re late — the rider couldn’t finish this return. The empty was collected for a plant refill, but the filled cylinder didn’t make it back. WhatsApp is the fastest way to arrange a retry.",
   },
   behindSchedule: {
-    title: "This loop is behind",
-    body: "We’re late — here’s what we know. We’re past the return window we gave you, and the cylinder is still in the collect → plant → return loop. WhatsApp us and we’ll tell you exactly where it is.",
+    title: "This refill is behind",
+    body: "We’re late — here’s what we know. We’re past the return window we gave you, and the cylinder is still in the plant refill. WhatsApp us and we’ll tell you exactly where it is.",
   },
 } as const;
 

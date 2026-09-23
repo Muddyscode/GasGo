@@ -37,12 +37,12 @@ export const CUTOFF_EXPLANATION =
 export const FULFILLMENT_COPY = {
   door_to_door: {
     title: "Door-to-door",
-    detail: "Rider picks up the empty and returns it filled.",
+    detail: "A rider collects the empty cylinder and returns it filled.",
   },
   hub: {
-    title: "Hub self-serve",
+    title: "Hub self-collect",
     detail:
-      "Bring the empty, collect the filled. Gas fee only — ₦0 delivery. App pre-order required, no walk-ins. Limited yard space.",
+      "Bring the empty cylinder and collect it filled at the plant yard. Gas only — no transport fee. Pre-order required, no walk-ins.",
   },
 } as const;
 
@@ -226,7 +226,7 @@ export function applyFulfillmentToQuote(
     totalNgn: quote.gasFillNgn,
     lines: quote.lines.map((line) =>
       line.id === "delivery"
-        ? { ...line, label: "Hub self-serve · gas only", amountNgn: 0 }
+        ? { ...line, label: "Hub self-collect, gas only", amountNgn: 0 }
         : line,
     ),
   };

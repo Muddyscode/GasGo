@@ -23,41 +23,38 @@ export function OrderCard({ order, pending = false, onStageChange }: OrderCardPr
   const sameDay = isSameDayLoop(order.pickupDate, order.returnDate);
 
   return (
-    <article className="rounded-2xl border border-border bg-surface px-3.5 py-3 shadow-gasgo-soft">
-      <div className="flex items-start justify-between gap-3">
-        <Link
-          href={`/admin/orders/${encodeURIComponent(order.id)}`}
-          className="min-w-0 font-mono text-[15px] font-semibold tracking-tight text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
-        >
-          {order.orderNumber}
-        </Link>
+    <article className="border-b border-border bg-surface px-4 py-4 last:border-b-0">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <Link
+            href={`/admin/orders/${encodeURIComponent(order.id)}`}
+            className="font-mono text-[15px] font-semibold tracking-tight text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          >
+            {order.orderNumber}
+          </Link>
+          <p className="mt-1 truncate text-[15px] font-medium text-ink">
+            {order.customerName}
+            <span className="font-normal text-ink-muted">
+              {" "}
+              {formatPhone(order.customerPhone)}
+            </span>
+          </p>
+        </div>
         <StageBadge stage={order.stage} />
       </div>
 
-      <p className="mt-1.5 truncate text-[15px] font-medium text-ink">
-        {order.customerName}
-        <span className="font-normal text-ink-muted">
-          {" · "}
-          {formatPhone(order.customerPhone)}
-        </span>
-      </p>
-
-      <p className="mt-1 text-sm text-ink-muted">
+      <p className="mt-2 text-sm text-ink-muted">
         {formatFillSummary(order)}
         {order.quantity > 1 ? ` × ${order.quantity}` : ""}
-        {" · "}
-        {order.area}
+        {` — ${order.area}`}
       </p>
       <p className="mt-0.5 text-sm text-ink-muted">
         {fulfillmentLabel(order.fulfillmentMode)}
-        {" · "}
-        {formatCalendarDate(order.pickupDate)}
-        {" → "}
-        {formatCalendarDate(order.returnDate)}
+        {` — ${formatCalendarDate(order.pickupDate)} to ${formatCalendarDate(order.returnDate)}`}
       </p>
       <p className="mt-0.5 text-sm text-ink-muted">
         {window?.title ?? order.windowId}
-        {" · "}
+        {` — `}
         <time dateTime={order.placedAt}>{formatPlacedAt(order.placedAt)}</time>
       </p>
       {sameDay ? (

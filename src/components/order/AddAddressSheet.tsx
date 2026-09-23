@@ -108,7 +108,7 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
             >
               {PH_ZONES.map((zone) => (
                 <option key={zone.id} value={zone.id}>
-                  {zone.name} · ₦{zone.feeNgn.toLocaleString("en-NG")} pickup & return
+                  {zone.name} — ₦{zone.feeNgn.toLocaleString("en-NG")} pickup and return
                 </option>
               ))}
             </select>

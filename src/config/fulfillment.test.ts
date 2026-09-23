@@ -88,7 +88,7 @@ describe("8:00pm WAT cutoff + calendar dates", () => {
     const hub = applyFulfillmentToQuote(engine, "hub");
     expect(hub.deliveryNgn).toBe(0);
     expect(hub.totalNgn).toBe(engine.gasFillNgn);
-    expect(hub.lines[1]?.label).toMatch(/hub self-serve/i);
+    expect(hub.lines[1]?.label).toMatch(/hub self-collect/i);
     expect(engine.deliveryNgn).toBe(getZone("old-gra")?.feeNgn);
 
     const door = applyFulfillmentToQuote(engine, "door_to_door");

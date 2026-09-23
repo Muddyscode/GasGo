@@ -26,7 +26,7 @@ export function AdminLoginForm() {
   return (
     <PageBody className="pt-8">
       <PageTitle
-        eyebrow="Plant ops"
+        eyebrow="Dispatch"
         subtitle="Demo gate only — not RBAC. Random visitors can’t bump order stages."
       >
         Admin login

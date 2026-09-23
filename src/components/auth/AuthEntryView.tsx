@@ -37,10 +37,10 @@ export function AuthEntryView({ mode, otherHref }: AuthEntryViewProps) {
         </div>
 
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-8">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-brand-green">
-            Port Harcourt · plant refill
+          <p className="text-[13px] font-medium text-brand-green">
+            Port Harcourt plant refill
           </p>
-          <h1 className="mt-2 font-display text-[2rem] font-extrabold leading-tight tracking-[-0.03em] text-ink sm:text-[2.4rem]">
+          <h1 className="mt-2 font-display text-[2rem] font-semibold leading-tight tracking-[-0.03em] text-ink sm:text-[2.4rem]">
             {heading}
           </h1>
           <p className="mt-2 max-w-[36ch] text-[15px] leading-relaxed text-ink-muted">

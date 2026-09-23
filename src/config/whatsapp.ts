@@ -12,7 +12,7 @@ export function whatsappSupportUrl(orderId: string): string {
 
 export function whatsappLateUrl(orderId: string): string {
   return whatsappHref(
-    `Hi GasGo, order ${orderId} is running late. What's the status on the collect → plant → return loop?`,
+    `Hi GasGo, order ${orderId} is running late. What's the status of the plant refill?`,
   );
 }
 

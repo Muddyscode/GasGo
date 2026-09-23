@@ -76,11 +76,11 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
           <section className="mb-5">
             <p
               className={cn(
-                "text-[13px] font-semibold uppercase tracking-[0.14em]",
+                "text-[13px] font-medium",
                 order.late ? "text-brand-red" : "text-brand-green",
               )}
             >
-              {order.late ? LATE_TRACKING_COPY.eyebrow : "Plant refill loop"}
+              {order.late ? LATE_TRACKING_COPY.eyebrow : "Plant refill"}
             </p>
             <h2
               className={cn(
@@ -161,7 +161,7 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
                 <DateLine label="Return" value={formatCalendarDate(order.returnDate)} />
               ) : null}
               {window ? (
-                <DateLine label="Window" value={`${window.title} · ${window.detail}`} />
+                <DateLine label="Window" value={`${window.title} — ${window.detail}`} />
               ) : null}
               {sameDay ? (
                 <p className="mt-3 rounded-xl bg-surface-soft px-3 py-2.5 text-sm leading-relaxed text-ink">
@@ -237,7 +237,7 @@ function NowNextCard({
     >
       <p
         className={cn(
-          "text-[11px] font-semibold uppercase tracking-[0.12em]",
+          "text-[12px] font-medium",
           tone === "critical" ? "text-brand-red" : "text-ink-muted",
         )}
       >

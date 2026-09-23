@@ -139,33 +139,13 @@
       linear-gradient(180deg, #21352b 0%, #1b2c24 48%, #16231c 100%);
   }
 
+  /* Full-bleed app chrome (order / hub / admin). Marketing landing stays Leonardo. */
   .gasgo-shell {
-    background: color-mix(in srgb, var(--gasgo-surface) 72%, transparent);
-    box-shadow: 0 18px 60px rgba(22, 35, 28, 0.05);
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
-  }
-
-  @media (min-width: 768px) {
-    .gasgo-shell {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      height: calc(100dvh - 2rem);
-      max-height: calc(100dvh - 2rem);
-      min-height: 0;
-      border: 1px solid color-mix(in srgb, var(--gasgo-border) 90%, transparent);
-      border-radius: 1.75rem;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .gasgo-shell {
-      margin-top: 1.5rem;
-      margin-bottom: 1.5rem;
-      height: calc(100dvh - 3rem);
-      max-height: calc(100dvh - 3rem);
-    }
+    background: var(--gasgo-surface);
+    min-height: 100dvh;
+    width: 100%;
+    max-width: none;
+    overflow-x: hidden;
   }
 }
 

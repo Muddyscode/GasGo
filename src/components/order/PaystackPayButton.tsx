@@ -11,7 +11,6 @@ import { StickyAction } from "@/components/ui/page";
 import type { OrderQuote } from "@/config/pricing";
 import { formatKg } from "@/config/pricing";
 import { createLocalOrderId } from "@/lib/order-id";
-import { formatNaira } from "@/lib/money";
 import { createOrderReference, initiatePaystackPayment } from "@/lib/paystack";
 import { completePaidCheckout } from "@/stores/customer-orders";
 import { useOrderDraft } from "@/stores/order-draft";
@@ -74,12 +73,12 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
           <DeliveryTruck size="sm" label="Starting payment" />
         </div>
       ) : null}
-      <PriceBreakdown quote={quote} />
+      <PriceBreakdown quote={quote} fulfillmentMode={fulfillmentMode} />
       <p className="mb-2.5 mt-3 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
         <Lock className="size-3.5" strokeWidth={2} />
         {hub
-          ? "Pay in full to confirm this hub pre-order · Paystack test mode"
-          : "Pay in full before empty pickup · Paystack test mode"}
+          ? "Pay in full to confirm this hub pre-order. Paystack test mode."
+          : "Pay in full before empty pickup. Paystack test mode."}
       </p>
       <button
         type="button"
@@ -90,13 +89,7 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
           pending && "cursor-wait bg-brand-green/80",
         )}
       >
-        {pending
-          ? "Starting Paystack…"
-          : !user
-            ? "Sign up to pay"
-            : hub
-              ? `Pay ${formatNaira(quote.totalNgn)} to confirm hub order`
-              : `Pay ${formatNaira(quote.totalNgn)} before pickup`}
+        {pending ? "Starting Paystack…" : !user ? "Sign up to pay" : "Pay now"}
       </button>
     </StickyAction>
   );

@@ -4,12 +4,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingBag, UserRound } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
-import { formatKg } from "@/config/pricing";
 import {
   activeOrderForUser,
   orderHref,
   orderStage,
 } from "@/data/profile";
+import { draftCapacityChipLabel } from "@/lib/draft-capacity-chip";
 import { cn } from "@/lib/utils";
 import { usePersistHydrated } from "@/lib/use-persist-hydrated";
 import { useCustomerOrders } from "@/stores/customer-orders";
@@ -21,9 +21,11 @@ export function NavActions({ island = false }: { island?: boolean }) {
   const router = useRouter();
   const hydrated = usePersistHydrated();
   const user = useSession((state) => state.user);
+  const capacityKg = useOrderDraft((state) => state.capacityKg);
   const quote = useOrderDraft((state) => state.quote);
   const isReadyForCheckout = useOrderDraft((state) => state.isReadyForCheckout);
   const live = quote();
+  const capacityChip = draftCapacityChipLabel(capacityKg);
   const placed = useCustomerOrders((state) => state.orders);
   const activeOrder = user ? activeOrderForUser(user.id, placed) : undefined;
   const stage = activeOrder ? orderStage(activeOrder) : undefined;
@@ -67,11 +69,11 @@ export function NavActions({ island = false }: { island?: boolean }) {
         </Link>
       ) : null}
 
-      {live.fillKg > 0 && !island ? (
+      {capacityChip && !island ? (
         <button
           type="button"
           onClick={continueDraft}
-          aria-label={`Continue ${formatKg(live.fillKg)} kg order`}
+          aria-label={`Continue ${capacityChip} order`}
           className={cn(
             "inline-flex h-9 items-center gap-1 rounded-full border border-border bg-surface px-2.5",
             "text-[12px] font-semibold text-ink shadow-gasgo-soft",
@@ -81,7 +83,7 @@ export function NavActions({ island = false }: { island?: boolean }) {
           )}
         >
           <ShoppingBag className="size-3.5" strokeWidth={2} />
-          <span className="hidden tabular-nums sm:inline">{formatKg(live.fillKg)} kg</span>
+          <span className="hidden tabular-nums sm:inline">{capacityChip}</span>
         </button>
       ) : null}
 

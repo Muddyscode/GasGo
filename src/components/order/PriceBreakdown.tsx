@@ -1,12 +1,25 @@
+import type { FulfillmentMode } from "@/config/fulfillment";
 import type { OrderQuote } from "@/config/pricing";
-import { PAYMENT_VARIANCE_COPY, visibleQuoteLines } from "@/config/pricing";
+import {
+  PAYMENT_VARIANCE_COPY,
+  prepayQuoteLines,
+  visibleQuoteLines,
+} from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 
-export function PriceBreakdown({ quote }: { quote: OrderQuote }) {
-  const lines = visibleQuoteLines(quote);
+export function PriceBreakdown({
+  quote,
+  fulfillmentMode,
+}: {
+  quote: OrderQuote;
+  fulfillmentMode?: FulfillmentMode;
+}) {
+  const lines = fulfillmentMode
+    ? prepayQuoteLines(quote, fulfillmentMode)
+    : visibleQuoteLines(quote);
 
   return (
-    <section className="rounded-2xl border border-border bg-surface-muted px-4 py-3.5 shadow-gasgo-soft">
+    <section className="rounded-xl border border-border bg-surface px-4 py-3.5">
       <p className="text-sm font-medium text-ink-muted">To pay before pickup</p>
       <p className="mt-1 text-[13px] leading-relaxed text-ink-muted">
         {PAYMENT_VARIANCE_COPY}

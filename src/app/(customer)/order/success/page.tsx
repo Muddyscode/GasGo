@@ -73,19 +73,19 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         </div>
 
         {cylinder && query.address && quote ? (
-          <section className={`${cardClassName} mt-5 bg-surface-muted px-4 py-4`}>
+          <section className={`${cardClassName} mt-5 px-4 py-4`}>
             <p className="text-lg font-semibold tracking-tight text-ink">
-              {formatCylinderSize(cylinder.sizeKg)} · {formatNaira(quote.totalNgn)}
+              {formatCylinderSize(cylinder.sizeKg)} — {formatNaira(quote.totalNgn)}
             </p>
             <p className="mt-1 text-sm leading-snug text-ink">
-              {query.address.label} · {query.address.area}
+              {query.address.label}, {query.address.area}
             </p>
             {presence ? (
               <p className="mt-1 text-sm text-ink-muted">{presence.title}</p>
             ) : null}
             {window ? (
               <p className="mt-0.5 text-sm text-ink-muted">
-                {window.title} · {window.detail}
+                {window.title} — {window.detail}
               </p>
             ) : null}
             {reference ? (
