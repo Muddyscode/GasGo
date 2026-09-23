@@ -103,7 +103,7 @@ function LiveStatusCard({ className }: { className?: string }) {
         Live {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg
       </p>
       <p className="mt-1 text-[13px] leading-snug text-ink-muted">
-        Diobu next pickup ~12 min
+        Example Diobu pickup ~12 min
       </p>
       <span className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-brand-green">
         Start a refill

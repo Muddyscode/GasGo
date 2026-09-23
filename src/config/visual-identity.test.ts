@@ -114,10 +114,12 @@ describe("GasGo visual identity v1", () => {
     expect(auth).not.toMatch(/Mock auth|mock auth|for now/);
     expect(modal).not.toMatch(/Mock signup|mock signup|for now/);
     expect(world).not.toMatch(/ph-tower/);
-    expect(landing).toMatch(/Diobu next pickup/);
+    expect(landing).toMatch(/Example Diobu pickup/);
     expect(landing).toMatch(/LIVE_RATE_NGN_PER_KG/);
     expect(landing).not.toMatch(/ArrowRight/);
+    expect(landing).not.toMatch(/next pickup|GPS|en route|live tracking/i);
     expect(readSrc("components/marketing/ZoneMap.tsx")).toMatch(/Map legend|aria-label="Map legend"/);
+    expect(readSrc("components/marketing/ZoneMap.tsx")).toMatch(/zone-grid/);
   });
 
   it("does not leave retired brand hexes in marketing sources", () => {
