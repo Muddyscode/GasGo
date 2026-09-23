@@ -13,12 +13,12 @@ function readRoot(rel: string) {
   return readFileSync(path.resolve(ROOT, rel), "utf8");
 }
 
-describe("HeroRun + auth split + theme contracts", () => {
+describe("kitchen hero + auth split + theme contracts", () => {
   it("commits the Port Harcourt Tower landmark under public/brand", () => {
     expect(existsSync(path.resolve(ROOT, "public/brand/ph-tower.webp"))).toBe(true);
     expect(existsSync(path.resolve(ROOT, "public/brand/kitchen-relief.png"))).toBe(true);
-    expect(readSrc("components/marketing/HeroRun.tsx")).toMatch(/\/brand\/ph-tower\.webp/);
-    expect(readSrc("components/marketing/HeroRun.tsx")).toMatch(/hero-run|HeroRun/);
+    expect(existsSync(path.resolve(SRC, "components/marketing/HeroRun.tsx"))).toBe(false);
+    expect(readSrc("components/marketing/index.ts")).not.toMatch(/HeroRun/);
     expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/\/brand\/kitchen-relief\.png/);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/KitchenHero/);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).not.toMatch(/HeroRun|CyclingGreeting/);
@@ -85,12 +85,10 @@ describe("HeroRun + auth split + theme contracts", () => {
     expect(footer).not.toMatch(/marketing-footer__band|FooterBand/);
   });
 
-  it("HeroRun living road honors reduced motion", () => {
+  it("does not keep unused HeroRun living-road CSS", () => {
     const css = readSrc("app/globals.css");
-    expect(css).toMatch(/hero-run-truck/);
-    expect(css).toMatch(/hero-run-soul/);
+    expect(css).not.toMatch(/hero-run-truck|hero-run-soul|hero-run__haze|hero-run__/);
     expect(css).toMatch(/prefers-reduced-motion/);
-    expect(css).toMatch(/hero-run__haze/);
   });
 
   it("theme toggle lives in nav and settings, persisted via tokens", () => {
