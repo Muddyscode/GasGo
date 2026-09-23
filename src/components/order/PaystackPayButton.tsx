@@ -78,7 +78,7 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
         <Lock className="size-3.5" strokeWidth={2} />
         {hub
           ? "Pay in full to confirm this hub pre-order. Paystack test mode."
-          : "Pay in full before empty pickup. Paystack test mode."}
+          : "Pay in full before empty pickup. Zone transport is already in the total."}
       </p>
       <button
         type="button"

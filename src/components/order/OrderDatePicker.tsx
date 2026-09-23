@@ -67,7 +67,7 @@ function DateChipGroup({
 }) {
   return (
     <fieldset className="min-w-0">
-      <legend className="mb-2 text-sm font-semibold tracking-wide text-ink-muted">
+      <legend className="mb-2 text-[15px] font-semibold tracking-tight text-ink">
         {legend}
       </legend>
       <div

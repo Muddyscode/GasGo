@@ -61,7 +61,7 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
         className="relative w-full max-w-md rounded-t-3xl bg-surface px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-gasgo-lg sm:rounded-3xl"
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border" />
-        <h2 id={titleId} className="text-lg font-semibold tracking-tight text-ink">
+        <h2 id={titleId} className="font-display text-lg font-semibold tracking-tight text-ink">
           Add new address
         </h2>
         <p className="mt-1 text-sm leading-relaxed text-ink-muted">
