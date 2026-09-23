@@ -124,7 +124,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
           </label>
           <label className="block">
             <span className="mb-1.5 block text-sm font-medium text-ink">
-              Email <span className="font-normal text-ink-muted">· optional</span>
+              Email <span className="font-normal text-ink-muted">(optional)</span>
             </span>
             <input
               value={email}
