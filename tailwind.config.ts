@@ -14,10 +14,19 @@ const config = {
   theme: {
     extend: {
       fontFamily: {
-        display: [
-          "var(--font-display)",
+        sans: [
+          "var(--font-sans)",
+          "Inter",
           "ui-sans-serif",
           "system-ui",
+          "sans-serif",
+        ],
+        display: [
+          "var(--font-display)",
+          "Inter Tight",
+          "var(--font-sans)",
+          "Inter",
+          "ui-sans-serif",
           "sans-serif",
         ],
       },
@@ -83,17 +92,17 @@ const config = {
       },
       boxShadow: {
         "gasgo-soft":
-          "0 2px 8px rgba(11, 31, 20, 0.04), 0 1px 2px rgba(11, 31, 20, 0.03)",
+          "0 2px 8px rgba(22, 35, 28, 0.04), 0 1px 2px rgba(22, 35, 28, 0.03)",
         "gasgo-md":
-          "0 4px 16px rgba(11, 31, 20, 0.06), 0 2px 4px rgba(11, 31, 20, 0.04)",
+          "0 4px 16px rgba(22, 35, 28, 0.06), 0 2px 4px rgba(22, 35, 28, 0.04)",
         "gasgo-lg":
-          "0 8px 32px rgba(11, 31, 20, 0.08), 0 4px 8px rgba(11, 31, 20, 0.04)",
+          "0 8px 32px rgba(22, 35, 28, 0.08), 0 4px 8px rgba(22, 35, 28, 0.04)",
         "gasgo-gauge":
-          "0 8px 40px rgba(28, 163, 80, 0.12), 0 2px 8px rgba(11, 31, 20, 0.04)",
+          "0 8px 40px rgba(31, 157, 85, 0.12), 0 2px 8px rgba(22, 35, 28, 0.04)",
         "gasgo-gauge-critical":
-          "0 8px 40px rgba(220, 38, 38, 0.15), 0 2px 8px rgba(11, 31, 20, 0.04)",
+          "0 8px 40px rgba(225, 67, 45, 0.15), 0 2px 8px rgba(22, 35, 28, 0.04)",
         "gasgo-gauge-caution":
-          "0 8px 40px rgba(255, 223, 34, 0.28), 0 2px 8px rgba(11, 31, 20, 0.04)",
+          "0 8px 40px rgba(255, 197, 61, 0.28), 0 2px 8px rgba(22, 35, 28, 0.04)",
       },
       keyframes: {
         "gauge-breathe": {

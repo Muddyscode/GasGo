@@ -1,5 +1,6 @@
 /** GasGo support line in E.164 without a leading +. */
-export const GASGO_WHATSAPP_E164 = "2348012345678";
+export const GASGO_WHATSAPP_E164 = "2348088444645";
+export const GASGO_WHATSAPP_DISPLAY = "+234 808 844 4645";
 
 export function whatsappHref(text: string): string {
   return `https://wa.me/${GASGO_WHATSAPP_E164}?text=${encodeURIComponent(text)}`;

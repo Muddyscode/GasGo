@@ -16,9 +16,12 @@ function readRoot(rel: string) {
 describe("HeroRun + auth split + theme contracts", () => {
   it("commits the Port Harcourt Tower landmark under public/brand", () => {
     expect(existsSync(path.resolve(ROOT, "public/brand/ph-tower.webp"))).toBe(true);
+    expect(existsSync(path.resolve(ROOT, "public/brand/kitchen-relief.png"))).toBe(true);
     expect(readSrc("components/marketing/HeroRun.tsx")).toMatch(/\/brand\/ph-tower\.webp/);
     expect(readSrc("components/marketing/HeroRun.tsx")).toMatch(/hero-run|HeroRun/);
-    expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/HeroRun/);
+    expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/\/brand\/kitchen-relief\.png/);
+    expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/KitchenHero/);
+    expect(readSrc("components/marketing/MarketingLanding.tsx")).not.toMatch(/HeroRun|CyclingGreeting/);
   });
 
   it("auth pages are visual-left / form-right and keep demo sign-in", () => {
@@ -39,34 +42,39 @@ describe("HeroRun + auth split + theme contracts", () => {
     expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/Coming soon/);
   });
 
-  it("landing CTA is a dominant Order button, not a search-like address pill", () => {
+  it("landing CTA is a dominant Start a refill button, not a search-like address pill", () => {
     const landing = readSrc("components/marketing/MarketingLanding.tsx");
-    expect(landing).toMatch(/Order a refill/);
+    expect(landing).toMatch(/Start a refill/);
+    expect(landing).toMatch(/See prices/);
+    expect(landing).toMatch(/Nothing is filled at your door/);
     expect(landing).not.toMatch(/Port Harcourt · plant refill/);
-    expect(landing).not.toMatch(/PinIcon/);
+    expect(landing).not.toMatch(/PinIcon|ArrowRight/);
   });
 
-  it("footer is an illustrated band plus multi-column links", () => {
+  it("footer is an ink band plus Product and Account links", () => {
     const footer = readSrc("components/marketing/MarketingFooter.tsx");
-    expect(footer).toMatch(/marketing-footer__band|FooterBand/);
+    expect(footer).toMatch(/bg-ink/);
     expect(footer).toMatch(/Garden City/);
-    expect(footer).toMatch(/Auto-refill/);
     expect(footer).toMatch(/Coming soon/);
+    expect(footer).toMatch(/smart gauge/);
     expect(footer).toMatch(/\/how-it-works/);
     expect(footer).toMatch(/\/zones/);
     expect(footer).toMatch(/\/why/);
     expect(footer).toMatch(/\/order\/cylinder/);
     expect(footer).toMatch(/\/login/);
     expect(footer).toMatch(/WhatsApp/);
+    expect(footer).toMatch(/GASGO_WHATSAPP_DISPLAY/);
     expect(footer).toMatch(/ZONE_FEE_MAX_NGN/);
     expect(footer).toMatch(/title="Product"/);
     expect(footer).toMatch(/title="Account"/);
     expect(footer).not.toMatch(/xl:grid-cols-5|sm:grid-cols-3/);
     expect(footer).not.toMatch(/href=["']\/signup["']/);
-    expect(footer).not.toMatch(/title="Plant loop"|LOOP_LINKS|PH_ZONES\.map|title="Coming soon"|COMING_SOON/);
+    expect(footer).not.toMatch(/title="Plant loop"|LOOP_LINKS|PH_ZONES\.map|title="Coming soon"/);
+    expect(footer).toMatch(/COMING_SOON_LINE/);
     expect(footer).not.toMatch(/Never run out/);
     expect(footer).not.toMatch(/Diobu|Trans-Amadi|Rumuola|Eliozu/);
     expect(footer).not.toMatch(/Lagos|Lekki|Ikeja/);
+    expect(footer).not.toMatch(/marketing-footer__band|FooterBand/);
   });
 
   it("HeroRun living road honors reduced motion", () => {

@@ -21,7 +21,7 @@ export const MARKETING_FAQS: readonly MarketingFaqItem[] = [
     id: "cost",
     question: "What does a refill cost?",
     answer:
-      "Gas is the live ₦/kg rate times the kilos you choose. The zone pickup-and-return fee is a separate line, always shown before you pay, and never above ₦1,200.",
+      "Live gas is ₦1,450/kg times the kilos you choose. The zone pickup-and-return fee is a separate line, always shown before you pay, and never above ₦1,200.",
   },
   {
     id: "pay",
