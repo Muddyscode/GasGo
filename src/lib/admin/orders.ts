@@ -328,5 +328,5 @@ const FILL_MODE_LABEL: Record<FillMode, string> = {
 };
 
 export function formatFillSummary(order: AdminOrder): string {
-  return `${formatKg(order.capacityKg)} kg · ${FILL_MODE_LABEL[order.fillMode]} · ${formatKg(order.fillKg)} kg fill`;
+  return `${formatKg(order.capacityKg)} kg — ${FILL_MODE_LABEL[order.fillMode]} — ${formatKg(order.fillKg)} kg fill`;
 }

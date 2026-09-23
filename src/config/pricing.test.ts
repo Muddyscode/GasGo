@@ -9,6 +9,7 @@ import {
   ZONE_FEE_MAX_NGN,
   ZONE_FEE_MIN_NGN,
   getZone,
+  prepayQuoteLines,
   quoteFill,
   quoteOrder,
   resolveFillKg,
@@ -16,6 +17,10 @@ import {
 } from "./pricing";
 
 describe("PH live fill quote", () => {
+  it("locks the live rate at ₦1,450/kg", () => {
+    expect(LIVE_RATE_NGN_PER_KG).toBe(1450);
+  });
+
   it("full fill is capacity × live ₦/kg, with zone fee as a separate line", () => {
     const quote = quoteFill({
       fillMode: "full",
@@ -99,6 +104,65 @@ describe("PH live fill quote", () => {
     const fillStep = quoteFill({ fillMode: "full", capacityKg: 12.5 });
     expect(visibleQuoteLines(fillStep).map((line) => line.id)).toEqual(["gas"]);
   });
+
+  it("door-to-door prepay shows gas + assumed transport; hub is gas only", () => {
+    const door = applyFulfillmentToQuote(
+      quoteFill({
+        fillMode: "full",
+        capacityKg: 25,
+        zoneId: "old-gra",
+      }),
+      "door_to_door",
+    );
+    const doorLines = prepayQuoteLines(door, "door_to_door");
+    expect(doorLines.map((line) => line.id)).toEqual(["gas", "delivery"]);
+    expect(doorLines[0]?.amountNgn).toBe(door.gasFillNgn);
+    expect(doorLines[1]?.amountNgn).toBe(getZone("old-gra")?.feeNgn);
+    expect(doorLines[1]?.label).toMatch(/transport/i);
+    expect(doorLines[1]?.label).toMatch(/assum/i);
+    expect(doorLines[1]?.label).toMatch(/Old GRA/i);
+
+    const hub = applyFulfillmentToQuote(door, "hub");
+    const hubLines = prepayQuoteLines(hub, "hub");
+    expect(hubLines.map((line) => line.id)).toEqual(["gas"]);
+    expect(hubLines.some((line) => line.id === "delivery")).toBe(false);
+
+    const noZone = quoteFill({ fillMode: "full", capacityKg: 25 });
+    const assumed = prepayQuoteLines(noZone, "door_to_door");
+    expect(assumed.map((line) => line.id)).toEqual(["gas", "delivery"]);
+    expect(assumed[1]?.label).toMatch(/transport/i);
+    expect(assumed[1]?.label).toMatch(/assum/i);
+  });
+
+  it("gas and transport quote labels never use a middle-dot separator", () => {
+    const door = quoteFill({
+      fillMode: "full",
+      capacityKg: 25,
+      zoneId: "old-gra",
+    });
+    for (const line of [
+      ...prepayQuoteLines(door, "door_to_door"),
+      ...prepayQuoteLines(door, "hub"),
+      ...visibleQuoteLines(door),
+    ]) {
+      expect(line.label, line.id).not.toMatch(/·/);
+    }
+
+    const orderSources = [
+      "../components/order/CheckoutSummary.tsx",
+      "../components/order/PriceBreakdown.tsx",
+      "../components/order/CheckoutView.tsx",
+      "../components/order/FillComposer.tsx",
+      "../components/order/AddressDeliveryForm.tsx",
+      "../lib/placed-order.ts",
+      "../lib/admin/orders.ts",
+      "./pricing.ts",
+    ];
+    for (const rel of orderSources) {
+      const text = readFileSync(path.resolve(__dirname, rel), "utf8");
+      expect(text, rel).not.toMatch(/Gas fill ·|Transport ·|pickup ·|kg ·/);
+    }
+  });
 });
 
 describe("FeeCeiling", () => {
@@ -145,8 +209,8 @@ describe("FeeCeiling", () => {
       path.resolve(__dirname, "../components/order/PriceBreakdown.tsx"),
       "utf8",
     );
-    expect(checkout).toMatch(/visibleQuoteLines/);
-    expect(paystack).toMatch(/visibleQuoteLines/);
+    expect(checkout).toMatch(/prepayQuoteLines/);
+    expect(paystack).toMatch(/prepayQuoteLines/);
     expect(
       existsSync(path.resolve(__dirname, "../components/admin/ZoneFeeEditor.tsx")),
     ).toBe(false);

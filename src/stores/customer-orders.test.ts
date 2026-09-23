@@ -60,7 +60,8 @@ describe("paid checkout persists an active order", () => {
 
     expect(order.stage).toBe("queued");
     expect(order.userId).toBe(chioma.id);
-    expect(order.fillSummary).toMatch(/12.5 kg · Full · 12.5 kg fill/);
+    expect(order.fillSummary).toMatch(/12.5 kg — Full — 12.5 kg fill/);
+    expect(order.fillSummary).not.toMatch(/·/);
     expect(order.pickupDate).toBe(dates.pickupDate);
     expect(order.returnDate).toBe(dates.returnDate);
     expect(order.fulfillmentMode).toBe("door_to_door");

@@ -89,10 +89,10 @@ export function CheckoutView() {
 
       <PageBody className="pb-4">
         <PageTitle
-          eyebrow={fulfillmentMode === "hub" ? "Pay to confirm hub order" : "Pay before pickup"}
+          eyebrow={fulfillmentMode === "hub" ? "Hub self-collect" : "Door-to-door"}
           subtitle={
             fulfillmentMode === "hub"
-              ? "Confirm the plant fill and hub collection dates, then pay in full. No walk-ins — this pre-order holds your yard slot."
+              ? "Confirm the plant fill and collection dates, then pay in full. This pre-order holds your yard slot — no walk-ins."
               : "Confirm the plant fill and Port Harcourt address, then pay in full before we collect the empty."
           }
         >
@@ -113,7 +113,13 @@ export function CheckoutView() {
             />
           </div>
           <div className="mt-4 hidden lg:col-span-5 lg:mt-0 lg:block">
-            <DeliveryTruck label="Rider collects only after payment" />
+            <DeliveryTruck
+              label={
+                fulfillmentMode === "hub"
+                  ? "Pay to confirm this hub pre-order"
+                  : "Rider collects only after payment"
+              }
+            />
           </div>
         </div>
       </PageBody>

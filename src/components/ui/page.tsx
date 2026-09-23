@@ -52,9 +52,7 @@ export function PageTitle({
   return (
     <section className={cn("mb-6 md:mb-7 lg:mb-8", className)}>
       {eyebrow ? (
-        <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
-          {eyebrow}
-        </p>
+        <p className="text-[13px] font-medium text-brand-green">{eyebrow}</p>
       ) : null}
       <h2
         className={cn(
@@ -84,9 +82,9 @@ export function StickyAction({
   return (
     <div
       className={cn(
-        "sticky bottom-0 z-20 shrink-0 border-t border-border/80 bg-surface/90 px-5 pt-3 backdrop-blur-md",
+        "sticky bottom-0 z-20 shrink-0 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md",
         "pb-[max(1rem,env(safe-area-inset-bottom))]",
-        "md:px-8 md:rounded-b-[1.75rem] lg:px-10",
+        "md:px-8 lg:px-10",
         className,
       )}
     >

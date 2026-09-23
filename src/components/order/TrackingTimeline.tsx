@@ -33,12 +33,12 @@ export function TrackingTimeline({
                 className={cn(
                   "relative z-10 grid size-6 place-items-center rounded-full border-2",
                   done && "border-brand-green bg-brand-green text-white",
-                  current &&
+                    current &&
                     currentTone === "safe" &&
-                    "border-brand-green bg-surface text-brand-green shadow-[0_0_0_4px_rgba(28,163,80,0.16)]",
+                    "border-brand-green bg-surface text-brand-green shadow-[0_0_0_4px_rgba(31,157,85,0.16)]",
                   current &&
                     currentTone === "critical" &&
-                    "border-brand-red bg-surface text-brand-red shadow-[0_0_0_4px_rgba(220,38,38,0.16)]",
+                    "border-brand-red bg-surface text-brand-red shadow-[0_0_0_4px_rgba(225,67,45,0.16)]",
                   !done && !current && "border-border bg-surface text-transparent",
                 )}
               >
@@ -91,7 +91,7 @@ export function TrackingTimeline({
                 {current ? (
                   <span
                     className={cn(
-                      "rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em]",
+                      "rounded-full px-2 py-0.5 text-[11px] font-medium",
                       late
                         ? "bg-brand-red/10 text-brand-red"
                         : "bg-brand-green/10 text-brand-green",
@@ -101,7 +101,7 @@ export function TrackingTimeline({
                   </span>
                 ) : null}
                 {upcomingNext ? (
-                  <span className="rounded-full bg-surface-muted px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-muted">
+                  <span className="rounded-full bg-surface-muted px-2 py-0.5 text-[11px] font-medium text-ink-muted">
                     Next
                   </span>
                 ) : null}

@@ -79,7 +79,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
         )}
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border sm:hidden" />
-        <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-brand-green">
+        <p className="text-[13px] font-medium text-brand-green">
           {isCheckout ? "Checkout" : "GasGo account"}
         </p>
         <h2
@@ -124,7 +124,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
           </label>
           <label className="block">
             <span className="mb-1.5 block text-sm font-medium text-ink">
-              Email <span className="font-normal text-ink-muted">· optional</span>
+              Email <span className="font-normal text-ink-muted">(optional)</span>
             </span>
             <input
               value={email}

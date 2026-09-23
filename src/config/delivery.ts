@@ -93,7 +93,7 @@ export const DELIVERY_WINDOWS: readonly DeliveryWindow[] = [
   {
     id: "asap",
     title: "As soon as possible",
-    detail: "Same-day collect → plant refill → return",
+    detail: "Same-day collect, plant refill, and return",
   },
   {
     id: "morning",

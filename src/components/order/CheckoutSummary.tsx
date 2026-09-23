@@ -11,7 +11,7 @@ import {
   isSameDayLoop,
   type FulfillmentMode,
 } from "@/config/fulfillment";
-import { formatKg, visibleQuoteLines, type FillQuote } from "@/config/pricing";
+import { formatKg, prepayQuoteLines, type FillQuote } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 
 const FILL_MODE_LABEL = {
@@ -57,11 +57,11 @@ export function CheckoutSummary({
           </p>
         </div>
         <p className="mt-0.5 text-sm text-ink-muted">
-          {FILL_MODE_LABEL[quote.fillMode]} · {formatNaira(quote.rateNgnPerKg)}/kg
-          · refilled offsite, never at your door
+          {FILL_MODE_LABEL[quote.fillMode]} at {formatNaira(quote.rateNgnPerKg)}/kg,
+          refilled offsite, never at your door
         </p>
         <dl className="mt-3 space-y-2 border-t border-border pt-3">
-          {visibleQuoteLines(quote).map((line) => (
+          {prepayQuoteLines(quote, fulfillmentMode).map((line) => (
             <div
               key={line.id}
               className="flex items-start justify-between gap-3 text-[15px]"
@@ -85,7 +85,7 @@ export function CheckoutSummary({
         <p className="mt-0.5 text-sm leading-snug text-ink">{address.line}</p>
         <p className="mt-0.5 text-sm text-ink-muted">
           {quote.zoneName && quote.zoneName !== address.area
-            ? `${address.area} · ${quote.zoneName}`
+            ? `${address.area}, ${quote.zoneName}`
             : address.area}
         </p>
 
@@ -104,7 +104,7 @@ export function CheckoutSummary({
           ) : null}
           <SummaryLine
             label="Window"
-            value={`${window.title} · ${window.detail}`}
+            value={`${window.title} — ${window.detail}`}
           />
           {notes ? <SummaryLine label="Instructions" value={notes} /> : null}
         </dl>

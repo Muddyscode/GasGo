@@ -9,7 +9,7 @@ export function DispatchEmpty({ filter, query }: DispatchEmptyProps) {
   const label = DISPATCH_FILTER_LABELS[filter].toLowerCase();
 
   return (
-    <div className="rounded-2xl border border-dashed border-border bg-surface-muted px-4 py-10 text-center">
+    <div className="rounded-xl border border-border bg-surface px-4 py-10 text-center">
       <p className="text-[17px] font-semibold tracking-tight text-ink">
         {query ? "No matching orders" : `No ${label} orders`}
       </p>

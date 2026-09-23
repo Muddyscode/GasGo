@@ -61,8 +61,8 @@ export function FillComposer() {
 
       <PageBody className="pb-8">
         <PageTitle
-          eyebrow="Order gas · Port Harcourt"
-          subtitle="We collect your empty cylinder, refill it offsite at the plant, and return it filled. You pay before pickup."
+          eyebrow="Port Harcourt refill"
+          subtitle="We collect your empty cylinder, refill it at the plant, and return it filled. You pay before pickup."
         >
           What should we fill?
         </PageTitle>
@@ -78,7 +78,7 @@ export function FillComposer() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
           <p className="absolute bottom-3 left-4 text-sm font-semibold text-white">
-            Plant refill · Port Harcourt only
+            Plant refill in Port Harcourt
           </p>
         </div>
 
@@ -210,9 +210,8 @@ export function FillComposer() {
           ) : null}
 
           <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-            Live rate {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg · hub-configured
-            (stub). Zone pickup-and-return is added on the next step — not a
-            flat fee.
+            Live rate {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg. Transport is added
+            with your address on the next step — not a flat fee.
           </p>
         </section>
 
@@ -230,7 +229,7 @@ export function FillComposer() {
           aria-live="polite"
         >
           {ready
-            ? `${formatKg(live.fillKg)} kg of ${formatKg(live.capacityKg)} kg · ${formatNaira(live.gasFillNgn)}`
+            ? `${formatKg(live.fillKg)} kg of ${formatKg(live.capacityKg)} kg — ${formatNaira(live.gasFillNgn)}`
             : "Choose a capacity to continue"}
         </p>
         <button

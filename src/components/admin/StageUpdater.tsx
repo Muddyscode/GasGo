@@ -35,7 +35,7 @@ export function StageUpdater({
           )}
         >
           <span className="truncate">
-            {pending ? "Updating…" : `Next · ${stageTitle(next)}`}
+            {pending ? "Updating…" : `Next: ${stageTitle(next)}`}
           </span>
         </button>
       ) : null}

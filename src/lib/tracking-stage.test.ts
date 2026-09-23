@@ -221,5 +221,6 @@ describe("same-day reminder + WhatsApp", () => {
     expect(decodeURIComponent(late)).toMatch(/late/i);
     expect(decodeURIComponent(late)).not.toMatch(/Lagos/i);
     expect(whatsappSupportUrl("GG-1842")).toContain("GG-1842");
+    expect(whatsappSupportUrl("GG-1842")).toContain("2348088444645");
   });
 });

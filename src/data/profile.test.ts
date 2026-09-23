@@ -23,7 +23,7 @@ function fakePlaced(overrides: Partial<PlacedOrder> = {}): PlacedOrder {
     gasFillNgn: 17500,
     deliveryNgn: 700,
     totalNgn: 18200,
-    fillSummary: "12.5 kg · Full · 12.5 kg fill",
+    fillSummary: "12.5 kg — Full — 12.5 kg fill",
     fulfillmentMode: "door_to_door",
     pickupDate: "2026-09-21",
     returnDate: "2026-09-21",

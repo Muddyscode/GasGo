@@ -65,10 +65,10 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <div className="mx-auto flex min-h-[calc(100dvh-3.5rem)] w-full max-w-5xl flex-col bg-surface">
       <OrderHeader title="Order" backHref="/admin" backLabel="Back to dispatch" />
 
-      <div className="flex flex-1 flex-col px-4 pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+      <div className="flex flex-1 flex-col px-4 pt-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:px-6">
         {loading ? (
           <DetailSkeleton />
         ) : !order ? (
@@ -122,13 +122,13 @@ function DetailBody({
         <StageBadge stage={order.stage} />
       </div>
 
-      <section className="mt-5 rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
+      <section className="mt-5 rounded-xl border border-border bg-surface px-4 py-4">
         <DetailLine label="Cylinder" value={`${size}${order.quantity > 1 ? ` × ${order.quantity}` : ""}`} />
         <DetailLine label="Fill" value={formatFillSummary(order)} />
         <DetailLine label="Fulfillment" value={fulfillmentLabel(order.fulfillmentMode)} />
         <DetailLine label="Pickup date" value={formatCalendarDate(order.pickupDate)} />
         <DetailLine label="Return date" value={formatCalendarDate(order.returnDate)} />
-        <DetailLine label="Window" value={window ? `${window.title} · ${window.detail}` : order.windowId} />
+        <DetailLine label="Window" value={window ? `${window.title} — ${window.detail}` : order.windowId} />
         <DetailLine label="Area" value={order.area} />
         <DetailLine label="Address" value={order.addressLine} />
         {hub ? null : (

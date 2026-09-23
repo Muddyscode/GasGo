@@ -2,7 +2,7 @@ import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 export const cardClassName = [
-  "rounded-2xl border border-border bg-surface shadow-gasgo-soft",
+  "rounded-xl border border-border bg-surface",
   "transition-[border-color,background-color,box-shadow,transform] duration-200",
   "ease-[cubic-bezier(0.16,1,0.3,1)]",
 ].join(" ");

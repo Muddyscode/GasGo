@@ -28,8 +28,8 @@ export function DemoStageStepper({
       data-demo-stepper="plant-loop"
       data-demo-order={orderId}
     >
-      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink">
-        Demo pitch · this order only
+      <p className="text-[12px] font-medium text-ink">
+        Demo pitch — this order only
       </p>
       <p className="mt-1 text-sm leading-relaxed text-ink-muted">
         Walk the plant loop for investors. Reset anytime. Does not change other
@@ -46,7 +46,7 @@ export function DemoStageStepper({
             "h-11 w-full sm:flex-1",
           )}
         >
-          {nextTitle ? `Advance · ${nextTitle}` : "Loop complete"}
+          {nextTitle ? `Advance to ${nextTitle}` : "Loop complete"}
         </button>
         <button
           type="button"

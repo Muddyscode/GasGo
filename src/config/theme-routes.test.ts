@@ -34,6 +34,14 @@ describe("HeroRun + auth split + theme contracts", () => {
     expect(auth).not.toMatch(/Lagos|Lekki|Ikeja/);
   });
 
+  it("auth visual panel is calm and light-first, not the cartoon HeroRun road", () => {
+    const world = readSrc("components/auth/AuthWorld.tsx");
+    expect(world).toMatch(/auth-visual/);
+    expect(world).toMatch(/ph-tower\.webp|cooking-gas-filling-point/);
+    expect(world).not.toMatch(/from ["']@\/components\/marketing\/HeroRun["']/);
+    expect(world).not.toMatch(/<HeroRun|hero-run__/);
+  });
+
   it("ships FAQ + footer on the marketing site", () => {
     expect(existsSync(path.resolve(SRC, "lib/marketing-faq.ts"))).toBe(true);
     expect(readSrc("lib/marketing-faq.ts")).toMatch(/Coming soon/);

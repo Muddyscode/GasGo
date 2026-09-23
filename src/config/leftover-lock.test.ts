@@ -81,6 +81,7 @@ describe("Kaplan round-2 leftover lock", () => {
     expect(tailwind).toMatch(/from ["']\.\/src\/config\/tokens["']/);
     expect(tailwind).toMatch(/brand\.green/);
     expect(tailwind).not.toMatch(/#1F9D55|#FFC53D|#E1432D/);
+    expect(tailwind).not.toMatch(/#1CA350|#FFDF22|#DC2626/);
 
     expect(readSrc("components/nav/TopNav.tsx")).toMatch(/NavActions island/);
     expect(readSrc("components/nav/NavActions.tsx")).toMatch(/ThemeToggle/);

@@ -31,7 +31,7 @@ export function TopNav({ marketing = false }: { marketing?: boolean }) {
 
   return (
     <header className="sticky top-0 z-30 border-b border-border/70 bg-surface/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
-      <div className="mx-auto flex h-14 w-full max-w-lg items-center justify-between gap-2 px-2 md:max-w-2xl md:px-4 lg:h-16 lg:max-w-5xl lg:px-6">
+      <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-2 px-4 md:h-16 md:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-0.5">
           {showBack ? (
             <Link

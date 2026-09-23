@@ -88,20 +88,20 @@ export function DispatchBoard() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col bg-surface">
+    <div className="mx-auto flex min-h-[calc(100dvh-3.5rem)] w-full max-w-5xl flex-col bg-surface-muted">
       <DispatchHeader query={query} onQueryChange={setQuery} />
 
-      <div className="px-4 pt-3">
+      <div className="px-4 pt-3 md:px-6">
         <FilterTabs value={filter} counts={counts} onChange={setFilter} />
       </div>
 
-      <div className="flex flex-1 flex-col px-4 pt-3 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+      <div className="flex flex-1 flex-col px-4 pt-3 pb-[max(1.25rem,env(safe-area-inset-bottom))] md:px-6">
         {loading ? (
           <DispatchSkeleton />
         ) : visible.length === 0 ? (
           <DispatchEmpty filter={filter} query={query} />
         ) : (
-          <div className="flex flex-col gap-2.5">
+          <div className="overflow-hidden rounded-xl border border-border bg-surface">
             {visible.map((order) => (
               <OrderCard
                 key={order.id}

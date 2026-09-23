@@ -42,14 +42,14 @@ function ChromeFrame({ children }: { children: ReactNode }) {
         "relative mx-auto flex w-full flex-col",
         marketing
           ? "gasgo-marketing min-h-dvh max-w-none"
-          : "gasgo-shell h-dvh max-h-dvh max-w-lg overflow-hidden md:max-w-2xl lg:max-w-5xl",
+          : "gasgo-shell min-h-dvh w-full max-w-none bg-surface",
       )}
     >
       <TopNav marketing={marketing} />
       <div
         className={cn(
           "page-enter flex min-h-0 flex-1 flex-col",
-          marketing ? "overflow-x-hidden" : "overflow-hidden",
+          marketing ? "overflow-x-hidden" : "overflow-y-auto",
         )}
       >
         {children}
