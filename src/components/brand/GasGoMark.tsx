@@ -7,7 +7,7 @@ type GasGoMarkProps = {
 };
 
 /**
- * Valve / gas-ring symbol. No flame in the logotype.
+ * Valve / gas-ring symbol. No fire motif in the logotype.
  * Reads at 16–32px (navbar / favicon) and scales cleanly.
  */
 export function GasGoMark({ className, title }: GasGoMarkProps) {

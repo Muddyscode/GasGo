@@ -39,14 +39,15 @@ describe("HeroRun + auth split + theme contracts", () => {
     expect(readSrc("lib/marketing-faq.ts")).toMatch(/Coming soon/);
     expect(readSrc("components/marketing/MarketingFaq.tsx")).toMatch(/id="faq"/);
     expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/Port Harcourt/);
-    expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/Coming soon/);
+    expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/COMING_SOON_LINE/);
+    expect(readSrc("lib/marketing-greetings.ts")).toMatch(/Coming soon/);
   });
 
   it("landing CTA is a dominant Start a refill button, not a search-like address pill", () => {
     const landing = readSrc("components/marketing/MarketingLanding.tsx");
     expect(landing).toMatch(/Start a refill/);
     expect(landing).toMatch(/See prices/);
-    expect(landing).toMatch(/Nothing is filled at your door/);
+    expect(landing).toMatch(/MARKETING_SAFETY/);
     expect(landing).not.toMatch(/Port Harcourt · plant refill/);
     expect(landing).not.toMatch(/PinIcon|ArrowRight/);
   });
@@ -55,8 +56,7 @@ describe("HeroRun + auth split + theme contracts", () => {
     const footer = readSrc("components/marketing/MarketingFooter.tsx");
     expect(footer).toMatch(/bg-ink/);
     expect(footer).toMatch(/Garden City/);
-    expect(footer).toMatch(/Coming soon/);
-    expect(footer).toMatch(/smart gauge/);
+    expect(footer).toMatch(/COMING_SOON_LINE/);
     expect(footer).toMatch(/\/how-it-works/);
     expect(footer).toMatch(/\/zones/);
     expect(footer).toMatch(/\/why/);

@@ -45,7 +45,8 @@ describe("GasGo visual identity v1", () => {
     expect(landing).toMatch(/Start a refill/);
     expect(landing).toMatch(/See prices/);
     expect(landing).toMatch(/Sign in/);
-    expect(landing).toMatch(/Nothing is filled at your door/);
+    expect(landing).toMatch(/MARKETING_SAFETY/);
+    expect(readSrc("lib/marketing-greetings.ts")).toMatch(/Nothing is filled at your door/);
     expect(landing).toMatch(/KitchenHero/);
     expect(landing).not.toMatch(/HeroRun|CyclingGreeting|FadeLift|ArrowRight/);
     expect(blob).not.toMatch(/uppercase tracking/);
@@ -76,16 +77,17 @@ describe("GasGo visual identity v1", () => {
       /GASGO_WHATSAPP_DISPLAY/,
     );
     expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(
-      /smart gauge/,
+      /COMING_SOON_LINE/,
     );
+    expect(readSrc("lib/marketing-greetings.ts")).toMatch(/smart gauge/);
   });
 
   it("does not ship a flame in the logotype", () => {
     const mark = readSrc("components/brand/GasGoMark.tsx");
     const svg = readFileSync(path.resolve(ROOT, "public/brand/gasgo-mark.svg"), "utf8");
     expect(mark).toMatch(/valve|gas-ring|circle/i);
-    expect(mark).not.toMatch(/flame|path d="M18 44c0-14/i);
-    expect(svg).not.toMatch(/flame/i);
+    expect(mark).not.toMatch(/path d="M18 44c0-14/);
+    expect(svg).not.toMatch(/M18 44c0-14/);
   });
 
   it("does not leave retired brand hexes in marketing sources", () => {

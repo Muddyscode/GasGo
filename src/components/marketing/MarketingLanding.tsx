@@ -56,7 +56,7 @@ export function MarketingLanding() {
                 Start a refill
               </Link>
               <Link
-                href="/#zones"
+                href="/zones"
                 className={buttonClassName(
                   { variant: "outline", size: "lg" },
                   "sm:w-auto sm:px-8",

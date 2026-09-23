@@ -89,9 +89,15 @@ function ArtisticMap() {
         fill="none"
       />
       {PH_ZONES.map((zone) => {
-        const pin = ZONE_PIN_LAYOUT[zone.id] ?? { x: 50, y: 40, tone: "green" as const };
+        const pin = ZONE_PIN_LAYOUT[zone.id] ?? {
+          x: 50,
+          y: 40,
+          tone: "green" as const,
+          label: zone.name,
+        };
         const tone = TONE[pin.tone];
-        const labelWidth = Math.max(20, zone.name.length * 1.65 + 7);
+        const mapLabel = pin.label;
+        const labelWidth = Math.max(18, mapLabel.length * 1.7 + 6);
         return (
           <g key={zone.id}>
             <rect
@@ -110,7 +116,7 @@ function ArtisticMap() {
               fontWeight="600"
               fontFamily="Inter, ui-sans-serif, system-ui, sans-serif"
             >
-              {zone.name}
+              {mapLabel}
             </text>
           </g>
         );
