@@ -56,9 +56,9 @@ export function PageTitle({
       ) : null}
       <h2
         className={cn(
-          "font-semibold leading-[1.15] tracking-tight text-ink",
+          "font-display font-semibold leading-[1.12] tracking-tight text-ink",
           "text-[28px] md:text-[32px] lg:text-[36px]",
-          eyebrow && "mt-2",
+          eyebrow && "mt-1.5",
         )}
       >
         {children}

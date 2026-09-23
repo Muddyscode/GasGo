@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import { PAID_RELIEF_BODY, PAID_RELIEF_TITLE } from "@/components/order/order-quote-hint";
 import { buttonClassName } from "@/components/ui/button";
-import { cardClassName } from "@/components/ui/card";
 import { PageBody, PageFrame } from "@/components/ui/page";
 import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
 import { getPresenceById, getWindowById } from "@/config/delivery";
@@ -59,13 +59,16 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
           <Check className="size-7" strokeWidth={2.5} />
         </span>
 
-        <h2 className="mt-5 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[32px]">
-          {isMock ? "Payment successful (test)" : "Payment successful"}
+        <p className="mt-5 text-[13px] font-medium text-brand-green">
+          {isMock ? "Paid — test checkout" : "Paid"}
+        </p>
+        <h2 className="mt-1.5 font-display text-[28px] font-semibold leading-[1.12] tracking-tight text-ink md:text-[32px]">
+          {PAID_RELIEF_TITLE}
         </h2>
-        <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-ink-muted">
+        <p className="mt-2 max-w-[36ch] text-[15px] leading-relaxed text-ink-muted">
           {isMock
-            ? "Test checkout — no card was charged. Your rider can be dispatched from here."
-            : "We’ve got your payment. A rider will collect the empty, refill it at the plant, and return it filled."}
+            ? "Test checkout — no card was charged. We’ll still collect the empty, refill it at the plant, and return it filled. Nothing is filled at your door."
+            : PAID_RELIEF_BODY}
         </p>
 
         <div className="mt-6">
@@ -73,8 +76,8 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
         </div>
 
         {cylinder && query.address && quote ? (
-          <section className={`${cardClassName} mt-5 px-4 py-4`}>
-            <p className="text-lg font-semibold tracking-tight text-ink">
+          <section className="mt-5 rounded-2xl border border-border bg-surface px-4 py-4">
+            <p className="font-display text-lg font-semibold tracking-tight text-ink">
               {formatCylinderSize(cylinder.sizeKg)} — {formatNaira(quote.totalNgn)}
             </p>
             <p className="mt-1 text-sm leading-snug text-ink">

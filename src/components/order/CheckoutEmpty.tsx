@@ -17,7 +17,7 @@ export function CheckoutEmpty() {
           image="/images/cooking-gas-station.png"
           alt="Cooking gas station waiting for an order"
           title="A few details first"
-          body="Choose a fill and a Port Harcourt address before you pay. We collect the empty only after payment."
+          body="Choose a fill and a Port Harcourt address before you pay. We collect the empty only after payment — nothing is filled at your door."
           action={
             <div className="flex flex-col gap-3">
               <Link

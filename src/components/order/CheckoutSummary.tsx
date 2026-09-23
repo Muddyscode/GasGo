@@ -1,4 +1,3 @@
-import { cardClassName } from "@/components/ui/card";
 import type {
   DeliveryAddress,
   DeliveryWindow,
@@ -45,28 +44,28 @@ export function CheckoutSummary({
   const sameDay = isSameDayLoop(pickupDate, returnDate);
 
   return (
-    <div className="flex flex-col gap-3">
-      <section className={`${cardClassName} px-4 py-4`}>
-        <p className="text-sm font-medium text-ink-muted">Plant refill</p>
+    <div className="flex flex-col gap-4">
+      <section className="rounded-2xl border border-border bg-surface px-4 py-4">
+        <p className="text-[13px] font-medium text-ink-muted">Plant refill</p>
         <div className="mt-1.5 flex items-baseline justify-between gap-3">
-          <p className="text-lg font-semibold tracking-tight text-ink">
+          <p className="font-display text-[20px] font-semibold tracking-tight text-ink">
             {formatKg(quote.fillKg)} kg of {formatKg(quote.capacityKg)} kg
           </p>
-          <p className="text-lg font-semibold tabular-nums tracking-tight text-ink">
+          <p className="font-display text-[20px] font-semibold tabular-nums tracking-tight text-ink">
             {formatNaira(quote.gasFillNgn)}
           </p>
         </div>
-        <p className="mt-0.5 text-sm text-ink-muted">
+        <p className="mt-1 text-sm leading-snug text-ink-muted">
           {FILL_MODE_LABEL[quote.fillMode]} at {formatNaira(quote.rateNgnPerKg)}/kg,
           refilled offsite, never at your door
         </p>
-        <dl className="mt-3 space-y-2 border-t border-border pt-3">
+        <dl className="mt-4 space-y-2.5 border-t border-border pt-3.5">
           {prepayQuoteLines(quote, fulfillmentMode).map((line) => (
             <div
               key={line.id}
               className="flex items-start justify-between gap-3 text-[15px]"
             >
-              <dt className="text-ink-muted">{line.label}</dt>
+              <dt className="leading-snug text-ink-muted">{line.label}</dt>
               <dd className="font-semibold tabular-nums text-ink">
                 {formatNaira(line.amountNgn)}
               </dd>
@@ -75,11 +74,11 @@ export function CheckoutSummary({
         </dl>
       </section>
 
-      <section className={`${cardClassName} px-4 py-4`}>
-        <p className="text-sm font-medium text-ink-muted">
-          {hub ? "Hub collection" : "Pickup & return"}
+      <section className="rounded-2xl border border-border bg-surface px-4 py-4">
+        <p className="text-[13px] font-medium text-ink-muted">
+          {hub ? "Hub collection" : "Pickup and return"}
         </p>
-        <p className="mt-1.5 text-[17px] font-semibold tracking-tight text-ink">
+        <p className="mt-1.5 font-display text-[20px] font-semibold tracking-tight text-ink">
           {address.label}
         </p>
         <p className="mt-0.5 text-sm leading-snug text-ink">{address.line}</p>
@@ -89,16 +88,10 @@ export function CheckoutSummary({
             : address.area}
         </p>
 
-        <dl className="mt-4 space-y-3 border-t border-border pt-3">
+        <dl className="mt-4 space-y-3 border-t border-border pt-3.5">
           <SummaryLine label="Fulfillment" value={fulfillmentLabel(fulfillmentMode)} />
-          <SummaryLine
-            label="Pickup date"
-            value={formatCalendarDate(pickupDate)}
-          />
-          <SummaryLine
-            label="Return date"
-            value={formatCalendarDate(returnDate)}
-          />
+          <SummaryLine label="Pickup date" value={formatCalendarDate(pickupDate)} />
+          <SummaryLine label="Return date" value={formatCalendarDate(returnDate)} />
           {presence && !hub ? (
             <SummaryLine label="Handover" value={presence.title} />
           ) : null}

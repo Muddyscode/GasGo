@@ -8,6 +8,7 @@ import { TrackingTimeline } from "@/components/order/TrackingTimeline";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
 import { buttonClassName } from "@/components/ui/button";
 import { cardClassName } from "@/components/ui/card";
+import { PAID_RELIEF_BODY, PAID_RELIEF_TITLE } from "@/components/order/order-quote-hint";
 import { PageBody, PageFrame, StickyAction } from "@/components/ui/page";
 import { getWindowById } from "@/config/delivery";
 import { getDeliveryStage } from "@/config/delivery-stages";
@@ -45,8 +46,17 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
     order.lateKind === "handover_failed"
       ? LATE_TRACKING_COPY.handoverFailed
       : LATE_TRACKING_COPY.behindSchedule;
-  const title = order.late ? lateCopy.title : (stage?.title ?? "Plant refill loop");
-  const detail = order.late ? lateCopy.body : (stage?.detail ?? "Collect empty, plant fill, return full.");
+  const justPaid = order.stageId === "queued" && !order.late;
+  const title = order.late
+    ? lateCopy.title
+    : justPaid
+      ? PAID_RELIEF_TITLE
+      : (stage?.title ?? "Plant refill loop");
+  const detail = order.late
+    ? lateCopy.body
+    : justPaid
+      ? PAID_RELIEF_BODY
+      : (stage?.detail ?? "Collect empty, plant fill, return full.");
   const nowLabel = stage?.now ?? "We’re on this loop";
   const nextLabel = stage?.next ?? "WhatsApp us if you need a hand";
   const sameDay =
@@ -80,11 +90,11 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
                 order.late ? "text-brand-red" : "text-brand-green",
               )}
             >
-              {order.late ? LATE_TRACKING_COPY.eyebrow : "Plant refill"}
+              {order.late ? LATE_TRACKING_COPY.eyebrow : justPaid ? "Paid" : "Plant refill"}
             </p>
             <h2
               className={cn(
-                "mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight",
+                "mt-1.5 font-display text-[28px] font-semibold leading-[1.12] tracking-tight",
                 order.late ? "text-brand-red" : "text-ink",
               )}
             >
@@ -135,9 +145,9 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
         </FadeLift>
 
         <FadeLift delayMs={fadeLiftDelayMs(order.late ? 4 : 3)} className="mb-5">
-          <section className={`${cardClassName} px-4 py-4`}>
-            <p className="text-sm font-medium text-ink-muted">Order number</p>
-            <p className="mt-1 font-mono text-[17px] font-semibold tracking-tight text-ink">
+          <section className="rounded-2xl border border-border bg-surface px-4 py-4">
+            <p className="text-[13px] font-medium text-ink-muted">Order number</p>
+            <p className="mt-1 font-display font-mono text-[17px] font-semibold tracking-tight text-ink">
               {supportId}
             </p>
             {paidSummary ? (
@@ -152,8 +162,8 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
 
         {order.pickupDate || order.returnDate || window ? (
           <FadeLift delayMs={fadeLiftDelayMs(order.late ? 5 : 4)} className="mb-5">
-            <section className={`${cardClassName} px-4 py-4`}>
-              <p className="text-sm font-medium text-ink-muted">Pickup & return</p>
+            <section className="rounded-2xl border border-border bg-surface px-4 py-4">
+              <p className="text-[13px] font-medium text-ink-muted">Pickup and return</p>
               {order.pickupDate ? (
                 <DateLine label="Pickup" value={formatCalendarDate(order.pickupDate)} />
               ) : null}
@@ -173,8 +183,8 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
         ) : null}
 
         <FadeLift delayMs={fadeLiftDelayMs(order.late ? 6 : 5)}>
-          <section className={`${cardClassName} px-4 py-5`}>
-            <h3 className="mb-4 text-sm font-semibold tracking-wide text-ink-muted">
+          <section className="rounded-2xl border border-border bg-surface px-4 py-5">
+            <h3 className="mb-4 text-[15px] font-semibold tracking-tight text-ink">
               Loop progress
             </h3>
             <TrackingTimeline currentStageId={order.stageId} late={order.late} />

@@ -9,8 +9,10 @@ import { DeliveryWindowPicker } from "@/components/order/DeliveryWindowPicker";
 import { FulfillmentModePicker } from "@/components/order/FulfillmentModePicker";
 import { OrderDatePicker } from "@/components/order/OrderDatePicker";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import { OrderSection } from "@/components/order/OrderSection";
 import { PresenceOption } from "@/components/order/PresenceOption";
 import { PriceBreakdown } from "@/components/order/PriceBreakdown";
+import { addressStickyHint } from "@/components/order/order-quote-hint";
 import { buttonClassName } from "@/components/ui/button";
 import { interactiveCardClassName } from "@/components/ui/card";
 import { PageBody, PageFrame, PageTitle, StickyAction } from "@/components/ui/page";
@@ -115,6 +117,13 @@ export function AddressDeliveryForm() {
       ? `Hub self-collect at ${selectedAddress?.label}, ${formatCalendarDate(dates.pickupDate)}`
       : `${selectedAddress?.label}, ${selectedPresence?.title}`;
 
+  const stickyHint = addressStickyHint({
+    quote: live,
+    fulfillmentMode,
+    hasAddress: Boolean(selectedAddress),
+    fallback: helper,
+  });
+
   return (
     <PageFrame>
       <OrderHeader
@@ -129,7 +138,7 @@ export function AddressDeliveryForm() {
           subtitle={
             hub
               ? "Bring the empty cylinder and collect it filled at the plant yard. Gas only — pre-order required, no walk-ins."
-              : "We’ll collect the empty here, refill it at the plant, and bring the filled cylinder back."
+              : "We’ll collect the empty here, refill it at the plant, and bring the filled cylinder back. Nothing is filled at your door."
           }
         >
           {hub ? "Pre-order at the plant yard" : "Where should we collect it?"}
@@ -137,28 +146,29 @@ export function AddressDeliveryForm() {
         {live.fillKg > 0 ? (
           <p className="-mt-4 mb-6 text-sm font-medium tabular-nums text-ink-muted">
             {formatKg(live.fillKg)} kg of {formatKg(capacityKg ?? live.capacityKg)} kg
-            — {formatNaira(live.gasFillNgn)} fill
+            {" — "}
+            {formatNaira(live.gasFillNgn)} fill at {formatNaira(live.rateNgnPerKg)}/kg
           </p>
         ) : null}
 
-        <section className="mb-8">
-          <h3 className="mb-3 text-sm font-semibold tracking-wide text-ink-muted">
-            How should we fulfill it
-          </h3>
+        <OrderSection
+          title="How should we fulfill it"
+          hint={
+            hub
+              ? "Hub is gas only. Door-to-door adds your zone transport as a separate line before you pay."
+              : "Door-to-door adds gas and zone transport as separate lines. The fee is visible before you pay."
+          }
+        >
           <FulfillmentModePicker
             selected={fulfillmentMode}
             onSelect={setFulfillmentMode}
           />
-        </section>
+        </OrderSection>
 
-        <section className="mb-8">
-          <h3 className="mb-1 text-sm font-semibold tracking-wide text-ink-muted">
-            Pickup and return dates
-          </h3>
-          <p className="mb-3 text-sm leading-relaxed text-ink-muted">
-            Port Harcourt calendar days (WAT). The window below is a time-of-day
-            preference, not a hard slot.
-          </p>
+        <OrderSection
+          title="Pickup and return dates"
+          hint="Port Harcourt calendar days (WAT). The window below is a time-of-day preference, not a hard slot."
+        >
           <OrderDatePicker
             pickupDate={dates.pickupDate}
             returnDate={dates.returnDate}
@@ -174,13 +184,13 @@ export function AddressDeliveryForm() {
               {SAME_DAY_CUSTOMER_REMINDER}
             </p>
           ) : null}
-        </section>
+        </OrderSection>
 
         <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-          <section className="mb-8 lg:col-span-7 lg:mb-0">
-            <h3 className="mb-3 text-sm font-semibold tracking-wide text-ink-muted">
-              {hub ? "Your address" : "Saved addresses"}
-            </h3>
+          <OrderSection
+            className="lg:col-span-7 lg:mb-0"
+            title={hub ? "Your address" : "Saved addresses"}
+          >
             <div
               role="radiogroup"
               aria-label="Delivery address"
@@ -218,17 +228,14 @@ export function AddressDeliveryForm() {
                 </span>
               </span>
             </button>
-          </section>
+          </OrderSection>
 
           <div className="lg:col-span-5">
             {hub ? null : (
-              <section className="mb-8">
-                <h3 className="mb-1 text-sm font-semibold tracking-wide text-ink-muted">
-                  Who receives it
-                </h3>
-                <p className="mb-3 text-sm leading-relaxed text-ink-muted">
-                  Tell the rider what to do when they arrive.
-                </p>
+              <OrderSection
+                title="Who receives it"
+                hint="Tell the rider what to do when they arrive."
+              >
                 <div
                   role="radiogroup"
                   aria-label="Presence and handover"
@@ -243,23 +250,20 @@ export function AddressDeliveryForm() {
                     />
                   ))}
                 </div>
-              </section>
+              </OrderSection>
             )}
 
-            <section className="mb-8">
-              <h3 className="mb-3 text-sm font-semibold tracking-wide text-ink-muted">
-                {hub ? "Preferred collection window (optional)" : "Preferred window"}
-              </h3>
+            <OrderSection
+              title={hub ? "Preferred collection window (optional)" : "Preferred window"}
+            >
               <DeliveryWindowPicker selectedId={windowId} onSelect={setWindow} />
-            </section>
+            </OrderSection>
 
             <section className="mb-6">
               <label htmlFor="delivery-notes" className="block">
-                <span className="mb-1 block text-sm font-semibold tracking-wide text-ink-muted">
+                <span className="mb-1 block text-[15px] font-semibold tracking-tight text-ink">
                   {hub ? "Collection notes" : "Delivery instructions"}
-                  <span className="ml-1 font-medium normal-case tracking-normal">
-                    (optional)
-                  </span>
+                  <span className="ml-1 font-medium text-ink-muted">(optional)</span>
                 </span>
                 <textarea
                   id="delivery-notes"
@@ -272,7 +276,7 @@ export function AddressDeliveryForm() {
                       : "Blue gate after the mosque, second turn on the right…"
                   }
                   onChange={(event) => setNotes(event.target.value)}
-                  className="mt-2 min-h-[96px] w-full resize-none rounded-2xl border border-border bg-surface-muted px-4 py-3 text-[15px] leading-relaxed text-ink outline-none transition-[border-color,background-color,box-shadow] duration-150 placeholder:text-ink-muted/70 focus:border-brand-green focus:bg-surface focus:ring-2 focus:ring-brand-green/20"
+                  className="mt-2 min-h-[96px] w-full resize-none rounded-2xl border border-border bg-surface px-4 py-3 text-[15px] leading-relaxed text-ink outline-none transition-[border-color,background-color,box-shadow] duration-150 placeholder:text-ink-muted/70 focus:border-brand-green focus:ring-2 focus:ring-brand-green/20"
                 />
               </label>
             </section>
@@ -289,12 +293,12 @@ export function AddressDeliveryForm() {
       <StickyAction>
         <p
           className={cn(
-            "mb-2.5 min-h-5 text-center text-sm text-ink-muted transition-opacity duration-150",
-            selectedAddress || selectedPresence || hub ? "opacity-100" : "opacity-0",
+            "mb-2.5 min-h-5 text-center text-sm tabular-nums text-ink-muted transition-opacity duration-150",
+            live.fillKg > 0 ? "opacity-100" : "opacity-0",
           )}
           aria-live="polite"
         >
-          {helper}
+          {stickyHint}
         </p>
         <button
           type="button"

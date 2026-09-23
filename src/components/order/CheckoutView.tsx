@@ -93,7 +93,7 @@ export function CheckoutView() {
           subtitle={
             fulfillmentMode === "hub"
               ? "Confirm the plant fill and collection dates, then pay in full. This pre-order holds your yard slot — no walk-ins."
-              : "Confirm the plant fill and Port Harcourt address, then pay in full before we collect the empty."
+              : "Confirm the plant fill, address, and zone transport, then pay in full before we collect the empty. Nothing is filled at your door."
           }
         >
           Review and pay

@@ -1,13 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import { OrderSection, orderFieldClassName } from "@/components/order/OrderSection";
 import { PriceBreakdown } from "@/components/order/PriceBreakdown";
+import { RadioMark } from "@/components/order/RadioMark";
+import {
+  fillStickyHint,
+  PLANT_REFILL_LINE,
+} from "@/components/order/order-quote-hint";
 import { buttonClassName } from "@/components/ui/button";
 import { interactiveCardClassName, selectedCardClassName } from "@/components/ui/card";
 import { PageBody, PageFrame, PageTitle, StickyAction } from "@/components/ui/page";
-import { CYLINDER_OPTIONS, formatCylinderSize } from "@/config/cylinders";
 import {
   FILL_MODES,
   LIVE_RATE_NGN_PER_KG,
@@ -18,6 +22,8 @@ import {
 import { formatNaira } from "@/lib/money";
 import { cn } from "@/lib/utils";
 import { useOrderDraft } from "@/stores/order-draft";
+
+const COMMON_CAPACITIES_KG = [6, 12.5, 25, 50] as const;
 
 const FILL_COPY: Record<FillMode, { title: string; hint: string }> = {
   full: {
@@ -60,88 +66,86 @@ export function FillComposer() {
       <OrderHeader title="Your fill" backHref="/" backLabel="Go back" />
 
       <PageBody className="pb-8">
-        <PageTitle
-          eyebrow="Port Harcourt refill"
-          subtitle="We collect your empty cylinder, refill it at the plant, and return it filled. You pay before pickup."
-        >
+        <PageTitle eyebrow="Port Harcourt plant refill" subtitle={PLANT_REFILL_LINE}>
           What should we fill?
         </PageTitle>
 
-        <div className="relative mb-5 overflow-hidden rounded-[1.25rem] border border-border shadow-gasgo-md">
-          <Image
-            src="/images/cooking-gas-filling-point.png"
-            alt="Cooking gas being filled at a plant, not at the doorstep"
-            width={736}
-            height={375}
-            sizes="(max-width: 1024px) 100vw, 720px"
-            className="h-32 w-full object-cover sm:h-40 lg:h-48"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-transparent" />
-          <p className="absolute bottom-3 left-4 text-sm font-semibold text-white">
-            Plant refill in Port Harcourt
-          </p>
-        </div>
+        <ol className="mb-8 grid grid-cols-3 gap-2 rounded-2xl border border-border bg-surface px-3 py-3.5">
+          {["Collect empty", "Plant refill", "Return filled"].map((step, index) => (
+            <li key={step} className="min-w-0 text-center">
+              <span className="block font-display text-[13px] font-semibold tabular-nums text-brand-green">
+                {index + 1}
+              </span>
+              <span className="mt-0.5 block text-[12px] font-medium leading-snug text-ink">
+                {step}
+              </span>
+            </li>
+          ))}
+        </ol>
 
-        <section className="mb-6">
-          <h3 className="mb-2 text-sm font-semibold tracking-wide text-ink-muted">
-            Cylinder capacity
-          </h3>
+        <OrderSection
+          title="Cylinder capacity"
+          hint="Type the kilograms stamped on your cylinder. Common sizes are shortcuts, not a product list."
+        >
+          <label className="block">
+            <span className="sr-only">Cylinder capacity in kilograms</span>
+            <div className="relative">
+              <input
+                type="number"
+                min={1}
+                max={50}
+                step={0.5}
+                inputMode="decimal"
+                value={capacityKg ?? ""}
+                placeholder="12.5"
+                onChange={(event) => {
+                  const raw = event.target.value;
+                  if (raw === "") {
+                    setCapacityKg(0);
+                    return;
+                  }
+                  const next = Number(raw);
+                  if (Number.isFinite(next)) setCapacityKg(next);
+                }}
+                className={cn(orderFieldClassName, "pr-14 font-display text-[22px] font-semibold")}
+              />
+              <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-sm font-medium text-ink-muted">
+                kg
+              </span>
+            </div>
+          </label>
           <div
-            role="radiogroup"
-            aria-label="Cylinder capacity"
-            className="grid grid-cols-2 gap-3 md:grid-cols-4"
+            role="group"
+            aria-label="Common capacities"
+            className="mt-3 flex flex-wrap gap-2"
           >
-            {CYLINDER_OPTIONS.map((option) => {
-              const selected = capacityKg === option.sizeKg;
+            {COMMON_CAPACITIES_KG.map((size) => {
+              const selected = capacityKg === size;
               return (
                 <button
-                  key={option.id}
+                  key={size}
                   type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  onClick={() => setCapacityKg(option.sizeKg)}
+                  onClick={() => setCapacityKg(size)}
                   className={cn(
-                    interactiveCardClassName,
-                    "px-4 py-4 text-left",
-                    selected && selectedCardClassName,
+                    "inline-flex h-10 items-center rounded-full border px-3.5 text-[13px] font-semibold tabular-nums",
+                    "transition-[background-color,border-color,transform] duration-150 active:scale-[0.98]",
+                    selected
+                      ? "border-brand-green bg-surface-soft text-ink shadow-gasgo-soft"
+                      : "border-border bg-surface text-ink-muted hover:border-brand-green/35 hover:text-ink",
                   )}
                 >
-                  <span className="block text-[17px] font-semibold tracking-tight text-ink">
-                    {formatCylinderSize(option.sizeKg)}
-                  </span>
-                  <span className="mt-0.5 block text-sm text-ink-muted">
-                    {option.bestFor}
-                  </span>
+                  {formatKg(size)} kg
                 </button>
               );
             })}
           </div>
-          <label className="mt-3 block">
-            <span className="mb-1.5 block text-sm font-medium text-ink">
-              Or enter capacity (kg)
-            </span>
-            <input
-              type="number"
-              min={1}
-              max={50}
-              step={0.5}
-              inputMode="decimal"
-              value={capacityKg ?? ""}
-              placeholder="12.5"
-              onChange={(event) => {
-                const next = Number(event.target.value);
-                if (Number.isFinite(next)) setCapacityKg(next);
-              }}
-              className="h-12 w-full rounded-2xl border border-border bg-surface-muted px-4 text-[15px] text-ink outline-none focus:border-brand-green focus:bg-surface focus:ring-2 focus:ring-brand-green/20"
-            />
-          </label>
-        </section>
+        </OrderSection>
 
-        <section className="mb-6">
-          <h3 className="mb-2 text-sm font-semibold tracking-wide text-ink-muted">
-            Fill mode
-          </h3>
-          <div role="radiogroup" aria-label="Fill mode" className="grid grid-cols-3 gap-2">
+        <OrderSection
+          title="Fill mode"
+          hint={`Live rate ${formatNaira(LIVE_RATE_NGN_PER_KG)}/kg. Transport is added with your address — not a flat fee.`}
+        >
+          <div role="radiogroup" aria-label="Fill mode" className="flex flex-col gap-2.5">
             {FILL_MODES.map((mode) => {
               const selected = fillMode === mode;
               return (
@@ -153,16 +157,19 @@ export function FillComposer() {
                   onClick={() => setFillMode(mode)}
                   className={cn(
                     interactiveCardClassName,
-                    "px-3 py-3 text-left",
+                    "flex w-full items-center gap-3.5 px-4 py-4 text-left",
                     selected && selectedCardClassName,
                   )}
                 >
-                  <span className="block text-[15px] font-semibold text-ink">
-                    {FILL_COPY[mode].title}
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[17px] font-semibold tracking-tight text-ink">
+                      {FILL_COPY[mode].title}
+                    </span>
+                    <span className="mt-0.5 block text-sm leading-snug text-ink-muted">
+                      {FILL_COPY[mode].hint}
+                    </span>
                   </span>
-                  <span className="mt-0.5 block text-[12px] leading-snug text-ink-muted">
-                    {FILL_COPY[mode].hint}
-                  </span>
+                  <RadioMark selected={selected} />
                 </button>
               );
             })}
@@ -170,7 +177,9 @@ export function FillComposer() {
 
           {fillMode === "kg" ? (
             <label className="mt-3 block">
-              <span className="mb-1.5 block text-sm font-medium text-ink">Kilograms to fill</span>
+              <span className="mb-1.5 block text-sm font-medium text-ink">
+                Kilograms to fill
+              </span>
               <input
                 type="number"
                 min={0.5}
@@ -183,16 +192,14 @@ export function FillComposer() {
                   const next = Number(event.target.value);
                   if (Number.isFinite(next)) setFillKg(next);
                 }}
-                className="h-12 w-full rounded-2xl border border-border bg-surface-muted px-4 text-[15px] text-ink outline-none focus:border-brand-green focus:bg-surface focus:ring-2 focus:ring-brand-green/20"
+                className={orderFieldClassName}
               />
             </label>
           ) : null}
 
           {fillMode === "naira" ? (
             <label className="mt-3 block">
-              <span className="mb-1.5 block text-sm font-medium text-ink">
-                Spend (₦)
-              </span>
+              <span className="mb-1.5 block text-sm font-medium text-ink">Spend (₦)</span>
               <input
                 type="number"
                 min={500}
@@ -204,20 +211,13 @@ export function FillComposer() {
                   const next = Number(event.target.value);
                   if (Number.isFinite(next)) setSpendNaira(next);
                 }}
-                className="h-12 w-full rounded-2xl border border-border bg-surface-muted px-4 text-[15px] text-ink outline-none focus:border-brand-green focus:bg-surface focus:ring-2 focus:ring-brand-green/20"
+                className={orderFieldClassName}
               />
             </label>
           ) : null}
+        </OrderSection>
 
-          <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-            Live rate {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg. Transport is added
-            with your address on the next step — not a flat fee.
-          </p>
-        </section>
-
-        {live.fillKg > 0 ? (
-          <PriceBreakdown quote={toOrderQuote(live)} />
-        ) : null}
+        {live.fillKg > 0 ? <PriceBreakdown quote={toOrderQuote(live)} /> : null}
       </PageBody>
 
       <StickyAction>
@@ -228,9 +228,7 @@ export function FillComposer() {
           )}
           aria-live="polite"
         >
-          {ready
-            ? `${formatKg(live.fillKg)} kg of ${formatKg(live.capacityKg)} kg — ${formatNaira(live.gasFillNgn)}`
-            : "Choose a capacity to continue"}
+          {ready ? fillStickyHint(live) : "Enter a capacity to continue"}
         </p>
         <button
           type="button"
