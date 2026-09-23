@@ -91,7 +91,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
         <p className="mt-2 text-sm leading-relaxed text-ink-muted">
           {isCheckout
             ? "Your fill and Port Harcourt address stay on this device. We’ll take you to checkout next."
-            : "Mock signup for now — your details stay on this device. Order a plant refill whenever you’re ready."}
+            : "Your details stay on this device. Signing in keeps any fill you already drafted."}
         </p>
 
         <form

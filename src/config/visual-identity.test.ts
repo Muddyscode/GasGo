@@ -93,6 +93,33 @@ describe("GasGo visual identity v1", () => {
     expect(svg).not.toMatch(/M18 44c0-14/);
   });
 
+  it("reserves chrome space so sticky nav cannot overlay marketing content", () => {
+    const chrome = readSrc("components/nav/CustomerChrome.tsx");
+    const nav = readSrc("components/nav/TopNav.tsx");
+    expect(chrome).toMatch(/h-dvh/);
+    expect(chrome).toMatch(/gasgo-chrome-scroll/);
+    expect(chrome).toMatch(/overflow-y-auto/);
+    expect(nav).toMatch(/shrink-0/);
+    expect(nav).not.toMatch(/sticky top-0/);
+    expect(nav).not.toMatch(/>\s*PH\s*</);
+    expect(nav).not.toMatch(/title="Port Harcourt only"/);
+  });
+
+  it("keeps auth and marketing free of mock-dev copy and the tower overlay", () => {
+    const auth = readSrc("components/auth/AuthEntryView.tsx");
+    const modal = readSrc("components/auth/AuthModal.tsx");
+    const world = readSrc("components/auth/AuthWorld.tsx");
+    const landing = readSrc("components/marketing/MarketingLanding.tsx");
+    expect(auth).toMatch(/Signing in keeps any fill you already drafted/);
+    expect(auth).not.toMatch(/Mock auth|mock auth|for now/);
+    expect(modal).not.toMatch(/Mock signup|mock signup|for now/);
+    expect(world).not.toMatch(/ph-tower/);
+    expect(landing).toMatch(/Diobu next pickup/);
+    expect(landing).toMatch(/LIVE_RATE_NGN_PER_KG/);
+    expect(landing).not.toMatch(/ArrowRight/);
+    expect(readSrc("components/marketing/ZoneMap.tsx")).toMatch(/Map legend|aria-label="Map legend"/);
+  });
+
   it("does not leave retired brand hexes in marketing sources", () => {
     const files = walkFiles(path.resolve(SRC, "components/marketing")).filter((file) =>
       /\.(ts|tsx)$/.test(file),

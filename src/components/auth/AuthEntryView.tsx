@@ -44,7 +44,7 @@ export function AuthEntryView({ mode, otherHref }: AuthEntryViewProps) {
             {heading}
           </h1>
           <p className="mt-2 max-w-[36ch] text-[15px] leading-relaxed text-ink-muted">
-            Mock auth for now — signing in never clears a fill you already drafted.
+            Signing in keeps any fill you already drafted.
           </p>
 
           <button

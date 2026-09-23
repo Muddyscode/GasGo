@@ -20,7 +20,7 @@ export function HowItWorks({ flush = false }: { flush?: boolean }) {
   return (
     <section
       id="how-it-works"
-      className={flush ? "scroll-mt-24" : "mt-16 scroll-mt-24 lg:mt-20"}
+      className={flush ? "scroll-mt-6" : "mt-16 scroll-mt-6 lg:mt-20"}
     >
       <p className="text-[15px] font-medium text-brand-green">How it works</p>
       <h2 className="mt-2 font-display text-[28px] font-semibold tracking-tight text-ink md:text-[34px]">

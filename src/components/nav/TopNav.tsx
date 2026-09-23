@@ -30,7 +30,7 @@ export function TopNav({ marketing = false }: { marketing?: boolean }) {
   }
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/70 bg-surface/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
+    <header className="z-30 shrink-0 border-b border-border/70 bg-surface/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
       <div className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-2 px-4 md:h-16 md:px-6 lg:px-8">
         <div className="flex min-w-0 items-center gap-0.5">
           {showBack ? (
@@ -69,18 +69,9 @@ function MarketingIslandNav() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 bg-transparent pt-[max(0.55rem,env(safe-area-inset-top))]">
+    <header className="z-40 shrink-0 border-b border-border/70 bg-surface/92 pt-[max(0.55rem,env(safe-area-inset-top))] backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2 md:px-6 lg:px-8">
-        <div className="flex items-center gap-2">
-          <BrandMark />
-          <span
-            className="hidden items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-[12px] font-semibold text-ink shadow-gasgo-soft ring-1 ring-black/5 sm:inline-flex"
-            title="Port Harcourt only"
-          >
-            <span className="size-2 rounded-full bg-brand-yellow ring-1 ring-ink/10" />
-            PH
-          </span>
-        </div>
+        <BrandMark />
 
         <nav
           aria-label="Marketing"

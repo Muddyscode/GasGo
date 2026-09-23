@@ -15,25 +15,25 @@ const PRODUCT_LINKS = [
 
 export function MarketingFooter() {
   return (
-    <footer className="marketing-footer mt-16 bg-ink text-white">
-      <div className="mx-auto w-full max-w-5xl px-5 pb-10 pt-10 md:px-8 lg:max-w-6xl lg:px-10">
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xs">
-            <BrandMark inverted />
-            <p className="mt-4 text-sm leading-relaxed text-white/70">
+    <footer className="marketing-footer mt-20 border-t border-border bg-surface-muted">
+      <div className="mx-auto w-full max-w-5xl px-5 pb-16 pt-16 md:px-8 lg:max-w-6xl lg:px-10">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="max-w-xs md:col-span-5 lg:col-span-6">
+            <BrandMark />
+            <p className="mt-4 text-[13px] leading-relaxed text-ink-muted">
               Port Harcourt cooking gas. Collect empty, plant refill, return full.
               Nothing is filled at your door.
             </p>
             <a
               href={whatsappHref("Hi GasGo, I have a question before I order.")}
-              className="mt-4 inline-block text-sm font-medium text-brand-yellow transition-colors hover:text-white"
+              className="mt-5 inline-block text-[13px] font-medium text-brand-green transition-colors hover:text-ink"
             >
               WhatsApp {GASGO_WHATSAPP_DISPLAY}
             </a>
           </div>
           <nav
             aria-label="Footer"
-            className="grid flex-1 grid-cols-2 gap-x-8 gap-y-8 lg:max-w-sm"
+            className="grid grid-cols-2 gap-x-10 gap-y-10 md:col-span-7 lg:col-span-6"
           >
             <FooterCol title="Product">
               {PRODUCT_LINKS.map((link) => (
@@ -46,14 +46,14 @@ export function MarketingFooter() {
               <FooterLink href="/login">Sign in</FooterLink>
               <a
                 href={whatsappHref("Hi GasGo, I have a question before I order.")}
-                className="transition-colors hover:text-brand-yellow"
+                className="transition-colors hover:text-brand-green"
               >
                 WhatsApp
               </a>
             </FooterCol>
           </nav>
         </div>
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-5 text-xs text-white/55 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-2 text-[12px] leading-relaxed text-ink-muted sm:flex-row sm:items-center sm:justify-between">
           <p>{COMING_SOON_LINE}</p>
           <p>
             Garden City only. Zone fees shown before pay, never above{" "}
@@ -74,15 +74,17 @@ function FooterCol({
 }) {
   return (
     <div>
-      <p className="text-[13px] font-medium text-brand-yellow">{title}</p>
-      <div className="mt-3 flex flex-col gap-2 text-sm font-medium">{children}</div>
+      <p className="text-[12px] font-medium text-ink-muted">{title}</p>
+      <div className="mt-3 flex flex-col gap-2.5 text-[13px] font-medium text-ink">
+        {children}
+      </div>
     </div>
   );
 }
 
 function FooterLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="transition-colors hover:text-brand-yellow">
+    <Link href={href} className="transition-colors hover:text-brand-green">
       {children}
     </Link>
   );
