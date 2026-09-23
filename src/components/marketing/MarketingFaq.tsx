@@ -2,7 +2,6 @@
 
 import { MARKETING_FAQ_SR, MARKETING_FAQS } from "@/lib/marketing-faq";
 import { cn } from "@/lib/utils";
-import { FadeLift } from "@/components/motion/FadeLift";
 
 export function MarketingFaq({ className }: { className?: string }) {
   return (
@@ -11,29 +10,25 @@ export function MarketingFaq({ className }: { className?: string }) {
       className={cn("mt-16 scroll-mt-24 lg:mt-20", className)}
       aria-labelledby="faq-heading"
     >
-      <FadeLift>
-        <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
-          FAQ
-        </p>
-        <h2
-          id="faq-heading"
-          className="mt-2 font-display text-[28px] font-extrabold tracking-tight text-ink md:text-[34px]"
-        >
-          Before you order in Port Harcourt
-        </h2>
-        <p className="mt-2 max-w-[46ch] text-[15px] leading-relaxed text-ink-muted">
-          {MARKETING_FAQ_SR}
-        </p>
-      </FadeLift>
+      <p className="text-[15px] font-medium text-brand-green">Questions</p>
+      <h2
+        id="faq-heading"
+        className="mt-2 font-display text-[28px] font-semibold tracking-tight text-ink md:text-[34px]"
+      >
+        Before you order in Port Harcourt
+      </h2>
+      <p className="mt-2 max-w-[46ch] text-[15px] leading-relaxed text-ink-muted">
+        {MARKETING_FAQ_SR}
+      </p>
 
-      <div className="mt-6 divide-y divide-border overflow-hidden rounded-[1.5rem] border border-border bg-surface shadow-gasgo-soft">
+      <div className="mt-6 divide-y divide-border border-y border-border">
         {MARKETING_FAQS.map((item) => (
-          <details key={item.id} className="group px-5 py-1">
+          <details key={item.id} className="group">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-[15px] font-semibold tracking-tight text-ink marker:content-none [&::-webkit-details-marker]:hidden">
               {item.question}
               <span
                 aria-hidden="true"
-                className="grid size-8 shrink-0 place-items-center rounded-full bg-surface-muted text-brand-green transition-transform duration-200 group-open:rotate-45"
+                className="grid size-8 shrink-0 place-items-center text-brand-green transition-transform duration-200 group-open:rotate-45"
               >
                 +
               </span>

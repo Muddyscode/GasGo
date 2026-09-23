@@ -1,13 +1,13 @@
 export const ZONE_PIN_LAYOUT: Record<
   string,
-  { x: number; y: number; tone: "green" | "yellow" | "ink" }
+  { x: number; y: number; tone: "green" | "yellow" | "ink"; label: string }
 > = {
-  "old-gra": { x: 22, y: 28, tone: "green" },
-  "trans-amadi": { x: 68, y: 42, tone: "yellow" },
-  woji: { x: 78, y: 22, tone: "ink" },
-  rumuokoro: { x: 38, y: 16, tone: "green" },
-  eliozu: { x: 58, y: 12, tone: "yellow" },
-  "ada-george": { x: 18, y: 48, tone: "ink" },
-  diobu: { x: 32, y: 62, tone: "green" },
-  rumuola: { x: 48, y: 38, tone: "yellow" },
+  rumuokoro: { x: 8, y: 16, tone: "green", label: "Rumuokoro" },
+  eliozu: { x: 54, y: 12, tone: "yellow", label: "Eliozu" },
+  woji: { x: 76, y: 22, tone: "ink", label: "Woji" },
+  "old-gra": { x: 8, y: 30, tone: "green", label: "Old GRA" },
+  rumuola: { x: 42, y: 36, tone: "yellow", label: "Rumuola" },
+  "trans-amadi": { x: 64, y: 48, tone: "yellow", label: "Trans-Amadi" },
+  "ada-george": { x: 8, y: 50, tone: "ink", label: "Ada George" },
+  diobu: { x: 10, y: 66, tone: "green", label: "Diobu" },
 };

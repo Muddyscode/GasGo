@@ -1,29 +1,25 @@
 import { describe, expect, it } from "vitest";
 import {
+  COMING_SOON_LINE,
   MARKETING_GREETING_SR,
-  MARKETING_GREETINGS,
+  MARKETING_HEADLINE,
+  MARKETING_LEDE,
+  MARKETING_SAFETY,
 } from "@/lib/marketing-greetings";
 
 describe("marketing greetings", () => {
-  it("cycles about ten kitchen/gas check-ins across English, Pidgin, and a mix", () => {
-    const langs = MARKETING_GREETINGS.map((g) => g.lang);
-    const english = langs.filter((lang) => lang === "English");
-    const pidgin = langs.filter((lang) => lang === "Pidgin");
-    const mix = langs.filter((lang) => lang !== "English" && lang !== "Pidgin");
-
-    expect(MARKETING_GREETINGS).toHaveLength(10);
-    expect(english).toHaveLength(5);
-    expect(pidgin.length).toBeGreaterThanOrEqual(1);
-    expect(pidgin.length).toBeLessThanOrEqual(2);
-    expect(mix.length).toBeGreaterThanOrEqual(3);
-    expect(new Set(mix)).toEqual(new Set(["Yoruba", "Igbo", "Hausa"]));
-    expect(MARKETING_GREETINGS.map((g) => g.text).join(" ")).toMatch(
-      /gas|kitchen|cylinder|cook|pot/i,
-    );
+  it("uses one calm English headline, never Pidgin or cycling language tags", () => {
+    const blob = `${MARKETING_HEADLINE} ${MARKETING_LEDE} ${MARKETING_GREETING_SR}`;
+    expect(MARKETING_HEADLINE).toMatch(/cylinder|door|pot/i);
+    expect(blob).not.toMatch(/Pidgin|Yoruba|Igbo|Hausa|English/i);
+    expect(blob).not.toMatch(/dey\b|boil\b|Ṣé|agwụbeghị|ɗinka/i);
+    expect(blob).toMatch(/Port Harcourt/i);
+    expect(MARKETING_SAFETY).toBe("Nothing is filled at your door.");
+    expect(COMING_SOON_LINE).toMatch(/smart gauge/i);
   });
 
   it("never mentions Lagos — GasGo is Port Harcourt only", () => {
-    const blob = `${MARKETING_GREETING_SR} ${MARKETING_GREETINGS.map((g) => `${g.lang} ${g.text}`).join(" ")}`;
+    const blob = `${MARKETING_GREETING_SR} ${MARKETING_HEADLINE} ${MARKETING_LEDE}`;
     expect(blob).not.toMatch(/Lagos|Lekki|Yaba|Ikeja|Surulere|Gbagada/i);
     expect(blob).toMatch(/Port Harcourt/i);
   });

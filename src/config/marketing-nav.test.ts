@@ -41,7 +41,7 @@ describe("marketing nav route contracts", () => {
     expect(readSrc("app/(customer)/why/page.tsx")).toMatch(/WhyPageView/);
     expect(readSrc("components/marketing/HowItWorksPageView.tsx")).toMatch(/MarketingFaq|MarketingFooter/);
     expect(readSrc("components/marketing/ZonesPageView.tsx")).toMatch(/ZONE_FEE_MAX_NGN/);
-    expect(readSrc("components/marketing/WhyPageView.tsx")).toMatch(/Coming soon|ComingSoonTeaser/);
+    expect(readSrc("components/marketing/WhyPageView.tsx")).toMatch(/Coming soon|COMING_SOON_LINE/);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/MarketingFaq/);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/MarketingFooter/);
     expect(readSrc("components/marketing/MarketingFooter.tsx")).toMatch(/\/how-it-works/);

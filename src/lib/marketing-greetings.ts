@@ -1,20 +1,14 @@
-export const MARKETING_GREETINGS = [
-  { lang: "English", text: "Kitchen still lit?", locale: "en" },
-  { lang: "English", text: "Gas still in the tank?", locale: "en" },
-  { lang: "English", text: "Cylinder still holding?", locale: "en" },
-  { lang: "English", text: "Ready to cook tonight?", locale: "en" },
-  { lang: "English", text: "How’s the kitchen gas?", locale: "en" },
-  { lang: "Pidgin", text: "Gas still dey?", locale: "pcm" },
-  { lang: "Pidgin", text: "Pot still dey boil?", locale: "pcm" },
-  { lang: "Yoruba", text: "Ṣé gáàsì ṣì wà?", locale: "yo" },
-  { lang: "Igbo", text: "Gas gị agwụbeghị?", locale: "ig" },
-  { lang: "Hausa", text: "Gas ɗinka yana nan?", locale: "ha" },
-] as const;
+/** Static marketing hero copy. Plain professional English only — no cycling, no Pidgin. */
+export const MARKETING_HEADLINE =
+  "A full cylinder back at the door, before the pot needs it.";
 
-export type MarketingGreeting = (typeof MARKETING_GREETINGS)[number];
+export const MARKETING_LEDE =
+  "We collect your empty cylinder in Port Harcourt, refill it offsite at the plant, and return it sealed. Nothing is filled at your door.";
 
 export const MARKETING_GREETING_SR =
-  "Kitchen still lit? Cooking gas in Port Harcourt — we collect your empty cylinder, refill it at the plant, and return it full.";
+  "A full cylinder back at the door, before the pot needs it. Port Harcourt cooking gas — we collect your empty cylinder, refill it at the plant, and return it full. Nothing is filled at your door.";
 
-export const GREETING_CYCLE_MS = 4200;
-export const GREETING_FADE_MS = 280;
+export const MARKETING_SAFETY = "Nothing is filled at your door.";
+
+export const COMING_SOON_LINE =
+  "Coming soon: smart gauge & cylinder marketplace";

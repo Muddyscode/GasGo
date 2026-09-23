@@ -4,65 +4,65 @@
 
 /* ─── shadcn CSS variables — white-dominant light theme ─── */
 :root {
-  --gasgo-ink: #0b1f14;
-  --gasgo-ink-muted: #4b6356;
-  --gasgo-border: #e6eee9;
+  --gasgo-ink: #16231c;
+  --gasgo-ink-muted: #4e5f56;
+  --gasgo-border: #e6e2d8;
   --gasgo-surface: #ffffff;
-  --gasgo-surface-muted: #f7faf8;
-  --gasgo-surface-soft: #f0f7f3;
+  --gasgo-surface-muted: #faf8f3;
+  --gasgo-surface-soft: #f3f0e8;
 
   --background: 0 0% 100%;
-  --foreground: 150 48% 8%; /* ink #0B1F14 */
+  --foreground: 148 23% 11%; /* ink #16231C */
 
   --card: 0 0% 100%;
-  --card-foreground: 150 48% 8%;
+  --card-foreground: 148 23% 11%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 150 48% 8%;
+  --popover-foreground: 148 23% 11%;
 
-  /* Energy Green #1CA350 → hsl(142 70% 37%) */
-  --primary: 142 70% 37%;
+  /* Energy Green #1F9D55 → hsl(146 67% 37%) */
+  --primary: 146 67% 37%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 150 20% 96%;
-  --secondary-foreground: 150 48% 8%;
+  --secondary: 40 41% 97%;
+  --secondary-foreground: 148 23% 11%;
 
-  --muted: 150 20% 96%;
-  --muted-foreground: 150 16% 34%; /* inkMuted-ish */
+  --muted: 40 41% 97%;
+  --muted-foreground: 148 10% 34%;
 
-  /* Sun Yellow #FFDF22 → hsl(50 100% 57%) as accent */
-  --accent: 50 100% 57%;
-  --accent-foreground: 150 48% 8%;
+  /* Sun Yellow #FFC53D → hsl(42 100% 62%) as accent */
+  --accent: 42 100% 62%;
+  --accent-foreground: 148 23% 11%;
 
-  /* Critical Red #DC2626 → hsl(0 72% 51%) */
-  --destructive: 0 72% 51%;
+  /* Flame Red #E1432D → hsl(8 75% 53%) */
+  --destructive: 8 75% 53%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 150 20% 92%; /* #E6EEE9 */
-  --input: 150 20% 92%;
-  --ring: 142 70% 37%;
+  --border: 40 18% 88%; /* #E6E2D8 */
+  --input: 40 18% 88%;
+  --ring: 146 67% 37%;
 
   --radius: 0.75rem;
 
   /* Gauge CSS vars */
-  --gauge-safe: #1ca350;
-  --gauge-caution: #ffdf22;
-  --gauge-critical: #dc2626;
+  --gauge-safe: #1f9d55;
+  --gauge-caution: #ffc53d;
+  --gauge-critical: #e1432d;
   --gauge-track: #e8f5ee;
-  --gauge-label: #0b1f14;
-  --gauge-muted: #4b6356;
+  --gauge-label: #16231c;
+  --gauge-muted: #4e5f56;
 }
 
 .dark {
-  --gasgo-ink: #f7faf8;
+  --gasgo-ink: #faf8f3;
   --gasgo-ink-muted: #9bb0a6;
-  --gasgo-border: #1e3a2c;
-  --gasgo-surface: #0b1f14;
-  --gasgo-surface-muted: #12261c;
-  --gasgo-surface-soft: #173024;
+  --gasgo-border: #2a3a32;
+  --gasgo-surface: #16231c;
+  --gasgo-surface-muted: #1c2c24;
+  --gasgo-surface-soft: #22352b;
 
-  --background: 150 48% 8%;
-  --foreground: 150 20% 96%;
+  --background: 148 23% 11%;
+  --foreground: 40 41% 97%;
 
   --card: 150 36% 9%;
   --card-foreground: 150 20% 96%;
@@ -79,8 +79,8 @@
   --border: 150 28% 18%;
   --input: 150 28% 18%;
 
-  --gauge-track: #173024;
-  --gauge-label: #f7faf8;
+  --gauge-track: #22352b;
+  --gauge-label: #faf8f3;
   --gauge-muted: #9bb0a6;
 }
 
@@ -95,23 +95,22 @@
   }
 
   body:has(.gasgo-marketing) {
-    background: #f1f5d8;
+    background: #faf8f3;
     background-image: none;
   }
 
   .dark body:has(.gasgo-marketing) {
-    background: #15261c;
+    background: #1b2c24;
   }
 
   body {
     background-color: var(--gasgo-surface-muted);
     background-image:
-      radial-gradient(1200px 520px at 12% -10%, rgba(28, 163, 80, 0.1), transparent 58%),
-      radial-gradient(900px 420px at 100% 0%, rgba(255, 223, 34, 0.14), transparent 52%),
+      radial-gradient(1200px 520px at 12% -10%, rgba(31, 157, 85, 0.08), transparent 58%),
+      radial-gradient(900px 420px at 100% 0%, rgba(255, 197, 61, 0.12), transparent 52%),
       linear-gradient(180deg, var(--gasgo-surface) 0%, var(--gasgo-surface-muted) 42%, var(--gasgo-surface-soft) 100%);
     color: hsl(var(--foreground));
-    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-      "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-sans), Inter, ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -119,30 +118,30 @@
 
 @layer components {
   .gasgo-marketing {
-    background: #f1f5d8;
+    background: #faf8f3;
   }
 
   .dark .gasgo-marketing {
-    background: #15261c;
+    background: #1b2c24;
   }
 
   .hero-wash {
     background:
-      radial-gradient(900px 380px at 88% -8%, rgba(255, 223, 34, 0.42), transparent 58%),
-      radial-gradient(720px 320px at 8% 0%, rgba(28, 163, 80, 0.12), transparent 55%),
-      linear-gradient(180deg, #f7f8dc 0%, #eef4d4 42%, #e4edc4 100%);
+      radial-gradient(900px 380px at 88% -8%, rgba(255, 197, 61, 0.28), transparent 58%),
+      radial-gradient(720px 320px at 8% 0%, rgba(31, 157, 85, 0.1), transparent 55%),
+      linear-gradient(180deg, #ffffff 0%, #faf8f3 48%, #f3efe6 100%);
   }
 
   .dark .hero-wash {
     background:
-      radial-gradient(900px 380px at 88% -8%, rgba(255, 223, 34, 0.18), transparent 58%),
-      radial-gradient(720px 320px at 8% 0%, rgba(28, 163, 80, 0.16), transparent 55%),
-      linear-gradient(180deg, #1a3324 0%, #15261c 48%, #101c16 100%);
+      radial-gradient(900px 380px at 88% -8%, rgba(255, 197, 61, 0.14), transparent 58%),
+      radial-gradient(720px 320px at 8% 0%, rgba(31, 157, 85, 0.14), transparent 55%),
+      linear-gradient(180deg, #21352b 0%, #1b2c24 48%, #16231c 100%);
   }
 
   .gasgo-shell {
     background: color-mix(in srgb, var(--gasgo-surface) 72%, transparent);
-    box-shadow: 0 18px 60px rgba(11, 31, 20, 0.05);
+    box-shadow: 0 18px 60px rgba(22, 35, 28, 0.05);
     height: 100dvh;
     max-height: 100dvh;
     overflow: hidden;
@@ -309,7 +308,7 @@
 
 .truck-sky {
   background:
-    radial-gradient(circle at 18% 30%, rgba(255, 223, 34, 0.35), transparent 28%),
+    radial-gradient(circle at 18% 30%, rgba(255, 197, 61, 0.35), transparent 28%),
     linear-gradient(180deg, #d9efe3 0%, #f7faf8 70%);
   background-size: 160px 80px, 100% 100%;
   animation: sky-drift 8s linear infinite;
@@ -318,7 +317,7 @@
 .truck-road {
   background-image: repeating-linear-gradient(
     90deg,
-    #0b1f14 0 18px,
+    #16231c 0 18px,
     transparent 18px 36px
   );
   background-color: #c5d4cb;
@@ -365,7 +364,7 @@
   opacity: 0.55;
   background-image: repeating-linear-gradient(
     90deg,
-    color-mix(in srgb, #1ca350 58%, #ffdf22) 0 14px,
+    color-mix(in srgb, #1f9d55 58%, #ffc53d) 0 14px,
     transparent 14px 32px
   );
   will-change: transform;
@@ -492,6 +491,46 @@
   to {
     transform: translate3d(22px, 0, 0);
   }
+}
+
+@keyframes hero-flame-flicker {
+  0%,
+  100% {
+    transform: scaleY(1) scaleX(1) translateY(0);
+    opacity: 0.92;
+  }
+  40% {
+    transform: scaleY(1.12) scaleX(0.92) translateY(-1px);
+    opacity: 1;
+  }
+  70% {
+    transform: scaleY(0.94) scaleX(1.06) translateY(1px);
+    opacity: 0.78;
+  }
+}
+
+@keyframes hero-steam {
+  0% {
+    transform: translate3d(0, 6px, 0) scale(0.86);
+    opacity: 0;
+  }
+  35% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate3d(4px, -18px, 0) scale(1.15);
+    opacity: 0;
+  }
+}
+
+.hero-flame {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: hero-flame-flicker 1.15s ease-in-out infinite;
+}
+
+.hero-steam {
+  animation: hero-steam 2.8s ease-out infinite;
 }
 
 .hero-cloud {
@@ -688,6 +727,8 @@
   }
 
   .hero-cloud,
+  .hero-flame,
+  .hero-steam,
   .hero-run__dash,
   .hero-run__truck,
   .hero-run__keke,

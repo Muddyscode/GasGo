@@ -66,21 +66,21 @@ describe("Kaplan round-2 leftover lock", () => {
     expect(actions).not.toMatch(/island && live\.fillKg/);
 
     const landing = readSrc("components/marketing/MarketingLanding.tsx");
-    expect(landing).toMatch(/Order a refill/);
+    expect(landing).toMatch(/Start a refill/);
     expect(landing).not.toMatch(/PinIcon|search pill|SearchPill|type=["']search["']/i);
     expect(landing).not.toMatch(/Port Harcourt · plant refill/);
   });
 
   it("uses one token system with toggle + system preference on marketing and app shell", () => {
     expect(THEME_PREFERENCES).toEqual(["system", "light", "dark"]);
-    expect(brand.green).toBe("#1CA350");
-    expect(brand.yellow).toBe("#FFDF22");
-    expect(brand.red).toBe("#DC2626");
+    expect(brand.green).toBe("#1F9D55");
+    expect(brand.yellow).toBe("#FFC53D");
+    expect(brand.red).toBe("#E1432D");
 
     const tailwind = readRoot("tailwind.config.ts");
     expect(tailwind).toMatch(/from ["']\.\/src\/config\/tokens["']/);
     expect(tailwind).toMatch(/brand\.green/);
-    expect(tailwind).not.toMatch(/#1CA350|#FFDF22|#DC2626/);
+    expect(tailwind).not.toMatch(/#1F9D55|#FFC53D|#E1432D/);
 
     expect(readSrc("components/nav/TopNav.tsx")).toMatch(/NavActions island/);
     expect(readSrc("components/nav/NavActions.tsx")).toMatch(/ThemeToggle/);

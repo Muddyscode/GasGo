@@ -5,7 +5,7 @@
  */
 
 /** Hub-configured (stub). Live ₦/kg until plant ops CRUD exists. */
-export const LIVE_RATE_NGN_PER_KG = 1400;
+export const LIVE_RATE_NGN_PER_KG = 1450;
 
 export const FILL_MODES = ["full", "kg", "naira"] as const;
 export type FillMode = (typeof FILL_MODES)[number];

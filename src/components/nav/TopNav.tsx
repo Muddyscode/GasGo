@@ -72,7 +72,7 @@ function MarketingIslandNav() {
     <header className="sticky top-0 z-40 bg-transparent pt-[max(0.55rem,env(safe-area-inset-top))]">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2 md:px-6 lg:px-8">
         <div className="flex items-center gap-2">
-          <BrandMark inverted />
+          <BrandMark />
           <span
             className="hidden items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-[12px] font-semibold text-ink shadow-gasgo-soft ring-1 ring-black/5 sm:inline-flex"
             title="Port Harcourt only"

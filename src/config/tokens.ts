@@ -1,23 +1,24 @@
 /**
  * GasGo design tokens — single source of truth.
- * Brand lock: Energy Green #1CA350, Sun Yellow #FFDF22, Critical Red #DC2626
+ * Brand lock: Energy Green #1F9D55, Sun Yellow #FFC53D, Flame Red #E1432D
+ * Surfaces: #FFFFFF / #FAF8F3. Ink: #16231C.
  */
 
 export const brand = {
-  green: "#1CA350",
-  yellow: "#FFDF22",
-  red: "#DC2626",
+  green: "#1F9D55",
+  yellow: "#FFC53D",
+  red: "#E1432D",
   white: "#FFFFFF",
 } as const;
 
-export const ink = "#0B1F14";
-export const inkMuted = "#4B6356";
-export const border = "#E6EEE9";
+export const ink = "#16231C";
+export const inkMuted = "#4E5F56";
+export const border = "#E6E2D8";
 
 export const surface = {
   DEFAULT: "#FFFFFF",
-  muted: "#F7FAF8",
-  soft: "#F0F7F3",
+  muted: "#FAF8F3",
+  soft: "#F3F0E8",
 } as const;
 
 /**
@@ -26,11 +27,11 @@ export const surface = {
  */
 export const inkOnDark = surface.muted;
 export const inkMutedOnDark = "#9BB0A6";
-export const borderOnDark = "#1E3A2C";
+export const borderOnDark = "#2A3A32";
 export const surfaceOnDark = {
   DEFAULT: ink,
-  muted: "#12261C",
-  soft: "#173024",
+  muted: "#1C2C24",
+  soft: "#22352B",
 } as const;
 
 /** Gauge levels: safe ≥40, caution 20–39, critical <20 */
@@ -69,7 +70,8 @@ export type GaugeSizeToken = keyof typeof gaugeSizes;
 
 export const typography = {
   fontFamily: {
-    sans: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    sans: 'var(--font-sans), Inter, ui-sans-serif, system-ui, sans-serif',
+    display: 'var(--font-display), "Inter Tight", Inter, ui-sans-serif, sans-serif',
     mono: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
   },
   fontSize: {
@@ -116,14 +118,14 @@ export const radii = {
 } as const;
 
 export const shadows = {
-  soft: "0 2px 8px rgba(11, 31, 20, 0.04), 0 1px 2px rgba(11, 31, 20, 0.03)",
-  md: "0 4px 16px rgba(11, 31, 20, 0.06), 0 2px 4px rgba(11, 31, 20, 0.04)",
-  lg: "0 8px 32px rgba(11, 31, 20, 0.08), 0 4px 8px rgba(11, 31, 20, 0.04)",
-  gauge: "0 8px 40px rgba(28, 163, 80, 0.12), 0 2px 8px rgba(11, 31, 20, 0.04)",
+  soft: "0 2px 8px rgba(22, 35, 28, 0.04), 0 1px 2px rgba(22, 35, 28, 0.03)",
+  md: "0 4px 16px rgba(22, 35, 28, 0.06), 0 2px 4px rgba(22, 35, 28, 0.04)",
+  lg: "0 8px 32px rgba(22, 35, 28, 0.08), 0 4px 8px rgba(22, 35, 28, 0.04)",
+  gauge: "0 8px 40px rgba(31, 157, 85, 0.12), 0 2px 8px rgba(22, 35, 28, 0.04)",
   gaugeCritical:
-    "0 8px 40px rgba(220, 38, 38, 0.15), 0 2px 8px rgba(11, 31, 20, 0.04)",
+    "0 8px 40px rgba(225, 67, 45, 0.15), 0 2px 8px rgba(22, 35, 28, 0.04)",
   gaugeCaution:
-    "0 8px 40px rgba(255, 223, 34, 0.28), 0 2px 8px rgba(11, 31, 20, 0.04)",
+    "0 8px 40px rgba(255, 197, 61, 0.28), 0 2px 8px rgba(22, 35, 28, 0.04)",
 } as const;
 
 export const motion = {
