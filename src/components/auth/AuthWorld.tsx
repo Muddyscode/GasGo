@@ -29,7 +29,7 @@ export function AuthWorld({
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink/70 via-ink/20 to-transparent"
+        className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/85 via-ink/40 to-transparent"
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 px-5 pb-6 pt-16 lg:px-8 lg:pb-10">
         <p className="text-[13px] font-medium text-brand-yellow">Port Harcourt only</p>
