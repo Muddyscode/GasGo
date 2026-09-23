@@ -55,6 +55,9 @@ describe("GasGo visual identity v1", () => {
     expect(existsSync(path.resolve(SRC, "components/marketing/CyclingGreeting.tsx"))).toBe(
       false,
     );
+    expect(existsSync(path.resolve(SRC, "components/marketing/HeroRun.tsx"))).toBe(
+      false,
+    );
   });
 
   it("shows investor-truth live rate and zone ceiling from the shared pricing table", () => {

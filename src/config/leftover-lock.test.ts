@@ -26,11 +26,15 @@ function walkFiles(dir: string, acc: string[] = []): string[] {
 }
 
 describe("Kaplan round-2 leftover lock", () => {
-  it("does not ship unused HeroWorld or leftover gas-gauge.css / jfif", () => {
+  it("does not ship unused HeroWorld, HeroRun, or leftover gas-gauge.css / jfif", () => {
     expect(existsSync(path.resolve(SRC, "components/marketing/HeroWorld.tsx"))).toBe(
       false,
     );
     expect(readSrc("components/marketing/index.ts")).not.toMatch(/HeroWorld/);
+    expect(existsSync(path.resolve(SRC, "components/marketing/HeroRun.tsx"))).toBe(
+      false,
+    );
+    expect(readSrc("components/marketing/index.ts")).not.toMatch(/HeroRun/);
     expect(existsSync(path.resolve(SRC, "app/gas-gauge.css"))).toBe(false);
     expect(existsSync(path.resolve(SRC, "components/gauge/gas-gauge.css"))).toBe(
       false,

@@ -3,7 +3,6 @@ export { HowItWorks } from "./HowItWorks";
 export { KeyBenefits } from "./KeyBenefits";
 export { TrustRow } from "./TrustRow";
 export { KitchenHero } from "./KitchenHero";
-export { HeroRun } from "./HeroRun";
 export { ZoneMap } from "./ZoneMap";
 export { MarketingFaq } from "./MarketingFaq";
 export { MarketingFooter } from "./MarketingFooter";
