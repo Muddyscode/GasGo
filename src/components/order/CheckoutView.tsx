@@ -113,7 +113,13 @@ export function CheckoutView() {
             />
           </div>
           <div className="mt-4 hidden lg:col-span-5 lg:mt-0 lg:block">
-            <DeliveryTruck label="Rider collects only after payment" />
+            <DeliveryTruck
+              label={
+                fulfillmentMode === "hub"
+                  ? "Pay to confirm this hub pre-order"
+                  : "Rider collects only after payment"
+              }
+            />
           </div>
         </div>
       </PageBody>

@@ -117,7 +117,7 @@ export function quoteFill(input: FillQuoteInput): FillQuote {
   const deliveryNgn = zone?.feeNgn ?? 0;
   const gasLabel =
     fillKg > 0
-      ? `Gas fill · ₦${rateNgnPerKg.toLocaleString("en-NG")}/kg × ${formatKg(fillKg)} kg`
+      ? `Gas fill — ₦${rateNgnPerKg.toLocaleString("en-NG")}/kg × ${formatKg(fillKg)} kg`
       : "Gas fill";
   const deliveryLabel = zone
     ? `${zone.name} pickup & return`
