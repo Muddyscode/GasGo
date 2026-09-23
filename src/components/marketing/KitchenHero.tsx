@@ -10,7 +10,7 @@ export function KitchenHero({ className }: { className?: string }) {
         width={1280}
         height={720}
         priority
-        className="kitchen-hero-image h-full w-full object-cover object-[82%_58%]"
+        className="kitchen-hero-image h-full w-full object-cover object-[70%_50%]"
       />
     </figure>
   );
