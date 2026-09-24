@@ -70,7 +70,7 @@ function MarketingIslandNav() {
 
   return (
     <header className="z-40 shrink-0 border-b border-border/70 bg-surface/92 pt-[max(0.55rem,env(safe-area-inset-top))] backdrop-blur-xl">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-2 md:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-2 px-3 py-2 min-[360px]:gap-3 min-[360px]:px-4 md:px-6 lg:px-8">
         <BrandMark />
 
         <nav
@@ -102,7 +102,7 @@ function MarketingIslandNav() {
           <NavActions island />
           <Link
             href="/order/cylinder"
-            className="inline-flex h-10 items-center rounded-full bg-brand-green px-4 text-[13px] font-semibold text-white shadow-gasgo-md md:hidden"
+            className="inline-flex h-10 shrink-0 items-center rounded-full bg-brand-green px-3.5 text-[13px] font-semibold text-white shadow-gasgo-md min-[360px]:px-4 md:hidden"
           >
             Order
           </Link>
