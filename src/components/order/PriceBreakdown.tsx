@@ -1,3 +1,4 @@
+import { CountUpNaira } from "@/components/motion";
 import type { FulfillmentMode } from "@/config/fulfillment";
 import type { OrderQuote } from "@/config/pricing";
 import {
@@ -5,8 +6,11 @@ import {
   prepayQuoteLines,
   visibleQuoteLines,
 } from "@/config/pricing";
-import { formatNaira } from "@/lib/money";
 
+/**
+ * Receipt-style pre-pay summary: no boxed card, thin dividers between lines,
+ * the total carrying the visual weight. Totals count up/down as they change.
+ */
 export function PriceBreakdown({
   quote,
   fulfillmentMode,
@@ -20,7 +24,7 @@ export function PriceBreakdown({
   const hub = fulfillmentMode === "hub";
 
   return (
-    <section className="rounded-2xl border border-border bg-surface px-4 py-4">
+    <section>
       <p className="font-display text-[15px] font-semibold tracking-tight text-ink">
         To pay before pickup
       </p>
@@ -28,22 +32,22 @@ export function PriceBreakdown({
         {hub ? "Hub self-collect is gas only — no transport fee. " : null}
         {PAYMENT_VARIANCE_COPY}
       </p>
-      <dl className="mt-3 space-y-2.5">
+      <dl className="mt-3">
         {lines.map((line) => (
           <div
             key={line.id}
-            className="flex items-start justify-between gap-3 text-[15px]"
+            className="flex items-start justify-between gap-3 border-t border-border/60 py-2.5 text-[15px]"
           >
             <dt className="leading-snug text-ink-muted">{line.label}</dt>
             <dd className="font-semibold tabular-nums text-ink">
-              {formatNaira(line.amountNgn)}
+              <CountUpNaira value={line.amountNgn} />
             </dd>
           </div>
         ))}
-        <div className="flex items-baseline justify-between gap-3 border-t border-border pt-3">
+        <div className="flex items-baseline justify-between gap-3 border-t border-ink/20 pt-3">
           <dt className="text-[15px] font-semibold tracking-tight text-ink">Total</dt>
-          <dd className="font-display text-[22px] font-semibold tabular-nums tracking-tight text-ink">
-            {formatNaira(quote.totalNgn)}
+          <dd className="font-display text-[24px] font-semibold tabular-nums tracking-tight text-ink">
+            <CountUpNaira value={quote.totalNgn} />
           </dd>
         </div>
       </dl>
