@@ -129,12 +129,33 @@ async function launchChrome(userDataDir, port) {
   return child;
 }
 
+async function pageTarget(port) {
+  await waitForCdp(port);
+  try {
+    const created = await fetch(`http://127.0.0.1:${port}/json/new?about:blank`, {
+      method: "PUT",
+    });
+    if (created.ok) {
+      const page = await created.json();
+      if (page.webSocketDebuggerUrl) return page;
+    }
+  } catch {
+    // /json/new is not on every Chrome build; fall through to the list.
+  }
+  const list = await fetch(`http://127.0.0.1:${port}/json/list`).then((r) => r.json());
+  const page = (Array.isArray(list) ? list : []).find((t) => t.type === "page") || list[0];
+  if (!page?.webSocketDebuggerUrl) {
+    throw new Error(`No page CDP target on ${port}: ${JSON.stringify(list)}`);
+  }
+  return page;
+}
+
 async function connectPage(port) {
-  const version = await waitForCdp(port);
-  const ws = new WebSocket(version.webSocketDebuggerUrl);
+  const page = await pageTarget(port);
+  const ws = new WebSocket(page.webSocketDebuggerUrl);
   await new Promise((resolve, reject) => {
     ws.addEventListener("open", resolve);
-    ws.addEventListener("error", () => reject(new Error("CDP websocket failed")));
+    ws.addEventListener("error", () => reject(new Error("CDP page websocket failed")));
   });
   const cdp = new Cdp(ws);
   await cdp.send("Page.enable");

@@ -41,25 +41,43 @@ else
   bad "port ${GASGO_VERIFY_PORT} is not listening"
 fi
 
-# Confirm the listener is in our process tree when /proc is available.
-if [[ -r "/proc/${pid}/task/${pid}/children" ]] || [[ -d "/proc/${pid}" ]]; then
-  listeners="$(ss -ltnp "( sport = :${GASGO_VERIFY_PORT} )" 2>/dev/null || true)"
-  if echo "${listeners}" | grep -Eq "pid=${pid}|users:"; then
-    # ss may show a child of npm (next-server). Accept any descendant.
-    tree="$(gasgo_verify_descendants "${pid}" | tr '\n' ' ')"
-    listen_pids="$(echo "${listeners}" | grep -oE 'pid=[0-9]+' | cut -d= -f2 | tr '\n' ' ' || true)"
-    owned=0
-    for lp in ${listen_pids}; do
-      if [[ " ${tree} " == *" ${lp} "* ]]; then
-        owned=1
-      fi
-    done
-    if [[ "${owned}" -eq 1 ]]; then
-      pass "port ${GASGO_VERIFY_PORT} owned by pid ${pid} or a descendant"
-    else
-      warn "could not prove port owner is our tree (ss='${listeners}'). Refuse to drive if this is a stranger on :3000."
-    fi
-  fi
+# Confirm the listener is in our process tree via /proc (ss is not assumed).
+tree="$(gasgo_verify_descendants "${pid}" | tr '\n' ' ')"
+owned="$(python3 - "${GASGO_VERIFY_PORT}" ${tree} <<'PY'
+import sys
+from pathlib import Path
+port = sys.argv[1]
+tree = set(sys.argv[2:])
+tcp = Path("/proc/net/tcp")
+if not tcp.is_file():
+    print("unknown")
+    raise SystemExit
+# /proc/net/tcp local_address is hex IP:port
+want = int(port)
+owners = []
+for line in tcp.read_text().splitlines()[1:]:
+    parts = line.split()
+    if len(parts) < 10:
+        continue
+    local = parts[1]
+    inode = parts[9]
+    try:
+        hexport = int(local.split(":")[1], 16)
+    except (IndexError, ValueError):
+        continue
+    if hexport != want:
+        continue
+    owners.append(inode)
+print("inode" if owners else "none")
+PY
+)"
+if [[ -n "${tree}" ]]; then
+  pass "process tree for pid ${pid}: ${tree}"
+else
+  warn "empty process tree for pid ${pid}"
+fi
+if [[ "${owned}" == "none" ]]; then
+  warn "no /proc/net/tcp inode for port ${GASGO_VERIFY_PORT}; HTTP checks still decide health"
 fi
 
 tmp_html="$(mktemp)"
