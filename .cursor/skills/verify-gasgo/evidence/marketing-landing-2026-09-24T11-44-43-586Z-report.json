@@ -1,0 +1,23 @@
+{
+  "feature": "marketing-landing",
+  "harness": "chrome-cdp",
+  "baseUrl": "http://127.0.0.1:3100",
+  "headline": "A full cylinder back at the door, before the pot needs it.",
+  "action": "Click the hero Start a refill link",
+  "before": {
+    "href": "http://127.0.0.1:3100/",
+    "screenshot": "/workspace/.cursor/skills/verify-gasgo/evidence/marketing-landing-2026-09-24T11-44-43-586Z-01-landing.png",
+    "state": "/workspace/.cursor/skills/verify-gasgo/evidence/marketing-landing-2026-09-24T11-44-43-586Z-01-landing.json"
+  },
+  "after": {
+    "href": "http://127.0.0.1:3100/order/cylinder",
+    "screenshot": "/workspace/.cursor/skills/verify-gasgo/evidence/marketing-landing-2026-09-24T11-44-43-586Z-02-fill.png",
+    "state": "/workspace/.cursor/skills/verify-gasgo/evidence/marketing-landing-2026-09-24T11-44-43-586Z-02-fill.json"
+  },
+  "proven": {
+    "landingHeadline": true,
+    "fillComposer": true,
+    "route": "http://127.0.0.1:3100/order/cylinder"
+  },
+  "createdAt": "2026-09-24T11:44:44.972Z"
+}
