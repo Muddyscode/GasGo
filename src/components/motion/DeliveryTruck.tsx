@@ -8,13 +8,9 @@ export const truckSizes = {
 } as const;
 
 export type TruckSizeToken = keyof typeof truckSizes;
-export type DeliveryTruckVariant = "loading" | "tracking";
 
 export type DeliveryTruckProps = {
   size?: number | TruckSizeToken;
-  /** Compact alias for `size="sm"` — keep as a motion hook for loading rows. */
-  compact?: boolean;
-  variant?: DeliveryTruckVariant;
   label?: string;
   showLabel?: boolean;
   className?: string;
@@ -35,22 +31,17 @@ const VIEW_H = 150;
 
 export function DeliveryTruck({
   size = "md",
-  compact = false,
-  variant = "loading",
   label,
   showLabel = Boolean(label),
   className,
 }: DeliveryTruckProps) {
-  const px = resolveTruckSize(compact ? "sm" : size);
+  const px = resolveTruckSize(size);
   const height = Math.round((px * VIEW_H) / VIEW_W);
-  const fadeFrom =
-    variant === "tracking" ? "from-surface-soft" : "from-surface";
 
   return (
     <div
       className={cn(
-        "gasgo-truck flex w-full flex-col items-center",
-        `gasgo-truck--${variant}`,
+        "gasgo-truck gasgo-truck--loading flex w-full flex-col items-center",
         className,
       )}
       role={label ? "status" : undefined}
@@ -65,35 +56,19 @@ export function DeliveryTruck({
         <div className="gasgo-truck__ground" aria-hidden="true" />
         <div className="gasgo-truck__dashes" aria-hidden="true" />
 
-        {variant === "loading" ? (
-          <div className="gasgo-truck__lane">
-            <TruckSegment width={px} height={height} />
-            <TruckSegment width={px} height={height} />
-          </div>
-        ) : (
-          <div className="gasgo-truck__idle">
-            <TruckGraphic width={px} height={height} />
-          </div>
-        )}
+        <div className="gasgo-truck__lane">
+          <TruckSegment width={px} height={height} />
+          <TruckSegment width={px} height={height} />
+        </div>
 
-        {variant === "loading" ? (
-          <>
-            <div
-              className={cn(
-                "pointer-events-none absolute inset-y-0 left-0 z-[2] w-16 bg-gradient-to-r to-transparent",
-                fadeFrom,
-              )}
-              aria-hidden="true"
-            />
-            <div
-              className={cn(
-                "pointer-events-none absolute inset-y-0 right-0 z-[2] w-16 bg-gradient-to-l to-transparent",
-                fadeFrom,
-              )}
-              aria-hidden="true"
-            />
-          </>
-        ) : null}
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 z-[2] w-16 bg-gradient-to-r from-surface to-transparent"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 z-[2] w-16 bg-gradient-to-l from-surface to-transparent"
+          aria-hidden="true"
+        />
       </div>
 
       {label && showLabel ? (

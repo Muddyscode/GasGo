@@ -117,7 +117,7 @@ export function GasGauge({
           </span>
           {showLabel && (
             <span
-              className="mt-1.5 inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.06em]"
+              className="mt-1.5 inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold"
               style={{
                 color: isCaution ? ink : state.color,
                 backgroundColor: `color-mix(in srgb, ${state.color} ${isCaution ? 28 : 16}%, transparent)`,

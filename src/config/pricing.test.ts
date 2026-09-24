@@ -202,14 +202,15 @@ describe("FeeCeiling", () => {
     expect(zoneMap).toMatch(/zone\.feeNgn/);
 
     const checkout = readFileSync(
-      path.resolve(__dirname, "../components/order/CheckoutSummary.tsx"),
+      path.resolve(__dirname, "../components/order/CheckoutView.tsx"),
       "utf8",
     );
     const paystack = readFileSync(
       path.resolve(__dirname, "../components/order/PriceBreakdown.tsx"),
       "utf8",
     );
-    expect(checkout).toMatch(/prepayQuoteLines/);
+    // The receipt (PriceBreakdown) is the single pricing surface; checkout wires it in.
+    expect(checkout).toMatch(/PriceBreakdown/);
     expect(paystack).toMatch(/prepayQuoteLines/);
     expect(
       existsSync(path.resolve(__dirname, "../components/admin/ZoneFeeEditor.tsx")),

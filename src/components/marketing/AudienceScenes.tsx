@@ -1,0 +1,67 @@
+import Image from "next/image";
+
+type Scene = {
+  src: string;
+  alt: string;
+  title: string;
+  body: string;
+};
+
+const SCENES: readonly Scene[] = [
+  {
+    src: "/images/scene-family.jpg",
+    alt: "A Port Harcourt family sharing an evening pot of jollof, a filled gas cylinder by the kitchen door.",
+    title: "Households",
+    body: "One Sunday-jollof pot that never runs dry. We collect the empty, refill at the plant, and bring it back full — Diobu to Eliozu.",
+  },
+  {
+    src: "/images/scene-chef.jpg",
+    alt: "A chef tending large pots over a gas flame in a Port Harcourt food-business kitchen.",
+    title: "Food businesses & chefs",
+    body: "Buka, restaurant, or culinary school — keep every burner lit. Fill by the kg and get a same-day return so service never stops.",
+  },
+  {
+    src: "/images/scene-estate.jpg",
+    alt: "An estate security officer receiving a sealed gas cylinder at a Port Harcourt estate gate at dusk.",
+    title: "Estates & offices",
+    body: "Leave the empty with security at the gate. Estate and corporate accounts get the same sealed, weighed, plant-refilled cylinder back.",
+  },
+];
+
+export function AudienceScenes() {
+  return (
+    <section className="mt-16 scroll-mt-6 lg:mt-20" aria-labelledby="audiences-heading">
+      <p className="text-[15px] font-medium text-brand-green">Who we serve</p>
+      <h2
+        id="audiences-heading"
+        className="mt-2 font-display text-[28px] font-semibold tracking-tight text-ink md:text-[34px]"
+      >
+        One service, every kitchen in Port Harcourt
+      </h2>
+      <p className="mt-2 max-w-[46ch] text-[15px] leading-relaxed text-ink-muted">
+        Households, food businesses, estates — the same sealed loop and the same live rate.
+        We just meet you where you cook.
+      </p>
+
+      <ul className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
+        {SCENES.map((scene) => (
+          <li key={scene.title}>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-surface-muted ring-1 ring-border">
+              <Image
+                src={scene.src}
+                alt={scene.alt}
+                fill
+                sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
+                className="object-cover"
+              />
+            </div>
+            <h3 className="mt-4 font-display text-[18px] font-semibold tracking-tight text-ink">
+              {scene.title}
+            </h3>
+            <p className="mt-1.5 text-[15px] leading-relaxed text-ink-muted">{scene.body}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}

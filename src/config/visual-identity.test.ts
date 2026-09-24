@@ -119,7 +119,9 @@ describe("GasGo visual identity v1", () => {
     expect(landing).not.toMatch(/ArrowRight/);
     expect(landing).not.toMatch(/next pickup|GPS|en route|live tracking/i);
     expect(readSrc("components/marketing/ZoneMap.tsx")).toMatch(/Map legend|aria-label="Map legend"/);
-    expect(readSrc("components/marketing/ZoneMap.tsx")).toMatch(/zone-grid/);
+    // The map canvas is shared between coverage and live tracking; the grid lives there.
+    expect(readSrc("components/marketing/ZoneMap.tsx")).toMatch(/ZoneMapCanvas/);
+    expect(readSrc("components/marketing/ZoneMapCanvas.tsx")).toMatch(/zone-grid/);
   });
 
   it("does not leave retired brand hexes in marketing sources", () => {

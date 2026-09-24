@@ -20,7 +20,7 @@ export function ThemePreferenceRow() {
 
   return (
     <section className="rounded-2xl border border-border bg-surface px-4 py-4 shadow-gasgo-soft">
-      <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+      <p className="text-[13px] font-medium text-ink-muted">
         Appearance
       </p>
       <p className="mt-1 text-sm text-ink-muted">

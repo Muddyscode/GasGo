@@ -73,7 +73,9 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
           <DeliveryTruck size="sm" label="Starting payment" />
         </div>
       ) : null}
-      <PriceBreakdown quote={quote} fulfillmentMode={fulfillmentMode} />
+      <div className="lg:hidden">
+        <PriceBreakdown quote={quote} fulfillmentMode={fulfillmentMode} />
+      </div>
       <p className="mb-2.5 mt-3 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
         <Lock className="size-3.5" strokeWidth={2} />
         {hub

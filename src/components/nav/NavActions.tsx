@@ -54,7 +54,7 @@ export function NavActions({ island = false }: { island?: boolean }) {
         <Link
           href={orderHref(activeOrder)}
           className={cn(
-            "inline-flex h-9 max-w-[9.5rem] items-center gap-1.5 rounded-full border border-brand-green/20 bg-surface-soft px-2.5",
+            "inline-flex h-9 max-w-[7rem] items-center gap-1.5 rounded-full border border-brand-green/20 bg-surface-soft px-2.5 min-[360px]:max-w-[9.5rem]",
             "text-[12px] font-semibold text-brand-green shadow-gasgo-soft",
             "transition-[transform,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]",
             "hover:shadow-gasgo-md active:scale-[0.97]",
@@ -112,6 +112,8 @@ export function NavActions({ island = false }: { island?: boolean }) {
             "text-[13px] font-semibold text-ink",
             "hover:bg-surface-muted",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
+            // Reclaim space on ultra-narrow foldables (e.g. Galaxy Fold cover); sign in stays in the hero + footer.
+            "max-[359px]:hidden",
           )}
         >
           Sign in

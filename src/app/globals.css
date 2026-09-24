@@ -165,6 +165,15 @@
     );
   }
 
+  /* Parallax layer: oversized so the vertical drift never reveals an edge. */
+  .kitchen-hero-parallax {
+    position: absolute;
+    inset: -7% 0;
+    height: 114%;
+    transform: translate3d(0, var(--hero-shift, 0px), 0);
+    will-change: transform;
+  }
+
   .kitchen-hero-image {
     transform: scale(1);
     filter: brightness(1);
@@ -415,13 +424,6 @@
   padding-right: 100cqi;
 }
 
-.gasgo-truck__idle {
-  display: flex;
-  height: 100%;
-  align-items: flex-end;
-  justify-content: center;
-}
-
 .gasgo-truck__body,
 .gasgo-truck__wheel {
   transform-box: fill-box;
@@ -451,22 +453,6 @@
 
 .gasgo-truck--loading .gasgo-truck__dashes {
   animation: gasgo-truck-road 0.72s linear infinite;
-}
-
-.gasgo-truck--tracking .gasgo-truck__body {
-  animation: gasgo-truck-bounce 0.78s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-
-.gasgo-truck--tracking .gasgo-truck__shadow {
-  animation: gasgo-truck-shadow 0.78s cubic-bezier(0.65, 0, 0.35, 1) infinite;
-}
-
-.gasgo-truck--tracking .gasgo-truck__wheel {
-  animation: gasgo-truck-spin 0.92s linear infinite;
-}
-
-.gasgo-truck--tracking .gasgo-truck__dashes {
-  animation: gasgo-truck-road 1.35s linear infinite;
 }
 
 @keyframes gasgo-truck-drive {
@@ -596,6 +582,48 @@
   transform-origin: center;
 }
 
+/* ─── Live tracking route (signature: tracking screen only) ─── */
+.gasgo-liveroute__truck {
+  transform-box: view-box;
+}
+
+.gasgo-liveroute__load {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: gasgo-liveroute-sway 3.4s ease-in-out infinite;
+}
+
+.gasgo-liveroute__ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gasgo-liveroute-ping 2.8s ease-out infinite;
+}
+
+@keyframes gasgo-liveroute-sway {
+  0%,
+  100% {
+    transform: rotate(-1.6deg);
+  }
+  50% {
+    transform: rotate(1.6deg);
+  }
+}
+
+@keyframes gasgo-liveroute-ping {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.32;
+  }
+  70% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -644,8 +672,14 @@
   .hero-flame,
   .hero-steam,
   .hero-status-card,
-  .hero-status-dot {
+  .hero-status-dot,
+  .gasgo-liveroute__load,
+  .gasgo-liveroute__ping {
     animation: none !important;
+  }
+
+  .kitchen-hero-parallax {
+    transform: none !important;
   }
 
   .kitchen-hero-image,
