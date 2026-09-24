@@ -5,15 +5,14 @@ export type TrackingRider = {
   phone: string;
   phoneHref: string;
   rating: string;
-  vehicle: string;
 };
 
 const RIDERS: ReadonlyArray<Omit<TrackingRider, "phoneHref">> = [
-  { name: "Chidi Amadi", phone: "0803 555 0148", rating: "4.9", vehicle: "GasGo pickup · RSA 214 GG" },
-  { name: "Tamuno West", phone: "0806 441 2207", rating: "4.8", vehicle: "GasGo pickup · RSA 188 GG" },
-  { name: "Ebele Okoro", phone: "0813 902 7756", rating: "5.0", vehicle: "GasGo pickup · RSA 302 GG" },
-  { name: "Sopuru Wobo", phone: "0809 774 5510", rating: "4.9", vehicle: "GasGo pickup · RSA 145 GG" },
-  { name: "Ibrahim Musa", phone: "0705 118 6094", rating: "4.8", vehicle: "GasGo pickup · RSA 271 GG" },
+  { name: "Chidi Amadi", phone: "0803 555 0148", rating: "4.9" },
+  { name: "Tamuno West", phone: "0806 441 2207", rating: "4.8" },
+  { name: "Ebele Okoro", phone: "0813 902 7756", rating: "5.0" },
+  { name: "Sopuru Wobo", phone: "0809 774 5510", rating: "4.9" },
+  { name: "Ibrahim Musa", phone: "0705 118 6094", rating: "4.8" },
 ];
 
 function hashId(orderId: string): number {
@@ -37,13 +36,13 @@ export function riderEtaLabel(stageId: DeliveryStageId, late: boolean): string {
     case "queued":
       return "Assigning your rider";
     case "rider_assigned":
-      return "Collecting your empty · ~20 min";
+      return "Collecting your empty — ~20 min";
     case "picked_up":
       return "Refilling at the plant";
     case "en_route":
-      return "Returning your fill · ~18 min";
+      return "Returning your fill — ~18 min";
     case "nearby":
-      return "Almost at your door · ~5 min";
+      return "Almost at your door — ~5 min";
     case "delivered":
       return "Filled cylinder delivered";
     default:

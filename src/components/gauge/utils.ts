@@ -65,5 +65,5 @@ export function formatConfidenceLine(opts: {
   if (!estimatedDaysRange) return orderPart;
 
   const [lo, hi] = estimatedDaysRange;
-  return `${orderPart} · Estimated ${lo}–${hi} days left`;
+  return `${orderPart} — Estimated ${lo}–${hi} days left`;
 }
