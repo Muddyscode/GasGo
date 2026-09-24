@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { AudienceScenes } from "@/components/marketing/AudienceScenes";
 import { HowItWorks } from "@/components/marketing/HowItWorks";
 import { KeyBenefits } from "@/components/marketing/KeyBenefits";
 import { KitchenHero } from "@/components/marketing/KitchenHero";
@@ -79,6 +80,7 @@ export function MarketingLanding() {
       <div className="relative z-[1] bg-surface">
         <div className="mx-auto w-full max-w-5xl px-5 pb-8 pt-4 md:px-8 lg:max-w-6xl lg:px-10">
           <HowItWorks />
+          <AudienceScenes />
           <ZoneMap />
           <KeyBenefits />
           <MarketingFaq />

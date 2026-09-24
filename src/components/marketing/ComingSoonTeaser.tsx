@@ -39,7 +39,7 @@ export function ComingSoonTeaser({
           <p className="mt-1 max-w-[40ch] text-sm leading-relaxed text-ink-muted">{body}</p>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-2">
-          <span className="rounded-full border border-border bg-surface px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-ink-muted">
+          <span className="rounded-full border border-border bg-surface px-2.5 py-0.5 text-[11px] font-medium text-ink-muted">
             Coming soon
           </span>
           <SealedValveGlyph className="size-9" />

@@ -22,7 +22,7 @@ export function DeliveryLoading({
         className,
       )}
     >
-      <DeliveryTruck variant="loading" size={size} label={label} />
+      <DeliveryTruck size={size} label={label} />
     </div>
   );
 }

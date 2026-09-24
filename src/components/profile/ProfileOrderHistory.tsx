@@ -94,7 +94,7 @@ function OrderRow({ order }: { order: CustomerOrder }) {
           />
         </span>
         <span className="mt-1 block text-sm text-ink-muted">
-          {orderCylinderLabel(order)} · {dateLabel}
+          {orderCylinderLabel(order)} — {dateLabel}
         </span>
       </span>
 
@@ -121,7 +121,7 @@ function StatusChip({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.04em]",
+        "inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium",
         tone === "safe" && "bg-brand-green/12 text-brand-green",
         tone === "caution" && "bg-brand-yellow/30 text-ink",
         tone === "live" && "bg-surface-soft text-brand-green",

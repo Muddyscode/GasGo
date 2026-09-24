@@ -6,7 +6,8 @@ import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { PaystackPayButton } from "@/components/order/PaystackPayButton";
-import { DeliveryLoading, DeliveryTruck } from "@/components/motion";
+import { PriceBreakdown } from "@/components/order/PriceBreakdown";
+import { DeliveryLoading } from "@/components/motion";
 import { PageBody, PageFrame, PageTitle } from "@/components/ui/page";
 import { getPresenceById, getWindowById } from "@/config/delivery";
 import { toOrderQuote } from "@/config/pricing";
@@ -99,8 +100,9 @@ export function CheckoutView() {
           Review and pay
         </PageTitle>
 
-        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
+            <p className="text-[13px] font-medium text-ink-muted">Your order</p>
             <CheckoutSummary
               quote={live}
               address={address}
@@ -112,15 +114,11 @@ export function CheckoutView() {
               returnDate={returnDate}
             />
           </div>
-          <div className="mt-4 hidden lg:col-span-5 lg:mt-0 lg:block">
-            <DeliveryTruck
-              label={
-                fulfillmentMode === "hub"
-                  ? "Pay to confirm this hub pre-order"
-                  : "Rider collects only after payment"
-              }
-            />
-          </div>
+          <aside className="hidden lg:col-span-5 lg:block">
+            <div className="lg:sticky lg:top-8">
+              <PriceBreakdown quote={toOrderQuote(live)} fulfillmentMode={fulfillmentMode} />
+            </div>
+          </aside>
         </div>
       </PageBody>
 

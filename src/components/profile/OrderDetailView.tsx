@@ -75,11 +75,11 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
 
   const stage = orderStage(order);
   const address = orderAddress(order);
-  const placedAt = formatInTimeZone(order.placedAt, GASGO_TZ, "d MMMM yyyy · h:mm a");
+  const placedAt = formatInTimeZone(order.placedAt, GASGO_TZ, "d MMMM yyyy 'at' h:mm a");
   const deliveredTo = live
-    ? [live.addressLabel, live.addressLine].filter(Boolean).join(" · ")
+    ? [live.addressLabel, live.addressLine].filter(Boolean).join(" — ")
     : address
-      ? `${address.label} · ${address.line}, ${address.area}`
+      ? `${address.label} — ${address.line}, ${address.area}`
       : "Saved address";
 
   return (
@@ -91,7 +91,7 @@ export function OrderDetailView({ orderId }: OrderDetailViewProps) {
       />
 
       <PageBody className="pb-8">
-        <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
+        <p className="text-[13px] font-medium text-brand-green">
           {stage?.title ?? "Order"}
         </p>
         <h2 className="mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[32px]">

@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { DeliveryTruck, FadeLift, fadeLiftDelayMs } from "@/components/motion";
+import { Phone, Star } from "lucide-react";
+import { FadeLift, fadeLiftDelayMs } from "@/components/motion";
 import { DemoStageStepper } from "@/components/order/DemoStageStepper";
+import { LiveRouteMap } from "@/components/order/LiveRouteMap";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import { TrackingTimeline } from "@/components/order/TrackingTimeline";
 import { WhatsAppSupportButton } from "@/components/order/WhatsAppSupportButton";
 import { buttonClassName } from "@/components/ui/button";
+import { resolveRider, riderEtaLabel } from "@/lib/tracking-rider";
 import { cardClassName } from "@/components/ui/card";
 import { PAID_RELIEF_BODY, PAID_RELIEF_TITLE } from "@/components/order/order-quote-hint";
 import { PageBody, PageFrame, StickyAction } from "@/components/ui/page";
@@ -129,17 +132,15 @@ export function OrderTracking({ orderId }: OrderTrackingProps) {
         </FadeLift>
 
         <FadeLift delayMs={fadeLiftDelayMs(order.late ? 3 : 2)} className="mb-5">
-          <section
-            className="overflow-hidden rounded-2xl border border-border bg-surface-soft shadow-gasgo-soft"
-            data-tracking-motion="truck"
-            data-late={order.late ? "true" : "false"}
-          >
-            <DeliveryTruck
-              variant="tracking"
-              size="lg"
+          <section className="overflow-hidden rounded-2xl border border-border bg-surface-soft shadow-gasgo-soft">
+            <LiveRouteMap
               label={`${title} — ${nowLabel}. Next: ${nextLabel}`}
-              showLabel={false}
-              className="px-1 pb-1 pt-4"
+              late={order.late}
+            />
+            <RiderCard
+              orderId={supportId}
+              etaLabel={riderEtaLabel(order.stageId, order.late)}
+              late={order.late}
             />
           </section>
         </FadeLift>
@@ -256,6 +257,50 @@ function NowNextCard({
       <p className="mt-1 text-[15px] font-semibold leading-snug tracking-tight text-ink">
         {body}
       </p>
+    </div>
+  );
+}
+
+function RiderCard({
+  orderId,
+  etaLabel,
+  late,
+}: {
+  orderId: string;
+  etaLabel: string;
+  late: boolean;
+}) {
+  const rider = resolveRider(orderId);
+  return (
+    <div className="flex items-center gap-3 border-t border-border/70 bg-surface px-4 py-3.5">
+      <span
+        aria-hidden="true"
+        className="grid size-11 shrink-0 place-items-center rounded-full bg-brand-green/12 font-display text-[15px] font-semibold text-brand-green"
+      >
+        {rider.name
+          .split(" ")
+          .map((part) => part[0])
+          .join("")}
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="flex items-center gap-1.5 text-[15px] font-semibold tracking-tight text-ink">
+          <span className="truncate">{rider.name}</span>
+          <span className="inline-flex items-center gap-0.5 text-[13px] font-medium text-ink-muted">
+            <Star className="size-3.5 fill-brand-yellow text-brand-yellow" strokeWidth={0} />
+            {rider.rating}
+          </span>
+        </p>
+        <p className={cn("mt-0.5 truncate text-[13px]", late ? "text-brand-red" : "text-ink-muted")}>
+          {etaLabel}
+        </p>
+      </div>
+      <a
+        href={rider.phoneHref}
+        aria-label={`Call ${rider.name}`}
+        className="grid size-11 shrink-0 place-items-center rounded-full border border-border bg-surface text-ink transition-colors hover:border-brand-green/40 hover:text-brand-green"
+      >
+        <Phone className="size-[18px]" strokeWidth={2} />
+      </a>
     </div>
   );
 }

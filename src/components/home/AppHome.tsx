@@ -81,8 +81,8 @@ export function AppHome() {
   return (
     <PageFrame>
       <PageBody className="pb-4 lg:pb-8">
-        <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-green">
-          Port Harcourt · plant refill
+        <p className="text-[13px] font-medium text-brand-green">
+          Port Harcourt plant refill
         </p>
         <h1 className="mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[34px]">
           {name ? `${greeting}, ${name}` : greeting}
@@ -157,8 +157,8 @@ function ActiveOrderCard({ order }: { order: CustomerOrder }) {
           <MotionDashesGlyph className="h-2.5 w-4 text-white" />
         </span>
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent px-4 pb-3 pt-10 text-white">
-          <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-white/80">
-            Active order · {order.orderNumber}
+          <p className="text-[13px] font-medium text-white/80">
+            Active order — {order.orderNumber}
           </p>
           <p className="mt-1 text-[18px] font-semibold tracking-tight">
             {stage?.title ?? "Plant refill loop"}
@@ -239,7 +239,7 @@ function SecondaryGauge() {
     <section className={cn(cardClassName, "relative overflow-hidden px-4 py-4")}>
       <div className="mb-3 flex items-center justify-between gap-2">
         <div>
-          <p className="text-[13px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+          <p className="text-[13px] font-medium text-ink-muted">
             Gauge
           </p>
           <p className="text-sm text-ink-muted">Secondary — estimate only</p>
