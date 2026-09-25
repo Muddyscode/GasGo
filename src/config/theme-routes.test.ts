@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -16,11 +16,14 @@ function readRoot(rel: string) {
 describe("kitchen hero + auth split + theme contracts", () => {
   it("commits the Port Harcourt Tower landmark under public/brand", () => {
     expect(existsSync(path.resolve(ROOT, "public/brand/ph-tower.webp"))).toBe(true);
-    expect(existsSync(path.resolve(ROOT, "public/brand/kitchen-relief.png"))).toBe(true);
+    expect(existsSync(path.resolve(ROOT, "public/brand/kitchen-relief.webp"))).toBe(true);
+    expect(existsSync(path.resolve(ROOT, "public/brand/kitchen-relief.png"))).toBe(false);
+    expect(statSync(path.resolve(ROOT, "public/brand/kitchen-relief.webp")).size).toBeLessThan(150_000);
     expect(existsSync(path.resolve(SRC, "components/marketing/HeroRun.tsx"))).toBe(false);
     expect(readSrc("components/marketing/index.ts")).not.toMatch(/HeroRun/);
-    expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/\/brand\/kitchen-relief\.png/);
-    expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/sizes=/);
+    expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/\/brand\/kitchen-relief\.webp/);
+    expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/sizes="\(max-width: 767px\) 100vw, 58vw"/);
+    expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/priority/);
     expect(readSrc("components/marketing/MarketingLanding.tsx").match(/<KitchenHero/g)?.length).toBe(1);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/KitchenHero/);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).not.toMatch(/HeroRun|CyclingGreeting/);
