@@ -69,6 +69,13 @@ const INITIAL_DEMO: DemoLevel = {
   estimatedDaysRange: DEMO_DAYS_RANGE,
 };
 
+/** Theme-aware wash: ink is dark in light, surface is dark in dark. */
+const scenePlateClassName = "relative overflow-hidden bg-surface-soft";
+const sceneWashClassName =
+  "absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink via-ink/80 to-transparent px-4 pb-3 pt-14 text-brand-white dark:from-surface dark:via-surface/90 dark:to-transparent dark:text-ink";
+const sceneBadgeClassName =
+  "pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/60 px-2 py-1 text-brand-white dark:bg-surface/75 dark:text-ink";
+
 export function AppHome() {
   const user = useSession((state) => state.user);
   const greeting = useMemo(() => greetingNow(), []);
@@ -150,20 +157,20 @@ function ActiveOrderCard({ order }: { order: CustomerOrder }) {
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
       )}
     >
-      <div className="relative h-36 overflow-hidden bg-[#E8F3EE]">
-        <ReturnScene />
-        <span className="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/40 px-2 py-1">
+      <div className={cn(scenePlateClassName, "h-36")}>
+        <ReturnScene className="text-surface-soft dark:brightness-[0.75]" />
+        <span className={sceneBadgeClassName}>
           <PlantTankGlyph className="size-5" />
-          <MotionDashesGlyph className="h-2.5 w-4 text-white" />
+          <MotionDashesGlyph className="h-2.5 w-4" />
         </span>
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 via-ink/25 to-transparent px-4 pb-3 pt-10 text-white">
-          <p className="text-[13px] font-medium text-white/80">
+        <div className={sceneWashClassName}>
+          <p className="text-[13px] font-medium text-brand-white/90 dark:text-ink-muted">
             Active order — {order.orderNumber}
           </p>
-          <p className="mt-1 text-[18px] font-semibold tracking-tight">
+          <p className="mt-1 text-[18px] font-semibold tracking-tight text-brand-white dark:text-ink">
             {stage?.title ?? "Plant refill loop"}
           </p>
-          <p className="mt-0.5 text-sm text-white/85">
+          <p className="mt-0.5 text-sm text-brand-white/90 dark:text-ink-muted">
             {stage?.detail ?? "Collect → plant refill → return"}
           </p>
         </div>
@@ -189,15 +196,17 @@ function OrderPromptCard() {
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
       )}
     >
-      <div className="relative h-40 overflow-hidden bg-[#F1F5D8]">
-        <CollectScene />
-        <span className="pointer-events-none absolute right-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-ink/40 px-2 py-1">
+      <div className={cn(scenePlateClassName, "h-40")}>
+        <CollectScene className="text-surface-soft dark:brightness-[0.75]" />
+        <span className={sceneBadgeClassName}>
           <KekeGlyph className="h-4 w-7" />
-          <MotionDashesGlyph className="h-2.5 w-4 text-white" />
+          <MotionDashesGlyph className="h-2.5 w-4" />
         </span>
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent px-4 pb-3 pt-10 text-white">
-          <p className="text-[18px] font-semibold tracking-tight">Order a plant refill</p>
-          <p className="mt-0.5 text-sm text-white/85">
+        <div className={sceneWashClassName}>
+          <p className="text-[18px] font-semibold tracking-tight text-brand-white dark:text-ink">
+            Order a plant refill
+          </p>
+          <p className="mt-0.5 text-sm text-brand-white/90 dark:text-ink-muted">
             Full, by kg, or by ₦ — live rate, zone fee on the next step.
           </p>
         </div>

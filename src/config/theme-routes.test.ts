@@ -38,9 +38,24 @@ describe("kitchen hero + auth split + theme contracts", () => {
     const world = readSrc("components/auth/AuthWorld.tsx");
     expect(world).toMatch(/auth-visual/);
     expect(world).toMatch(/cooking-gas-filling-point/);
+    expect(world).toMatch(/priority/);
+    expect(world).toMatch(/from-ink\/85/);
+    expect(world).toMatch(/dark:brightness-\[0\.45\]/);
     expect(world).not.toMatch(/ph-tower/);
     expect(world).not.toMatch(/from ["']@\/components\/marketing\/HeroRun["']/);
     expect(world).not.toMatch(/<HeroRun|hero-run__/);
+  });
+
+  it("app home scene cards use theme surfaces, not locked mint plates", () => {
+    const home = readSrc("components/home/AppHome.tsx");
+    expect(home).toMatch(/bg-surface-soft/);
+    expect(home).toMatch(/dark:from-surface/);
+    expect(home).toMatch(/CollectScene/);
+    expect(home).toMatch(/ReturnScene/);
+    expect(home).toMatch(/PlantTankGlyph/);
+    expect(home).toMatch(/GasGauge/);
+    expect(home).not.toMatch(/#F1F5D8|#E8F3EE/);
+    expect(home).not.toMatch(/from-ink\/80 via-ink\/25|from-ink\/80 via-ink\/20/);
   });
 
   it("ships FAQ + footer on the marketing site", () => {
