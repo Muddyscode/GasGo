@@ -34,6 +34,7 @@ export const inkMutedOnDark = "#9BB0A6";
 export const borderOnDark = "#2A3A32";
 export const surfaceOnDark = {
   DEFAULT: ink,
+  /** Also the nearest existing token for the retired marketing wash #1B2C24. */
   muted: "#1C2C24",
   soft: "#22352B",
 } as const;
@@ -158,7 +159,7 @@ export const motion = {
   },
   /** Marketing scroll-reveal only — not FadeLift (kill-listed on the landing). */
   reveal: {
-    durationMs: 520,
+    durationMs: 300,
     fromY: 16,
     staggerMs: 70,
   },
