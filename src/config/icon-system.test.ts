@@ -4,19 +4,6 @@ import { describe, expect, it } from "vitest";
 
 const SRC = path.resolve(__dirname, "..");
 
-/**
- * Coop is rebuilding checkout in a parallel PR. These paths may still contain
- * emoji or non-Lucide icons; skip them so this guard stays strict everywhere
- * else. Do not add other files here.
- */
-const CHECKOUT_EMOJI_ALLOWLIST = new Set([
-  "components/order/CheckoutView.tsx",
-  "components/order/CheckoutSummary.tsx",
-  "components/order/PaystackPayButton.tsx",
-  "components/order/PriceBreakdown.tsx",
-  "components/ui/page.tsx",
-]);
-
 const SOURCE_EXT = new Set([".ts", ".tsx", ".js", ".jsx", ".css", ".json", ".md"]);
 
 /** Unicode Extended_Pictographic — emoji and symbols such as left-right arrows. */
@@ -46,7 +33,6 @@ function scanSrcForEmoji(): EmojiHit[] {
   for (const abs of walkFiles(SRC)) {
     if (!SOURCE_EXT.has(path.extname(abs))) continue;
     const rel = toSrcRel(abs);
-    if (CHECKOUT_EMOJI_ALLOWLIST.has(rel)) continue;
     const lines = readFileSync(abs, "utf8").split(/\n/);
     lines.forEach((line, index) => {
       for (const match of line.matchAll(/\p{Extended_Pictographic}/gu)) {
