@@ -8,22 +8,35 @@ import { BrandMark } from "@/components/brand/BrandMark";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { cn } from "@/lib/utils";
 import { DEMO_SESSION_USER } from "@/data/profile";
+import { useOrderDraft } from "@/stores/order-draft";
 import { useSession, type SessionUser } from "@/stores/session";
 
 type AuthEntryViewProps = {
   mode: "login" | "signup";
   otherHref: "/login" | "/signup";
+  nextHref?: string | null;
 };
 
-export function AuthEntryView({ mode, otherHref }: AuthEntryViewProps) {
+export function AuthEntryView({ mode, otherHref, nextHref }: AuthEntryViewProps) {
   const router = useRouter();
   const signIn = useSession((state) => state.signIn);
   const otherLabel = otherHref === "/signup" ? "Sign up" : "Sign in";
   const heading = mode === "login" ? "Welcome back" : "Create your account";
   const submitLabel = mode === "login" ? "Sign in" : "Create account";
+  const otherWithNext = nextHref
+    ? `${otherHref}?next=${encodeURIComponent(nextHref)}`
+    : otherHref;
 
   function enter(user: SessionUser) {
     signIn(user);
+    if (nextHref) {
+      router.push(nextHref);
+      return;
+    }
+    if (useOrderDraft.getState().isReadyForCheckout()) {
+      router.push("/order/checkout");
+      return;
+    }
     router.push("/");
   }
 
@@ -39,7 +52,7 @@ export function AuthEntryView({ mode, otherHref }: AuthEntryViewProps) {
         </div>
 
         <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center py-8">
-          <p className="text-[13px] font-medium text-brand-green">
+          <p className="text-[13px] font-semibold text-ink">
             Port Harcourt plant refill
           </p>
           <h1 className="mt-2 font-display text-[2rem] font-semibold leading-tight tracking-[-0.03em] text-ink sm:text-[2.4rem]">
@@ -75,7 +88,7 @@ export function AuthEntryView({ mode, otherHref }: AuthEntryViewProps) {
 
           <p className="mt-6 text-center text-sm text-ink-muted">
             {mode === "login" ? "Need an account?" : "Already have an account?"}{" "}
-            <Link href={otherHref} className="font-semibold text-brand-green">
+            <Link href={otherWithNext} className="font-semibold text-brand-green underline-offset-4 hover:underline">
               {otherLabel}
             </Link>
           </p>

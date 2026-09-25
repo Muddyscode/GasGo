@@ -91,11 +91,13 @@ export function FillComposer() {
             <span className="sr-only">Cylinder capacity in kilograms</span>
             <div className="relative">
               <input
+                name="capacityKg"
                 type="number"
                 min={1}
                 max={50}
                 step={0.5}
                 inputMode="decimal"
+                autoComplete="off"
                 value={capacityKg ?? ""}
                 placeholder="12.5"
                 onChange={(event) => {
@@ -181,11 +183,13 @@ export function FillComposer() {
                 Kilograms to fill
               </span>
               <input
+                name="fillKg"
                 type="number"
                 min={0.5}
                 max={capacityKg ?? 50}
                 step={0.5}
                 inputMode="decimal"
+                autoComplete="off"
                 value={fillKg ?? ""}
                 placeholder="6"
                 onChange={(event) => {
@@ -201,10 +205,12 @@ export function FillComposer() {
             <label className="mt-3 block">
               <span className="mb-1.5 block text-sm font-medium text-ink">Spend (₦)</span>
               <input
+                name="spendNaira"
                 type="number"
                 min={500}
                 step={100}
                 inputMode="numeric"
+                autoComplete="off"
                 value={spendNaira ?? ""}
                 placeholder="10000"
                 onChange={(event) => {

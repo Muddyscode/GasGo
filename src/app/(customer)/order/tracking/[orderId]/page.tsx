@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { OrderTracking } from "@/components/order/OrderTracking";
 
 export const metadata: Metadata = {
-  title: "Track order · GasGo",
+  title: "Track order — GasGo",
   description: "Follow your GasGo cylinder from collect to plant refill to return.",
 };
 

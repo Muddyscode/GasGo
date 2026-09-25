@@ -81,7 +81,7 @@ export function AppHome() {
   return (
     <PageFrame>
       <PageBody className="pb-4 lg:pb-8">
-        <p className="text-[13px] font-medium text-brand-green">
+        <p className="text-[13px] font-semibold text-ink">
           Port Harcourt plant refill
         </p>
         <h1 className="mt-2 text-[28px] font-semibold leading-[1.15] tracking-tight text-ink md:text-[34px]">
