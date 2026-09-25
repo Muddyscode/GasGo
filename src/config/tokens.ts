@@ -9,6 +9,10 @@ export const brand = {
   yellow: "#FFC53D",
   red: "#E1432D",
   white: "#FFFFFF",
+  /** Text-only AA green on white (5.39:1). Fills and marks stay brand.green. */
+  greenDeep: "#157A42",
+  /** Text-only AA green on marketing dark surfaces. */
+  greenOnDark: "#3BB36C",
 } as const;
 
 export const ink = "#16231C";

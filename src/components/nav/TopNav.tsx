@@ -84,7 +84,7 @@ function MarketingIslandNav() {
               aria-current={pathname === link.href ? "page" : undefined}
               className={cn(
                 "rounded-full px-3.5 py-1.5 text-[14px] font-semibold transition-colors hover:bg-surface-soft",
-                pathname === link.href ? "bg-surface-soft text-ink" : "text-ink",
+                pathname === link.href ? "mkt-link bg-surface-soft" : "text-ink",
               )}
             >
               {link.label}
@@ -120,7 +120,7 @@ function MarketingIslandNav() {
             className={cn(
               "shrink-0 rounded-full px-3 py-1 text-[13px] font-semibold",
               pathname === link.href
-                ? "bg-surface-soft text-ink"
+                ? "mkt-link bg-surface-soft"
                 : "text-ink-muted hover:bg-surface-soft hover:text-ink",
             )}
           >

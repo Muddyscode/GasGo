@@ -52,9 +52,8 @@
   --gauge-label: #16231c;
   --gauge-muted: #4e5f56;
 
-  /* Marketing text green. Locked brand.green today — swap this one line
-     if a founder-approved deeper green lands later. */
-  --mkt-green-deep: theme("colors.brand.green");
+  /* Text-only green. Hex lives in tokens.ts (brand.greenDeep / greenOnDark). */
+  --mkt-green-deep: theme("colors.brand.greenDeep");
 }
 
 .dark {
@@ -86,6 +85,8 @@
   --gauge-track: #22352b;
   --gauge-label: #faf8f3;
   --gauge-muted: #9bb0a6;
+
+  --mkt-green-deep: theme("colors.brand.greenOnDark");
 }
 
 @layer base {
@@ -144,11 +145,10 @@
      even when the island nav is swapped for app chrome. */
   .mkt-kicker {
     color: var(--mkt-green-deep);
-    /* 19px / 700 → AA large (3:1) for locked #1F9D55 on white/cream. */
-    font-size: 19px;
-    font-weight: 700;
+    font-size: 0.9375rem;
+    font-weight: 600;
     letter-spacing: -0.01em;
-    line-height: 1.15;
+    line-height: 1.3;
   }
 
   .mkt-kicker.text-ink-muted {
@@ -161,9 +161,6 @@
 
   .mkt-link {
     color: var(--mkt-green-deep);
-    font-size: 19px;
-    font-weight: 700;
-    line-height: 1.15;
   }
 
   /* Option (a): white on locked #1F9D55 qualifies as AA large text at ≥18.66px bold.

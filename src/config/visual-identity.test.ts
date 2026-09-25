@@ -27,11 +27,12 @@ describe("GasGo visual identity v1", () => {
     expect(brand.yellow).toBe("#FFC53D");
     expect(brand.red).toBe("#E1432D");
     expect(brand.white).toBe("#FFFFFF");
-    expect(readSrc("config/tokens.ts")).not.toMatch(/greenDeep|greenOnDark|greenTint/);
+    expect(brand.greenDeep).toBe("#157A42");
+    expect(brand.greenOnDark).toBe("#3BB36C");
+    expect(readSrc("config/tokens.ts")).not.toMatch(/greenTint/);
     expect(readSrc("app/globals.css")).not.toMatch(/#157a42|#3bb36c|#157A42|#3BB36C/);
-    expect(readSrc("app/globals.css")).toMatch(/theme\("colors\.brand\.green"\)/);
-    expect(readSrc("app/globals.css")).not.toMatch(/theme\("colors\.brand\.greenDeep"\)/);
-    expect(readSrc("app/globals.css")).not.toMatch(/theme\("colors\.brand\.greenOnDark"\)/);
+    expect(readSrc("app/globals.css")).toMatch(/theme\("colors\.brand\.greenDeep"\)/);
+    expect(readSrc("app/globals.css")).toMatch(/theme\("colors\.brand\.greenOnDark"\)/);
     expect(ink).toBe("#16231C");
     expect(surface.DEFAULT).toBe("#FFFFFF");
     expect(surface.muted).toBe("#FAF8F3");
@@ -50,11 +51,8 @@ describe("GasGo visual identity v1", () => {
     expect(landing).toMatch(/Start a refill/);
     expect(landing).toMatch(/mkt-cta-fill/);
     expect(landing).toMatch(/mkt-link/);
-    expect(landing).toMatch(/text-\[19px\] font-bold/);
     expect(landing).toMatch(/See prices/);
     expect(landing).toMatch(/Sign in/);
-    expect(readSrc("app/globals.css")).toMatch(/\.mkt-link \{[\s\S]*font-size:\s*19px/);
-    expect(readSrc("app/globals.css")).toMatch(/\.mkt-kicker \{[\s\S]*font-size:\s*19px/);
     expect(readSrc("components/nav/TopNav.tsx")).toMatch(/mkt-cta-fill/);
     expect(landing).toMatch(/MARKETING_SAFETY/);
     expect(readSrc("lib/marketing-greetings.ts")).toMatch(/Nothing is filled at your door/);
