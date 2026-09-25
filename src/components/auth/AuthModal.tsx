@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { AuthIdentityForm } from "@/components/auth/AuthIdentityForm";
 import { FadeLift } from "@/components/motion/FadeLift";
 import { DEMO_SESSION_USER } from "@/data/profile";
+import { OVERLAY_SCRIM_45_CLASS, useBodyScrollLock } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 import { useSession, type SessionUser } from "@/stores/session";
 
@@ -23,6 +25,8 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
   const signInHref = intent
     ? `/login?next=${encodeURIComponent(intent)}`
     : "/login";
+
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) return;
@@ -57,7 +61,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
   const heading = isCheckout
     ? "Create an account to checkout"
@@ -68,12 +72,13 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
     onSuccess();
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
+  return createPortal(
+    <>
       <button
         type="button"
         aria-label="Close sign up"
-        className="auth-backdrop absolute inset-0 bg-ink/45"
+        data-overlay-scrim=""
+        className={cn("auth-backdrop fixed inset-0 z-50", OVERLAY_SCRIM_45_CLASS)}
         onClick={onClose}
       />
       <FadeLift
@@ -81,10 +86,10 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
         aria-modal="true"
         aria-labelledby={titleId}
         className={cn(
-          "relative w-full max-w-md border border-border bg-surface",
+          "fixed inset-x-0 bottom-0 z-50 w-full max-w-md border border-border bg-surface",
           "max-h-[min(92dvh,44rem)] overflow-y-auto overscroll-contain",
           "rounded-t-3xl px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4",
-          "shadow-gasgo-lg sm:mx-4 sm:rounded-3xl sm:px-6 sm:pt-6",
+          "shadow-gasgo-lg sm:inset-0 sm:m-auto sm:h-fit sm:rounded-3xl sm:px-6 sm:pt-6",
         )}
       >
         <div ref={panelRef}>
@@ -135,6 +140,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
           </div>
         </div>
       </FadeLift>
-    </div>
+    </>,
+    document.body,
   );
 }

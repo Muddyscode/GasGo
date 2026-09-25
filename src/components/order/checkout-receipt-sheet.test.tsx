@@ -88,7 +88,11 @@ describe("checkout receipt sheet (rendered)", () => {
     await user.click(trigger);
 
     const dialog = screen.getByRole("dialog");
+    expect(dialog.parentElement).toBe(document.body);
+    expect(document.body.style.overflow).toBe("hidden");
     expect(dialog.getAttribute("aria-modal")).toBe("true");
+    expect(dialog.getAttribute("id")).toBe("checkout-receipt-sheet");
+    expect(trigger.getAttribute("aria-controls")).toBe("checkout-receipt-sheet");
     expect(dialog.getAttribute("aria-labelledby")).toBeTruthy();
     expect(dialog.textContent ?? "").toMatch(/To pay before pickup/);
     expect(dialog.textContent ?? "").toMatch(/Gas fill/);
@@ -108,6 +112,7 @@ describe("checkout receipt sheet (rendered)", () => {
 
     await user.keyboard("{Escape}");
     expect(screen.queryByRole("dialog")).toBeNull();
+    expect(document.body.style.overflow).toBe("");
     expect(trigger).toBe(document.activeElement);
   });
 
@@ -115,11 +120,17 @@ describe("checkout receipt sheet (rendered)", () => {
     const user = userEvent.setup();
     render(<CheckoutReceiptHarness />);
 
-    await user.click(screen.getByRole("button", { name: /Total/i }));
-    expect(screen.getByRole("dialog")).toBeTruthy();
+    const total = screen.getByRole("button", { name: /Total/i });
+    expect(total.getAttribute("aria-controls")).toBe("checkout-receipt-sheet");
+    document.body.style.overflow = "auto";
+    await user.click(total);
+    expect(screen.getByRole("dialog").parentElement).toBe(document.body);
+    expect(document.body.style.overflow).toBe("hidden");
 
     await user.click(screen.getByRole("button", { name: "Close receipt" }));
     expect(screen.queryByRole("dialog")).toBeNull();
-    expect(screen.getByRole("button", { name: /Total/i })).toBe(document.activeElement);
+    expect(document.body.style.overflow).toBe("auto");
+    expect(total).toBe(document.activeElement);
+    document.body.style.overflow = "";
   });
 });

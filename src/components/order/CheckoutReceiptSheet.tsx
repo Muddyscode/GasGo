@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useId, useRef, useState, type RefObject } from "react";
+import { createPortal } from "react-dom";
 import { CountUpNaira } from "@/components/motion";
 import { PriceBreakdown } from "@/components/order/PriceBreakdown";
 import type { FulfillmentMode } from "@/config/fulfillment";
 import type { OrderQuote } from "@/config/pricing";
+import {
+  CHECKOUT_RECEIPT_SHEET_ID,
+  OVERLAY_SCRIM_45_CLASS,
+  useBodyScrollLock,
+} from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 
 const FOCUSABLE =
@@ -13,6 +19,7 @@ const FOCUSABLE =
 const OPEN_MS = 200;
 
 export const CHECKOUT_RECEIPT_SHEET_ATTR = "data-checkout-receipt-sheet";
+export { CHECKOUT_RECEIPT_SHEET_ID };
 
 function readReducedMotion() {
   if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
@@ -40,6 +47,8 @@ export function CheckoutReceiptSheet({
   const panelRef = useRef<HTMLDivElement>(null);
   const [risen, setRisen] = useState(false);
   const reduced = readReducedMotion();
+
+  useBodyScrollLock(open);
 
   useEffect(() => {
     if (!open) {
@@ -91,24 +100,26 @@ export function CheckoutReceiptSheet({
     };
   }, [open, onClose, returnFocusTo]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
-    <div className="fixed inset-0 z-40 flex items-end justify-center lg:hidden">
+  return createPortal(
+    <>
       <button
         type="button"
         aria-label="Close receipt"
-        className="absolute inset-0 bg-ink/45"
+        data-overlay-scrim=""
+        className={cn("fixed inset-0 z-50 lg:hidden", OVERLAY_SCRIM_45_CLASS)}
         onClick={onClose}
       />
       <div
         ref={panelRef}
+        id={CHECKOUT_RECEIPT_SHEET_ID}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         data-checkout-receipt-sheet=""
         className={cn(
-          "relative w-full max-w-lg rounded-t-3xl bg-surface px-5 pt-4 shadow-gasgo-lg",
+          "fixed inset-x-0 bottom-0 z-50 w-full max-w-lg rounded-t-3xl bg-surface px-5 pt-4 shadow-gasgo-lg lg:hidden",
           "pb-[max(1.25rem,env(safe-area-inset-bottom))]",
           "motion-safe:transition-transform motion-safe:duration-200",
           "motion-safe:ease-[cubic-bezier(0.16,1,0.3,1)]",
@@ -141,20 +152,26 @@ export function CheckoutReceiptSheet({
           Done
         </button>
       </div>
-    </div>
+    </>,
+    document.body,
   );
 }
 
 export function CheckoutBreakdownRow({
   totalNgn,
+  expanded,
   onOpen,
 }: {
   totalNgn: number;
+  expanded: boolean;
   onOpen: (trigger: HTMLElement) => void;
 }) {
   return (
     <button
       type="button"
+      aria-haspopup="dialog"
+      aria-expanded={expanded}
+      aria-controls={CHECKOUT_RECEIPT_SHEET_ID}
       onClick={(event) => onOpen(event.currentTarget)}
       className="flex w-full items-center justify-between gap-3 border-t border-border/60 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
     >

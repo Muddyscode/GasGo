@@ -8,6 +8,7 @@ import { CountUpNaira } from "@/components/motion";
 import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
 import { buttonClassName } from "@/components/ui/button";
 import { StickyAction } from "@/components/ui/page";
+import { CHECKOUT_RECEIPT_SHEET_ID } from "@/lib/overlay";
 import type { OrderQuote } from "@/config/pricing";
 import { formatKg } from "@/config/pricing";
 import { createLocalOrderId } from "@/lib/order-id";
@@ -92,6 +93,7 @@ export function PaystackPayButton({
             type="button"
             aria-haspopup="dialog"
             aria-expanded={breakdownOpen}
+            aria-controls={CHECKOUT_RECEIPT_SHEET_ID}
             onClick={(event) => onViewBreakdown?.(event.currentTarget)}
             className="flex w-full items-baseline justify-between gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
           >
@@ -104,6 +106,7 @@ export function PaystackPayButton({
             type="button"
             aria-haspopup="dialog"
             aria-expanded={breakdownOpen}
+            aria-controls={CHECKOUT_RECEIPT_SHEET_ID}
             onClick={(event) => onViewBreakdown?.(event.currentTarget)}
             className="mt-1 text-sm font-semibold text-brand-green underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
           >

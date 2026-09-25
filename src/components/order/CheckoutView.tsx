@@ -127,6 +127,7 @@ export function CheckoutView() {
             <div className="mt-8 lg:hidden">
               <CheckoutBreakdownRow
                 totalNgn={live.totalNgn}
+                expanded={receiptOpen}
                 onOpen={openReceipt}
               />
             </div>

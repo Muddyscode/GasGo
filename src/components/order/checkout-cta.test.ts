@@ -22,6 +22,24 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
     expect(pay).toMatch(/CountUpNaira/);
     expect(pay).toMatch(/View breakdown/);
     expect(pay).toMatch(/onViewBreakdown/);
+    expect(pay).toMatch(/aria-controls=\{CHECKOUT_RECEIPT_SHEET_ID\}/);
+
+    const sheet = readOrder("CheckoutReceiptSheet.tsx");
+    expect(sheet).toMatch(/createPortal/);
+    expect(sheet).toMatch(/OVERLAY_SCRIM_45_CLASS/);
+    expect(sheet).toMatch(/CHECKOUT_RECEIPT_SHEET_ID/);
+    expect(sheet).toMatch(/aria-haspopup="dialog"/);
+    expect(sheet).toMatch(/aria-expanded=\{expanded\}/);
+    expect(sheet).not.toMatch(/bg-ink\/45/);
+
+    const address = readOrder("AddAddressSheet.tsx");
+    expect(address).toMatch(/createPortal/);
+    expect(address).toMatch(/OVERLAY_SCRIM_40_CLASS/);
+    expect(address).not.toMatch(/bg-ink\/40/);
+
+    const overlay = readFileSync(path.resolve(ORDER_DIR, "../../lib/overlay.ts"), "utf8");
+    expect(overlay).toMatch(/color-mix\(in_srgb,var\(--gasgo-ink\)_45%,transparent\)/);
+    expect(overlay).toMatch(/color-mix\(in_srgb,var\(--gasgo-ink\)_40%,transparent\)/);
     expect(pay).not.toMatch(/PriceBreakdown/);
     expect(pay).not.toMatch(/To pay before pickup/);
     expect(pay).not.toMatch(/prepayQuoteLines/);
