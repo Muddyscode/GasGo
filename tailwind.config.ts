@@ -36,6 +36,8 @@ const config = {
           yellow: brand.yellow,
           red: brand.red,
           white: brand.white,
+          greenDeep: brand.greenDeep,
+          greenOnDark: brand.greenOnDark,
           DEFAULT: brand.green,
           foreground: brand.white,
         },

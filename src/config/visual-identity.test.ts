@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { LIVE_RATE_NGN_PER_KG, PH_ZONES, ZONE_FEE_MAX_NGN, ZONE_FEE_MIN_NGN } from "@/config/pricing";
-import { brand, ink, surface } from "@/config/tokens";
+import { brand, ink, surface, typography } from "@/config/tokens";
 import { GASGO_WHATSAPP_DISPLAY, GASGO_WHATSAPP_E164 } from "@/config/whatsapp";
 
 const SRC = path.resolve(__dirname, "..");
@@ -29,7 +29,10 @@ describe("GasGo visual identity v1", () => {
     expect(brand.white).toBe("#FFFFFF");
     expect(brand.greenDeep).toBe("#157A42");
     expect(brand.greenOnDark).toBe("#3BB36C");
-    expect(brand.greenTint).toBe("#E8F5EE");
+    expect(readSrc("config/tokens.ts")).not.toMatch(/greenTint/);
+    expect(readSrc("app/globals.css")).not.toMatch(/#157a42|#3bb36c|#157A42|#3BB36C/);
+    expect(readSrc("app/globals.css")).toMatch(/theme\("colors\.brand\.greenDeep"\)/);
+    expect(readSrc("app/globals.css")).toMatch(/theme\("colors\.brand\.greenOnDark"\)/);
     expect(ink).toBe("#16231C");
     expect(surface.DEFAULT).toBe("#FFFFFF");
     expect(surface.muted).toBe("#FAF8F3");
@@ -64,6 +67,9 @@ describe("GasGo visual identity v1", () => {
     expect(readSrc("app/globals.css")).toMatch(/hero-steam/);
     expect(blob).not.toMatch(/uppercase tracking/);
     expect(blob).not.toMatch(/ · /);
+    expect(blob).not.toMatch(/→/);
+    expect(how).toMatch(/We collect, refill at the plant, and return/);
+    expect(landing).not.toMatch(/<svg/);
     expect(blob).not.toMatch(/cardClassName/);
     expect(existsSync(path.resolve(SRC, "components/marketing/CyclingGreeting.tsx"))).toBe(
       false,
@@ -112,6 +118,9 @@ describe("GasGo visual identity v1", () => {
     expect(chrome).toMatch(/h-dvh/);
     expect(chrome).toMatch(/gasgo-chrome-scroll/);
     expect(chrome).toMatch(/overflow-y-auto/);
+    expect(chrome).toMatch(/isInnerMarketing/);
+    expect(chrome).toMatch(/marketingSurface/);
+    expect(chrome).toMatch(/marketingNav/);
     expect(nav).toMatch(/shrink-0/);
     expect(nav).not.toMatch(/sticky top-0/);
     expect(nav).not.toMatch(/>\s*PH\s*</);
@@ -135,6 +144,48 @@ describe("GasGo visual identity v1", () => {
     // The map canvas is shared between coverage and live tracking; the grid lives there.
     expect(readSrc("components/marketing/ZoneMap.tsx")).toMatch(/ZoneMapCanvas/);
     expect(readSrc("components/marketing/ZoneMapCanvas.tsx")).toMatch(/zone-grid/);
+  });
+
+  it("keeps the unused type scale on the original token values", () => {
+    expect(typography.fontSize["3xl"]).toBe("1.875rem");
+    expect(typography.fontSize["4xl"]).toBe("2.25rem");
+    expect(typography.fontSize["5xl"]).toBe("3rem");
+    expect(typography.fontSize.hero).toBe("3.5rem");
+    expect(typography.lineHeight.tight).toBe(1.15);
+    expect(typography.lineHeight.snug).toBe(1.375);
+    expect(typography.lineHeight.relaxed).toBe(1.625);
+  });
+
+  it("shows MarketingReveal content without JS and skips motion when reduced", () => {
+    const reveal = readSrc("components/marketing/MarketingReveal.tsx");
+    expect(reveal).toMatch(/useState\(false\)/);
+    expect(reveal).toMatch(/preReveal/);
+    expect(reveal).toMatch(/usePrefersReducedMotion/);
+    expect(reveal).toMatch(/setMounted\(true\)/);
+    expect(readSrc("app/globals.css")).toMatch(/prefers-reduced-motion/);
+  });
+
+  it("uses a plain separator on marketing page titles, not a middle dot", () => {
+    expect(readSrc("app/(customer)/zones/page.tsx")).toMatch(/title:\s*"Zones \| GasGo"/);
+    expect(readSrc("app/(customer)/how-it-works/page.tsx")).toMatch(
+      /title:\s*"How it works \| GasGo"/,
+    );
+    expect(readSrc("app/(customer)/zones/page.tsx")).not.toMatch(/·/);
+    expect(readSrc("app/(customer)/how-it-works/page.tsx")).not.toMatch(/·/);
+    expect(readSrc("app/(customer)/why/page.tsx")).not.toMatch(/·/);
+  });
+
+  it("does not leave arrows or middle dots in the marketing lane", () => {
+    const files = walkFiles(path.resolve(SRC, "components/marketing")).filter((file) =>
+      /\.(ts|tsx)$/.test(file),
+    );
+    files.push(path.resolve(SRC, "lib/marketing-faq.ts"));
+    files.push(path.resolve(SRC, "lib/marketing-greetings.ts"));
+    for (const file of files) {
+      const text = readFileSync(file, "utf8");
+      expect(text, file).not.toMatch(/→/);
+      expect(text, file).not.toMatch(/ · /);
+    }
   });
 
   it("does not leave retired brand hexes in marketing sources", () => {

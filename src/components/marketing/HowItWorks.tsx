@@ -33,7 +33,7 @@ export function HowItWorks({
         <>
           <p className="mkt-kicker">How it works</p>
           <h2 className="mkt-display mt-2 font-display text-[1.625rem] font-semibold tracking-tight text-ink md:text-[2rem]">
-            Collect → Plant refill → Return
+            We collect, refill at the plant, and return
           </h2>
           <p className="mt-2 max-w-[46ch] text-[15px] leading-relaxed text-ink-muted">
             Three honest beats. We never fill cooking gas on your street in Port Harcourt.

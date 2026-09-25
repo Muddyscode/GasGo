@@ -13,8 +13,6 @@ export const brand = {
   greenDeep: "#157A42",
   /** Body-size green on marketing dark surfaces (AA). */
   greenOnDark: "#3BB36C",
-  /** Soft wash behind maps and quiet bands. */
-  greenTint: "#E8F5EE",
 } as const;
 
 export const ink = "#16231C";
@@ -87,13 +85,13 @@ export const typography = {
     lg: "1.125rem",
     xl: "1.25rem",
     "2xl": "1.5rem",
-    "3xl": "1.75rem",
-    "4xl": "2.125rem",
-    "5xl": "2.875rem",
-    hero: "3.25rem",
+    "3xl": "1.875rem",
+    "4xl": "2.25rem",
+    "5xl": "3rem",
+    hero: "3.5rem",
   },
   fontWeight: { normal: 400, medium: 500, semibold: 600, bold: 700 },
-  lineHeight: { tight: 1.1, snug: 1.35, normal: 1.5, relaxed: 1.6 },
+  lineHeight: { tight: 1.15, snug: 1.375, normal: 1.5, relaxed: 1.625 },
   letterSpacing: { tight: "-0.02em", normal: "0", wide: "0.025em" },
 } as const;
 

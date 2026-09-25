@@ -70,8 +70,8 @@ function MarketingIslandNav() {
 
   return (
     <header className="z-40 shrink-0 border-b border-border/70 bg-surface/92 pt-[max(0.55rem,env(safe-area-inset-top))] backdrop-blur-xl">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-2 px-3 py-2 min-[360px]:gap-3 min-[360px]:px-4 md:px-6 lg:px-8">
-        <BrandMark />
+      <div className="mx-auto flex w-full min-w-0 max-w-6xl items-center justify-between gap-1.5 px-2 py-2 min-[320px]:gap-2 min-[320px]:px-3 min-[360px]:gap-3 min-[360px]:px-4 md:px-6 lg:px-8">
+        <BrandMark className="min-w-0 max-[319px]:gap-0 [&>span:last-child]:max-[319px]:hidden" />
 
         <nav
           aria-label="Marketing"
@@ -92,7 +92,7 @@ function MarketingIslandNav() {
           ))}
           <Link
             href="/order/cylinder"
-            className="mkt-cta-fill rounded-full bg-brand-green px-3.5 py-1.5 text-white transition-colors hover:brightness-105"
+            className="mkt-cta-fill whitespace-nowrap rounded-full bg-brand-green px-3.5 py-1.5 text-white transition-colors hover:brightness-105"
           >
             Order
           </Link>
@@ -102,7 +102,7 @@ function MarketingIslandNav() {
           <NavActions island />
           <Link
             href="/order/cylinder"
-            className="mkt-cta-fill inline-flex min-h-10 shrink-0 items-center rounded-full bg-brand-green px-3.5 py-1.5 text-white shadow-gasgo-md min-[360px]:px-4 md:hidden"
+            className="mkt-cta-fill inline-flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-full bg-brand-green px-2.5 py-1.5 text-white shadow-gasgo-md min-[320px]:px-3.5 min-[360px]:px-4 md:hidden"
           >
             Order
           </Link>

@@ -42,7 +42,7 @@ export function MarketingLanding() {
               {MARKETING_LEDE}
             </p>
             <p className="sr-only">{MARKETING_SAFETY}</p>
-            <p className="mt-3 text-[13px] font-medium text-ink">
+            <p className="mt-3 text-[13px] font-medium text-ink md:hidden">
               Live {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg
               <span className="font-normal text-ink-muted">
                 {" "}
@@ -117,29 +117,15 @@ function LiveStatusCard({ className }: { className?: string }) {
         className,
       )}
     >
-      <p className="flex items-center gap-2 text-[13px] font-semibold text-ink">
+      <p className="hidden items-center gap-2 text-[13px] font-semibold text-ink md:flex">
         <span className="hero-status-dot size-1.5 rounded-full bg-brand-green" aria-hidden="true" />
         Live {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg
       </p>
-      <p className="mt-1 text-[13px] leading-snug text-ink-muted">
+      <p className="text-[13px] leading-snug text-ink-muted md:mt-1">
         Example Diobu pickup ~12 min
       </p>
-      <span className="mkt-link mt-2 inline-flex items-center gap-1 text-[13px] font-semibold">
+      <span className="mkt-link mt-2 inline-flex items-center text-[13px] font-semibold">
         Start a refill
-        <svg
-          viewBox="0 0 16 16"
-          className="size-3.5"
-          aria-hidden="true"
-          fill="none"
-        >
-          <path
-            d="M3 8h9M8.5 4.5 12.5 8 8.5 11.5"
-            stroke="currentColor"
-            strokeWidth="1.6"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
       </span>
     </Link>
   );
