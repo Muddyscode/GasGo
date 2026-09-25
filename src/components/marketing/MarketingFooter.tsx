@@ -26,7 +26,7 @@ export function MarketingFooter() {
             </p>
             <a
               href={whatsappHref("Hi GasGo, I have a question before I order.")}
-              className="mt-5 inline-block text-[13px] font-medium text-brand-green transition-colors hover:text-ink"
+              className="mkt-link mt-5 inline-block text-[13px] font-medium transition-colors hover:text-ink"
             >
               WhatsApp {GASGO_WHATSAPP_DISPLAY}
             </a>
@@ -46,7 +46,7 @@ export function MarketingFooter() {
               <FooterLink href="/login">Sign in</FooterLink>
               <a
                 href={whatsappHref("Hi GasGo, I have a question before I order.")}
-                className="transition-colors hover:text-brand-green"
+                className="transition-colors hover:text-[color:var(--mkt-green-deep)]"
               >
                 WhatsApp
               </a>
@@ -84,7 +84,7 @@ function FooterCol({
 
 function FooterLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="transition-colors hover:text-brand-green">
+    <Link href={href} className="transition-colors hover:text-[color:var(--mkt-green-deep)]">
       {children}
     </Link>
   );

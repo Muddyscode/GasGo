@@ -31,7 +31,7 @@ export function HowItWorksPageView() {
         action={
           <Link
             href="/order/cylinder"
-            className={buttonClassName({ variant: "primary", size: "lg" }, "mkt-cta sm:w-auto sm:px-8")}
+            className={buttonClassName({ variant: "primary", size: "lg" }, "mkt-cta mkt-cta-fill sm:w-auto sm:px-8")}
           >
             Start a refill
           </Link>

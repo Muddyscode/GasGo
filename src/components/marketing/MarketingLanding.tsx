@@ -54,7 +54,7 @@ export function MarketingLanding() {
                 href="/order/cylinder"
                 className={buttonClassName(
                   { variant: "primary", size: "lg" },
-                  "mkt-cta sm:w-auto sm:min-w-[11.5rem] sm:px-8",
+                  "mkt-cta mkt-cta-fill sm:w-auto sm:min-w-[11.5rem] sm:px-8",
                 )}
               >
                 Start a refill
@@ -71,7 +71,7 @@ export function MarketingLanding() {
             </div>
             <p className="mt-4 text-sm text-ink-muted">
               Already with us?{" "}
-              <Link href="/login" className="font-medium text-brand-green underline-offset-4 hover:underline">
+              <Link href="/login" className="mkt-link font-medium underline-offset-4 hover:underline">
                 Sign in
               </Link>
             </p>
@@ -124,7 +124,7 @@ function LiveStatusCard({ className }: { className?: string }) {
       <p className="mt-1 text-[13px] leading-snug text-ink-muted">
         Example Diobu pickup ~12 min
       </p>
-      <span className="mt-2 inline-flex items-center gap-1 text-[13px] font-semibold text-brand-green">
+      <span className="mkt-link mt-2 inline-flex items-center gap-1 text-[13px] font-semibold">
         Start a refill
         <svg
           viewBox="0 0 16 16"

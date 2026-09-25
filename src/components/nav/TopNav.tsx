@@ -84,7 +84,7 @@ function MarketingIslandNav() {
               aria-current={pathname === link.href ? "page" : undefined}
               className={cn(
                 "rounded-full px-3.5 py-1.5 text-[14px] font-semibold transition-colors hover:bg-surface-soft",
-                pathname === link.href ? "bg-surface-soft text-brand-green" : "text-ink",
+                pathname === link.href ? "mkt-link bg-surface-soft" : "text-ink",
               )}
             >
               {link.label}
@@ -92,7 +92,7 @@ function MarketingIslandNav() {
           ))}
           <Link
             href="/order/cylinder"
-            className="rounded-full px-3.5 py-1.5 text-[14px] font-semibold text-brand-green transition-colors hover:bg-surface-soft"
+            className="mkt-cta-fill rounded-full bg-brand-green px-3.5 py-1.5 text-white transition-colors hover:brightness-105"
           >
             Order
           </Link>
@@ -102,7 +102,7 @@ function MarketingIslandNav() {
           <NavActions island />
           <Link
             href="/order/cylinder"
-            className="inline-flex h-10 shrink-0 items-center rounded-full bg-brand-green px-3.5 text-[13px] font-semibold text-white shadow-gasgo-md min-[360px]:px-4 md:hidden"
+            className="mkt-cta-fill inline-flex min-h-10 shrink-0 items-center rounded-full bg-brand-green px-3.5 py-1.5 text-white shadow-gasgo-md min-[360px]:px-4 md:hidden"
           >
             Order
           </Link>
@@ -120,7 +120,7 @@ function MarketingIslandNav() {
             className={cn(
               "shrink-0 rounded-full px-3 py-1 text-[13px] font-semibold",
               pathname === link.href
-                ? "bg-surface-soft text-brand-green"
+                ? "mkt-link bg-surface-soft"
                 : "text-ink-muted hover:bg-surface-soft hover:text-ink",
             )}
           >

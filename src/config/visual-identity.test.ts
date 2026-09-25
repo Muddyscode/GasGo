@@ -28,6 +28,7 @@ describe("GasGo visual identity v1", () => {
     expect(brand.red).toBe("#E1432D");
     expect(brand.white).toBe("#FFFFFF");
     expect(brand.greenDeep).toBe("#157A42");
+    expect(brand.greenOnDark).toBe("#3BB36C");
     expect(brand.greenTint).toBe("#E8F5EE");
     expect(ink).toBe("#16231C");
     expect(surface.DEFAULT).toBe("#FFFFFF");
@@ -45,8 +46,11 @@ describe("GasGo visual identity v1", () => {
     const blob = `${landing}\n${how}\n${why}\n${zones}`;
 
     expect(landing).toMatch(/Start a refill/);
+    expect(landing).toMatch(/mkt-cta-fill/);
+    expect(landing).toMatch(/mkt-link/);
     expect(landing).toMatch(/See prices/);
     expect(landing).toMatch(/Sign in/);
+    expect(readSrc("components/nav/TopNav.tsx")).toMatch(/mkt-cta-fill/);
     expect(landing).toMatch(/MARKETING_SAFETY/);
     expect(readSrc("lib/marketing-greetings.ts")).toMatch(/Nothing is filled at your door/);
     expect(landing).toMatch(/KitchenHero/);

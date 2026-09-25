@@ -132,7 +132,8 @@
   }
 
   .dark .gasgo-marketing {
-    --mkt-green-deep: #1f9d55;
+    /* Derived light green — locked #1F9D55 on #1B2C24 is only 4.20:1. */
+    --mkt-green-deep: #3bb36c;
   }
 
   @media (min-width: 1024px) {
@@ -164,6 +165,17 @@
     box-shadow:
       0 0 0 2px var(--gasgo-surface),
       0 0 0 4px #1f9d55;
+  }
+
+  .gasgo-marketing .mkt-link {
+    color: var(--mkt-green-deep);
+  }
+
+  /* Option (a): white on locked #1F9D55 qualifies as AA large text at ≥18.66px bold. */
+  .gasgo-marketing .mkt-cta-fill {
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.15;
   }
 
   .gasgo-marketing .mkt-cta {

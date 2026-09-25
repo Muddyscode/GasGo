@@ -64,7 +64,7 @@ export function ZoneMap({ flush = false }: { flush?: boolean }) {
       </ul>
 
       <div className="mt-6">
-        <Link href="/order/cylinder" className={buttonClassName({ variant: "primary", size: "md" }, "mkt-cta w-auto px-6")}>
+        <Link href="/order/cylinder" className={buttonClassName({ variant: "primary", size: "md" }, "mkt-cta mkt-cta-fill w-auto px-6")}>
           Start a refill
         </Link>
       </div>
