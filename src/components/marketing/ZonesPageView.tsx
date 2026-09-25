@@ -2,6 +2,7 @@ import Link from "next/link";
 import { MarketingFaq } from "@/components/marketing/MarketingFaq";
 import { MarketingPageFrame } from "@/components/marketing/MarketingPageFrame";
 import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
+import { MarketingReveal } from "@/components/marketing/MarketingReveal";
 import { ZoneMap } from "@/components/marketing/ZoneMap";
 import { buttonClassName } from "@/components/ui/button";
 import { FULFILLMENT_COPY } from "@/config/fulfillment";
@@ -17,7 +18,7 @@ export function ZonesPageView() {
         action={
           <Link
             href="/order/cylinder"
-            className={buttonClassName({ variant: "primary", size: "lg" }, "sm:w-auto sm:px-8")}
+            className={buttonClassName({ variant: "primary", size: "lg" }, "mkt-cta sm:w-auto sm:px-8")}
           >
             Order in your zone
           </Link>
@@ -38,33 +39,37 @@ export function ZonesPageView() {
         </p>
       </div>
 
-      <div className="mt-8">
+      <MarketingReveal className="mt-8">
         <ZoneMap flush />
-      </div>
+      </MarketingReveal>
 
-      <section className="mt-12 grid gap-8 md:grid-cols-2">
-        <article>
-          <p className="text-[15px] font-medium text-brand-green">Door-to-door</p>
-          <h2 className="mt-2 font-display text-[18px] font-semibold tracking-tight text-ink">
-            {FULFILLMENT_COPY.door_to_door.title}
-          </h2>
-          <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">
-            {FULFILLMENT_COPY.door_to_door.detail} Zone fee applies for the
-            corridor we ride.
-          </p>
-        </article>
-        <article>
-          <p className="text-[15px] font-medium text-brand-green">Hub</p>
-          <h2 className="mt-2 font-display text-[18px] font-semibold tracking-tight text-ink">
-            {FULFILLMENT_COPY.hub.title}
-          </h2>
-          <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">
-            {FULFILLMENT_COPY.hub.detail}
-          </p>
-        </article>
-      </section>
+      <MarketingReveal>
+        <section className="mt-12 grid gap-8 md:grid-cols-2">
+          <article>
+            <p className="mkt-kicker">Door-to-door</p>
+            <h2 className="mt-2 font-display text-[1.0625rem] font-semibold tracking-tight text-ink">
+              {FULFILLMENT_COPY.door_to_door.title}
+            </h2>
+            <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">
+              {FULFILLMENT_COPY.door_to_door.detail} Zone fee applies for the
+              corridor we ride.
+            </p>
+          </article>
+          <article>
+            <p className="mkt-kicker">Hub</p>
+            <h2 className="mt-2 font-display text-[1.0625rem] font-semibold tracking-tight text-ink">
+              {FULFILLMENT_COPY.hub.title}
+            </h2>
+            <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">
+              {FULFILLMENT_COPY.hub.detail}
+            </p>
+          </article>
+        </section>
+      </MarketingReveal>
 
-      <MarketingFaq />
+      <MarketingReveal>
+        <MarketingFaq />
+      </MarketingReveal>
     </MarketingPageFrame>
   );
 }

@@ -6,9 +6,9 @@ import { ZoneMapCanvas, ZONE_TONE } from "@/components/marketing/ZoneMapCanvas";
 
 export function ZoneMap({ flush = false }: { flush?: boolean }) {
   return (
-    <section id="zones" className={flush ? "scroll-mt-6" : "mt-16 scroll-mt-6 lg:mt-20"}>
-      <p className="text-[15px] font-medium text-brand-green">Coverage</p>
-      <h2 className="mt-2 font-display text-[28px] font-semibold tracking-tight text-ink md:text-[34px]">
+    <section id="zones" className={flush ? "scroll-mt-6" : "mt-[var(--mkt-section-space,3.5rem)] scroll-mt-6"}>
+      <p className="mkt-kicker">Coverage</p>
+      <h2 className="mkt-display mt-2 font-display text-[1.625rem] font-semibold tracking-tight text-ink md:text-[2rem]">
         Port Harcourt zones we ride
       </h2>
       <p className="mt-2 max-w-[46ch] text-[15px] leading-relaxed text-ink-muted">
@@ -17,26 +17,26 @@ export function ZoneMap({ flush = false }: { flush?: boolean }) {
         self-collect is gas only.
       </p>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-start">
-        <div className="relative min-h-[18rem] overflow-hidden bg-surface-muted ring-1 ring-border lg:col-span-6">
+      <div className="mt-7 grid gap-6 lg:grid-cols-12 lg:items-start lg:gap-8">
+        <div className="relative min-h-[22rem] overflow-hidden rounded-2xl bg-surface-muted ring-1 ring-border sm:min-h-[24rem] lg:col-span-6 lg:min-h-[26rem]">
           <ZoneMapCanvas />
         </div>
         <div className="lg:col-span-6">
-          <table className="w-full text-left text-[15px]">
+          <table className="w-full text-left text-[14px] sm:text-[15px]">
             <caption className="sr-only">Port Harcourt pickup and return fees by zone</caption>
             <thead>
               <tr className="border-b border-border text-ink-muted">
-                <th scope="col" className="py-2 pr-4 font-medium">
+                <th scope="col" className="py-2.5 pr-4 font-medium">
                   Zone
                 </th>
-                <th scope="col" className="py-2 text-right font-medium">
+                <th scope="col" className="py-2.5 text-right font-medium">
                   Pickup and return
                 </th>
               </tr>
             </thead>
             <tbody>
               {PH_ZONES.map((zone) => (
-                <tr key={zone.id} className="border-b border-border">
+                <tr key={zone.id} className="mkt-zone-row border-b border-border">
                   <th scope="row" className="py-3 pr-4 font-medium text-ink">
                     {zone.name}
                   </th>
@@ -64,7 +64,7 @@ export function ZoneMap({ flush = false }: { flush?: boolean }) {
       </ul>
 
       <div className="mt-6">
-        <Link href="/order/cylinder" className={buttonClassName({ variant: "primary", size: "md" }, "w-auto px-6")}>
+        <Link href="/order/cylinder" className={buttonClassName({ variant: "primary", size: "md" }, "mkt-cta w-auto px-6")}>
           Start a refill
         </Link>
       </div>

@@ -25,13 +25,13 @@ export function KeyBenefits({ flush = false }: { flush?: boolean }) {
   return (
     <section
       id="why-gasgo"
-      className={flush ? "scroll-mt-24" : "mt-16 scroll-mt-24"}
+      className={flush ? "scroll-mt-24" : "mt-[var(--mkt-section-space,3.5rem)] scroll-mt-24"}
       aria-labelledby="key-benefits-heading"
     >
-      <p className="text-[15px] font-medium text-brand-green">Why GasGo</p>
+      <p className="mkt-kicker">Why GasGo</p>
       <h2
         id="key-benefits-heading"
-        className="mt-2 font-display text-[28px] font-semibold tracking-tight text-ink md:text-[34px]"
+        className="mkt-display mt-2 font-display text-[1.625rem] font-semibold tracking-tight text-ink md:text-[2rem]"
       >
         Why people refill with GasGo
       </h2>
@@ -39,7 +39,7 @@ export function KeyBenefits({ flush = false }: { flush?: boolean }) {
         Plant refill in Port Harcourt — your cylinder, your fill, one clear loop.
       </p>
 
-      <ul className="mt-8 grid gap-x-12 gap-y-8 md:grid-cols-2">
+      <ul className="mt-8 grid gap-x-12 gap-y-7 md:grid-cols-2">
         {BENEFITS.map((benefit) => (
           <li key={benefit.title} className="flex gap-4">
             <span
@@ -49,7 +49,7 @@ export function KeyBenefits({ flush = false }: { flush?: boolean }) {
               {benefit.mark}
             </span>
             <div>
-              <h3 className="font-display text-[18px] font-semibold tracking-tight text-ink">
+              <h3 className="font-display text-[1.0625rem] font-semibold tracking-tight text-ink">
                 {benefit.title}
               </h3>
               <p className="mt-1.5 text-[15px] leading-relaxed text-ink-muted">

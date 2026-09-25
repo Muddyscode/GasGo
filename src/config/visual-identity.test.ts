@@ -27,6 +27,8 @@ describe("GasGo visual identity v1", () => {
     expect(brand.yellow).toBe("#FFC53D");
     expect(brand.red).toBe("#E1432D");
     expect(brand.white).toBe("#FFFFFF");
+    expect(brand.greenDeep).toBe("#157A42");
+    expect(brand.greenTint).toBe("#E8F5EE");
     expect(ink).toBe("#16231C");
     expect(surface.DEFAULT).toBe("#FFFFFF");
     expect(surface.muted).toBe("#FAF8F3");
@@ -49,7 +51,13 @@ describe("GasGo visual identity v1", () => {
     expect(readSrc("lib/marketing-greetings.ts")).toMatch(/Nothing is filled at your door/);
     expect(landing).toMatch(/KitchenHero/);
     expect(landing.match(/<KitchenHero/g)?.length).toBe(1);
+    expect(landing).toMatch(/MarketingReveal/);
     expect(landing).not.toMatch(/HeroRun|CyclingGreeting|FadeLift|ArrowRight/);
+    expect(readSrc("app/globals.css")).toMatch(/hero-status-pulse/);
+    expect(readSrc("app/globals.css")).toMatch(/kitchen-hero-parallax/);
+    expect(readSrc("app/globals.css")).toMatch(/hero-cloud-drift/);
+    expect(readSrc("app/globals.css")).toMatch(/hero-flame-flicker/);
+    expect(readSrc("app/globals.css")).toMatch(/hero-steam/);
     expect(blob).not.toMatch(/uppercase tracking/);
     expect(blob).not.toMatch(/ · /);
     expect(blob).not.toMatch(/cardClassName/);

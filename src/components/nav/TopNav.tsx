@@ -108,6 +108,26 @@ function MarketingIslandNav() {
           </Link>
         </div>
       </div>
+      <nav
+        aria-label="Marketing sections"
+        className="mkt-mobile-nav mx-auto flex w-full max-w-6xl gap-1 overflow-x-auto px-3 pb-2 min-[360px]:px-4 md:hidden"
+      >
+        {MARKETING_LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            aria-current={pathname === link.href ? "page" : undefined}
+            className={cn(
+              "shrink-0 rounded-full px-3 py-1 text-[13px] font-semibold",
+              pathname === link.href
+                ? "bg-surface-soft text-brand-green"
+                : "text-ink-muted hover:bg-surface-soft hover:text-ink",
+            )}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

@@ -8,6 +8,10 @@ import { KitchenHero } from "@/components/marketing/KitchenHero";
 import { LegacyMarketingHashRedirect } from "@/components/marketing/LegacyMarketingHashRedirect";
 import { MarketingFaq } from "@/components/marketing/MarketingFaq";
 import { MarketingFooter } from "@/components/marketing/MarketingFooter";
+import {
+  MarketingReveal,
+  marketingRevealDelayMs,
+} from "@/components/marketing/MarketingReveal";
 import { ZoneMap } from "@/components/marketing/ZoneMap";
 import { buttonClassName } from "@/components/ui/button";
 import { LIVE_RATE_NGN_PER_KG } from "@/config/pricing";
@@ -29,20 +33,28 @@ export function MarketingLanding() {
 
         <div className="relative z-[1] mx-auto flex min-h-[min(86dvh,46rem)] w-full max-w-6xl flex-col justify-center px-5 py-12 md:px-8 lg:px-10">
           <div className="md:max-w-[42%]">
-            <h1 className="max-w-[16ch] font-display text-[2.15rem] font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-[3.15rem]">
+            <p className="mkt-kicker">Port Harcourt cooking gas</p>
+            <h1 className="mkt-display mt-3 max-w-[16ch] font-display text-[2rem] font-semibold leading-[1.05] tracking-tight text-ink sm:text-[2.75rem] lg:text-[3.25rem]">
               <span className="sr-only">{MARKETING_GREETING_SR}</span>
               <span aria-hidden="true">{MARKETING_HEADLINE}</span>
             </h1>
-            <p className="mt-5 max-w-[42ch] text-[16px] leading-relaxed text-ink-muted md:text-lg">
+            <p className="mt-4 max-w-[40ch] text-[15px] leading-relaxed text-ink-muted md:text-[17px]">
               {MARKETING_LEDE}
             </p>
             <p className="sr-only">{MARKETING_SAFETY}</p>
-            <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+            <p className="mt-3 text-[13px] font-medium text-ink">
+              Live {formatNaira(LIVE_RATE_NGN_PER_KG)}/kg
+              <span className="font-normal text-ink-muted">
+                {" "}
+                plus a zone pickup and return fee
+              </span>
+            </p>
+            <div className="mt-7 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
               <Link
                 href="/order/cylinder"
                 className={buttonClassName(
                   { variant: "primary", size: "lg" },
-                  "sm:w-auto sm:min-w-[11.5rem] sm:px-8",
+                  "mkt-cta sm:w-auto sm:min-w-[11.5rem] sm:px-8",
                 )}
               >
                 Start a refill
@@ -51,7 +63,7 @@ export function MarketingLanding() {
                 href="/zones"
                 className={buttonClassName(
                   { variant: "outline", size: "lg" },
-                  "sm:w-auto sm:px-8",
+                  "mkt-cta sm:w-auto sm:px-8",
                 )}
               >
                 See prices
@@ -73,12 +85,22 @@ export function MarketingLanding() {
       </section>
 
       <div className="relative z-[1] bg-surface">
-        <div className="mx-auto w-full max-w-5xl px-5 pb-8 pt-4 md:px-8 lg:max-w-6xl lg:px-10">
-          <HowItWorks />
-          <AudienceScenes />
-          <ZoneMap />
-          <KeyBenefits />
-          <MarketingFaq />
+        <div className="mx-auto w-full max-w-5xl px-5 pb-8 pt-2 md:px-8 lg:max-w-6xl lg:px-10">
+          <MarketingReveal delayMs={marketingRevealDelayMs(0)}>
+            <HowItWorks />
+          </MarketingReveal>
+          <MarketingReveal delayMs={marketingRevealDelayMs(1)}>
+            <AudienceScenes />
+          </MarketingReveal>
+          <MarketingReveal delayMs={marketingRevealDelayMs(2)}>
+            <ZoneMap />
+          </MarketingReveal>
+          <MarketingReveal delayMs={marketingRevealDelayMs(3)}>
+            <KeyBenefits />
+          </MarketingReveal>
+          <MarketingReveal delayMs={marketingRevealDelayMs(4)}>
+            <MarketingFaq />
+          </MarketingReveal>
         </div>
         <MarketingFooter />
       </div>

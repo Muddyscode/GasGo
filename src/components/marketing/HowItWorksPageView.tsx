@@ -3,6 +3,7 @@ import { HowItWorks } from "@/components/marketing/HowItWorks";
 import { MarketingFaq } from "@/components/marketing/MarketingFaq";
 import { MarketingPageFrame } from "@/components/marketing/MarketingPageFrame";
 import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
+import { MarketingReveal } from "@/components/marketing/MarketingReveal";
 import { buttonClassName } from "@/components/ui/button";
 import { CUTOFF_EXPLANATION, FULFILLMENT_COPY } from "@/config/fulfillment";
 
@@ -30,7 +31,7 @@ export function HowItWorksPageView() {
         action={
           <Link
             href="/order/cylinder"
-            className={buttonClassName({ variant: "primary", size: "lg" }, "sm:w-auto sm:px-8")}
+            className={buttonClassName({ variant: "primary", size: "lg" }, "mkt-cta sm:w-auto sm:px-8")}
           >
             Start a refill
           </Link>
@@ -41,30 +42,34 @@ export function HowItWorksPageView() {
         filled at your door.
       </MarketingPageHero>
 
-      <div className="mt-10">
-        <HowItWorks flush />
-      </div>
+      <MarketingReveal className="mt-10">
+        <HowItWorks flush hideIntro />
+      </MarketingReveal>
 
-      <section className="mt-14" aria-labelledby="loop-details-heading">
-        <h2
-          id="loop-details-heading"
-          className="font-display text-[24px] font-semibold tracking-tight text-ink md:text-[28px]"
-        >
-          The loop, without the fine print fog
-        </h2>
-        <ul className="mt-6 grid gap-8 md:grid-cols-3">
-          {DETAILS.map((item) => (
-            <li key={item.title}>
-              <h3 className="font-display text-[17px] font-semibold tracking-tight text-ink">
-                {item.title}
-              </h3>
-              <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{item.body}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <MarketingReveal>
+        <section className="mt-12" aria-labelledby="loop-details-heading">
+          <h2
+            id="loop-details-heading"
+            className="mkt-display font-display text-[1.375rem] font-semibold tracking-tight text-ink md:text-[1.625rem]"
+          >
+            The loop, without the fine print fog
+          </h2>
+          <ul className="mt-6 grid gap-8 md:grid-cols-3">
+            {DETAILS.map((item) => (
+              <li key={item.title}>
+                <h3 className="font-display text-[1.0625rem] font-semibold tracking-tight text-ink">
+                  {item.title}
+                </h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{item.body}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </MarketingReveal>
 
-      <MarketingFaq />
+      <MarketingReveal>
+        <MarketingFaq />
+      </MarketingReveal>
     </MarketingPageFrame>
   );
 }

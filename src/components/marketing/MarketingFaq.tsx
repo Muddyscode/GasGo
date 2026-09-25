@@ -7,13 +7,13 @@ export function MarketingFaq({ className }: { className?: string }) {
   return (
     <section
       id="faq"
-      className={cn("mt-16 scroll-mt-6 lg:mt-20", className)}
+      className={cn("mt-[var(--mkt-section-space,3.5rem)] scroll-mt-6", className)}
       aria-labelledby="faq-heading"
     >
-      <p className="text-[15px] font-medium text-brand-green">Questions</p>
+      <p className="mkt-kicker">Questions</p>
       <h2
         id="faq-heading"
-        className="mt-2 font-display text-[28px] font-semibold tracking-tight text-ink md:text-[34px]"
+        className="mkt-display mt-2 font-display text-[1.625rem] font-semibold tracking-tight text-ink md:text-[2rem]"
       >
         Before you order in Port Harcourt
       </h2>

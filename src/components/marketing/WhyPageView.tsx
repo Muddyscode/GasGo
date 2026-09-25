@@ -4,6 +4,7 @@ import { KeyBenefits } from "@/components/marketing/KeyBenefits";
 import { MarketingFaq } from "@/components/marketing/MarketingFaq";
 import { MarketingPageFrame } from "@/components/marketing/MarketingPageFrame";
 import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
+import { MarketingReveal } from "@/components/marketing/MarketingReveal";
 import { TrustRow } from "@/components/marketing/TrustRow";
 import { buttonClassName } from "@/components/ui/button";
 import { COMING_SOON_LINE } from "@/lib/marketing-greetings";
@@ -31,7 +32,7 @@ export function WhyPageView() {
         action={
           <Link
             href="/order/cylinder"
-            className={buttonClassName({ variant: "primary", size: "lg" }, "sm:w-auto sm:px-8")}
+            className={buttonClassName({ variant: "primary", size: "lg" }, "mkt-cta sm:w-auto sm:px-8")}
           >
             Start a refill
           </Link>
@@ -41,14 +42,15 @@ export function WhyPageView() {
         only. Nothing is filled at your door. {COMING_SOON_LINE}.
       </MarketingPageHero>
 
-      <div className="mt-10">
+      <MarketingReveal className="mt-10">
         <KeyBenefits flush />
-      </div>
+      </MarketingReveal>
 
-      <section className="mt-14" aria-labelledby="contrast-heading">
+      <MarketingReveal>
+        <section className="mt-12" aria-labelledby="contrast-heading">
         <h2
           id="contrast-heading"
-          className="font-display text-[24px] font-semibold tracking-tight text-ink md:text-[28px]"
+          className="mkt-display font-display text-[1.375rem] font-semibold tracking-tight text-ink md:text-[1.625rem]"
         >
           Plant refill vs street fill
         </h2>
@@ -58,7 +60,7 @@ export function WhyPageView() {
         </p>
         <div className="mt-6 grid gap-8 md:grid-cols-2">
           <article>
-            <p className="text-[15px] font-medium text-brand-green">GasGo plant</p>
+            <p className="mkt-kicker">GasGo plant</p>
             <ul className="mt-3 flex flex-col gap-2.5">
               {PLANT.map((line) => (
                 <li key={line} className="flex items-start gap-2 text-sm leading-relaxed text-ink">
@@ -69,7 +71,7 @@ export function WhyPageView() {
             </ul>
           </article>
           <article>
-            <p className="text-[15px] font-medium text-ink-muted">Street fill</p>
+            <p className="mkt-kicker text-ink-muted">Street fill</p>
             <ul className="mt-3 flex flex-col gap-2.5">
               {STREET.map((line) => (
                 <li key={line} className="flex items-start gap-2 text-sm leading-relaxed text-ink-muted">
@@ -80,13 +82,16 @@ export function WhyPageView() {
             </ul>
           </article>
         </div>
-      </section>
+        </section>
+      </MarketingReveal>
 
-      <div className="mt-12">
+      <MarketingReveal className="mt-12">
         <TrustRow />
-      </div>
+      </MarketingReveal>
 
-      <MarketingFaq />
+      <MarketingReveal>
+        <MarketingFaq />
+      </MarketingReveal>
     </MarketingPageFrame>
   );
 }

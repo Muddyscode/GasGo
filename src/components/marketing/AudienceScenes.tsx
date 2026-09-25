@@ -30,11 +30,11 @@ const SCENES: readonly Scene[] = [
 
 export function AudienceScenes() {
   return (
-    <section className="mt-16 scroll-mt-6 lg:mt-20" aria-labelledby="audiences-heading">
-      <p className="text-[15px] font-medium text-brand-green">Who we serve</p>
+    <section className="mt-[var(--mkt-section-space,3.5rem)] scroll-mt-6" aria-labelledby="audiences-heading">
+      <p className="mkt-kicker">Who we serve</p>
       <h2
         id="audiences-heading"
-        className="mt-2 font-display text-[28px] font-semibold tracking-tight text-ink md:text-[34px]"
+        className="mkt-display mt-2 font-display text-[1.625rem] font-semibold tracking-tight text-ink md:text-[2rem]"
       >
         One service, every kitchen in Port Harcourt
       </h2>
@@ -46,16 +46,16 @@ export function AudienceScenes() {
       <ul className="mt-8 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
         {SCENES.map((scene) => (
           <li key={scene.title}>
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-surface-muted ring-1 ring-border">
+            <div className="mkt-scene-frame relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-surface-muted ring-1 ring-border">
               <Image
                 src={scene.src}
                 alt={scene.alt}
                 fill
                 sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
-                className="object-cover"
+                className="mkt-scene-image object-cover"
               />
             </div>
-            <h3 className="mt-4 font-display text-[18px] font-semibold tracking-tight text-ink">
+            <h3 className="mt-3.5 font-display text-[1.0625rem] font-semibold tracking-tight text-ink">
               {scene.title}
             </h3>
             <p className="mt-1.5 text-[15px] leading-relaxed text-ink-muted">{scene.body}</p>

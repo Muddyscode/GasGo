@@ -13,11 +13,11 @@ export function MarketingPageHero({
 }) {
   return (
     <div>
-      <p className="text-[15px] font-medium text-brand-green">{eyebrow}</p>
-      <h1 className="mt-2 max-w-[18ch] font-display text-[2rem] font-semibold leading-[1.08] tracking-tight text-ink md:text-[2.65rem]">
+      <p className="mkt-kicker">{eyebrow}</p>
+      <h1 className="mkt-display mt-2.5 max-w-[18ch] font-display text-[1.875rem] font-semibold leading-[1.05] tracking-tight text-ink md:text-[2.5rem]">
         {title}
       </h1>
-      <p className="mt-3 max-w-[46ch] text-[15px] leading-relaxed text-ink-muted md:text-base">
+      <p className="mt-3 max-w-[44ch] text-[15px] leading-relaxed text-ink-muted md:text-[16px]">
         {children}
       </p>
       {action ? <div className="mt-6">{action}</div> : null}

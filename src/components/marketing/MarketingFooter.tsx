@@ -15,8 +15,8 @@ const PRODUCT_LINKS = [
 
 export function MarketingFooter() {
   return (
-    <footer className="marketing-footer mt-20 border-t border-border bg-surface-muted">
-      <div className="mx-auto w-full max-w-5xl px-5 pb-16 pt-16 md:px-8 lg:max-w-6xl lg:px-10">
+    <footer className="marketing-footer mt-16 border-t border-border bg-surface-muted md:mt-20">
+      <div className="mx-auto w-full max-w-5xl px-5 pb-14 pt-14 md:px-8 md:pb-16 md:pt-16 lg:max-w-6xl lg:px-10">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="max-w-xs md:col-span-5 lg:col-span-6">
             <BrandMark />

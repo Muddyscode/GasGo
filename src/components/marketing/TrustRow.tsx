@@ -19,7 +19,7 @@ export function TrustRow() {
       <ul className="grid gap-8 md:grid-cols-3">
         {TRUST.map((item) => (
           <li key={item.title}>
-            <h3 className="font-display text-[17px] font-semibold tracking-tight text-ink">
+            <h3 className="font-display text-[1.0625rem] font-semibold tracking-tight text-ink">
               {item.title}
             </h3>
             <p className="mt-1.5 text-sm leading-relaxed text-ink-muted">{item.body}</p>
