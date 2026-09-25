@@ -24,7 +24,7 @@ export function AuthWorld({
         alt=""
         fill
         sizes="(min-width: 1024px) 50vw, 100vw"
-        priority={!compact}
+        priority
         className="object-cover object-[center_30%]"
       />
       <div

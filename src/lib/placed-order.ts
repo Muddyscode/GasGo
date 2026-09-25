@@ -1,8 +1,4 @@
-import {
-  getCylinderById,
-  isCylinderId,
-  type CylinderId,
-} from "@/config/cylinders";
+import { getCylinderById, isCylinderId } from "@/config/cylinders";
 import type { DeliveryWindowId, PresenceId } from "@/config/delivery";
 import type { DeliveryStageId } from "@/config/delivery-stages";
 import {
@@ -28,7 +24,8 @@ export type PlacedOrder = {
   userId: string;
   orderNumber: string;
   stage: DeliveryStageId;
-  cylinderId: CylinderId;
+  /** SKU id when capacity matches a catalog size; otherwise the formatted kg. */
+  cylinderId: string;
   fillMode: FillMode;
   fillKg: number;
   capacityKg: number;
@@ -50,12 +47,19 @@ export type PlacedOrder = {
   placedAt: string;
 };
 
-function cylinderIdFromDraft(draft: OrderDraft): CylinderId {
+/**
+ * Persist a label for the cylinder, never an invented 12.5.
+ * Catalog sizes keep their SKU id. Free-entered kg stores the formatted kg.
+ */
+export function cylinderIdFromDraft(draft: Pick<OrderDraft, "cylinderId" | "capacityKg">): string {
+  const kg = draft.capacityKg;
+  if (kg != null && Number.isFinite(kg) && kg > 0) {
+    const sku = getCylinderById(kg === 12.5 ? "12.5" : String(kg));
+    if (sku && sku.sizeKg === kg) return sku.id;
+    return formatKg(kg);
+  }
   if (isCylinderId(draft.cylinderId)) return draft.cylinderId;
-  const match = getCylinderById(
-    draft.capacityKg === 12.5 ? "12.5" : String(draft.capacityKg ?? ""),
-  );
-  return match?.id ?? "12.5";
+  return "custom";
 }
 
 export function formatPlacedFillSummary(input: {
@@ -144,7 +148,10 @@ export function isPlacedOrder(value: unknown): value is PlacedOrder {
       order.userId &&
       order.orderNumber &&
       order.stage &&
-      isCylinderId(order.cylinderId) &&
+      typeof order.cylinderId === "string" &&
+      order.cylinderId.length > 0 &&
+      typeof order.capacityKg === "number" &&
+      order.capacityKg > 0 &&
       isFillMode(order.fillMode) &&
       isFulfillmentMode(order.fulfillmentMode) &&
       order.pickupDate &&

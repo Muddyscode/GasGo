@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import { Inter, Inter_Tight } from "next/font/google";
 import { AppToaster } from "@/components/providers/AppToaster";
@@ -18,15 +18,53 @@ const display = Inter_Tight({
   display: "swap",
 });
 
+const SITE_URL = "https://gas-go-nine.vercel.app";
+const SITE_DESCRIPTION =
+  "Port Harcourt cooking gas. Collect empty, plant refill offsite, return full. Nothing is filled at your door.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "GasGo",
-  description:
-    "Port Harcourt cooking gas. Collect empty, plant refill offsite, return full. Nothing is filled at your door.",
-  icons: {
-    icon: [{ url: "/brand/gasgo-mark.svg", type: "image/svg+xml" }],
-    shortcut: "/brand/gasgo-mark.svg",
-    apple: "/brand/gasgo-mark.svg",
+  description: SITE_DESCRIPTION,
+  applicationName: "GasGo",
+  manifest: "/manifest.webmanifest",
+  appleWebApp: {
+    capable: true,
+    title: "GasGo",
+    statusBarStyle: "default",
   },
+  openGraph: {
+    type: "website",
+    locale: "en_NG",
+    siteName: "GasGo",
+    title: "GasGo",
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    images: [{ url: "/og.webp", width: 1200, height: 630, alt: "GasGo plant refill" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GasGo",
+    description: SITE_DESCRIPTION,
+    images: ["/og.webp"],
+  },
+  icons: {
+    icon: [
+      { url: "/brand/gasgo-mark.svg", type: "image/svg+xml" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: "/brand/gasgo-mark.svg",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FFFFFF" },
+    { media: "(prefers-color-scheme: dark)", color: "#16231C" },
+  ],
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

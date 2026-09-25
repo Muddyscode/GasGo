@@ -44,7 +44,10 @@ export type CustomerOrder = {
   id: string;
   userId: string;
   orderNumber: string;
-  cylinderId: CylinderId;
+  cylinderId: string;
+  capacityKg?: number;
+  fillKg?: number;
+  fillSummary?: string;
   addressId: string;
   status: DeliveryStageId;
   totalNgn: number;
@@ -160,6 +163,9 @@ export function toCustomerOrder(order: PlacedOrder): CustomerOrder {
     userId: order.userId,
     orderNumber: order.orderNumber,
     cylinderId: order.cylinderId,
+    capacityKg: order.capacityKg,
+    fillKg: order.fillKg,
+    fillSummary: order.fillSummary,
     addressId: order.addressId,
     status: order.stage,
     totalNgn: order.totalNgn,
@@ -246,6 +252,13 @@ export function orderHref(order: CustomerOrder): string {
 }
 
 export function orderCylinderLabel(order: CustomerOrder): string {
+  if (typeof order.capacityKg === "number" && Number.isFinite(order.capacityKg) && order.capacityKg > 0) {
+    return formatCylinderSize(order.capacityKg);
+  }
+  if (order.fillSummary) {
+    const kg = order.fillSummary.match(/^([\d.]+) kg/);
+    if (kg?.[1]) return `${kg[1]} kg`;
+  }
   const cylinder = getCylinderById(order.cylinderId);
   return cylinder ? formatCylinderSize(cylinder.sizeKg) : `${order.cylinderId} kg`;
 }

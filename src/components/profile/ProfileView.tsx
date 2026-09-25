@@ -51,6 +51,8 @@ export function ProfileView() {
         <PageBody className="pt-10">
           <div className="h-8 w-40 animate-pulse rounded-lg bg-surface-muted" />
           <div className="mt-3 h-4 w-56 animate-pulse rounded-lg bg-surface-muted" />
+          <div className="mt-6 h-28 animate-pulse rounded-2xl bg-surface-muted" />
+          <div className="mt-3 h-24 animate-pulse rounded-2xl bg-surface-muted" />
         </PageBody>
       </PageFrame>
     );

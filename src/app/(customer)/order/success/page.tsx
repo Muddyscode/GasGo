@@ -6,14 +6,12 @@ import { OrderHeader } from "@/components/order/OrderHeader";
 import { PAID_RELIEF_BODY, PAID_RELIEF_TITLE } from "@/components/order/order-quote-hint";
 import { buttonClassName } from "@/components/ui/button";
 import { PageBody, PageFrame } from "@/components/ui/page";
-import { formatCylinderSize, getCylinderById } from "@/config/cylinders";
-import { getPresenceById, getWindowById } from "@/config/delivery";
-import { quoteFill } from "@/config/pricing";
+import { formatKg, quoteFill } from "@/config/pricing";
 import { formatNaira } from "@/lib/money";
 import { firstParam, orderPath, parseOrderQuery } from "@/lib/order-query";
 
 export const metadata: Metadata = {
-  title: "Payment successful · GasGo",
+  title: "Payment successful — GasGo",
   description: "Your GasGo order is confirmed.",
 };
 
@@ -24,16 +22,23 @@ type SuccessPageProps = {
 export default async function SuccessPage({ searchParams }: SuccessPageProps) {
   const params = await searchParams;
   const query = parseOrderQuery(params);
-  const cylinder = getCylinderById(query.cylinderId);
-  const presence = getPresenceById(query.presenceId);
-  const window = getWindowById(query.windowId);
-  const quote = cylinder
-    ? quoteFill({
-        fillMode: "full",
-        capacityKg: cylinder.sizeKg,
-        zoneId: query.address?.zoneId,
-      })
-    : null;
+  const typedKg = Number(firstParam(params.kg));
+  const capacityKg =
+    Number.isFinite(typedKg) && typedKg > 0
+      ? typedKg
+      : query.cylinderId === "12.5"
+        ? 12.5
+        : query.cylinderId
+          ? Number(query.cylinderId)
+          : null;
+  const quote =
+    capacityKg && capacityKg > 0
+      ? quoteFill({
+          fillMode: "full",
+          capacityKg,
+          zoneId: query.address?.zoneId,
+        })
+      : null;
   const mode = firstParam(params.mode);
   const reference = firstParam(params.ref);
   const isMock = mode !== "paystack";
@@ -59,7 +64,7 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
           <Check className="size-7" strokeWidth={2.5} />
         </span>
 
-        <p className="mt-5 text-[13px] font-medium text-brand-green">
+        <p className="mt-5 text-[13px] font-semibold text-ink">
           {isMock ? "Paid — test checkout" : "Paid"}
         </p>
         <h2 className="mt-1.5 font-display text-[28px] font-semibold leading-[1.12] tracking-tight text-ink md:text-[32px]">
@@ -75,22 +80,14 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
           <DeliveryTruck label="Dispatching your refill" />
         </div>
 
-        {cylinder && query.address && quote ? (
+        {query.address && quote ? (
           <section className="mt-5 rounded-2xl border border-border bg-surface px-4 py-4">
             <p className="font-display text-lg font-semibold tracking-tight text-ink">
-              {formatCylinderSize(cylinder.sizeKg)} — {formatNaira(quote.totalNgn)}
+              {formatKg(quote.capacityKg)} kg — {formatNaira(quote.totalNgn)}
             </p>
             <p className="mt-1 text-sm leading-snug text-ink">
               {query.address.label}, {query.address.area}
             </p>
-            {presence ? (
-              <p className="mt-1 text-sm text-ink-muted">{presence.title}</p>
-            ) : null}
-            {window ? (
-              <p className="mt-0.5 text-sm text-ink-muted">
-                {window.title} — {window.detail}
-              </p>
-            ) : null}
             {reference ? (
               <p className="mt-3 text-xs tabular-nums text-ink-muted">
                 Ref {reference}

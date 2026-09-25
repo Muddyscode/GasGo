@@ -42,8 +42,11 @@ export function AuthIdentityForm({
       <label className="block">
         <span className="mb-1.5 block text-sm font-medium text-ink">Full name</span>
         <input
+          name="name"
           value={firstName}
+          required
           autoComplete="name"
+          autoCapitalize="words"
           placeholder="Chioma Okeke"
           onChange={(event) => setFirstName(event.target.value)}
           className={authFieldClassName}
@@ -52,7 +55,9 @@ export function AuthIdentityForm({
       <label className="block">
         <span className="mb-1.5 block text-sm font-medium text-ink">Phone</span>
         <input
+          name="tel"
           value={phone}
+          required
           inputMode="tel"
           autoComplete="tel"
           placeholder="0803 000 0000"
@@ -68,6 +73,7 @@ export function AuthIdentityForm({
           ) : null}
         </span>
         <input
+          name="email"
           value={email}
           type="email"
           autoComplete="email"

@@ -52,7 +52,7 @@ export function PageTitle({
   return (
     <section className={cn("mb-6 md:mb-7 lg:mb-8", className)}>
       {eyebrow ? (
-        <p className="text-[13px] font-medium text-brand-green">{eyebrow}</p>
+        <p className="text-[13px] font-semibold text-ink">{eyebrow}</p>
       ) : null}
       <h2
         className={cn(

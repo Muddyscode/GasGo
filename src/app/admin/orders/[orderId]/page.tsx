@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { OrderDetailView } from "@/components/admin/OrderDetailView";
 
 export const metadata: Metadata = {
-  title: "Order · GasGo Dispatch",
+  title: "Order — GasGo Dispatch",
   description: "Update a GasGo delivery stage.",
 };
 
