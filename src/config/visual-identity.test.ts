@@ -2,7 +2,7 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { LIVE_RATE_NGN_PER_KG, PH_ZONES, ZONE_FEE_MAX_NGN, ZONE_FEE_MIN_NGN } from "@/config/pricing";
-import { brand, ink, surface, typography } from "@/config/tokens";
+import { brand, ink, motion, surface, typography } from "@/config/tokens";
 import { GASGO_WHATSAPP_DISPLAY, GASGO_WHATSAPP_E164 } from "@/config/whatsapp";
 
 const SRC = path.resolve(__dirname, "..");
@@ -30,7 +30,8 @@ describe("GasGo visual identity v1", () => {
     expect(brand.greenDeep).toBe("#157A42");
     expect(brand.greenOnDark).toBe("#3BB36C");
     expect(readSrc("config/tokens.ts")).not.toMatch(/greenTint/);
-    expect(readSrc("app/globals.css")).not.toMatch(/#157a42|#3bb36c|#157A42|#3BB36C/);
+    expect(readSrc("app/globals.css")).not.toMatch(/#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\b/);
+    expect(readSrc("app/globals.css")).not.toMatch(/rgba?\(/i);
     expect(readSrc("app/globals.css")).toMatch(/theme\("colors\.brand\.greenDeep"\)/);
     expect(readSrc("app/globals.css")).toMatch(/theme\("colors\.brand\.greenOnDark"\)/);
     expect(ink).toBe("#16231C");
@@ -53,7 +54,9 @@ describe("GasGo visual identity v1", () => {
     expect(landing).toMatch(/mkt-link/);
     expect(landing).toMatch(/See prices/);
     expect(landing).toMatch(/Sign in/);
-    expect(readSrc("components/nav/TopNav.tsx")).toMatch(/mkt-cta-fill/);
+    expect(readSrc("components/nav/TopNav.tsx")).toMatch(/mkt-order-pill/);
+    expect(readSrc("components/nav/TopNav.tsx")).not.toMatch(/mkt-cta-fill/);
+    expect(readSrc("app/globals.css")).toMatch(/\.mkt-order-pill/);
     expect(landing).toMatch(/MARKETING_SAFETY/);
     expect(readSrc("lib/marketing-greetings.ts")).toMatch(/Nothing is filled at your door/);
     expect(landing).toMatch(/KitchenHero/);
@@ -138,6 +141,8 @@ describe("GasGo visual identity v1", () => {
     expect(world).not.toMatch(/ph-tower/);
     expect(landing).toMatch(/Example Diobu pickup/);
     expect(landing).toMatch(/LIVE_RATE_NGN_PER_KG/);
+    expect(landing).toMatch(/bg-surface p-4 text-ink/);
+    expect(landing).not.toMatch(/bg-surface\/95/);
     expect(landing).not.toMatch(/ArrowRight/);
     expect(landing).not.toMatch(/next pickup|GPS|en route|live tracking/i);
     expect(readSrc("components/marketing/ZoneMap.tsx")).toMatch(/Map legend|aria-label="Map legend"/);
@@ -162,7 +167,11 @@ describe("GasGo visual identity v1", () => {
     expect(reveal).toMatch(/preReveal/);
     expect(reveal).toMatch(/usePrefersReducedMotion/);
     expect(reveal).toMatch(/setMounted\(true\)/);
+    expect(reveal).toMatch(/isNodeInRoot/);
+    expect(reveal).toMatch(/threshold:\s*0\.1/);
+    expect(motion.reveal.durationMs).toBeLessThanOrEqual(300);
     expect(readSrc("app/globals.css")).toMatch(/prefers-reduced-motion/);
+    expect(readSrc("app/globals.css")).toMatch(/--mkt-reveal-duration/);
   });
 
   it("uses a plain separator on marketing page titles, not a middle dot", () => {
