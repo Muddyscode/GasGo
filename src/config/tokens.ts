@@ -9,10 +9,6 @@ export const brand = {
   yellow: "#FFC53D",
   red: "#E1432D",
   white: "#FFFFFF",
-  /** Body-size green on white (AA 5.39:1). Locked brand.green stays #1F9D55 for fills. */
-  greenDeep: "#157A42",
-  /** Body-size green on marketing dark surfaces (AA). */
-  greenOnDark: "#3BB36C",
 } as const;
 
 export const ink = "#16231C";

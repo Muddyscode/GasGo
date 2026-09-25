@@ -71,7 +71,7 @@ export function MarketingLanding() {
             </div>
             <p className="mt-4 text-sm text-ink-muted">
               Already with us?{" "}
-              <Link href="/login" className="mkt-link font-medium underline-offset-4 hover:underline">
+              <Link href="/login" className="mkt-link text-[19px] font-bold underline-offset-4 hover:underline">
                 Sign in
               </Link>
             </p>
@@ -124,7 +124,7 @@ function LiveStatusCard({ className }: { className?: string }) {
       <p className="text-[13px] leading-snug text-ink-muted md:mt-1">
         Example Diobu pickup ~12 min
       </p>
-      <span className="mkt-link mt-2 inline-flex items-center text-[13px] font-semibold">
+      <span className="mkt-link mt-2 inline-flex items-center text-[19px] font-bold">
         Start a refill
       </span>
     </Link>

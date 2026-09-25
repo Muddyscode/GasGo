@@ -26,7 +26,7 @@ export function MarketingFooter() {
             </p>
             <a
               href={whatsappHref("Hi GasGo, I have a question before I order.")}
-              className="mkt-link mt-5 inline-block text-[13px] font-medium transition-colors hover:text-ink"
+              className="mkt-link mt-5 inline-block text-[19px] font-bold transition-colors hover:text-ink"
             >
               WhatsApp {GASGO_WHATSAPP_DISPLAY}
             </a>
