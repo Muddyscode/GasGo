@@ -40,6 +40,12 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
     const overlay = readFileSync(path.resolve(ORDER_DIR, "../../lib/overlay.ts"), "utf8");
     expect(overlay).toMatch(/color-mix\(in_srgb,var\(--gasgo-ink\)_45%,transparent\)/);
     expect(overlay).toMatch(/color-mix\(in_srgb,var\(--gasgo-ink\)_40%,transparent\)/);
+    expect(overlay).toMatch(/OVERLAY_SCRIM_DARK_CLASS/);
+    expect(overlay).toMatch(
+      /dark:bg-\[color-mix\(in_srgb,var\(--gasgo-surface\)_70%,transparent\)\]/,
+    );
+    expect(overlay).toMatch(/OVERLAY_SCRIM_45_CLASS[\s\S]*OVERLAY_SCRIM_DARK_CLASS/);
+    expect(overlay).toMatch(/OVERLAY_SCRIM_40_CLASS[\s\S]*OVERLAY_SCRIM_DARK_CLASS/);
     expect(pay).not.toMatch(/PriceBreakdown/);
     expect(pay).not.toMatch(/To pay before pickup/);
     expect(pay).not.toMatch(/prepayQuoteLines/);
