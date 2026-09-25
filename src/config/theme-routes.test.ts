@@ -29,7 +29,9 @@ describe("kitchen hero + auth split + theme contracts", () => {
     expect(auth).toMatch(/BrandMark/);
     expect(auth).toMatch(/auth-visual|AuthWorld/);
     expect(auth).toMatch(/lg:grid-cols-2|md:grid-cols-2/);
-    expect(auth).toMatch(/Continue with demo account/);
+    expect(auth).toMatch(/Choose an account|DemoPersonaPicker/);
+    expect(auth).toMatch(/postAuthHref|signInDemoPersona/);
+    expect(auth).not.toMatch(/Continue with demo account/);
     expect(auth).not.toMatch(/clear\(/);
     expect(auth).not.toMatch(/Lagos|Lekki|Ikeja/);
   });
