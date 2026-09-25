@@ -25,6 +25,13 @@ describe("draft capacity kg chip", () => {
     expect(draftCapacityChipLabel(50)).toBe("50 kg");
   });
 
+  it("paid orders never invent a 12.5 SKU for a free-entered capacity", () => {
+    const placed = readSrc("lib/placed-order.ts");
+    expect(placed).toMatch(/cylinderIdFromDraft/);
+    expect(placed).toMatch(/formatKg\(kg\)/);
+    expect(placed).not.toMatch(/return match\?\.id \?\? ["']12\.5["']/);
+  });
+
   it("top-right chip reads draft.capacityKg and stays hidden on marketing island", () => {
     const actions = readSrc("components/nav/NavActions.tsx");
     expect(actions).toMatch(/draftCapacityChipLabel/);

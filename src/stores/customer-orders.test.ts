@@ -2,7 +2,14 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { SAVED_ADDRESSES } from "@/config/delivery";
 import { defaultOrderDates } from "@/config/fulfillment";
 import { LIVE_RATE_NGN_PER_KG, getZone } from "@/config/pricing";
-import { MOCK_PROFILE, activeOrderForUser, ordersForUser } from "@/data/profile";
+import {
+  MOCK_PROFILE,
+  activeOrderForUser,
+  orderCylinderLabel,
+  ordersForUser,
+  toCustomerOrder,
+} from "@/data/profile";
+import { cylinderIdFromDraft } from "@/lib/placed-order";
 import {
   CUSTOMER_ORDERS_STORAGE_KEY,
   completePaidCheckout,
@@ -85,6 +92,34 @@ describe("paid checkout persists an active order", () => {
     };
     expect(parsed.state?.orders?.[0]?.id).toBe("gg_paydoor1");
     expect(parsed.state?.orders?.[0]?.stage).toBe("queued");
+  });
+
+  it("free-entered capacity stays the paid label — never an orphan 12.5 SKU", () => {
+    const home = SAVED_ADDRESSES[0];
+    const dates = defaultOrderDates();
+    useOrderDraft.getState().setCapacityKg(15);
+    useOrderDraft.getState().setFillMode("full");
+    useOrderDraft.getState().setAddress(home);
+    useOrderDraft.getState().setPresence("someone-home");
+    useOrderDraft.getState().setWindow("asap");
+    useOrderDraft.getState().setOrderDates(dates.pickupDate, dates.returnDate);
+
+    expect(useOrderDraft.getState().cylinderId).toBeNull();
+    expect(cylinderIdFromDraft(useOrderDraft.getState())).toBe("15");
+    expect(cylinderIdFromDraft(useOrderDraft.getState())).not.toBe("12.5");
+
+    const order = completePaidCheckout({ user: chioma, orderId: "gg_pay15" });
+    expect(order.capacityKg).toBe(15);
+    expect(order.fillKg).toBe(15);
+    expect(order.cylinderId).toBe("15");
+    expect(order.cylinderId).not.toBe("12.5");
+    expect(order.fillSummary).toBe("15 kg — Full — 15 kg fill");
+    expect(order.gasFillNgn).toBe(Math.round(15 * LIVE_RATE_NGN_PER_KG));
+
+    const listed = toCustomerOrder(order);
+    expect(listed.capacityKg).toBe(15);
+    expect(orderCylinderLabel(listed)).toBe("15 kg");
+    expect(orderCylinderLabel(listed)).not.toBe("12.5 kg");
   });
 
   it("hub pay persists ₦0 delivery and still becomes the AppHome active order", () => {

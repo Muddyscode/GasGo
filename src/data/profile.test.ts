@@ -3,7 +3,9 @@ import {
   MOCK_ORDERS,
   MOCK_PROFILE,
   activeOrderForUser,
+  orderCylinderLabel,
   ordersForUser,
+  toCustomerOrder,
 } from "@/data/profile";
 import type { PlacedOrder } from "@/lib/placed-order";
 
@@ -55,6 +57,20 @@ describe("demo order history vs nav active order", () => {
     expect(ordersForUser(MOCK_PROFILE.id).some((order) => order.orderNumber === "GG-1842")).toBe(
       true,
     );
+  });
+
+  it("order history labels follow capacityKg, not a leftover 12.5 SKU", () => {
+    const free = fakePlaced({
+      cylinderId: "15",
+      capacityKg: 15,
+      fillKg: 15,
+      fillSummary: "15 kg — Full — 15 kg fill",
+    });
+    expect(orderCylinderLabel(toCustomerOrder(free))).toBe("15 kg");
+    expect(orderCylinderLabel({ ...toCustomerOrder(free), cylinderId: "12.5" })).toBe(
+      "15 kg",
+    );
+    expect(orderCylinderLabel(MOCK_ORDERS[0]!)).toBe("12.5 kg");
   });
 
   it("badge source is only a real non-terminal placed order", () => {
