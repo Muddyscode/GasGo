@@ -113,7 +113,7 @@ function LiveStatusCard({ className }: { className?: string }) {
     <Link
       href="/order/cylinder"
       className={cn(
-        "hero-status-card group/status block rounded-2xl bg-surface/95 p-4 shadow-gasgo-md ring-1 ring-black/5",
+        "hero-status-card group/status block rounded-2xl bg-surface p-4 text-ink shadow-gasgo-md ring-1 ring-border",
         className,
       )}
     >

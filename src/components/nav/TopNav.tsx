@@ -92,7 +92,7 @@ function MarketingIslandNav() {
           ))}
           <Link
             href="/order/cylinder"
-            className="mkt-cta-fill whitespace-nowrap rounded-full bg-brand-green px-3.5 py-1.5 text-white transition-colors hover:brightness-105"
+            className="mkt-order-pill whitespace-nowrap rounded-full bg-brand-green px-3.5 py-1.5 transition-colors hover:brightness-105"
           >
             Order
           </Link>
@@ -102,7 +102,7 @@ function MarketingIslandNav() {
           <NavActions island />
           <Link
             href="/order/cylinder"
-            className="mkt-cta-fill inline-flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-full bg-brand-green px-2.5 py-1.5 text-white shadow-gasgo-md min-[320px]:px-3.5 min-[360px]:px-4 md:hidden"
+            className="mkt-order-pill inline-flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-full bg-brand-green px-2.5 py-1.5 shadow-gasgo-md min-[320px]:px-3.5 min-[360px]:px-4 md:hidden"
           >
             Order
           </Link>
