@@ -24,6 +24,12 @@ describe("kitchen hero + auth split + theme contracts", () => {
     expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/\/brand\/kitchen-relief\.webp/);
     expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/sizes="\(max-width: 767px\) 100vw, 58vw"/);
     expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/priority/);
+    expect(readSrc("components/marketing/AudienceScenes.tsx")).toMatch(
+      /sizes="\(min-width: 1024px\) 380px/,
+    );
+    for (const scene of ["scene-family.jpg", "scene-chef.jpg", "scene-estate.jpg"]) {
+      expect(statSync(path.resolve(ROOT, "public/images", scene)).size).toBeLessThan(90_000);
+    }
     expect(readSrc("components/marketing/MarketingLanding.tsx").match(/<KitchenHero/g)?.length).toBe(1);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/KitchenHero/);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).not.toMatch(/HeroRun|CyclingGreeting/);

@@ -51,7 +51,7 @@ export function AudienceScenes() {
                 src={scene.src}
                 alt={scene.alt}
                 fill
-                sizes="(min-width: 1024px) 30vw, (min-width: 640px) 46vw, 92vw"
+                sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, calc(100vw - 2.5rem)"
                 className="mkt-scene-image object-cover"
               />
             </div>
