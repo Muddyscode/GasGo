@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId } from "react";
+import { AuthIdentityForm } from "@/components/auth/AuthIdentityForm";
 import { FadeLift } from "@/components/motion/FadeLift";
 import { DEMO_SESSION_USER } from "@/data/profile";
 import { cn } from "@/lib/utils";
@@ -16,12 +17,6 @@ type AuthModalProps = {
 export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) {
   const titleId = useId();
   const signIn = useSession((state) => state.signIn);
-  const [firstName, setFirstName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-
-  const canSubmit =
-    firstName.trim().length > 1 && phone.replace(/\D/g, "").length >= 10;
   const isCheckout = intent === "/order/checkout";
 
   useEffect(() => {
@@ -41,22 +36,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
 
   function complete(user: SessionUser) {
     signIn(user);
-    setFirstName("");
-    setPhone("");
-    setEmail("");
     onSuccess();
-  }
-
-  function handleSubmit() {
-    if (!canSubmit) return;
-    const digits = phone.replace(/\D/g, "");
-    complete({
-      id: `usr_${Date.now().toString(36)}`,
-      firstName: firstName.trim().split(/\s+/)[0] ?? firstName.trim(),
-      lastName: firstName.trim().split(/\s+/).slice(1).join(" "),
-      phone: digits.startsWith("234") ? `+${digits}` : `+234${digits.replace(/^0/, "")}`,
-      email: email.trim() || `${digits}@guest.gasgo.app`,
-    });
   }
 
   return (
@@ -94,68 +74,16 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
             : "Your details stay on this device. Signing in keeps any fill you already drafted."}
         </p>
 
-        <form
-          className="mt-6 flex flex-col gap-3.5"
-          onSubmit={(event) => {
-            event.preventDefault();
-            handleSubmit();
-          }}
-        >
-          <label className="block">
-            <span className="mb-1.5 block text-sm font-medium text-ink">Full name</span>
-            <input
-              value={firstName}
-              autoComplete="name"
-              placeholder="Chioma Okeke"
-              onChange={(event) => setFirstName(event.target.value)}
-              className={fieldClassName}
-            />
-          </label>
-          <label className="block">
-            <span className="mb-1.5 block text-sm font-medium text-ink">Phone</span>
-            <input
-              value={phone}
-              inputMode="tel"
-              autoComplete="tel"
-              placeholder="0803 000 0000"
-              onChange={(event) => setPhone(event.target.value)}
-              className={fieldClassName}
-            />
-          </label>
-          <label className="block">
-            <span className="mb-1.5 block text-sm font-medium text-ink">
-              Email <span className="font-normal text-ink-muted">(optional)</span>
-            </span>
-            <input
-              value={email}
-              type="email"
-              autoComplete="email"
-              placeholder="you@email.com"
-              onChange={(event) => setEmail(event.target.value)}
-              className={fieldClassName}
-            />
-          </label>
-
-          <button
-            type="submit"
-            disabled={!canSubmit}
-            className={cn(
-              "mt-2 flex min-h-12 h-14 items-center justify-center rounded-2xl text-[15px] font-semibold",
-              "transition-[background-color,color,transform,box-shadow] duration-150",
-              "ease-[cubic-bezier(0.16,1,0.3,1)]",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40",
-              canSubmit
-                ? "bg-brand-green text-white shadow-gasgo-md active:scale-[0.985]"
-                : "cursor-not-allowed bg-surface-muted text-ink-muted",
-            )}
-          >
-            {isCheckout ? "Sign up and continue to checkout" : "Create account"}
-          </button>
+        <div className="mt-6">
+          <AuthIdentityForm
+            submitLabel={isCheckout ? "Sign up and continue to checkout" : "Create account"}
+            onComplete={complete}
+          />
           <button
             type="button"
             onClick={() => complete(DEMO_SESSION_USER)}
             className={cn(
-              "flex min-h-12 h-12 items-center justify-center rounded-2xl",
+              "mt-3.5 flex h-12 min-h-12 w-full items-center justify-center rounded-2xl",
               "border border-border bg-surface-muted text-[15px] font-semibold text-ink",
               "transition-[transform,background-color] duration-150",
               "ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985]",
@@ -164,11 +92,8 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
           >
             Continue with demo account
           </button>
-        </form>
+        </div>
       </FadeLift>
     </div>
   );
 }
-
-const fieldClassName =
-  "h-12 min-h-12 w-full rounded-2xl border border-border bg-surface-muted px-4 text-[16px] text-ink outline-none transition-[border-color,background-color,box-shadow] duration-150 placeholder:text-ink-muted/70 focus:border-brand-green focus:bg-surface focus:ring-2 focus:ring-brand-green/20";
