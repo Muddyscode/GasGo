@@ -7,8 +7,8 @@ export const CHECKOUT_RECEIPT_SHEET_ID = "checkout-receipt-sheet";
 /**
  * Tailwind `bg-ink/45` is transparent — `/opacity` cannot tint a CSS-variable color.
  * Dark remaps `--gasgo-ink` to cream, so dark overlays tint from `--gasgo-surface`
- * (the dark plate) instead. Shared so CheckoutReceiptSheet, AuthModal, and
- * AddAddressSheet darken the page the same way.
+ * (the dark plate) instead. Shared so CheckoutReceiptSheet, AuthModal,
+ * AddAddressSheet, and EditProfileSheet darken the page the same way.
  */
 export const OVERLAY_SCRIM_DARK_CLASS =
   "dark:bg-[color-mix(in_srgb,var(--gasgo-surface)_70%,transparent)]";

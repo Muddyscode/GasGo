@@ -119,7 +119,7 @@ export function CheckoutReceiptSheet({
         aria-labelledby={titleId}
         data-checkout-receipt-sheet=""
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 w-full max-w-lg rounded-t-3xl bg-surface px-5 pt-4 shadow-gasgo-lg lg:hidden",
+          "fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-lg rounded-t-3xl border-t border-border bg-surface px-5 pt-4 shadow-gasgo-lg lg:hidden",
           "pb-[max(1.25rem,env(safe-area-inset-bottom))]",
           "motion-safe:transition-transform motion-safe:duration-200",
           "motion-safe:ease-[cubic-bezier(0.16,1,0.3,1)]",

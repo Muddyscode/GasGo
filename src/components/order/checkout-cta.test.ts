@@ -30,12 +30,26 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
     expect(sheet).toMatch(/CHECKOUT_RECEIPT_SHEET_ID/);
     expect(sheet).toMatch(/aria-haspopup="dialog"/);
     expect(sheet).toMatch(/aria-expanded=\{expanded\}/);
+    expect(sheet).toMatch(/mx-auto/);
+    expect(sheet).toMatch(/rounded-t-3xl/);
+    expect(sheet).toMatch(/border-t border-border/);
     expect(sheet).not.toMatch(/bg-ink\/45/);
 
     const address = readOrder("AddAddressSheet.tsx");
     expect(address).toMatch(/createPortal/);
     expect(address).toMatch(/OVERLAY_SCRIM_40_CLASS/);
+    expect(address).toMatch(/mx-auto/);
     expect(address).not.toMatch(/bg-ink\/40/);
+
+    const profile = readFileSync(
+      path.resolve(ORDER_DIR, "../profile/EditProfileSheet.tsx"),
+      "utf8",
+    );
+    expect(profile).toMatch(/createPortal/);
+    expect(profile).toMatch(/OVERLAY_SCRIM_40_CLASS/);
+    expect(profile).toMatch(/useBodyScrollLock/);
+    expect(profile).toMatch(/mx-auto/);
+    expect(profile).not.toMatch(/bg-ink\/40/);
 
     const overlay = readFileSync(path.resolve(ORDER_DIR, "../../lib/overlay.ts"), "utf8");
     expect(overlay).toMatch(/color-mix\(in_srgb,var\(--gasgo-ink\)_45%,transparent\)/);

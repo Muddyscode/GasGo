@@ -156,6 +156,7 @@ describe("guest draft survives mock signup", () => {
     expect(modal).toMatch(/FadeLift/);
     expect(modal).toMatch(/createPortal/);
     expect(modal).toMatch(/OVERLAY_SCRIM_45_CLASS/);
+    expect(modal).toMatch(/mx-auto/);
     expect(modal).not.toMatch(/bg-ink\/45/);
     const overlay = readFileSync(path.resolve(__dirname, "../lib/overlay.ts"), "utf8");
     expect(overlay).toMatch(/color-mix\(in_srgb,var\(--gasgo-ink\)_45%,transparent\)/);

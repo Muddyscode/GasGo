@@ -63,7 +63,7 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="fade-lift fixed inset-x-0 bottom-0 z-50 w-full max-w-md rounded-t-3xl bg-surface px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-gasgo-lg sm:inset-0 sm:m-auto sm:h-fit sm:rounded-3xl"
+        className="fade-lift fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-md rounded-t-3xl border-t border-border bg-surface px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-gasgo-lg sm:inset-0 sm:m-auto sm:h-fit sm:rounded-3xl sm:border"
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border" />
         <h2 id={titleId} className="font-display text-lg font-semibold tracking-tight text-ink">

@@ -86,7 +86,7 @@ export function AuthModal({ open, intent, onClose, onSuccess }: AuthModalProps) 
         aria-modal="true"
         aria-labelledby={titleId}
         className={cn(
-          "fixed inset-x-0 bottom-0 z-50 w-full max-w-md border border-border bg-surface",
+          "fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-md border border-border bg-surface",
           "max-h-[min(92dvh,44rem)] overflow-y-auto overscroll-contain",
           "rounded-t-3xl px-5 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-4",
           "shadow-gasgo-lg sm:inset-0 sm:m-auto sm:h-fit sm:rounded-3xl sm:px-6 sm:pt-6",
