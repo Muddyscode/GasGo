@@ -27,7 +27,7 @@ export function ProfileGaugeCard({ gauge }: ProfileGaugeCardProps) {
         />
 
         <div className="min-w-0 flex-1">
-          <p className="text-[13px] font-medium text-brand-green">
+          <p className="text-[13px] font-semibold text-ink">
             Gas gauge
           </p>
           <p className="text-[12px] text-ink-muted">Secondary — estimate only</p>

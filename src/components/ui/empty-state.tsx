@@ -37,7 +37,7 @@ export function EmptyState({
           sizes="(max-width: 768px) 100vw, 640px"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent" />
       </div>
       <div className="px-5 pb-6 pt-2 text-center">
         <p className="text-[17px] font-semibold tracking-tight text-ink">{title}</p>
