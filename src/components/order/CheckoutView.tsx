@@ -88,7 +88,7 @@ export function CheckoutView() {
         backLabel="Back to delivery details"
       />
 
-      <PageBody>
+      <PageBody className="pb-6 lg:pb-0">
         <PageTitle
           eyebrow={fulfillmentMode === "hub" ? "Hub self-collect" : "Door-to-door"}
           subtitle={

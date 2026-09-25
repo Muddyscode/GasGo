@@ -54,6 +54,10 @@ describe("kitchen hero + auth split + theme contracts", () => {
     expect(home).toMatch(/ReturnScene/);
     expect(home).toMatch(/PlantTankGlyph/);
     expect(home).toMatch(/GasGauge/);
+    expect(home).toMatch(
+      /We collect your cylinder, refill it at the plant, and bring it back\./,
+    );
+    expect(home).not.toMatch(/→|←|⇒|⇐/);
     expect(home).not.toMatch(/#F1F5D8|#E8F3EE/);
     expect(home).not.toMatch(/from-ink\/80 via-ink\/25|from-ink\/80 via-ink\/20/);
   });

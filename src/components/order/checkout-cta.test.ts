@@ -27,6 +27,7 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
 
     expect(view).toMatch(/PriceBreakdown/);
     expect(view).toMatch(/className="mt-8 lg:hidden"/);
+    expect(view).toMatch(/className="pb-6 lg:pb-0"/);
     expect(view).toMatch(/placement="rail"/);
     expect(view).toMatch(/placement="bar"/);
     expect(view).not.toMatch(/pb-4/);
@@ -38,7 +39,8 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
 
   it("keeps the receipt as thin dividers with a quieter under-fill line", () => {
     const receipt = readOrder("PriceBreakdown.tsx");
-    expect(receipt).toMatch(/To pay before pickup/);
+    expect(receipt).toMatch(/>To pay before pickup</);
+    expect(receipt).not.toMatch(/To\s*<\/|pay\s*<\/|before\s*</);
     expect(receipt).toMatch(/border-t border-border\/60/);
     expect(receipt).toMatch(/CountUpNaira/);
     expect(receipt).toMatch(/tabular-nums/);

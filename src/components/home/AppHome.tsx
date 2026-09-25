@@ -171,7 +171,8 @@ function ActiveOrderCard({ order }: { order: CustomerOrder }) {
             {stage?.title ?? "Plant refill loop"}
           </p>
           <p className="mt-0.5 text-sm text-brand-white/90 dark:text-ink-muted">
-            {stage?.detail ?? "Collect → plant refill → return"}
+            {stage?.detail ??
+              "We collect your cylinder, refill it at the plant, and bring it back."}
           </p>
         </div>
       </div>
