@@ -24,11 +24,8 @@ export function MarketingLanding() {
   return (
     <div className="flex flex-1 flex-col">
       <LegacyMarketingHashRedirect />
-      <section className="relative isolate overflow-hidden bg-surface">
-        <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] md:block">
-          <KitchenHero className="h-full min-h-[36rem] w-full" />
-        </div>
-        <div className="hero-copy-wash pointer-events-none absolute inset-0 hidden md:block" aria-hidden="true" />
+      <section className="relative isolate flex flex-col overflow-hidden bg-surface">
+        <div className="hero-copy-wash pointer-events-none absolute inset-0 z-[1] hidden md:block" aria-hidden="true" />
 
         <div className="relative z-[1] mx-auto flex min-h-[min(86dvh,46rem)] w-full max-w-6xl flex-col justify-center px-5 py-12 md:px-8 lg:px-10">
           <div className="md:max-w-[42%]">
@@ -70,9 +67,7 @@ export function MarketingLanding() {
           </div>
         </div>
 
-        <div className="md:hidden">
-          <KitchenHero className="aspect-[16/10] w-full" />
-        </div>
+        <KitchenHero className="relative aspect-[16/10] w-full md:absolute md:inset-y-0 md:right-0 md:z-0 md:aspect-auto md:h-full md:min-h-[36rem] md:w-[58%]" />
 
         <LiveStatusCard className="absolute bottom-6 right-5 z-[2] hidden max-w-[17rem] md:block lg:right-10" />
       </section>

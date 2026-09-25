@@ -52,6 +52,7 @@ export function KitchenHero({ className }: { className?: string }) {
           width={1280}
           height={720}
           priority
+          sizes="(min-width: 768px) 58vw, 100vw"
           className="kitchen-hero-image h-full w-full object-cover object-[70%_50%]"
         />
       </div>

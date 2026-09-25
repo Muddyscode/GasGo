@@ -48,6 +48,7 @@ describe("GasGo visual identity v1", () => {
     expect(landing).toMatch(/MARKETING_SAFETY/);
     expect(readSrc("lib/marketing-greetings.ts")).toMatch(/Nothing is filled at your door/);
     expect(landing).toMatch(/KitchenHero/);
+    expect(landing.match(/<KitchenHero/g)?.length).toBe(1);
     expect(landing).not.toMatch(/HeroRun|CyclingGreeting|FadeLift|ArrowRight/);
     expect(blob).not.toMatch(/uppercase tracking/);
     expect(blob).not.toMatch(/ · /);

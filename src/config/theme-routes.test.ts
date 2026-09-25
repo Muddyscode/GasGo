@@ -20,6 +20,8 @@ describe("kitchen hero + auth split + theme contracts", () => {
     expect(existsSync(path.resolve(SRC, "components/marketing/HeroRun.tsx"))).toBe(false);
     expect(readSrc("components/marketing/index.ts")).not.toMatch(/HeroRun/);
     expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/\/brand\/kitchen-relief\.png/);
+    expect(readSrc("components/marketing/KitchenHero.tsx")).toMatch(/sizes=/);
+    expect(readSrc("components/marketing/MarketingLanding.tsx").match(/<KitchenHero/g)?.length).toBe(1);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).toMatch(/KitchenHero/);
     expect(readSrc("components/marketing/MarketingLanding.tsx")).not.toMatch(/HeroRun|CyclingGreeting/);
   });
