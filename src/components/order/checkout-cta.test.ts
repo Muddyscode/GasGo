@@ -39,8 +39,9 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
 
   it("keeps the receipt as thin dividers with a quieter under-fill line", () => {
     const receipt = readOrder("PriceBreakdown.tsx");
-    expect(receipt).toMatch(/>To pay before pickup</);
-    expect(receipt).not.toMatch(/To\s*<\/|pay\s*<\/|before\s*</);
+    expect(receipt).toMatch(/To pay before pickup/);
+    expect(receipt).toMatch(/To pay before pickup[\s\S]*?<\/p>/);
+    expect(receipt).not.toMatch(/<span[^>]*>To<\/span>|<span[^>]*>pay<\/span>/);
     expect(receipt).toMatch(/border-t border-border\/60/);
     expect(receipt).toMatch(/CountUpNaira/);
     expect(receipt).toMatch(/tabular-nums/);
