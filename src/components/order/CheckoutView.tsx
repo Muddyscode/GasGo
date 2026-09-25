@@ -88,7 +88,7 @@ export function CheckoutView() {
         backLabel="Back to delivery details"
       />
 
-      <PageBody className="pb-4">
+      <PageBody>
         <PageTitle
           eyebrow={fulfillmentMode === "hub" ? "Hub self-collect" : "Door-to-door"}
           subtitle={
@@ -113,16 +113,20 @@ export function CheckoutView() {
               pickupDate={pickupDate}
               returnDate={returnDate}
             />
+            <div className="mt-8 lg:hidden">
+              <PriceBreakdown quote={toOrderQuote(live)} fulfillmentMode={fulfillmentMode} />
+            </div>
           </div>
           <aside className="hidden lg:col-span-5 lg:block">
             <div className="lg:sticky lg:top-8">
               <PriceBreakdown quote={toOrderQuote(live)} fulfillmentMode={fulfillmentMode} />
+              <PaystackPayButton quote={toOrderQuote(live)} placement="rail" />
             </div>
           </aside>
         </div>
       </PageBody>
 
-      <PaystackPayButton quote={toOrderQuote(live)} />
+      <PaystackPayButton quote={toOrderQuote(live)} placement="bar" />
     </PageFrame>
   );
 }
