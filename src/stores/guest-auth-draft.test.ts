@@ -1,14 +1,37 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { beforeEach, describe, expect, it } from "vitest";
 import { SAVED_ADDRESSES } from "@/config/delivery";
 import { defaultOrderDates } from "@/config/fulfillment";
 import { LIVE_RATE_NGN_PER_KG, getZone } from "@/config/pricing";
+import { guestSessionUser } from "@/lib/session-user";
 import { ORDER_DRAFT_STORAGE_KEY, useOrderDraft } from "@/stores/order-draft";
 import { useSession } from "@/stores/session";
+import { completePaidCheckout, useCustomerOrders } from "@/stores/customer-orders";
+
+const AUTH_DIR = path.resolve(__dirname, "../components/auth");
+
+function readAuth(rel: string) {
+  return readFileSync(path.join(AUTH_DIR, rel), "utf8");
+}
+
+function seedReadyDraft() {
+  const home = SAVED_ADDRESSES[0];
+  const dates = defaultOrderDates();
+  useOrderDraft.getState().setCapacityKg(15);
+  useOrderDraft.getState().setFillMode("full");
+  useOrderDraft.getState().setAddress(home);
+  useOrderDraft.getState().setPresence("someone-home");
+  useOrderDraft.getState().setWindow("asap");
+  useOrderDraft.getState().setOrderDates(dates.pickupDate, dates.returnDate);
+  return { home, dates, quote: useOrderDraft.getState().quote() };
+}
 
 describe("guest draft survives mock signup", () => {
   beforeEach(() => {
     localStorage.clear();
     useOrderDraft.getState().clear();
+    useCustomerOrders.setState({ orders: [] });
     useSession.setState({ user: null });
   });
 
@@ -106,6 +129,100 @@ describe("guest draft survives mock signup", () => {
     });
     expect(useOrderDraft.getState().fulfillmentMode).toBe("hub");
     expect(useOrderDraft.getState().pickupDate).toBe(dates.pickupDate);
+  });
+
+  it("auth modal, /signup page, and session never call draft clear()", () => {
+    for (const rel of [
+      "AuthModal.tsx",
+      "AuthEntryView.tsx",
+      "AuthIdentityForm.tsx",
+      "AuthProvider.tsx",
+    ]) {
+      const text = readAuth(rel);
+      expect(text, rel).not.toMatch(/clear\(/);
+      expect(text, rel).not.toMatch(/useOrderDraft\.getState\(\)\.clear/);
+    }
+    const session = readFileSync(path.resolve(__dirname, "session.ts"), "utf8");
+    expect(session).not.toMatch(/useOrderDraft/);
+    expect(session).not.toMatch(/clear\(/);
+    expect(session).toMatch(/signIn \/ signOut must never touch the order draft/);
+
+    const modal = readAuth("AuthModal.tsx");
+    const entry = readAuth("AuthEntryView.tsx");
+    const form = readAuth("AuthIdentityForm.tsx");
+    expect(form).toMatch(/guestSessionUser/);
+    expect(modal).toMatch(/AuthIdentityForm/);
+    expect(modal).toMatch(/signIn\(user\)/);
+    expect(entry).toMatch(/AuthIdentityForm/);
+    expect(entry).toMatch(/signIn\(user\)/);
+    expect(readFileSync(path.resolve(__dirname, "../app/(customer)/signup/page.tsx"), "utf8")).toMatch(
+      /AuthEntryView/,
+    );
+  });
+
+  it("checkout signup modal identity capture keeps gasgo-order-draft", () => {
+    const { quote } = seedReadyDraft();
+    expect(useOrderDraft.getState().isReadyForCheckout()).toBe(true);
+
+    const user = guestSessionUser({
+      firstName: "Chioma Okeke",
+      phone: "08030000000",
+      email: "chioma@guest.gasgo.app",
+    });
+    useSession.getState().signIn(user);
+
+    expect(useSession.getState().user?.firstName).toBe("Chioma");
+    expect(useSession.getState().user?.lastName).toBe("Okeke");
+    expect(useOrderDraft.getState().capacityKg).toBe(15);
+    expect(useOrderDraft.getState().address?.zoneId).toBe("old-gra");
+    expect(useOrderDraft.getState().quote().totalNgn).toBe(quote.totalNgn);
+    expect(localStorage.getItem(ORDER_DRAFT_STORAGE_KEY)).toBeTruthy();
+    expect(JSON.parse(localStorage.getItem(ORDER_DRAFT_STORAGE_KEY) ?? "{}").state?.capacityKg).toBe(
+      15,
+    );
+  });
+
+  it("/signup page identity capture keeps gasgo-order-draft through sign-out", () => {
+    const { home, quote } = seedReadyDraft();
+    const user = guestSessionUser({
+      firstName: "Adaeze Nwosu",
+      phone: "08081112222",
+      email: "",
+    });
+    useSession.getState().signIn(user);
+
+    expect(useSession.getState().user?.firstName).toBe("Adaeze");
+    expect(useOrderDraft.getState().capacityKg).toBe(15);
+    expect(useOrderDraft.getState().isReadyForCheckout()).toBe(true);
+    expect(useOrderDraft.getState().quote().totalNgn).toBe(quote.totalNgn);
+
+    useSession.getState().signOut();
+    expect(useSession.getState().user).toBeNull();
+    expect(useOrderDraft.getState().capacityKg).toBe(15);
+    expect(useOrderDraft.getState().address?.line).toBe(home.line);
+    expect(useOrderDraft.getState().quote().totalNgn).toBe(quote.totalNgn);
+  });
+
+  it("only a completed pay clear()s the draft — signIn and signOut do not", () => {
+    seedReadyDraft();
+    const before = useOrderDraft.getState().quote().totalNgn;
+    useSession.getState().signIn(
+      guestSessionUser({ firstName: "Tunde Adebayo", phone: "08034412291", email: "" }),
+    );
+    useSession.getState().signOut();
+    useSession.getState().signIn(
+      guestSessionUser({ firstName: "Tunde Adebayo", phone: "08034412291", email: "" }),
+    );
+    expect(useOrderDraft.getState().capacityKg).toBe(15);
+    expect(useOrderDraft.getState().quote().totalNgn).toBe(before);
+
+    completePaidCheckout({
+      user: useSession.getState().user!,
+      orderId: "gg_pay_clears_draft",
+    });
+    expect(useOrderDraft.getState().capacityKg).toBeNull();
+    expect(useOrderDraft.getState().address).toBeNull();
+    expect(useOrderDraft.getState().quote().fillKg).toBe(0);
   });
 
   it("checkout review payload has fill mode, kg, live ₦/kg, gas, delivery/hub, dates, window, fulfillment", () => {
