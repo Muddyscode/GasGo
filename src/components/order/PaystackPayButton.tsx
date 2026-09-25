@@ -22,11 +22,15 @@ type PaystackPayButtonProps = {
   quote: OrderQuote;
   /** `bar` is the compact mobile footer. `rail` sits in the desktop receipt column. */
   placement?: "bar" | "rail";
+  breakdownOpen?: boolean;
+  onViewBreakdown?: (trigger: HTMLElement) => void;
 };
 
 export function PaystackPayButton({
   quote,
   placement = "bar",
+  breakdownOpen = false,
+  onViewBreakdown,
 }: PaystackPayButtonProps) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
@@ -73,6 +77,8 @@ export function PaystackPayButton({
     }
   }
 
+  const payLabel = pending ? "Starting Paystack…" : !user ? "Sign up to pay" : "Pay now";
+
   const controls = (
     <>
       {pending ? (
@@ -81,11 +87,28 @@ export function PaystackPayButton({
         </div>
       ) : null}
       {placement === "bar" ? (
-        <div className="mb-2.5 flex items-baseline justify-between gap-3">
-          <p className="text-sm font-medium text-ink-muted">Total</p>
-          <p className="font-display text-[22px] font-semibold tabular-nums tracking-tight text-ink">
-            <CountUpNaira value={quote.totalNgn} />
-          </p>
+        <div className="mb-2.5">
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={breakdownOpen}
+            onClick={(event) => onViewBreakdown?.(event.currentTarget)}
+            className="flex w-full items-baseline justify-between gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          >
+            <span className="text-sm font-medium text-ink-muted">Total</span>
+            <span className="font-display text-[22px] font-semibold tabular-nums tracking-tight text-ink">
+              <CountUpNaira value={quote.totalNgn} />
+            </span>
+          </button>
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={breakdownOpen}
+            onClick={(event) => onViewBreakdown?.(event.currentTarget)}
+            className="mt-1 text-sm font-semibold text-brand-green underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          >
+            View breakdown
+          </button>
         </div>
       ) : null}
       <p className="mb-2.5 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
@@ -103,7 +126,7 @@ export function PaystackPayButton({
           pending && "cursor-wait bg-brand-green/80",
         )}
       >
-        {pending ? "Starting Paystack…" : !user ? "Sign up to pay" : "Pay now"}
+        {payLabel}
       </button>
     </>
   );

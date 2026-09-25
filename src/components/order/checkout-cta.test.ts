@@ -20,12 +20,16 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
     expect(pay).toMatch(/placement === "rail"/);
     expect(pay).toMatch(/className="lg:hidden"/);
     expect(pay).toMatch(/CountUpNaira/);
+    expect(pay).toMatch(/View breakdown/);
+    expect(pay).toMatch(/onViewBreakdown/);
     expect(pay).not.toMatch(/PriceBreakdown/);
     expect(pay).not.toMatch(/To pay before pickup/);
     expect(pay).not.toMatch(/prepayQuoteLines/);
     expect(pay).not.toMatch(/PAYMENT_VARIANCE_COPY/);
 
     expect(view).toMatch(/PriceBreakdown/);
+    expect(view).toMatch(/CheckoutReceiptSheet/);
+    expect(view).toMatch(/CheckoutBreakdownRow/);
     expect(view).toMatch(/className="mt-8 lg:hidden"/);
     expect(view).toMatch(/className="pb-6 lg:pb-0"/);
     expect(view).toMatch(/placement="rail"/);

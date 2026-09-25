@@ -14,9 +14,11 @@ import {
 export function PriceBreakdown({
   quote,
   fulfillmentMode,
+  headingId,
 }: {
   quote: OrderQuote;
   fulfillmentMode?: FulfillmentMode;
+  headingId?: string;
 }) {
   const lines = fulfillmentMode
     ? prepayQuoteLines(quote, fulfillmentMode)
@@ -25,7 +27,10 @@ export function PriceBreakdown({
 
   return (
     <section>
-      <p className="font-display text-[15px] font-semibold tracking-tight text-ink">
+      <p
+        id={headingId}
+        className="font-display text-[15px] font-semibold tracking-tight text-ink"
+      >
         To pay before pickup
       </p>
       {hub ? (

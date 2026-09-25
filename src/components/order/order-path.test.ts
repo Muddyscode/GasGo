@@ -21,7 +21,7 @@ function walkOrderSources(dir = ORDER_DIR, acc: string[] = []): string[] {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) walkOrderSources(full, acc);
-    else if (/\.(ts|tsx)$/.test(entry.name) && !entry.name.endsWith(".test.ts")) {
+    else if (/\.(ts|tsx)$/.test(entry.name) && !entry.name.includes(".test.")) {
       acc.push(full);
     }
   }
