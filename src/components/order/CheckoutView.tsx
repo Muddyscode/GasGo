@@ -5,6 +5,10 @@ import { useAuthModal } from "@/components/auth/AuthProvider";
 import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
 import { OrderHeader } from "@/components/order/OrderHeader";
+import {
+  CheckoutBreakdownRow,
+  CheckoutReceiptSheet,
+} from "@/components/order/CheckoutReceiptSheet";
 import { PaystackPayButton } from "@/components/order/PaystackPayButton";
 import { PriceBreakdown } from "@/components/order/PriceBreakdown";
 import { DeliveryLoading } from "@/components/motion";
@@ -28,6 +32,13 @@ export function CheckoutView() {
   const user = useSession((state) => state.user);
   const { requestAuth } = useAuthModal();
   const askedForAuth = useRef(false);
+  const [receiptOpen, setReceiptOpen] = useState(false);
+  const receiptTriggerRef = useRef<HTMLElement | null>(null);
+
+  const openReceipt = (trigger: HTMLElement) => {
+    receiptTriggerRef.current = trigger;
+    setReceiptOpen(true);
+  };
 
   useEffect(() => {
     let timeout: ReturnType<typeof setTimeout> | undefined;
@@ -88,7 +99,7 @@ export function CheckoutView() {
         backLabel="Back to delivery details"
       />
 
-      <PageBody className="pb-4">
+      <PageBody className="pb-6 lg:pb-0">
         <PageTitle
           eyebrow={fulfillmentMode === "hub" ? "Hub self-collect" : "Door-to-door"}
           subtitle={
@@ -113,16 +124,36 @@ export function CheckoutView() {
               pickupDate={pickupDate}
               returnDate={returnDate}
             />
+            <div className="mt-8 lg:hidden">
+              <CheckoutBreakdownRow
+                totalNgn={live.totalNgn}
+                expanded={receiptOpen}
+                onOpen={openReceipt}
+              />
+            </div>
           </div>
           <aside className="hidden lg:col-span-5 lg:block">
             <div className="lg:sticky lg:top-8">
               <PriceBreakdown quote={toOrderQuote(live)} fulfillmentMode={fulfillmentMode} />
+              <PaystackPayButton quote={toOrderQuote(live)} placement="rail" />
             </div>
           </aside>
         </div>
       </PageBody>
 
-      <PaystackPayButton quote={toOrderQuote(live)} />
+      <PaystackPayButton
+        quote={toOrderQuote(live)}
+        placement="bar"
+        breakdownOpen={receiptOpen}
+        onViewBreakdown={openReceipt}
+      />
+      <CheckoutReceiptSheet
+        open={receiptOpen}
+        onClose={() => setReceiptOpen(false)}
+        quote={toOrderQuote(live)}
+        fulfillmentMode={fulfillmentMode}
+        returnFocusTo={receiptTriggerRef}
+      />
     </PageFrame>
   );
 }

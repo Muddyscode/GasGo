@@ -4,10 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Lock } from "lucide-react";
 import { useAuthModal } from "@/components/auth/AuthProvider";
+import { CountUpNaira } from "@/components/motion";
 import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
-import { PriceBreakdown } from "@/components/order/PriceBreakdown";
 import { buttonClassName } from "@/components/ui/button";
 import { StickyAction } from "@/components/ui/page";
+import { CHECKOUT_RECEIPT_SHEET_ID } from "@/lib/overlay";
 import type { OrderQuote } from "@/config/pricing";
 import { formatKg } from "@/config/pricing";
 import { createLocalOrderId } from "@/lib/order-id";
@@ -16,11 +17,22 @@ import { completePaidCheckout } from "@/stores/customer-orders";
 import { useOrderDraft } from "@/stores/order-draft";
 import { useSession } from "@/stores/session";
 
+export const CHECKOUT_MOBILE_CTA_ATTR = "data-checkout-mobile-cta";
+
 type PaystackPayButtonProps = {
   quote: OrderQuote;
+  /** `bar` is the compact mobile footer. `rail` sits in the desktop receipt column. */
+  placement?: "bar" | "rail";
+  breakdownOpen?: boolean;
+  onViewBreakdown?: (trigger: HTMLElement) => void;
 };
 
-export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
+export function PaystackPayButton({
+  quote,
+  placement = "bar",
+  breakdownOpen = false,
+  onViewBreakdown,
+}: PaystackPayButtonProps) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const address = useOrderDraft((state) => state.address);
@@ -66,17 +78,43 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
     }
   }
 
-  return (
-    <StickyAction>
+  const payLabel = pending ? "Starting Paystack…" : !user ? "Sign up to pay" : "Pay now";
+
+  const controls = (
+    <>
       {pending ? (
         <div className="mb-3">
           <DeliveryTruck size="sm" label="Starting payment" />
         </div>
       ) : null}
-      <div className="lg:hidden">
-        <PriceBreakdown quote={quote} fulfillmentMode={fulfillmentMode} />
-      </div>
-      <p className="mb-2.5 mt-3 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
+      {placement === "bar" ? (
+        <div className="mb-2.5">
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={breakdownOpen}
+            aria-controls={CHECKOUT_RECEIPT_SHEET_ID}
+            onClick={(event) => onViewBreakdown?.(event.currentTarget)}
+            className="flex w-full items-baseline justify-between gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          >
+            <span className="text-sm font-medium text-ink-muted">Total</span>
+            <span className="font-display text-[22px] font-semibold tabular-nums tracking-tight text-ink">
+              <CountUpNaira value={quote.totalNgn} />
+            </span>
+          </button>
+          <button
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={breakdownOpen}
+            aria-controls={CHECKOUT_RECEIPT_SHEET_ID}
+            onClick={(event) => onViewBreakdown?.(event.currentTarget)}
+            className="mt-1 text-sm font-semibold text-brand-green underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          >
+            View breakdown
+          </button>
+        </div>
+      ) : null}
+      <p className="mb-2.5 flex min-h-5 items-center justify-center gap-1.5 text-sm text-ink-muted">
         <Lock className="size-3.5" strokeWidth={2} />
         {hub
           ? "Pay in full to confirm this hub pre-order. Paystack test mode."
@@ -91,8 +129,18 @@ export function PaystackPayButton({ quote }: PaystackPayButtonProps) {
           pending && "cursor-wait bg-brand-green/80",
         )}
       >
-        {pending ? "Starting Paystack…" : !user ? "Sign up to pay" : "Pay now"}
+        {payLabel}
       </button>
+    </>
+  );
+
+  if (placement === "rail") {
+    return <div className="mt-6">{controls}</div>;
+  }
+
+  return (
+    <StickyAction className="lg:hidden">
+      <div data-checkout-mobile-cta="">{controls}</div>
     </StickyAction>
   );
 }

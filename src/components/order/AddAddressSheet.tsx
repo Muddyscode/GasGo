@@ -1,9 +1,11 @@
 "use client";
 
 import { forwardRef, useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import type { DeliveryAddress } from "@/config/delivery";
 import { createCustomAddress } from "@/config/delivery";
 import { PH_ZONES, isZoneId, type ZoneId } from "@/config/pricing";
+import { OVERLAY_SCRIM_40_CLASS, useBodyScrollLock } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 
 type AddAddressSheetProps = {
@@ -22,6 +24,8 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
 
   const canSave = label.trim().length > 1 && line.trim().length > 4 && area.trim().length > 1;
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) return;
     const timeout = window.setTimeout(() => labelRef.current?.focus(), 40);
@@ -35,7 +39,7 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
   function handleSave() {
     if (!canSave) return;
@@ -46,19 +50,20 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
     setZoneId("old-gra");
   }
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
+  return createPortal(
+    <>
       <button
         type="button"
         aria-label="Close add address"
-        className="absolute inset-0 bg-ink/40"
+        data-overlay-scrim=""
+        className={cn("fixed inset-0 z-50", OVERLAY_SCRIM_40_CLASS)}
         onClick={onClose}
       />
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="fade-lift relative w-full max-w-md rounded-t-3xl bg-surface px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-gasgo-lg sm:rounded-3xl"
+        className="fade-lift fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-md rounded-t-3xl border-t border-border bg-surface px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-gasgo-lg sm:inset-0 sm:m-auto sm:h-fit sm:rounded-3xl sm:border"
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border" />
         <h2 id={titleId} className="font-display text-lg font-semibold tracking-tight text-ink">
@@ -141,7 +146,8 @@ export function AddAddressSheet({ open, onClose, onSave }: AddAddressSheetProps)
           </div>
         </form>
       </div>
-    </div>
+    </>,
+    document.body,
   );
 }
 

@@ -153,6 +153,17 @@ describe("guest draft survives mock signup", () => {
     expect(form).toMatch(/guestSessionUser/);
     expect(modal).toMatch(/AuthIdentityForm/);
     expect(modal).toMatch(/signIn\(user\)/);
+    expect(modal).toMatch(/FadeLift/);
+    expect(modal).toMatch(/createPortal/);
+    expect(modal).toMatch(/OVERLAY_SCRIM_45_CLASS/);
+    expect(modal).toMatch(/mx-auto/);
+    expect(modal).not.toMatch(/bg-ink\/45/);
+    const overlay = readFileSync(path.resolve(__dirname, "../lib/overlay.ts"), "utf8");
+    expect(overlay).toMatch(/color-mix\(in_srgb,var\(--gasgo-ink\)_45%,transparent\)/);
+    expect(overlay).toMatch(/OVERLAY_SCRIM_DARK_CLASS/);
+    expect(overlay).toMatch(
+      /dark:bg-\[color-mix\(in_srgb,var\(--gasgo-surface\)_70%,transparent\)\]/,
+    );
     expect(entry).toMatch(/AuthIdentityForm/);
     expect(entry).toMatch(/signIn\(user\)/);
     expect(readFileSync(path.resolve(__dirname, "../app/(customer)/signup/page.tsx"), "utf8")).toMatch(

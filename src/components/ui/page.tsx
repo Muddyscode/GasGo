@@ -10,7 +10,10 @@ export function PageFrame({
 }) {
   return (
     <div
-      className={cn("flex min-h-0 flex-1 flex-col bg-transparent", className)}
+      className={cn(
+        "flex min-h-0 flex-1 flex-col overflow-hidden bg-transparent",
+        className,
+      )}
     >
       {children}
     </div>
@@ -82,7 +85,7 @@ export function StickyAction({
   return (
     <div
       className={cn(
-        "sticky bottom-0 z-20 shrink-0 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md",
+        "z-20 shrink-0 border-t border-border/80 bg-surface/95 px-5 pt-3 backdrop-blur-md",
         "pb-[max(1rem,env(safe-area-inset-bottom))]",
         "md:px-8 lg:px-10",
         className,

@@ -25,11 +25,15 @@ export function AuthWorld({
         fill
         sizes="(min-width: 1024px) 50vw, 100vw"
         priority
-        className="object-cover object-[center_30%]"
+        className="object-cover object-[center_30%] dark:brightness-[0.45] dark:saturate-[0.85]"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/85 via-ink/40 to-transparent"
+        className="pointer-events-none absolute inset-0 hidden bg-surface/35 dark:block"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-ink/85 via-ink/40 to-transparent dark:from-surface/90 dark:via-surface/50"
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 px-5 pb-6 pt-16 lg:px-8 lg:pb-10">
         <p className="text-[13px] font-medium text-brand-yellow">Port Harcourt only</p>

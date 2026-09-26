@@ -1,3 +1,4 @@
+import { CylinderGlyph } from "@/components/illustrations/gas-scenes";
 import type {
   DeliveryAddress,
   DeliveryWindow,
@@ -51,6 +52,10 @@ export function CheckoutSummary({
     quote.zoneName && quote.zoneName !== address.area
       ? `${address.area}, ${quote.zoneName}`
       : address.area;
+  const fillPct =
+    quote.capacityKg > 0
+      ? Math.min(100, Math.round((quote.fillKg / quote.capacityKg) * 100))
+      : 0;
 
   return (
     <div className="flex flex-col">
@@ -63,6 +68,20 @@ export function CheckoutSummary({
           {FILL_MODE_LABEL[quote.fillMode]} at {formatNaira(quote.rateNgnPerKg)}/kg,
           refilled offsite, never at your door
         </p>
+        <div className="mt-3 flex items-center gap-3" aria-hidden="true">
+          <CylinderGlyph className="size-8 shrink-0" />
+          <div className="min-w-0 flex-1">
+            <div className="h-1.5 overflow-hidden rounded-full bg-surface-muted">
+              <div
+                className="h-full rounded-full bg-brand-green"
+                style={{ width: `${fillPct}%` }}
+              />
+            </div>
+            <p className="mt-1.5 text-[12px] text-ink-muted">
+              {formatKg(quote.fillKg)} kg plant fill
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="mt-4 border-t border-border/60 pt-4">

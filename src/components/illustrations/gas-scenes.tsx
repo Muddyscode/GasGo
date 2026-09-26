@@ -171,7 +171,7 @@ export function CollectScene({ className }: { className?: string }) {
       fill="none"
       aria-hidden="true"
     >
-      <rect width="360" height="160" fill="#F1F5D8" />
+      <rect width="360" height="160" fill="currentColor" />
       <path d="M0 118h360v42H0Z" fill="#C8DC9E" />
       <rect x="18" y="56" width="96" height="62" rx="4" fill="#F4EFE3" />
       <path d="M12 60L66 24L120 60H12Z" fill={ink} />
@@ -213,7 +213,7 @@ export function ReturnScene({ className }: { className?: string }) {
       fill="none"
       aria-hidden="true"
     >
-      <rect width="360" height="160" fill="#E8F3EE" />
+      <rect width="360" height="160" fill="currentColor" />
       <rect x="16" y="72" width="92" height="52" rx="6" fill={brand.green} />
       <rect x="16" y="72" width="92" height="10" fill={ink} fillOpacity="0.25" />
       <rect x="16" y="112" width="92" height="5" fill={brand.yellow} />

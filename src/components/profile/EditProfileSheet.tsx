@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useId, useRef } from "react";
+import { createPortal } from "react-dom";
+import { OVERLAY_SCRIM_40_CLASS, useBodyScrollLock } from "@/lib/overlay";
 import { cn } from "@/lib/utils";
 
 type EditProfileSheetProps = {
@@ -26,6 +28,8 @@ export function EditProfileSheet({
   const nameRef = useRef<HTMLInputElement>(null);
   const canSave = name.trim().length > 1 && phone.trim().length > 6;
 
+  useBodyScrollLock(open);
+
   useEffect(() => {
     if (!open) return;
     const timeout = window.setTimeout(() => nameRef.current?.focus(), 40);
@@ -39,21 +43,22 @@ export function EditProfileSheet({
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
+  return createPortal(
+    <>
       <button
         type="button"
         aria-label="Close edit profile"
-        className="absolute inset-0 bg-ink/40"
+        data-overlay-scrim=""
+        className={cn("fixed inset-0 z-50", OVERLAY_SCRIM_40_CLASS)}
         onClick={onClose}
       />
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative w-full max-w-md rounded-t-3xl bg-surface px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-gasgo-lg sm:rounded-3xl"
+        className="fade-lift fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-md rounded-t-3xl border-t border-border bg-surface px-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 shadow-gasgo-lg sm:inset-0 sm:m-auto sm:h-fit sm:rounded-3xl sm:border"
       >
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-border" />
         <h2 id={titleId} className="text-lg font-semibold tracking-tight text-ink">
@@ -118,6 +123,7 @@ export function EditProfileSheet({
           </div>
         </form>
       </div>
-    </div>
+    </>,
+    document.body,
   );
 }

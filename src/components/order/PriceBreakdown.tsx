@@ -14,9 +14,11 @@ import {
 export function PriceBreakdown({
   quote,
   fulfillmentMode,
+  headingId,
 }: {
   quote: OrderQuote;
   fulfillmentMode?: FulfillmentMode;
+  headingId?: string;
 }) {
   const lines = fulfillmentMode
     ? prepayQuoteLines(quote, fulfillmentMode)
@@ -25,18 +27,22 @@ export function PriceBreakdown({
 
   return (
     <section>
-      <p className="font-display text-[15px] font-semibold tracking-tight text-ink">
+      <p
+        id={headingId}
+        className="font-display text-[15px] font-semibold tracking-tight text-ink"
+      >
         To pay before pickup
       </p>
-      <p className="mt-1 text-[13px] leading-relaxed text-ink-muted">
-        {hub ? "Hub self-collect is gas only — no transport fee. " : null}
-        {PAYMENT_VARIANCE_COPY}
-      </p>
+      {hub ? (
+        <p className="mt-1 text-[13px] leading-relaxed text-ink-muted">
+          Hub self-collect is gas only — no transport fee.
+        </p>
+      ) : null}
       <dl className="mt-3">
         {lines.map((line) => (
           <div
             key={line.id}
-            className="flex items-start justify-between gap-3 border-t border-border/60 py-2.5 text-[15px]"
+            className="flex items-start justify-between gap-3 border-t border-border/60 py-2.5 text-[16px]"
           >
             <dt className="leading-snug text-ink-muted">{line.label}</dt>
             <dd className="font-semibold tabular-nums text-ink">
@@ -45,12 +51,15 @@ export function PriceBreakdown({
           </div>
         ))}
         <div className="flex items-baseline justify-between gap-3 border-t border-ink/20 pt-3">
-          <dt className="text-[15px] font-semibold tracking-tight text-ink">Total</dt>
-          <dd className="font-display text-[24px] font-semibold tabular-nums tracking-tight text-ink">
+          <dt className="text-[16px] font-semibold tracking-tight text-ink">Total</dt>
+          <dd className="font-display text-[28px] font-semibold tabular-nums tracking-tight text-ink">
             <CountUpNaira value={quote.totalNgn} />
           </dd>
         </div>
       </dl>
+      <p className="mt-2.5 text-[12px] leading-relaxed text-ink-muted/80">
+        {PAYMENT_VARIANCE_COPY}
+      </p>
     </section>
   );
 }
