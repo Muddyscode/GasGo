@@ -43,7 +43,11 @@ export function TrackingTimeline({
                 )}
               >
                 {done ? (
-                  <Check className="size-3.5 stroke-[3]" />
+                  <Check
+                    data-step-tick=""
+                    className="size-3.5 stroke-[3] motion-safe:animate-step-tick motion-reduce:animate-none"
+                    aria-hidden="true"
+                  />
                 ) : (
                   <span
                     className={cn(

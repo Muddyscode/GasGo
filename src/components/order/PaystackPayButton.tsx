@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Lock } from "lucide-react";
+import { Flame, Lock } from "lucide-react";
 import { useAuthModal } from "@/components/auth/AuthProvider";
 import { CountUpNaira } from "@/components/motion";
-import { DeliveryTruck } from "@/components/motion/DeliveryTruck";
 import { buttonClassName } from "@/components/ui/button";
 import { StickyAction } from "@/components/ui/page";
 import { CHECKOUT_RECEIPT_SHEET_ID } from "@/lib/overlay";
@@ -55,6 +54,7 @@ export function PaystackPayButton({
     setPending(true);
 
     try {
+      const started = Date.now();
       await initiatePaystackPayment({
         amountNgn: quote.totalNgn,
         email: sessionUser.email,
@@ -70,6 +70,10 @@ export function PaystackPayButton({
           window: windowId,
         },
       });
+      const remain = Math.max(0, 240 - (Date.now() - started));
+      if (remain > 0) {
+        await new Promise((resolve) => window.setTimeout(resolve, remain));
+      }
       const orderId = createLocalOrderId();
       completePaidCheckout({ user: sessionUser, orderId });
       router.push(`/order/tracking/${encodeURIComponent(orderId)}`);
@@ -82,11 +86,6 @@ export function PaystackPayButton({
 
   const controls = (
     <>
-      {pending ? (
-        <div className="mb-3">
-          <DeliveryTruck size="sm" label="Starting payment" />
-        </div>
-      ) : null}
       {placement === "bar" ? (
         <div className="mb-2.5">
           <button
@@ -99,7 +98,7 @@ export function PaystackPayButton({
           >
             <span className="text-sm font-medium text-ink-muted">Total</span>
             <span className="font-display text-[22px] font-semibold tabular-nums tracking-tight text-ink">
-              <CountUpNaira value={quote.totalNgn} />
+              <CountUpNaira value={quote.totalNgn} shared data-checkout-total="" />
             </span>
           </button>
           <button
@@ -123,12 +122,21 @@ export function PaystackPayButton({
       <button
         type="button"
         disabled={pending}
+        aria-busy={pending}
+        data-pay-pending={pending ? "" : undefined}
         onClick={() => void handlePay()}
         className={buttonClassName(
           { variant: "primary", size: "lg" },
           pending && "cursor-wait bg-brand-green/80",
         )}
       >
+        {pending ? (
+          <Flame
+            className="size-5 shrink-0 motion-safe:animate-pay-flame motion-reduce:animate-none"
+            strokeWidth={2}
+            aria-hidden="true"
+          />
+        ) : null}
         {payLabel}
       </button>
     </>

@@ -20,6 +20,11 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
     expect(pay).toMatch(/placement === "rail"/);
     expect(pay).toMatch(/className="lg:hidden"/);
     expect(pay).toMatch(/CountUpNaira/);
+    expect(pay).toMatch(/shared data-checkout-total/);
+    expect(pay).toMatch(/Flame/);
+    expect(pay).toMatch(/animate-pay-flame/);
+    expect(pay).toMatch(/aria-busy=\{pending\}/);
+    expect(pay).not.toMatch(/DeliveryTruck/);
     expect(pay).toMatch(/View breakdown/);
     expect(pay).toMatch(/onViewBreakdown/);
     expect(pay).toMatch(/aria-controls=\{CHECKOUT_RECEIPT_SHEET_ID\}/);
@@ -86,6 +91,7 @@ describe("checkout mobile CTA keeps the full receipt out of the bar", () => {
     expect(receipt).not.toMatch(/<span[^>]*>To<\/span>|<span[^>]*>pay<\/span>/);
     expect(receipt).toMatch(/border-t border-border\/60/);
     expect(receipt).toMatch(/CountUpNaira/);
+    expect(receipt).toMatch(/shared data-checkout-total/);
     expect(receipt).toMatch(/tabular-nums/);
     expect(receipt).toMatch(/text-\[28px\]/);
     expect(receipt).toMatch(/PAYMENT_VARIANCE_COPY/);

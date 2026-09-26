@@ -1,56 +1,45 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import type { HTMLAttributes } from "react";
+import { useCheckoutTotal } from "@/components/order/CheckoutTotalProvider";
 import { formatNaira } from "@/lib/money";
-import { usePrefersReducedMotion } from "@/lib/use-prefers-reduced-motion";
+import { useCountUpNaira } from "@/lib/use-count-up-naira";
 import { cn } from "@/lib/utils";
-
-/** Single, restrained idea: totals settle rather than snap. Kept under 300ms. */
-const DURATION_MS = 280;
 
 /**
  * Naira amount that counts up/down to its new value whenever it changes.
- * First paint shows the value outright — the animation is for changes only,
- * and it collapses to an instant set under prefers-reduced-motion.
+ * First paint shows the value outright. Checkout totals with `shared` read
+ * the single CheckoutTotalProvider tween so every surface settles together.
+ * The visible span is aria-hidden; screen readers get the final value only.
  */
 export function CountUpNaira({
   value,
   className,
+  shared = false,
+  ...rest
 }: {
   value: number;
   className?: string;
-}) {
-  const reduced = usePrefersReducedMotion();
-  const [display, setDisplay] = useState(value);
-  const fromRef = useRef(value);
-  const frameRef = useRef(0);
+  shared?: boolean;
+} & Omit<HTMLAttributes<HTMLSpanElement>, "children">) {
+  const checkoutTotal = useCheckoutTotal();
+  const local = useCountUpNaira(value);
+  const display =
+    shared && checkoutTotal ? checkoutTotal.display : local.display;
 
-  useEffect(() => {
-    if (reduced || fromRef.current === value) {
-      fromRef.current = value;
-      setDisplay(value);
-      return;
-    }
-
-    const from = fromRef.current;
-    const to = value;
-    const start = performance.now();
-
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / DURATION_MS);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setDisplay(Math.round(from + (to - from) * eased));
-      if (t < 1) {
-        frameRef.current = requestAnimationFrame(tick);
-      } else {
-        fromRef.current = to;
-      }
-    };
-
-    cancelAnimationFrame(frameRef.current);
-    frameRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameRef.current);
-  }, [value, reduced]);
-
-  return <span className={cn("tabular-nums", className)}>{formatNaira(display)}</span>;
+  return (
+    <>
+      <span
+        {...rest}
+        className={cn("tabular-nums", className)}
+        aria-hidden="true"
+        data-naira-tween=""
+      >
+        {formatNaira(display)}
+      </span>
+      <span className="sr-only" data-naira-final="">
+        {formatNaira(value)}
+      </span>
+    </>
+  );
 }
