@@ -182,7 +182,7 @@ export function CheckoutBreakdownRow({
         </span>
       </span>
       <span className="font-display text-[20px] font-semibold tabular-nums tracking-tight text-ink">
-        <CountUpNaira value={totalNgn} />
+        <CountUpNaira value={totalNgn} shared data-checkout-total="" />
       </span>
     </button>
   );

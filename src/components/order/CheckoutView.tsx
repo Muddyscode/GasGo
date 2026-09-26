@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuthModal } from "@/components/auth/AuthProvider";
 import { CheckoutEmpty } from "@/components/order/CheckoutEmpty";
 import { CheckoutSummary } from "@/components/order/CheckoutSummary";
+import { CheckoutTotalProvider } from "@/components/order/CheckoutTotalProvider";
 import { OrderHeader } from "@/components/order/OrderHeader";
 import {
   CheckoutBreakdownRow,
@@ -25,6 +26,7 @@ export function CheckoutView() {
   const windowId = useOrderDraft((state) => state.windowId);
   const notes = useOrderDraft((state) => state.notes);
   const fulfillmentMode = useOrderDraft((state) => state.fulfillmentMode);
+  const totalNgn = useOrderDraft((state) => state.quote().totalNgn);
   const pickupDate = useOrderDraft((state) => state.pickupDate);
   const returnDate = useOrderDraft((state) => state.returnDate);
   const isReadyForCheckout = useOrderDraft((state) => state.isReadyForCheckout);
@@ -78,6 +80,7 @@ export function CheckoutView() {
   }
 
   const live = quote();
+  const orderQuote = toOrderQuote(live);
   const presence = getPresenceById(presenceId);
   const window = getWindowById(windowId);
 
@@ -92,68 +95,70 @@ export function CheckoutView() {
   }
 
   return (
-    <PageFrame>
-      <OrderHeader
-        title="Checkout"
-        backHref="/order/address"
-        backLabel="Back to delivery details"
-      />
+    <CheckoutTotalProvider totalNgn={totalNgn}>
+      <PageFrame>
+        <OrderHeader
+          title="Checkout"
+          backHref="/order/address"
+          backLabel="Back to delivery details"
+        />
 
-      <PageBody className="pb-6 lg:pb-0">
-        <PageTitle
-          eyebrow={fulfillmentMode === "hub" ? "Hub self-collect" : "Door-to-door"}
-          subtitle={
-            fulfillmentMode === "hub"
-              ? "Confirm the plant fill and collection dates, then pay in full. This pre-order holds your yard slot — no walk-ins."
-              : "Confirm the plant fill, address, and zone transport, then pay in full before we collect the empty. Nothing is filled at your door."
-          }
-        >
-          Review and pay
-        </PageTitle>
+        <PageBody className="pb-6 lg:pb-0">
+          <PageTitle
+            eyebrow={fulfillmentMode === "hub" ? "Hub self-collect" : "Door-to-door"}
+            subtitle={
+              fulfillmentMode === "hub"
+                ? "Confirm the plant fill and collection dates, then pay in full. This pre-order holds your yard slot — no walk-ins."
+                : "Confirm the plant fill, address, and zone transport, then pay in full before we collect the empty. Nothing is filled at your door."
+            }
+          >
+            Review and pay
+          </PageTitle>
 
-        <div className="lg:grid lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-7">
-            <p className="text-[13px] font-medium text-ink-muted">Your order</p>
-            <CheckoutSummary
-              quote={live}
-              address={address}
-              presence={presence}
-              window={window}
-              notes={notes}
-              fulfillmentMode={fulfillmentMode}
-              pickupDate={pickupDate}
-              returnDate={returnDate}
-            />
-            <div className="mt-8 lg:hidden">
-              <CheckoutBreakdownRow
-                totalNgn={live.totalNgn}
-                expanded={receiptOpen}
-                onOpen={openReceipt}
+          <div className="lg:grid lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-7">
+              <p className="text-[13px] font-medium text-ink-muted">Your order</p>
+              <CheckoutSummary
+                quote={live}
+                address={address}
+                presence={presence}
+                window={window}
+                notes={notes}
+                fulfillmentMode={fulfillmentMode}
+                pickupDate={pickupDate}
+                returnDate={returnDate}
               />
+              <div className="mt-8 lg:hidden">
+                <CheckoutBreakdownRow
+                  totalNgn={live.totalNgn}
+                  expanded={receiptOpen}
+                  onOpen={openReceipt}
+                />
+              </div>
             </div>
+            <aside className="hidden lg:col-span-5 lg:block">
+              <div className="lg:sticky lg:top-8">
+                <PriceBreakdown quote={orderQuote} fulfillmentMode={fulfillmentMode} />
+                <PaystackPayButton quote={orderQuote} placement="rail" />
+              </div>
+            </aside>
           </div>
-          <aside className="hidden lg:col-span-5 lg:block">
-            <div className="lg:sticky lg:top-8">
-              <PriceBreakdown quote={toOrderQuote(live)} fulfillmentMode={fulfillmentMode} />
-              <PaystackPayButton quote={toOrderQuote(live)} placement="rail" />
-            </div>
-          </aside>
-        </div>
-      </PageBody>
+        </PageBody>
 
-      <PaystackPayButton
-        quote={toOrderQuote(live)}
-        placement="bar"
-        breakdownOpen={receiptOpen}
-        onViewBreakdown={openReceipt}
-      />
-      <CheckoutReceiptSheet
-        open={receiptOpen}
-        onClose={() => setReceiptOpen(false)}
-        quote={toOrderQuote(live)}
-        fulfillmentMode={fulfillmentMode}
-        returnFocusTo={receiptTriggerRef}
-      />
-    </PageFrame>
+        <PaystackPayButton
+          quote={orderQuote}
+          placement="bar"
+          breakdownOpen={receiptOpen}
+          onViewBreakdown={openReceipt}
+        />
+        <CheckoutReceiptSheet
+          open={receiptOpen}
+          onClose={() => setReceiptOpen(false)}
+          quote={orderQuote}
+          fulfillmentMode={fulfillmentMode}
+          returnFocusTo={receiptTriggerRef}
+        />
+      </PageFrame>
+    </CheckoutTotalProvider>
   );
 }

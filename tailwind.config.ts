@@ -168,6 +168,14 @@ const config = {
           "45%": { transform: "translateX(38%) translateY(-3px)" },
           "100%": { transform: "translateX(118%) translateY(0)" },
         },
+        "step-tick": {
+          from: { opacity: "0", transform: "scale(0.55)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        "pay-flame": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.7", transform: "scale(1.12)" },
+        },
       },
       animation: {
         "gauge-breathe":
@@ -182,6 +190,9 @@ const config = {
           "fade-lift 450ms cubic-bezier(0.16, 1, 0.3, 1) both",
         "truck-drive":
           "truck-drive 4.8s cubic-bezier(0.45, 0, 0.2, 1) infinite",
+        "step-tick":
+          "step-tick 220ms cubic-bezier(0.16, 1, 0.3, 1) both",
+        "pay-flame": "pay-flame 240ms ease-in-out infinite",
       },
       borderRadius: {
         lg: "var(--radius)",

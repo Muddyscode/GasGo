@@ -53,7 +53,7 @@ export function PriceBreakdown({
         <div className="flex items-baseline justify-between gap-3 border-t border-ink/20 pt-3">
           <dt className="text-[16px] font-semibold tracking-tight text-ink">Total</dt>
           <dd className="font-display text-[28px] font-semibold tabular-nums tracking-tight text-ink">
-            <CountUpNaira value={quote.totalNgn} />
+            <CountUpNaira value={quote.totalNgn} shared data-checkout-total="" />
           </dd>
         </div>
       </dl>
