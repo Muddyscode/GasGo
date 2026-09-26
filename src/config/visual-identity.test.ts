@@ -111,7 +111,8 @@ describe("GasGo visual identity v1", () => {
     const world = readSrc("components/auth/AuthWorld.tsx");
     const landing = readSrc("components/marketing/MarketingLanding.tsx");
     expect(auth).toMatch(/Signing in keeps any fill you already drafted/);
-    expect(auth).not.toMatch(/Mock auth|mock auth|for now/);
+    expect(auth).toMatch(/Choose an account|DemoPersonaPicker/);
+    expect(auth).not.toMatch(/Mock auth|mock auth|for now|demo mode/);
     expect(modal).not.toMatch(/Mock signup|mock signup|for now/);
     expect(world).not.toMatch(/ph-tower/);
     expect(landing).toMatch(/Example Diobu pickup/);
