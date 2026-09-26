@@ -1,5 +1,16 @@
 import type { Config } from "tailwindcss";
-import { brand, gauge } from "./src/config/tokens";
+import {
+  border,
+  borderOnDark,
+  brand,
+  gauge,
+  ink,
+  inkMuted,
+  inkMutedOnDark,
+  inkOnDark,
+  surface,
+  surfaceOnDark,
+} from "./src/config/tokens";
 
 /**
  * GasGo Tailwind theme — colors come from `src/config/tokens.ts`.
@@ -31,11 +42,28 @@ const config = {
         ],
       },
       colors: {
+        token: {
+          ink,
+          inkMuted,
+          border,
+          surface: surface.DEFAULT,
+          surfaceMuted: surface.muted,
+          surfaceSoft: surface.soft,
+          inkOnDark,
+          inkMutedOnDark,
+          borderOnDark,
+          surfaceOnDark: surfaceOnDark.DEFAULT,
+          surfaceOnDarkMuted: surfaceOnDark.muted,
+          surfaceOnDarkSoft: surfaceOnDark.soft,
+          gaugeTrack: gauge.track,
+        },
         brand: {
           green: brand.green,
           yellow: brand.yellow,
           red: brand.red,
           white: brand.white,
+          greenDeep: brand.greenDeep,
+          greenOnDark: brand.greenOnDark,
           DEFAULT: brand.green,
           foreground: brand.white,
         },

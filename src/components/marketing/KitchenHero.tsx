@@ -47,12 +47,13 @@ export function KitchenHero({ className }: { className?: string }) {
     <figure className={cn("kitchen-hero relative overflow-hidden bg-surface-muted", className)}>
       <div ref={layerRef} className="kitchen-hero-parallax">
         <Image
-          src="/brand/kitchen-relief.png"
+          src="/brand/kitchen-relief.webp"
           alt="A Port Harcourt kitchen in late afternoon: a woman at the stove, steam rising, and a sealed cylinder by the door."
           width={1280}
           height={720}
           priority
-          className="kitchen-hero-image h-full w-full object-cover object-[70%_50%]"
+          sizes="(max-width: 767px) 100vw, 58vw"
+          className="kitchen-hero-image h-full w-full object-cover"
         />
       </div>
     </figure>

@@ -70,8 +70,8 @@ function MarketingIslandNav() {
 
   return (
     <header className="z-40 shrink-0 border-b border-border/70 bg-surface/92 pt-[max(0.55rem,env(safe-area-inset-top))] backdrop-blur-xl">
-      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-2 px-3 py-2 min-[360px]:gap-3 min-[360px]:px-4 md:px-6 lg:px-8">
-        <BrandMark />
+      <div className="mx-auto flex w-full min-w-0 max-w-6xl items-center justify-between gap-1.5 px-2 py-2 min-[320px]:gap-2 min-[320px]:px-3 min-[360px]:gap-3 min-[360px]:px-4 md:px-6 lg:px-8">
+        <BrandMark className="min-w-0 max-[319px]:gap-0 [&>span:last-child]:max-[319px]:hidden" />
 
         <nav
           aria-label="Marketing"
@@ -84,7 +84,7 @@ function MarketingIslandNav() {
               aria-current={pathname === link.href ? "page" : undefined}
               className={cn(
                 "rounded-full px-3.5 py-1.5 text-[14px] font-semibold transition-colors hover:bg-surface-soft",
-                pathname === link.href ? "bg-surface-soft text-brand-green" : "text-ink",
+                pathname === link.href ? "mkt-link bg-surface-soft" : "text-ink",
               )}
             >
               {link.label}
@@ -92,7 +92,7 @@ function MarketingIslandNav() {
           ))}
           <Link
             href="/order/cylinder"
-            className="rounded-full px-3.5 py-1.5 text-[14px] font-semibold text-brand-green transition-colors hover:bg-surface-soft"
+            className="mkt-order-pill whitespace-nowrap rounded-full bg-brand-green px-3.5 py-1.5 transition-colors hover:brightness-105"
           >
             Order
           </Link>
@@ -102,12 +102,32 @@ function MarketingIslandNav() {
           <NavActions island />
           <Link
             href="/order/cylinder"
-            className="inline-flex h-10 shrink-0 items-center rounded-full bg-brand-green px-3.5 text-[13px] font-semibold text-white shadow-gasgo-md min-[360px]:px-4 md:hidden"
+            className="mkt-order-pill inline-flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-full bg-brand-green px-2.5 py-1.5 shadow-gasgo-md min-[320px]:px-3.5 min-[360px]:px-4 md:hidden"
           >
             Order
           </Link>
         </div>
       </div>
+      <nav
+        aria-label="Marketing sections"
+        className="mkt-mobile-nav mx-auto flex w-full max-w-6xl gap-1 overflow-x-auto px-3 pb-2 min-[360px]:px-4 md:hidden"
+      >
+        {MARKETING_LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            aria-current={pathname === link.href ? "page" : undefined}
+            className={cn(
+              "shrink-0 rounded-full px-3 py-1 text-[13px] font-semibold",
+              pathname === link.href
+                ? "mkt-link bg-surface-soft"
+                : "text-ink-muted hover:bg-surface-soft hover:text-ink",
+            )}
+          >
+            {link.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
 }

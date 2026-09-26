@@ -9,6 +9,10 @@ export const brand = {
   yellow: "#FFC53D",
   red: "#E1432D",
   white: "#FFFFFF",
+  /** Text-only AA green on white (5.39:1). Fills and marks stay brand.green. */
+  greenDeep: "#157A42",
+  /** Text-only AA green on marketing dark surfaces. */
+  greenOnDark: "#3BB36C",
 } as const;
 
 export const ink = "#16231C";
@@ -30,6 +34,7 @@ export const inkMutedOnDark = "#9BB0A6";
 export const borderOnDark = "#2A3A32";
 export const surfaceOnDark = {
   DEFAULT: ink,
+  /** Also the nearest existing token for the retired marketing wash #1B2C24. */
   muted: "#1C2C24",
   soft: "#22352B",
 } as const;
@@ -150,6 +155,12 @@ export const motion = {
     durationMs: 450,
     fromY: 12,
     /** Stagger between sibling beats / cards (60–80ms). */
+    staggerMs: 70,
+  },
+  /** Marketing scroll-reveal only — not FadeLift (kill-listed on the landing). */
+  reveal: {
+    durationMs: 300,
+    fromY: 16,
     staggerMs: 70,
   },
 } as const;

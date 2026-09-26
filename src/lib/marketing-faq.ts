@@ -27,7 +27,7 @@ export const MARKETING_FAQS: readonly MarketingFaqItem[] = [
     id: "pay",
     question: "When do I pay?",
     answer:
-      "In full on Paystack before we pick up the empty. We do not start the collect → plant → return loop on credit.",
+      "In full on Paystack before we pick up the empty. We do not start the collect, plant-refill, and return loop on credit.",
   },
   {
     id: "cylinder",

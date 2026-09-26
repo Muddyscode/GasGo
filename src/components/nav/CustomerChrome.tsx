@@ -22,13 +22,14 @@ function ChromeFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const user = useSession((state) => state.user);
   const isAuth = pathname === "/login" || pathname === "/signup";
-  const marketing =
-    !user &&
-    !isAuth &&
-    (pathname === "/" ||
-      pathname === "/how-it-works" ||
-      pathname === "/zones" ||
-      pathname === "/why");
+  const isInnerMarketing =
+    pathname === "/how-it-works" ||
+    pathname === "/zones" ||
+    pathname === "/why";
+  // Guest home is marketing. Signed-in `/` is AppHome — do not wrap it.
+  const marketingSurface =
+    !isAuth && (isInnerMarketing || (pathname === "/" && !user));
+  const marketingNav = Boolean(!user && marketingSurface);
 
   if (isAuth) {
     return (
@@ -40,16 +41,16 @@ function ChromeFrame({ children }: { children: ReactNode }) {
     <div
       className={cn(
         "relative mx-auto flex h-dvh max-h-dvh w-full flex-col overflow-hidden",
-        marketing
+        marketingSurface
           ? "gasgo-marketing max-w-none"
           : "gasgo-shell w-full max-w-none bg-surface",
       )}
     >
-      <TopNav marketing={marketing} />
+      <TopNav marketing={marketingNav} />
       <div
         className={cn(
           "page-enter gasgo-chrome-scroll flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain",
-          marketing && "overflow-x-hidden",
+          marketingSurface && "overflow-x-hidden",
         )}
       >
         {children}
