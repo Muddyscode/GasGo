@@ -22,7 +22,7 @@ export const surface = {
 } as const;
 
 /**
- * Dark remap of the same token tree (ink ↔ surface). Not a second palette.
+ * Dark remap of the same token tree (ink <-> surface). Not a second palette.
  * Brand green / yellow / red / white stay locked in both schemes.
  */
 export const inkOnDark = surface.muted;
